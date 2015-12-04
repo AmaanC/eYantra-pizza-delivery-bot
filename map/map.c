@@ -21,7 +21,7 @@ typedef struct NodeStruct {
     // Co-ordinates are relative to the "start" block
     int x;
     int y;
-    int numConnections;
+    int num_connections;
     // An array of "connection" structure pointers. As seen above, every connection has a cost associated with it (in time)
     // and a pointer to a node.
     // So, for example, node A might be connected to B, C, D.
@@ -39,34 +39,34 @@ typedef struct NodeStruct {
 // Defeat them against all odds
 
 // Returns a pointer to a node
-Node* createNode(x, y, numConnections) {
+Node* CreateNode(x, y, num_connections) {
     int i;
-    Node *newNode;
-    newNode = malloc(sizeof(Node));
+    Node *new_node;
+    new_node = malloc(sizeof(Node));
 
-    newNode->x = x;
-    newNode->y = y;
-    newNode->numConnections = numConnections;
+    new_node->x = x;
+    new_node->y = y;
+    new_node->num_connections = num_connections;
 
-    newNode->connected = malloc(newNode->numConnections * sizeof(Connection*)); // Create space for an array of connection pointers
-    for (i = 0; i < numConnections; i++) {
-        newNode->connected[i] = malloc(sizeof(Connection)); // Create space for every individual connection in the array
+    new_node->connected = malloc(new_node->num_connections * sizeof(Connection*)); // Create space for an array of connection pointers
+    for (i = 0; i < num_connections; i++) {
+        new_node->connected[i] = malloc(sizeof(Connection)); // Create space for every individual connection in the array
     }
 
-    return newNode;
+    return new_node;
 }
 
 int main() {
-    Node *Start, *R1;
-    Start = createNode(0, 0, 1);
-    R1 = createNode(20, 20, 1);
+    Node *start, *r1;
+    start = CreateNode(0, 0, 1);
+    r1 = CreateNode(20, 20, 1);
 
-    Start->connected[0]->ptr = R1;
-    R1->connected[0]->ptr = Start;
-    R1->connected[0]->cost = Start->connected[0]->cost = 10;
+    start->connected[0]->ptr = r1;
+    r1->connected[0]->ptr = start;
+    r1->connected[0]->cost = start->connected[0]->cost = 10;
 
 
-    printf("Cost: %d\n", Start->connected[0]->cost);
-    printf("R1.x: %d\n", Start->connected[0]->ptr->x);
+    printf("Cost: %d\n", start->connected[0]->cost);
+    printf("r1.x: %d\n", start->connected[0]->ptr->x);
     return 0;
 }
