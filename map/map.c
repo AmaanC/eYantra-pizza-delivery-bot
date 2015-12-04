@@ -61,8 +61,10 @@ int main() {
     Start = createNode(0, 0, 1);
     R1 = createNode(20, 20, 1);
 
-    Start->connected[0]->cost = 10;
     Start->connected[0]->ptr = R1;
+    R1->connected[0]->ptr = Start;
+    R1->connected[0]->cost = Start->connected[0]->cost = 10;
+
 
     printf("Cost: %d\n", Start->connected[0]->cost);
     printf("R1.x: %d\n", Start->connected[0]->ptr->x);
