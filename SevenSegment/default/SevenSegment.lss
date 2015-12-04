@@ -1,0 +1,294 @@
+
+SevenSegment.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         0000019c  00000000  00000000  00000054  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .debug_aranges 00000020  00000000  00000000  000001f0  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  2 .debug_pubnames 00000057  00000000  00000000  00000210  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  3 .debug_info   0000021e  00000000  00000000  00000267  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  4 .debug_abbrev 0000013e  00000000  00000000  00000485  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  5 .debug_line   000001f7  00000000  00000000  000005c3  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  6 .debug_frame  00000050  00000000  00000000  000007bc  2**2
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_str    00000102  00000000  00000000  0000080c  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_loc    00000080  00000000  00000000  0000090e  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  9 .debug_ranges 00000048  00000000  00000000  0000098e  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	0c 94 72 00 	jmp	0xe4	; 0xe4 <__ctors_end>
+   4:	0c 94 8b 00 	jmp	0x116	; 0x116 <__bad_interrupt>
+   8:	0c 94 8b 00 	jmp	0x116	; 0x116 <__bad_interrupt>
+   c:	0c 94 8b 00 	jmp	0x116	; 0x116 <__bad_interrupt>
+  10:	0c 94 8b 00 	jmp	0x116	; 0x116 <__bad_interrupt>
+  14:	0c 94 8b 00 	jmp	0x116	; 0x116 <__bad_interrupt>
+  18:	0c 94 8b 00 	jmp	0x116	; 0x116 <__bad_interrupt>
+  1c:	0c 94 8b 00 	jmp	0x116	; 0x116 <__bad_interrupt>
+  20:	0c 94 8b 00 	jmp	0x116	; 0x116 <__bad_interrupt>
+  24:	0c 94 8b 00 	jmp	0x116	; 0x116 <__bad_interrupt>
+  28:	0c 94 8b 00 	jmp	0x116	; 0x116 <__bad_interrupt>
+  2c:	0c 94 8b 00 	jmp	0x116	; 0x116 <__bad_interrupt>
+  30:	0c 94 8b 00 	jmp	0x116	; 0x116 <__bad_interrupt>
+  34:	0c 94 8b 00 	jmp	0x116	; 0x116 <__bad_interrupt>
+  38:	0c 94 8b 00 	jmp	0x116	; 0x116 <__bad_interrupt>
+  3c:	0c 94 8b 00 	jmp	0x116	; 0x116 <__bad_interrupt>
+  40:	0c 94 8b 00 	jmp	0x116	; 0x116 <__bad_interrupt>
+  44:	0c 94 8b 00 	jmp	0x116	; 0x116 <__bad_interrupt>
+  48:	0c 94 8b 00 	jmp	0x116	; 0x116 <__bad_interrupt>
+  4c:	0c 94 8b 00 	jmp	0x116	; 0x116 <__bad_interrupt>
+  50:	0c 94 8b 00 	jmp	0x116	; 0x116 <__bad_interrupt>
+  54:	0c 94 8b 00 	jmp	0x116	; 0x116 <__bad_interrupt>
+  58:	0c 94 8b 00 	jmp	0x116	; 0x116 <__bad_interrupt>
+  5c:	0c 94 8b 00 	jmp	0x116	; 0x116 <__bad_interrupt>
+  60:	0c 94 8b 00 	jmp	0x116	; 0x116 <__bad_interrupt>
+  64:	0c 94 8b 00 	jmp	0x116	; 0x116 <__bad_interrupt>
+  68:	0c 94 8b 00 	jmp	0x116	; 0x116 <__bad_interrupt>
+  6c:	0c 94 8b 00 	jmp	0x116	; 0x116 <__bad_interrupt>
+  70:	0c 94 8b 00 	jmp	0x116	; 0x116 <__bad_interrupt>
+  74:	0c 94 8b 00 	jmp	0x116	; 0x116 <__bad_interrupt>
+  78:	0c 94 8b 00 	jmp	0x116	; 0x116 <__bad_interrupt>
+  7c:	0c 94 8b 00 	jmp	0x116	; 0x116 <__bad_interrupt>
+  80:	0c 94 8b 00 	jmp	0x116	; 0x116 <__bad_interrupt>
+  84:	0c 94 8b 00 	jmp	0x116	; 0x116 <__bad_interrupt>
+  88:	0c 94 8b 00 	jmp	0x116	; 0x116 <__bad_interrupt>
+  8c:	0c 94 8b 00 	jmp	0x116	; 0x116 <__bad_interrupt>
+  90:	0c 94 8b 00 	jmp	0x116	; 0x116 <__bad_interrupt>
+  94:	0c 94 8b 00 	jmp	0x116	; 0x116 <__bad_interrupt>
+  98:	0c 94 8b 00 	jmp	0x116	; 0x116 <__bad_interrupt>
+  9c:	0c 94 8b 00 	jmp	0x116	; 0x116 <__bad_interrupt>
+  a0:	0c 94 8b 00 	jmp	0x116	; 0x116 <__bad_interrupt>
+  a4:	0c 94 8b 00 	jmp	0x116	; 0x116 <__bad_interrupt>
+  a8:	0c 94 8b 00 	jmp	0x116	; 0x116 <__bad_interrupt>
+  ac:	0c 94 8b 00 	jmp	0x116	; 0x116 <__bad_interrupt>
+  b0:	0c 94 8b 00 	jmp	0x116	; 0x116 <__bad_interrupt>
+  b4:	0c 94 8b 00 	jmp	0x116	; 0x116 <__bad_interrupt>
+  b8:	0c 94 8b 00 	jmp	0x116	; 0x116 <__bad_interrupt>
+  bc:	0c 94 8b 00 	jmp	0x116	; 0x116 <__bad_interrupt>
+  c0:	0c 94 8b 00 	jmp	0x116	; 0x116 <__bad_interrupt>
+  c4:	0c 94 8b 00 	jmp	0x116	; 0x116 <__bad_interrupt>
+  c8:	0c 94 8b 00 	jmp	0x116	; 0x116 <__bad_interrupt>
+  cc:	0c 94 8b 00 	jmp	0x116	; 0x116 <__bad_interrupt>
+  d0:	0c 94 8b 00 	jmp	0x116	; 0x116 <__bad_interrupt>
+  d4:	0c 94 8b 00 	jmp	0x116	; 0x116 <__bad_interrupt>
+  d8:	0c 94 8b 00 	jmp	0x116	; 0x116 <__bad_interrupt>
+  dc:	0c 94 8b 00 	jmp	0x116	; 0x116 <__bad_interrupt>
+  e0:	0c 94 8b 00 	jmp	0x116	; 0x116 <__bad_interrupt>
+
+000000e4 <__ctors_end>:
+  e4:	11 24       	eor	r1, r1
+  e6:	1f be       	out	0x3f, r1	; 63
+  e8:	cf ef       	ldi	r28, 0xFF	; 255
+  ea:	d1 e2       	ldi	r29, 0x21	; 33
+  ec:	de bf       	out	0x3e, r29	; 62
+  ee:	cd bf       	out	0x3d, r28	; 61
+  f0:	00 e0       	ldi	r16, 0x00	; 0
+  f2:	0c bf       	out	0x3c, r16	; 60
+
+000000f4 <__do_copy_data>:
+  f4:	12 e0       	ldi	r17, 0x02	; 2
+  f6:	a0 e0       	ldi	r26, 0x00	; 0
+  f8:	b2 e0       	ldi	r27, 0x02	; 2
+  fa:	ec e9       	ldi	r30, 0x9C	; 156
+  fc:	f1 e0       	ldi	r31, 0x01	; 1
+  fe:	00 e0       	ldi	r16, 0x00	; 0
+ 100:	0b bf       	out	0x3b, r16	; 59
+ 102:	02 c0       	rjmp	.+4      	; 0x108 <__do_copy_data+0x14>
+ 104:	07 90       	elpm	r0, Z+
+ 106:	0d 92       	st	X+, r0
+ 108:	a0 30       	cpi	r26, 0x00	; 0
+ 10a:	b1 07       	cpc	r27, r17
+ 10c:	d9 f7       	brne	.-10     	; 0x104 <__do_copy_data+0x10>
+ 10e:	0e 94 aa 00 	call	0x154	; 0x154 <main>
+ 112:	0c 94 cc 00 	jmp	0x198	; 0x198 <_exit>
+
+00000116 <__bad_interrupt>:
+ 116:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
+
+0000011a <seven_segment_pin_config>:
+    // Port J for a,b,c,d, e,f,g,DEC as per manual
+    // Both things above are in decreasing order
+    // i.e.
+    // Port J = Pin 7, 6, 5...0
+
+    DDRD = DDRD | 0xF0; // set upper nibble of port D to output
+ 11a:	8a b1       	in	r24, 0x0a	; 10
+ 11c:	80 6f       	ori	r24, 0xF0	; 240
+ 11e:	8a b9       	out	0x0a, r24	; 10
+    DDRJ = DDRJ | 0xFF; // set all bits to output
+ 120:	e4 e0       	ldi	r30, 0x04	; 4
+ 122:	f1 e0       	ldi	r31, 0x01	; 1
+ 124:	80 81       	ld	r24, Z
+ 126:	8f ef       	ldi	r24, 0xFF	; 255
+ 128:	80 83       	st	Z, r24
+}
+ 12a:	08 95       	ret
+
+0000012c <port_init>:
+    // Port J for a,b,c,d, e,f,g,DEC as per manual
+    // Both things above are in decreasing order
+    // i.e.
+    // Port J = Pin 7, 6, 5...0
+
+    DDRD = DDRD | 0xF0; // set upper nibble of port D to output
+ 12c:	8a b1       	in	r24, 0x0a	; 10
+ 12e:	80 6f       	ori	r24, 0xF0	; 240
+ 130:	8a b9       	out	0x0a, r24	; 10
+    DDRJ = DDRJ | 0xFF; // set all bits to output
+ 132:	e4 e0       	ldi	r30, 0x04	; 4
+ 134:	f1 e0       	ldi	r31, 0x01	; 1
+ 136:	80 81       	ld	r24, Z
+ 138:	8f ef       	ldi	r24, 0xFF	; 255
+ 13a:	80 83       	st	Z, r24
+}
+
+void port_init(void)
+{
+    seven_segment_pin_config();
+}
+ 13c:	08 95       	ret
+
+0000013e <init_devices>:
+
+void init_devices(void)
+{
+    cli(); //Clears the global interrupt
+ 13e:	f8 94       	cli
+    // Port J for a,b,c,d, e,f,g,DEC as per manual
+    // Both things above are in decreasing order
+    // i.e.
+    // Port J = Pin 7, 6, 5...0
+
+    DDRD = DDRD | 0xF0; // set upper nibble of port D to output
+ 140:	8a b1       	in	r24, 0x0a	; 10
+ 142:	80 6f       	ori	r24, 0xF0	; 240
+ 144:	8a b9       	out	0x0a, r24	; 10
+    DDRJ = DDRJ | 0xFF; // set all bits to output
+ 146:	e4 e0       	ldi	r30, 0x04	; 4
+ 148:	f1 e0       	ldi	r31, 0x01	; 1
+ 14a:	80 81       	ld	r24, Z
+ 14c:	8f ef       	ldi	r24, 0xFF	; 255
+ 14e:	80 83       	st	Z, r24
+
+void init_devices(void)
+{
+    cli(); //Clears the global interrupt
+    port_init();  //Initializes all the ports
+    sei();   // Enables the global interrupt
+ 150:	78 94       	sei
+}
+ 152:	08 95       	ret
+
+00000154 <main>:
+    seven_segment_pin_config();
+}
+
+void init_devices(void)
+{
+    cli(); //Clears the global interrupt
+ 154:	f8 94       	cli
+    // Port J for a,b,c,d, e,f,g,DEC as per manual
+    // Both things above are in decreasing order
+    // i.e.
+    // Port J = Pin 7, 6, 5...0
+
+    DDRD = DDRD | 0xF0; // set upper nibble of port D to output
+ 156:	8a b1       	in	r24, 0x0a	; 10
+ 158:	80 6f       	ori	r24, 0xF0	; 240
+ 15a:	8a b9       	out	0x0a, r24	; 10
+    DDRJ = DDRJ | 0xFF; // set all bits to output
+ 15c:	80 91 04 01 	lds	r24, 0x0104
+ 160:	8f ef       	ldi	r24, 0xFF	; 255
+ 162:	80 93 04 01 	sts	0x0104, r24
+
+void init_devices(void)
+{
+    cli(); //Clears the global interrupt
+    port_init();  //Initializes all the ports
+    sei();   // Enables the global interrupt
+ 166:	78 94       	sei
+}
+
+int main(void)
+{
+    init_devices();
+    PORTD = PORTD | 0x10;
+ 168:	5c 9a       	sbi	0x0b, 4	; 11
+    while(1)
+    {
+       PORTJ = 0x1F;
+ 16a:	5f e1       	ldi	r21, 0x1F	; 31
+    milliseconds can be achieved.
+ */
+void
+_delay_loop_2(uint16_t __count)
+{
+	__asm__ volatile (
+ 16c:	20 e7       	ldi	r18, 0x70	; 112
+ 16e:	31 e0       	ldi	r19, 0x01	; 1
+       _delay_ms(500);
+       PORTJ = 0x01;
+ 170:	41 e0       	ldi	r20, 0x01	; 1
+{
+    init_devices();
+    PORTD = PORTD | 0x10;
+    while(1)
+    {
+       PORTJ = 0x1F;
+ 172:	50 93 05 01 	sts	0x0105, r21
+ 176:	88 e8       	ldi	r24, 0x88	; 136
+ 178:	93 e1       	ldi	r25, 0x13	; 19
+ 17a:	f9 01       	movw	r30, r18
+ 17c:	31 97       	sbiw	r30, 0x01	; 1
+ 17e:	f1 f7       	brne	.-4      	; 0x17c <main+0x28>
+		__ticks = (uint16_t) (__ms * 10.0);
+		while(__ticks)
+		{
+			// wait 1/10 ms
+			_delay_loop_2(((F_CPU) / 4e3) / 10);
+			__ticks --;
+ 180:	01 97       	sbiw	r24, 0x01	; 1
+		__ticks = 1;
+	else if (__tmp > 65535)
+	{
+		//	__ticks = requested delay in 1/10 ms
+		__ticks = (uint16_t) (__ms * 10.0);
+		while(__ticks)
+ 182:	d9 f7       	brne	.-10     	; 0x17a <main+0x26>
+       _delay_ms(500);
+       PORTJ = 0x01;
+ 184:	40 93 05 01 	sts	0x0105, r20
+ 188:	88 e8       	ldi	r24, 0x88	; 136
+ 18a:	93 e1       	ldi	r25, 0x13	; 19
+ 18c:	f9 01       	movw	r30, r18
+ 18e:	31 97       	sbiw	r30, 0x01	; 1
+ 190:	f1 f7       	brne	.-4      	; 0x18e <main+0x3a>
+		{
+			// wait 1/10 ms
+			_delay_loop_2(((F_CPU) / 4e3) / 10);
+			__ticks --;
+ 192:	01 97       	sbiw	r24, 0x01	; 1
+		__ticks = 1;
+	else if (__tmp > 65535)
+	{
+		//	__ticks = requested delay in 1/10 ms
+		__ticks = (uint16_t) (__ms * 10.0);
+		while(__ticks)
+ 194:	d9 f7       	brne	.-10     	; 0x18c <main+0x38>
+ 196:	ed cf       	rjmp	.-38     	; 0x172 <main+0x1e>
+
+00000198 <_exit>:
+ 198:	f8 94       	cli
+
+0000019a <__stop_program>:
+ 19a:	ff cf       	rjmp	.-2      	; 0x19a <__stop_program>

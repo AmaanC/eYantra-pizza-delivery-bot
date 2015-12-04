@@ -1,0 +1,66 @@
+Pin No. Function
+1 UART2 TXD pin of ATMEGA2560 via Jumper 1 (uC pin 13)
+2 UART2 RXD pin of ATMEGA2560 via Jumper 1 (uC pin 12)
+3 ATMEGA2560 interrupt 7 pin / CLKO / ICP3 (uC pin9)
+4 OC4B / PH4 / GPIO (uC pin 16), Also connected to RX pin of 1st ultrasonic sensor
+triggering.
+5 OC4C / PH5 / GPIO (uC pin 17)
+6 OC2B / PH6 / GPIO (uC pin 18)
+7 TDO (JTAG)* / ADC6* / IR proximity sensor 3 (uC pin 91)
+8 TDI (JTAG)* / ADC7* / IR Proximity sensor 4 (uC pin 90)
+9 TMS (JTAG) */ ADC5* / IR Proximity sensor 2 (uC pin 92)
+10 TCK (JTAG)* / ADC4* / IR Proximity sensor 1 (uC pin 93)
+11 ATMEGA2560 Slave Select (SS) pin PB0 (uC pin 19) **
+12 No Connection till the version 2009-12-08. Connected to V Batt supply in version 2010-
+11-25 onwards.
+13 MOSI / PB2 (uC pin 21)**
+14 SCK / PB1 (uC pin 20)**
+15 RESET (uC pin 30)
+16 MISO / PB3 (uC pin 22)**
+17 PL7 / GPIO (uC pin 42)
+18 PL6 / GPIO (uC pin 41)
+19 SDA / PD1 / INT1 / GPIO (uC pin 44)
+20 SCL / PD0 / INT0 / GPIO (uC pin 43)
+21 5V System Voltage. Can be used for powering up any digital device. Current Limit:
+400mA.
+22 5V System Voltage. Can be used for powering up any digital device. Current Limit:
+400mA.
+23 Ground
+24 Ground
+25 ICP1 / PD4 / GPIO (uC pin 47)
+26 T4 / PH7 / GPIO (uC pin 27)
+27 ICP5 / PL1 / GPIO (uC pin 36)
+28 ICP4 / PL0 / GPIO (uC pin 35), Also connected to RSSI pin of XBee module
+© NEX Robotics Pvt. Ltd. and ERTS Lab, CSE, IIT Bombay, INDIA 83
+Fire Bird V ATMEGA2560 Hardware Manual
+29 XCK1 / PD5 / GPIO (uC pin 48)
+30 T5 / PL2 / GPIO (uC pin 37)
+31 PG1 / GPIO (uC pin 52)
+32 PG0 (uC pin 51)
+33 T1 / PD6 / GPIO (uC pin 49)
+34 T0 / PD7 (uC pin 50)
+35 No Connections 36
+37 TXD1 / INT3 / PD3: Connected to the MAX 202 for RS232 communication. Do not use
+for other purpose unless connection with MAX 202 is removed. (uC pin 46)
+38 RXD1 / INT2 / PD2: Connected to the MAX 202 for RS232 communication. Do not use
+for other purpose unless connection with MAX 202 is removed. (uC pin 45)
+39 PJ6 / GPIO (uC pin 69)***
+40 PJ7 / GPIO (uC pin 79) ***
+41 PJ4 / GPIO (uC pin 67) ***
+42 PJ5 / GPIO (uC pin 68) ***
+43 PJ2 / GPIO (uC pin 65) ***
+44 PJ3 / GPIO (uC pin 66) ***
+45 RXD3 / PJ0 / GPIO (uC pin 63)****
+46 TXD3 / PJ1 / GPIO (uC pin 64)****
+47
+No Connections
+48
+49
+50
+51
+52
+53
+54
+55
+56
+Table 4.3: ATMEGA2560 microcontroller board expansion header table
