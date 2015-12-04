@@ -21,10 +21,11 @@ typedef struct NodeStruct {
     // Co-ordinates are relative to the "start" block
     int x;
     int y;
-    // An array of "connection" structures. As seen above, every connection has a cost associated with it (in time)
-    // and a pointer.
+    int numConnections;
+    // An array of "connection" structure pointers. As seen above, every connection has a cost associated with it (in time)
+    // and a pointer to a node.
     // So, for example, node A might be connected to B, C, D.
-    // A.connected[0] will be a struct which tells you the cost from A to B, and lets you move to node B.
+    // A.connected[0] will be a struct which tells you the cost from A to B, and lets you move to node B from A.
     Connection **connected;
 } Node;
 
@@ -37,17 +38,22 @@ typedef struct NodeStruct {
 // We shall prevail
 // Defeat them against all odds
 
+
 int main() {
     Node Start;
     Start.x = 0;
     Start.y = 0;
-    Start.connected = malloc(1 * sizeof(Connection));
+    Start.numConnections = 1;
+    Start.connected = malloc(Start.numConnections * sizeof(Connection*));
 
     Node R1;
+    R1.x = 5;
+
     Start.connected[0] = malloc(sizeof(Connection));
     Start.connected[0]->cost = 10;
     Start.connected[0]->ptr = &R1;
 
-    printf("%d", Start.connected[0]->cost);
+    printf("Cost: %d\n", Start.connected[0]->cost);
+    printf("R1.x: %d\n", Start.connected[0]->ptr->x);
     return 0;
 }
