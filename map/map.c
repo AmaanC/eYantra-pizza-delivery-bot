@@ -38,22 +38,33 @@ typedef struct NodeStruct {
 // We shall prevail
 // Defeat them against all odds
 
+// Returns a pointer to a node
+Node* createNode(x, y, numConnections) {
+    int i;
+    Node *newNode;
+    newNode = malloc(sizeof(Node));
+
+    newNode->x = x;
+    newNode->y = y;
+    newNode->numConnections = numConnections;
+
+    newNode->connected = malloc(newNode->numConnections * sizeof(Connection*)); // Create space for an array of connection pointers
+    for (i = 0; i < numConnections; i++) {
+        newNode->connected[i] = malloc(sizeof(Connection)); // Create space for every individual connection in the array
+    }
+
+    return newNode;
+}
 
 int main() {
-    Node Start;
-    Start.x = 0;
-    Start.y = 0;
-    Start.numConnections = 1;
-    Start.connected = malloc(Start.numConnections * sizeof(Connection*));
+    Node *Start, *R1;
+    Start = createNode(0, 0, 1);
+    R1 = createNode(20, 20, 1);
 
-    Node R1;
-    R1.x = 5;
+    Start->connected[0]->cost = 10;
+    Start->connected[0]->ptr = R1;
 
-    Start.connected[0] = malloc(sizeof(Connection));
-    Start.connected[0]->cost = 10;
-    Start.connected[0]->ptr = &R1;
-
-    printf("Cost: %d\n", Start.connected[0]->cost);
-    printf("R1.x: %d\n", Start.connected[0]->ptr->x);
+    printf("Cost: %d\n", Start->connected[0]->cost);
+    printf("R1.x: %d\n", Start->connected[0]->ptr->x);
     return 0;
 }
