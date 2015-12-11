@@ -64,6 +64,7 @@ int main() {
     start->connected[0]->ptr = r1;
     r1->connected[0]->ptr = start;
     r1->connected[0]->cost = start->connected[0]->cost = 10;
+    connectNodes(start, r1, cost);
 
 
     printf("Cost: %d\n", start->connected[0]->cost);

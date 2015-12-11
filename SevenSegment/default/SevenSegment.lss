@@ -3,25 +3,25 @@ SevenSegment.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .text         0000019c  00000000  00000000  00000054  2**1
+  0 .text         000002a4  00000000  00000000  00000054  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  1 .debug_aranges 00000020  00000000  00000000  000001f0  2**0
+  1 .debug_aranges 00000020  00000000  00000000  000002f8  2**0
                   CONTENTS, READONLY, DEBUGGING
-  2 .debug_pubnames 00000057  00000000  00000000  00000210  2**0
+  2 .debug_pubnames 0000007a  00000000  00000000  00000318  2**0
                   CONTENTS, READONLY, DEBUGGING
-  3 .debug_info   0000021e  00000000  00000000  00000267  2**0
+  3 .debug_info   000002c2  00000000  00000000  00000392  2**0
                   CONTENTS, READONLY, DEBUGGING
-  4 .debug_abbrev 0000013e  00000000  00000000  00000485  2**0
+  4 .debug_abbrev 000001a4  00000000  00000000  00000654  2**0
                   CONTENTS, READONLY, DEBUGGING
-  5 .debug_line   000001f7  00000000  00000000  000005c3  2**0
+  5 .debug_line   00000252  00000000  00000000  000007f8  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_frame  00000050  00000000  00000000  000007bc  2**2
+  6 .debug_frame  00000070  00000000  00000000  00000a4c  2**2
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_str    00000102  00000000  00000000  0000080c  2**0
+  7 .debug_str    00000152  00000000  00000000  00000abc  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_loc    00000080  00000000  00000000  0000090e  2**0
+  8 .debug_loc    00000138  00000000  00000000  00000c0e  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_ranges 00000048  00000000  00000000  0000098e  2**0
+  9 .debug_ranges 00000090  00000000  00000000  00000d46  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -99,8 +99,8 @@ Disassembly of section .text:
   f4:	12 e0       	ldi	r17, 0x02	; 2
   f6:	a0 e0       	ldi	r26, 0x00	; 0
   f8:	b2 e0       	ldi	r27, 0x02	; 2
-  fa:	ec e9       	ldi	r30, 0x9C	; 156
-  fc:	f1 e0       	ldi	r31, 0x01	; 1
+  fa:	e4 ea       	ldi	r30, 0xA4	; 164
+  fc:	f2 e0       	ldi	r31, 0x02	; 2
   fe:	00 e0       	ldi	r16, 0x00	; 0
  100:	0b bf       	out	0x3b, r16	; 59
  102:	02 c0       	rjmp	.+4      	; 0x108 <__do_copy_data+0x14>
@@ -109,8 +109,8 @@ Disassembly of section .text:
  108:	a0 30       	cpi	r26, 0x00	; 0
  10a:	b1 07       	cpc	r27, r17
  10c:	d9 f7       	brne	.-10     	; 0x104 <__do_copy_data+0x10>
- 10e:	0e 94 aa 00 	call	0x154	; 0x154 <main>
- 112:	0c 94 cc 00 	jmp	0x198	; 0x198 <_exit>
+ 10e:	0e 94 26 01 	call	0x24c	; 0x24c <main>
+ 112:	0c 94 50 01 	jmp	0x2a0	; 0x2a0 <_exit>
 
 00000116 <__bad_interrupt>:
  116:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
@@ -189,106 +189,278 @@ void init_devices(void)
 }
  152:	08 95       	ret
 
-00000154 <main>:
-    seven_segment_pin_config();
+00000154 <convert_to_hex>:
+
+int convert_to_hex(unsigned int num) {
+    int ret = 0x00;
+    switch(num) {
+ 154:	82 30       	cpi	r24, 0x02	; 2
+ 156:	91 05       	cpc	r25, r1
+ 158:	b9 f0       	breq	.+46     	; 0x188 <convert_to_hex+0x34>
+ 15a:	83 30       	cpi	r24, 0x03	; 3
+ 15c:	91 05       	cpc	r25, r1
+ 15e:	28 f4       	brcc	.+10     	; 0x16a <convert_to_hex+0x16>
+ 160:	00 97       	sbiw	r24, 0x00	; 0
+ 162:	49 f0       	breq	.+18     	; 0x176 <convert_to_hex+0x22>
+ 164:	01 97       	sbiw	r24, 0x01	; 1
+ 166:	51 f4       	brne	.+20     	; 0x17c <convert_to_hex+0x28>
+ 168:	0c c0       	rjmp	.+24     	; 0x182 <convert_to_hex+0x2e>
+ 16a:	86 30       	cpi	r24, 0x06	; 6
+ 16c:	91 05       	cpc	r25, r1
+ 16e:	79 f0       	breq	.+30     	; 0x18e <convert_to_hex+0x3a>
+ 170:	09 97       	sbiw	r24, 0x09	; 9
+ 172:	21 f4       	brne	.+8      	; 0x17c <convert_to_hex+0x28>
+ 174:	0f c0       	rjmp	.+30     	; 0x194 <convert_to_hex+0x40>
+ 176:	23 e0       	ldi	r18, 0x03	; 3
+ 178:	30 e0       	ldi	r19, 0x00	; 0
+ 17a:	0e c0       	rjmp	.+28     	; 0x198 <convert_to_hex+0x44>
+ 17c:	20 e0       	ldi	r18, 0x00	; 0
+ 17e:	30 e0       	ldi	r19, 0x00	; 0
+ 180:	0b c0       	rjmp	.+22     	; 0x198 <convert_to_hex+0x44>
+ 182:	2f e9       	ldi	r18, 0x9F	; 159
+ 184:	30 e0       	ldi	r19, 0x00	; 0
+ 186:	08 c0       	rjmp	.+16     	; 0x198 <convert_to_hex+0x44>
+        case 0:
+            ret = 0x03;
+            break;
+        case 1:
+            ret = 0x9F;
+            break;
+ 188:	25 e2       	ldi	r18, 0x25	; 37
+ 18a:	30 e0       	ldi	r19, 0x00	; 0
+ 18c:	05 c0       	rjmp	.+10     	; 0x198 <convert_to_hex+0x44>
+        case 2:
+            ret = 0x25;
+            break;
+ 18e:	21 e4       	ldi	r18, 0x41	; 65
+ 190:	30 e0       	ldi	r19, 0x00	; 0
+ 192:	02 c0       	rjmp	.+4      	; 0x198 <convert_to_hex+0x44>
+        case 6:
+            ret = 0x41;
+            break;
+ 194:	29 e0       	ldi	r18, 0x09	; 9
+ 196:	30 e0       	ldi	r19, 0x00	; 0
+        case 9:
+            ret = 0x09;
+            break;
+    }
+    return ret;
 }
+ 198:	c9 01       	movw	r24, r18
+ 19a:	08 95       	ret
 
-void init_devices(void)
-{
-    cli(); //Clears the global interrupt
- 154:	f8 94       	cli
-    // Port J for a,b,c,d, e,f,g,DEC as per manual
-    // Both things above are in decreasing order
-    // i.e.
-    // Port J = Pin 7, 6, 5...0
+0000019c <display_num>:
 
-    DDRD = DDRD | 0xF0; // set upper nibble of port D to output
- 156:	8a b1       	in	r24, 0x0a	; 10
- 158:	80 6f       	ori	r24, 0xF0	; 240
- 15a:	8a b9       	out	0x0a, r24	; 10
-    DDRJ = DDRJ | 0xFF; // set all bits to output
- 15c:	80 91 04 01 	lds	r24, 0x0104
- 160:	8f ef       	ldi	r24, 0xFF	; 255
- 162:	80 93 04 01 	sts	0x0104, r24
 
-void init_devices(void)
-{
-    cli(); //Clears the global interrupt
-    port_init();  //Initializes all the ports
-    sei();   // Enables the global interrupt
- 166:	78 94       	sei
-}
+void display_num(unsigned int num) {
+ 19c:	1f 93       	push	r17
+ 19e:	cf 93       	push	r28
+ 1a0:	df 93       	push	r29
+ 1a2:	18 2f       	mov	r17, r24
+ 1a4:	49 2f       	mov	r20, r25
+    int digit;
+    int MIN_SELECT_VALUE = 0x10;
+    int MAX_SELECT_VALUE = 0x40;
 
-int main(void)
-{
-    init_devices();
-    PORTD = PORTD | 0x10;
- 168:	5c 9a       	sbi	0x0b, 4	; 11
-    while(1)
-    {
-       PORTJ = 0x1F;
- 16a:	5f e1       	ldi	r21, 0x1F	; 31
+    int select_value = MIN_SELECT_VALUE; // Initially 0x10. Refer to pins.txt for other values (they just double)
+    PORTD = PORTD & 0x0F; // Reset upper nibble to 0
+ 1a6:	8b b1       	in	r24, 0x0b	; 11
+ 1a8:	8f 70       	andi	r24, 0x0F	; 15
+ 1aa:	8b b9       	out	0x0b, r24	; 11
+	PORTD = PORTD | select_value;
+ 1ac:	5c 9a       	sbi	0x0b, 4	; 11
+ 1ae:	20 e1       	ldi	r18, 0x10	; 16
+ 1b0:	30 e0       	ldi	r19, 0x00	; 0
+ 1b2:	e0 e0       	ldi	r30, 0x00	; 0
+ 1b4:	f0 e0       	ldi	r31, 0x00	; 0
     milliseconds can be achieved.
  */
 void
 _delay_loop_2(uint16_t __count)
 {
 	__asm__ volatile (
- 16c:	20 e7       	ldi	r18, 0x70	; 112
- 16e:	31 e0       	ldi	r19, 0x01	; 1
-       _delay_ms(500);
-       PORTJ = 0x01;
- 170:	41 e0       	ldi	r20, 0x01	; 1
+ 1b6:	c0 e0       	ldi	r28, 0x00	; 0
+ 1b8:	d8 e4       	ldi	r29, 0x48	; 72
+    sei();   // Enables the global interrupt
+}
+
+int convert_to_hex(unsigned int num) {
+    int ret = 0x00;
+    switch(num) {
+ 1ba:	81 2f       	mov	r24, r17
+ 1bc:	94 2f       	mov	r25, r20
+ 1be:	6a e0       	ldi	r22, 0x0A	; 10
+ 1c0:	70 e0       	ldi	r23, 0x00	; 0
+ 1c2:	0e 94 3c 01 	call	0x278	; 0x278 <__udivmodhi4>
+ 1c6:	82 30       	cpi	r24, 0x02	; 2
+ 1c8:	91 05       	cpc	r25, r1
+ 1ca:	b9 f0       	breq	.+46     	; 0x1fa <display_num+0x5e>
+ 1cc:	83 30       	cpi	r24, 0x03	; 3
+ 1ce:	91 05       	cpc	r25, r1
+ 1d0:	28 f4       	brcc	.+10     	; 0x1dc <display_num+0x40>
+ 1d2:	00 97       	sbiw	r24, 0x00	; 0
+ 1d4:	49 f0       	breq	.+18     	; 0x1e8 <display_num+0x4c>
+ 1d6:	01 97       	sbiw	r24, 0x01	; 1
+ 1d8:	51 f4       	brne	.+20     	; 0x1ee <display_num+0x52>
+ 1da:	0c c0       	rjmp	.+24     	; 0x1f4 <display_num+0x58>
+ 1dc:	86 30       	cpi	r24, 0x06	; 6
+ 1de:	91 05       	cpc	r25, r1
+ 1e0:	79 f0       	breq	.+30     	; 0x200 <display_num+0x64>
+ 1e2:	09 97       	sbiw	r24, 0x09	; 9
+ 1e4:	21 f4       	brne	.+8      	; 0x1ee <display_num+0x52>
+ 1e6:	0f c0       	rjmp	.+30     	; 0x206 <display_num+0x6a>
+ 1e8:	83 e0       	ldi	r24, 0x03	; 3
+ 1ea:	90 e0       	ldi	r25, 0x00	; 0
+ 1ec:	0e c0       	rjmp	.+28     	; 0x20a <display_num+0x6e>
+ 1ee:	80 e0       	ldi	r24, 0x00	; 0
+ 1f0:	90 e0       	ldi	r25, 0x00	; 0
+ 1f2:	0b c0       	rjmp	.+22     	; 0x20a <display_num+0x6e>
+ 1f4:	8f e9       	ldi	r24, 0x9F	; 159
+ 1f6:	90 e0       	ldi	r25, 0x00	; 0
+ 1f8:	08 c0       	rjmp	.+16     	; 0x20a <display_num+0x6e>
+ 1fa:	85 e2       	ldi	r24, 0x25	; 37
+ 1fc:	90 e0       	ldi	r25, 0x00	; 0
+ 1fe:	05 c0       	rjmp	.+10     	; 0x20a <display_num+0x6e>
+ 200:	81 e4       	ldi	r24, 0x41	; 65
+ 202:	90 e0       	ldi	r25, 0x00	; 0
+ 204:	02 c0       	rjmp	.+4      	; 0x20a <display_num+0x6e>
+ 206:	89 e0       	ldi	r24, 0x09	; 9
+ 208:	90 e0       	ldi	r25, 0x00	; 0
+    PORTD = PORTD & 0x0F; // Reset upper nibble to 0
+	PORTD = PORTD | select_value;
+
+    while (select_value <= MAX_SELECT_VALUE) {
+        digit = num % 10;
+        PORTJ = convert_to_hex(digit);
+ 20a:	80 93 05 01 	sts	0x0105, r24
+ 20e:	ce 01       	movw	r24, r28
+ 210:	01 97       	sbiw	r24, 0x01	; 1
+ 212:	f1 f7       	brne	.-4      	; 0x210 <display_num+0x74>
+        _delay_ms(5);
+        select_value *= 2;
+ 214:	22 0f       	add	r18, r18
+ 216:	33 1f       	adc	r19, r19
+		if (select_value <= MAX_SELECT_VALUE) {
+ 218:	21 34       	cpi	r18, 0x41	; 65
+ 21a:	31 05       	cpc	r19, r1
+ 21c:	34 f4       	brge	.+12     	; 0x22a <display_num+0x8e>
+        	PORTD = PORTD & 0x0F; // Reset upper nibble to 0
+ 21e:	8b b1       	in	r24, 0x0b	; 11
+ 220:	8f 70       	andi	r24, 0x0F	; 15
+ 222:	8b b9       	out	0x0b, r24	; 11
+        	PORTD = PORTD | select_value; // Set upper nibble value to select apt CA
+ 224:	8b b1       	in	r24, 0x0b	; 11
+ 226:	82 2b       	or	r24, r18
+ 228:	8b b9       	out	0x0b, r24	; 11
+ 22a:	31 96       	adiw	r30, 0x01	; 1
+
+    int select_value = MIN_SELECT_VALUE; // Initially 0x10. Refer to pins.txt for other values (they just double)
+    PORTD = PORTD & 0x0F; // Reset upper nibble to 0
+	PORTD = PORTD | select_value;
+
+    while (select_value <= MAX_SELECT_VALUE) {
+ 22c:	e3 30       	cpi	r30, 0x03	; 3
+ 22e:	f1 05       	cpc	r31, r1
+ 230:	49 f0       	breq	.+18     	; 0x244 <display_num+0xa8>
+        select_value *= 2;
+		if (select_value <= MAX_SELECT_VALUE) {
+        	PORTD = PORTD & 0x0F; // Reset upper nibble to 0
+        	PORTD = PORTD | select_value; // Set upper nibble value to select apt CA
+		}
+        num /= 10;
+ 232:	81 2f       	mov	r24, r17
+ 234:	94 2f       	mov	r25, r20
+ 236:	6a e0       	ldi	r22, 0x0A	; 10
+ 238:	70 e0       	ldi	r23, 0x00	; 0
+ 23a:	0e 94 3c 01 	call	0x278	; 0x278 <__udivmodhi4>
+ 23e:	16 2f       	mov	r17, r22
+ 240:	47 2f       	mov	r20, r23
+ 242:	bb cf       	rjmp	.-138    	; 0x1ba <display_num+0x1e>
+    }
+
+}
+ 244:	df 91       	pop	r29
+ 246:	cf 91       	pop	r28
+ 248:	1f 91       	pop	r17
+ 24a:	08 95       	ret
+
+0000024c <main>:
+
+int main(void)
+{
+ 24c:	cf 93       	push	r28
+ 24e:	df 93       	push	r29
+    seven_segment_pin_config();
+}
+
+void init_devices(void)
+{
+    cli(); //Clears the global interrupt
+ 250:	f8 94       	cli
+    // Port J for a,b,c,d, e,f,g,DEC as per manual
+    // Both things above are in decreasing order
+    // i.e.
+    // Port J = Pin 7, 6, 5...0
+
+    DDRD = DDRD | 0xF0; // set upper nibble of port D to output
+ 252:	8a b1       	in	r24, 0x0a	; 10
+ 254:	80 6f       	ori	r24, 0xF0	; 240
+ 256:	8a b9       	out	0x0a, r24	; 10
+    DDRJ = DDRJ | 0xFF; // set all bits to output
+ 258:	80 91 04 01 	lds	r24, 0x0104
+ 25c:	8f ef       	ldi	r24, 0xFF	; 255
+ 25e:	80 93 04 01 	sts	0x0104, r24
+
+void init_devices(void)
+{
+    cli(); //Clears the global interrupt
+    port_init();  //Initializes all the ports
+    sei();   // Enables the global interrupt
+ 262:	78 94       	sei
+ 264:	c0 e0       	ldi	r28, 0x00	; 0
+ 266:	d8 e4       	ldi	r29, 0x48	; 72
+int main(void)
 {
     init_devices();
-    PORTD = PORTD | 0x10;
     while(1)
     {
-       PORTJ = 0x1F;
- 172:	50 93 05 01 	sts	0x0105, r21
- 176:	88 e8       	ldi	r24, 0x88	; 136
- 178:	93 e1       	ldi	r25, 0x13	; 19
- 17a:	f9 01       	movw	r30, r18
- 17c:	31 97       	sbiw	r30, 0x01	; 1
- 17e:	f1 f7       	brne	.-4      	; 0x17c <main+0x28>
-		__ticks = (uint16_t) (__ms * 10.0);
-		while(__ticks)
-		{
-			// wait 1/10 ms
-			_delay_loop_2(((F_CPU) / 4e3) / 10);
-			__ticks --;
- 180:	01 97       	sbiw	r24, 0x01	; 1
-		__ticks = 1;
-	else if (__tmp > 65535)
-	{
-		//	__ticks = requested delay in 1/10 ms
-		__ticks = (uint16_t) (__ms * 10.0);
-		while(__ticks)
- 182:	d9 f7       	brne	.-10     	; 0x17a <main+0x26>
-       _delay_ms(500);
-       PORTJ = 0x01;
- 184:	40 93 05 01 	sts	0x0105, r20
- 188:	88 e8       	ldi	r24, 0x88	; 136
- 18a:	93 e1       	ldi	r25, 0x13	; 19
- 18c:	f9 01       	movw	r30, r18
- 18e:	31 97       	sbiw	r30, 0x01	; 1
- 190:	f1 f7       	brne	.-4      	; 0x18e <main+0x3a>
-		{
-			// wait 1/10 ms
-			_delay_loop_2(((F_CPU) / 4e3) / 10);
-			__ticks --;
- 192:	01 97       	sbiw	r24, 0x01	; 1
-		__ticks = 1;
-	else if (__tmp > 65535)
-	{
-		//	__ticks = requested delay in 1/10 ms
-		__ticks = (uint16_t) (__ms * 10.0);
-		while(__ticks)
- 194:	d9 f7       	brne	.-10     	; 0x18c <main+0x38>
- 196:	ed cf       	rjmp	.-38     	; 0x172 <main+0x1e>
+       display_num(12);
+ 268:	8c e0       	ldi	r24, 0x0C	; 12
+ 26a:	90 e0       	ldi	r25, 0x00	; 0
+ 26c:	0e 94 ce 00 	call	0x19c	; 0x19c <display_num>
+ 270:	ce 01       	movw	r24, r28
+ 272:	01 97       	sbiw	r24, 0x01	; 1
+ 274:	f1 f7       	brne	.-4      	; 0x272 <main+0x26>
+ 276:	f8 cf       	rjmp	.-16     	; 0x268 <main+0x1c>
 
-00000198 <_exit>:
- 198:	f8 94       	cli
+00000278 <__udivmodhi4>:
+ 278:	aa 1b       	sub	r26, r26
+ 27a:	bb 1b       	sub	r27, r27
+ 27c:	51 e1       	ldi	r21, 0x11	; 17
+ 27e:	07 c0       	rjmp	.+14     	; 0x28e <__udivmodhi4_ep>
 
-0000019a <__stop_program>:
- 19a:	ff cf       	rjmp	.-2      	; 0x19a <__stop_program>
+00000280 <__udivmodhi4_loop>:
+ 280:	aa 1f       	adc	r26, r26
+ 282:	bb 1f       	adc	r27, r27
+ 284:	a6 17       	cp	r26, r22
+ 286:	b7 07       	cpc	r27, r23
+ 288:	10 f0       	brcs	.+4      	; 0x28e <__udivmodhi4_ep>
+ 28a:	a6 1b       	sub	r26, r22
+ 28c:	b7 0b       	sbc	r27, r23
+
+0000028e <__udivmodhi4_ep>:
+ 28e:	88 1f       	adc	r24, r24
+ 290:	99 1f       	adc	r25, r25
+ 292:	5a 95       	dec	r21
+ 294:	a9 f7       	brne	.-22     	; 0x280 <__udivmodhi4_loop>
+ 296:	80 95       	com	r24
+ 298:	90 95       	com	r25
+ 29a:	bc 01       	movw	r22, r24
+ 29c:	cd 01       	movw	r24, r26
+ 29e:	08 95       	ret
+
+000002a0 <_exit>:
+ 2a0:	f8 94       	cli
+
+000002a2 <__stop_program>:
+ 2a2:	ff cf       	rjmp	.-2      	; 0x2a2 <__stop_program>

@@ -1,3 +1,6 @@
+#define F_CPU 14745600
+
+
 Pin No. Function
 1 UART2 TXD pin of ATMEGA2560 via Jumper 1 (uC pin 13)
 2 UART2 RXD pin of ATMEGA2560 via Jumper 1 (uC pin 12)

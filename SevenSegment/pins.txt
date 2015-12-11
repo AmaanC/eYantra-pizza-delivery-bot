@@ -3,11 +3,17 @@ Pin 29 - PD5
 Pin 33 - PD6
 Pin 34 - PD7
 
-PORT D
-7 6 5 4 -----
-0 0 0 1 0000 (example for CA0)
+Port D
+Pin (digital):	7   6   5   4
+Pin (physical):	34  33  29  25
+Pin values:		0	0	0	1 (example for CA0)
 
 CA0 - 0x10
 CA1 - 0x20
 CA2 - 0x40
 CA3 - 0x80
+
+
+Port J
+a   b   c   d   e   f   g   DEC
+40  39  42  41  44  43  46  45
