@@ -20,6 +20,7 @@ Linker script and memory map
 Address of section .data set to 0x800200
 LOAD /usr/lib/gcc/avr/4.8.2/../../../avr/lib/avr6/crtm2560.o
 LOAD buzzer.o
+LOAD app.o
 START GROUP
 LOAD /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a
 LOAD /usr/lib/gcc/avr/4.8.2/../../../avr/lib/avr6/libm.a
@@ -231,10 +232,11 @@ END GROUP
                 0x000000000000010a                buzzer_on
                 0x0000000000000112                buzzer_off
                 0x000000000000011a                init_devices
+ .text          0x0000000000000124        0x0 app.o
  .text          0x0000000000000124        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_exit.o)
                 0x0000000000000124                . = ALIGN (0x2)
  *(.text.*)
- .text.startup  0x0000000000000124       0x32 buzzer.o
+ .text.startup  0x0000000000000124       0x32 app.o
                 0x0000000000000124                main
  .text.libgcc.mul
                 0x0000000000000156        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_exit.o)
@@ -281,6 +283,7 @@ END GROUP
  *(.data)
  .data          0x0000000000800200        0x0 /usr/lib/gcc/avr/4.8.2/../../../avr/lib/avr6/crtm2560.o
  .data          0x0000000000800200        0x0 buzzer.o
+ .data          0x0000000000800200        0x0 app.o
  .data          0x0000000000800200        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_exit.o)
  *(.data*)
  *(.rodata)
@@ -295,6 +298,7 @@ END GROUP
  *(.bss)
  .bss           0x0000000000800200        0x0 /usr/lib/gcc/avr/4.8.2/../../../avr/lib/avr6/crtm2560.o
  .bss           0x0000000000800200        0x0 buzzer.o
+ .bss           0x0000000000800200        0x0 app.o
  .bss           0x0000000000800200        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_exit.o)
  *(.bss*)
  *(COMMON)
@@ -328,15 +332,17 @@ END GROUP
 .user_signatures
  *(.user_signatures*)
 
-.stab           0x0000000000000000      0xda4
+.stab           0x0000000000000000     0x1050
  *(.stab)
  .stab          0x0000000000000000      0x6e4 /usr/lib/gcc/avr/4.8.2/../../../avr/lib/avr6/crtm2560.o
- .stab          0x00000000000006e4      0x6c0 buzzer.o
-                                        0x6cc (size before relaxing)
+ .stab          0x00000000000006e4      0x624 buzzer.o
+                                        0x630 (size before relaxing)
+ .stab          0x0000000000000d08      0x348 app.o
+                                        0x510 (size before relaxing)
 
-.stabstr        0x0000000000000000      0xc89
+.stabstr        0x0000000000000000      0xc8f
  *(.stabstr)
- .stabstr       0x0000000000000000      0xc89 /usr/lib/gcc/avr/4.8.2/../../../avr/lib/avr6/crtm2560.o
+ .stabstr       0x0000000000000000      0xc8f /usr/lib/gcc/avr/4.8.2/../../../avr/lib/avr6/crtm2560.o
 
 .stab.excl
  *(.stab.excl)
@@ -354,6 +360,7 @@ END GROUP
  *(.comment)
  .comment       0x0000000000000000       0x11 buzzer.o
                                          0x12 (size before relaxing)
+ .comment       0x0000000000000000       0x12 app.o
 
 .debug
  *(.debug)
@@ -403,5 +410,5 @@ END GROUP
 
 .debug_macro
  *(.debug_macro)
-OUTPUT(buzzer.out elf32-avr)
+OUTPUT(app.out elf32-avr)
 LOAD linker stubs

@@ -4,7 +4,9 @@ OBJCOPY=avr-objcopy
 
 CFLAGS=-g -DF_CPU=14745600 -mmcu=atmega2560
 
+# Modify these 2 for each project as needed
 FILENAME=buzzer
+DEPS=app.o
 
 #Info til AVRDUDE
 PROGRAMMER = avrdude
@@ -14,14 +16,14 @@ PORT = /dev/ttyACM0
 
 PFLAGS = -p $(MCU) -c $(BOARD) -P $(PORT)
 
-rom.hex : $(FILENAME).out
-	$(OBJCOPY) -j .text -O ihex $(FILENAME).out rom.hex
+rom.hex : app.out
+	$(OBJCOPY) -j .text -O ihex app.out rom.hex
 
-$(FILENAME).out : $(FILENAME).o
-	$(CC) $(CFLAGS) -o $(FILENAME).out -Wl,-Map,$(FILENAME).map $(FILENAME).o
+app.out : $(FILENAME).o app.o
+	$(CC) $(CFLAGS) -o app.out -Wl,-Map,$(FILENAME).map $(FILENAME).o $(DEPS)
 
-$(FILENAME).o : $(FILENAME).c
-	$(CC) $(CFLAGS) -Os -c $(FILENAME).c
+%.o : %.c
+	$(CC) $(CFLAGS) -Os -c $<
 
 clean:
 	rm -f *.o *.out *.map *.hex
