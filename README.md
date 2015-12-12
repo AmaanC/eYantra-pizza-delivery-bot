@@ -10,7 +10,7 @@ Every folder *should* be structured so that it has the following files:
  - `project.h`: The header file with only the *declarations*, not *definitions*
  - `project.c`: The C source file with the definitions. This file will include `project.h`
  - `app.c`: The C source file which includes the `int main()` function. `app.c` and `project.c` will be linked together.
- - `Makefile`: Make config options. Usually, it'll be a copy of the GenericMakefile in the root directory.
+ - `Makefile`: Make config options. Usually, it'll be a copy of the Makefile in the root directory.
 
 ###Example:
 One folder is called `SevenSegment`.
