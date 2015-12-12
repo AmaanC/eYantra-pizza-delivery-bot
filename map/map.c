@@ -1,3 +1,7 @@
+// Trying to follow Google's style guide (for C++, since they don't have one for C)
+// Source: https://google.github.io/styleguide/cppguide.html
+// Important to keep in mind: https://google.github.io/styleguide/cppguide.html#General_Naming_Rules
+
 // #include <avr/io.h>
 // #include <avr/interrupt.h>
 // #include <util/delay.h>
@@ -60,7 +64,8 @@ Node* CreateNode(x, y, num_connections) {
     return new_node;
 }
 
-void connectNodes(Node *a, Node *b, int cost) {
+// Note that this function connects "a" to "b" *and* "b" to "a". They don't need to be connected individually
+void ConnectNodes(Node *a, Node *b, int cost) {
     int a_count = a->counter;
     int b_count = b->counter;
 
@@ -72,6 +77,7 @@ void connectNodes(Node *a, Node *b, int cost) {
     b->counter++;
 }
 
+
 int main() {
     Node *start, *r1;
     // Initialize the 2 nodes with their x, y, and number of connected nodes
@@ -79,7 +85,7 @@ int main() {
     r1 = CreateNode(20, 20, 1);
 
     // Actually create the connections between the nodes with the cost at the edge
-    connectNodes(start, r1, 10);
+    ConnectNodes(start, r1, 10);
 
     // Just to make sure it worked
     printf("start to r1 cost: %d\n", start->connected[0]->cost);
