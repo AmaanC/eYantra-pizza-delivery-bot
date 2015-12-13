@@ -4,6 +4,7 @@
 #include <avr/io.h>
 #include <avr/interrupt.h>
 #include <util/delay.h>
+#include "SevenSegment.h"
 
 void seven_segment_pin_config(void)
 {
@@ -51,7 +52,6 @@ int convert_to_hex(unsigned int num) {
     return ret;
 }
 
-
 void display_num(unsigned int num) {
     int digit;
     int MIN_SELECT_VALUE = 0x10;
@@ -72,15 +72,4 @@ void display_num(unsigned int num) {
 		}
         num /= 10;
     }
-
-}
-
-int main(void)
-{
-    init_devices();
-    while(1)
-    {
-       display_num(12);
-       _delay_ms(1);
-   }
 }
