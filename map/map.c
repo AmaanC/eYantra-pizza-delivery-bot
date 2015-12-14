@@ -9,6 +9,8 @@
 #include <stdlib.h>
 #include "map.h"
 
+// This is how the bot's position is maintained
+Node *current_node;
 
 // Returns a pointer to a node
 Node* CreateNode(int x, int y, int num_connections) {
@@ -49,5 +51,19 @@ void ConnectNodes(Node *a, Node *b, int cost) {
 // Most be crises about poetic freedom and grammar instincts
 // We shall prevail
 // Defeat them against all odds
-void InitAllNodes() {
+void InitGraph() {
+
+    Node *start, *r1;
+    // Initialize the 2 nodes with their x, y, and number of connected nodes
+    start = CreateNode(0, 0, 1);
+    r1 = CreateNode(20, 20, 1);
+
+    // Actually create the connections between the nodes with the cost at the edge
+    ConnectNodes(start, r1, 10);
+
+    current_node = start; // We're assuming that we'll start there
+}
+
+Node* GetCurrentNode() {
+    return current_node;
 }

@@ -28,11 +28,9 @@ typedef struct NodeStruct {
     Connection **connected;
 } Node;
 
-
-
 Node* CreateNode(int x, int y, int num_connections);
 void ConnectNodes(Node *a, Node *b, int cost);
-
-void InitAllNodes();
+void InitGraph();
+Node* GetCurrentNode();
 
 #endif
