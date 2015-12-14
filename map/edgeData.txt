@@ -1,0 +1,6 @@
+We're recording edges here. The edge between Node1 and Node2 will be shown as:
+Node1, Node2, cost
+S, r1, 10
+
+Start after this:
+------------------

@@ -1,0 +1,6 @@
+We're recording nodes here. The format is:
+NodeName, xPosition, yPosition
+P1, -90, 7
+
+Start after this:
+------------------
