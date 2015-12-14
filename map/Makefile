@@ -9,5 +9,5 @@ $(FILENAME) : $(objects)
 clean:
 	rm -f *.o *.out *.map *.hex
 
-run:
+run: $(FILENAME)
 	./app.out
