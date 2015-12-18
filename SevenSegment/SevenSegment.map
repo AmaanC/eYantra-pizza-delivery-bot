@@ -234,10 +234,10 @@ END GROUP
                 0x0000000000000116                __vector_42
  .text          0x000000000000011a       0xa4 SevenSegment.o
                 0x000000000000011a                seven_segment_pin_config
-                0x000000000000012c                port_init
-                0x0000000000000130                init_devices
-                0x000000000000013a                convert_to_hex
-                0x0000000000000152                display_num
+                0x000000000000012c                seven_port_init
+                0x0000000000000130                seven_init_devices
+                0x000000000000013a                seven_convert_to_hex
+                0x0000000000000152                seven_display_num
  .text          0x00000000000001be        0x0 app.o
  .text          0x00000000000001be        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_udivmodhi4.o)
  .text          0x00000000000001be        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_exit.o)
@@ -380,9 +380,9 @@ END GROUP
  .stab          0x0000000000000dec      0x318 app.o
                                         0x4e0 (size before relaxing)
 
-.stabstr        0x0000000000000000      0xcd1
+.stabstr        0x0000000000000000      0xcff
  *(.stabstr)
- .stabstr       0x0000000000000000      0xcd1 /usr/lib/gcc/avr/4.8.2/../../../avr/lib/avr6/crtm2560.o
+ .stabstr       0x0000000000000000      0xcff /usr/lib/gcc/avr/4.8.2/../../../avr/lib/avr6/crtm2560.o
 
 .stab.excl
  *(.stab.excl)

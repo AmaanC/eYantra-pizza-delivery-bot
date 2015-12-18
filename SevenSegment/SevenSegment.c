@@ -18,19 +18,19 @@ void seven_segment_pin_config(void)
     DDRJ = DDRJ | 0xFF; // set all bits to output
 }
 
-void port_init(void)
+void seven_port_init(void)
 {
     seven_segment_pin_config();
 }
 
-void init_devices(void)
+void seven_init_devices(void)
 {
     cli(); //Clears the global interrupt
-    port_init();  //Initializes all the ports
+    seven_port_init();  //Initializes all the ports
     sei();   // Enables the global interrupt
 }
 
-int convert_to_hex(unsigned int num) {
+int seven_convert_to_hex(unsigned int num) {
     int ret = 0x00;
     switch(num) {
         case 0:
@@ -52,7 +52,7 @@ int convert_to_hex(unsigned int num) {
     return ret;
 }
 
-void display_num(unsigned int num) {
+void seven_display_num(unsigned int num) {
     int digit;
     int MIN_SELECT_VALUE = 0x10;
     int MAX_SELECT_VALUE = 0x40;
@@ -63,7 +63,7 @@ void display_num(unsigned int num) {
 
     while (select_value <= MAX_SELECT_VALUE) {
         digit = num % 10;
-        PORTJ = convert_to_hex(digit);
+        PORTJ = seven_convert_to_hex(digit);
         _delay_ms(1);
         select_value *= 2;
 		if (select_value <= MAX_SELECT_VALUE) {

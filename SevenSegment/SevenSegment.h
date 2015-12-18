@@ -2,9 +2,9 @@
 #define SEVENSEGMENT_H_
 
 void seven_segment_pin_config();
-void port_init();
-void init_devices();
-int convert_to_hex(unsigned int num);
-void display_num(unsigned int num);
+void seven_port_init();
+void seven_init_devices();
+int seven_convert_to_hex(unsigned int num);
+void seven_display_num(unsigned int num);
 
 #endif
