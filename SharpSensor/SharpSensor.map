@@ -283,13 +283,13 @@ END GROUP
                 0x000000000000017e                __vector_20
                 0x000000000000017e                __vector_42
  .text          0x0000000000000182      0x184 SharpSensor.o
-                0x0000000000000182                adc_pin_config
-                0x0000000000000190                port_init
-                0x0000000000000194                adc_init
-                0x00000000000001ae                init_devices
-                0x00000000000001bc                ADC_Conversion
-                0x00000000000001f4                Sharp_GP2D12_estimation
-                0x0000000000000248                get_block_size
+                0x0000000000000182                sharp_adc_pin_config
+                0x0000000000000190                sharp_port_init
+                0x0000000000000194                sharp_adc_init
+                0x00000000000001ae                sharp_init_devices
+                0x00000000000001bc                sharp_ADC_Conversion
+                0x00000000000001f4                sharp_GP2D12_estimation
+                0x0000000000000248                sharp_get_block_size
  .text          0x0000000000000306        0x0 app.o
  .text          0x0000000000000306        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_exit.o)
  .text          0x0000000000000306        0x0 /usr/lib/gcc/avr/4.8.2/../../../avr/lib/avr6/libm.a(cmpsf2.o)
@@ -618,9 +618,9 @@ END GROUP
  .stab          0x00000000000040d4       0xe4 /usr/lib/gcc/avr/4.8.2/../../../avr/lib/avr6/libm.a(fp_mpack.o)
                                          0xf0 (size before relaxing)
 
-.stabstr        0x0000000000000000     0x11aa
+.stabstr        0x0000000000000000     0x11e4
  *(.stabstr)
- .stabstr       0x0000000000000000     0x11aa /usr/lib/gcc/avr/4.8.2/../../../avr/lib/avr6/crtm2560.o
+ .stabstr       0x0000000000000000     0x11e4 /usr/lib/gcc/avr/4.8.2/../../../avr/lib/avr6/crtm2560.o
 
 .stab.excl
  *(.stab.excl)

@@ -7,7 +7,7 @@
 #include "SharpSensor.h"
 
 //ADC pin configuration
-void adc_pin_config()
+void sharp_adc_pin_config()
 {
 	DDRF = 0x00; //set PORTF direction as input
 	PORTF = 0x00; //set PORTF pins floating
@@ -15,13 +15,13 @@ void adc_pin_config()
 	PORTK = 0x00; //set PORTK pins floating
 }
 
-void port_init()
+void sharp_port_init()
 {
-	adc_pin_config();
+	sharp_adc_pin_config();
 }
 
 //Function to Initialize ADC
-void adc_init()
+void sharp_adc_init()
 {
 	ADCSRA = 0x00;
 	ADCSRB = 0x00;		//MUX5 = 0
@@ -30,16 +30,16 @@ void adc_init()
 	ADCSRA = 0x86;		//ADEN=1 --- ADIE=1 --- ADPS2:0 = 1 1 0
 }
 
-void init_devices()
+void sharp_init_devices()
 {
     cli(); //Clears the global interrupt
-    port_init();  //Initializes all the ports
-	  adc_init();
+    sharp_port_init();  //Initializes all the ports
+	sharp_adc_init();
     sei();   // Enables the global interrupt
 }
 
 //This Function accepts the Channel Number and returns the corresponding Analog Value 
-unsigned char ADC_Conversion(unsigned char Ch)
+unsigned char sharp_ADC_Conversion(unsigned char Ch)
 {
 	unsigned char a;
 	if(Ch>7)
@@ -58,7 +58,7 @@ unsigned char ADC_Conversion(unsigned char Ch)
 
 // This Function calculates the actual distance in millimeters(mm) from the input
 // analog value of Sharp Sensor. 
-unsigned int Sharp_GP2D12_estimation(unsigned char adc_reading)
+unsigned int sharp_GP2D12_estimation(unsigned char adc_reading)
 {
 	float distance;
 	unsigned int distanceInt;
@@ -73,7 +73,7 @@ unsigned int Sharp_GP2D12_estimation(unsigned char adc_reading)
 
 // default_dist is used when we can't tell what block we're detecting 
 // because it is between two threshold values (small+threshold and medium-threshold)
-int get_block_size(int distance, int default_dist) {
+int sharp_get_block_size(int distance, int default_dist) {
     int threshold = 13;
 	int no_block_threshold = 16;
 	// All experimental averages
