@@ -32,22 +32,9 @@ void seven_init_devices(void)
 
 int seven_convert_to_hex(unsigned int num) {
     int ret = 0x00;
-    switch(num) {
-        case 0:
-            ret = 0x03;
-            break;
-        case 1:
-            ret = 0x9F;
-            break;
-        case 2:
-            ret = 0x25;
-            break;
-        case 6:
-            ret = 0x41;
-            break;
-        case 9:
-            ret = 0x09;
-            break;
+    int values[] = {0x03, 0x9F, 0x25, 0x0D, 0x99, 0x49, 0x41, 0x1F, 0x01, 0x09};
+    if (num >= 0 && num <= 9) {
+        ret = values[num];
     }
     return ret;
 }
