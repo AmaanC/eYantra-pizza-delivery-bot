@@ -6,7 +6,7 @@ CFLAGS=-g -DF_CPU=14745600 -mmcu=atmega2560
 
 # Modify these 2 for each project as needed
 FILENAME=servo
-DEPS=
+DEPS=app.o ../buzzer/buzzer.o
 
 #Info til AVRDUDE
 PROGRAMMER = avrdude
@@ -23,7 +23,7 @@ app.out : $(FILENAME).o $(DEPS)
 	$(CC) $(CFLAGS) -o app.out -Wl,-Map,$(FILENAME).map $(FILENAME).o $(DEPS)
 
 %.o : %.c
-	$(CC) $(CFLAGS) -Os -c $<
+	$(CC) $(CFLAGS) -c $<
 
 clean:
 	rm -f *.o *.out *.map *.hex
