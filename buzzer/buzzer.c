@@ -13,7 +13,7 @@ void buzzer_pin_config (void)
  PORTC = PORTC & 0xF7;		//Setting PORTC 3 logic low to turnoff buzzer
 }
 
-void port_init (void)
+void buzzer_port_init (void)
 {
  buzzer_pin_config();
 }
@@ -34,10 +34,26 @@ void buzzer_off (void)
  PORTC = port_restore;
 }
 
-void init_devices (void)
+void my_delay_ms(int ms)
+{
+  while (0 < ms)
+  {  
+    _delay_ms(1);
+    --ms;
+  }
+}
+
+void buzzer_beep(int ms) {
+    buzzer_on();
+    my_delay_ms(ms);
+    buzzer_off();
+    my_delay_ms(ms);
+}
+
+void buzzer_init_devices (void)
 {
  cli(); //Clears the global interrupts
- port_init();
+ buzzer_port_init();
  sei(); //Enables the global interrupts
 }
 

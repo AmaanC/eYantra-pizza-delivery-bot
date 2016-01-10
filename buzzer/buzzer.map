@@ -117,7 +117,7 @@ END GROUP
 .rela.plt
  *(.rela.plt)
 
-.text           0x0000000000000000      0x15a
+.text           0x0000000000000000      0x18e
  *(.vectors)
  .vectors       0x0000000000000000       0xe4 /usr/lib/gcc/avr/4.8.2/../../../avr/lib/avr6/crtm2560.o
                 0x0000000000000000                __vectors
@@ -226,36 +226,38 @@ END GROUP
                 0x00000000000000fc                __vector_18
                 0x00000000000000fc                __vector_20
                 0x00000000000000fc                __vector_42
- .text          0x0000000000000100       0x24 buzzer.o
+ .text          0x0000000000000100       0x58 buzzer.o
                 0x0000000000000100                buzzer_pin_config
-                0x0000000000000106                port_init
+                0x0000000000000106                buzzer_port_init
                 0x000000000000010a                buzzer_on
                 0x0000000000000112                buzzer_off
-                0x000000000000011a                init_devices
- .text          0x0000000000000124        0x0 app.o
- .text          0x0000000000000124        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_exit.o)
-                0x0000000000000124                . = ALIGN (0x2)
+                0x000000000000011a                my_delay_ms
+                0x0000000000000130                buzzer_beep
+                0x000000000000014e                buzzer_init_devices
+ .text          0x0000000000000158        0x0 app.o
+ .text          0x0000000000000158        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_exit.o)
+                0x0000000000000158                . = ALIGN (0x2)
  *(.text.*)
- .text.startup  0x0000000000000124       0x32 app.o
-                0x0000000000000124                main
+ .text.startup  0x0000000000000158       0x32 app.o
+                0x0000000000000158                main
  .text.libgcc.mul
-                0x0000000000000156        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_exit.o)
+                0x000000000000018a        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_exit.o)
  .text.libgcc.div
-                0x0000000000000156        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_exit.o)
- .text.libgcc   0x0000000000000156        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_exit.o)
+                0x000000000000018a        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_exit.o)
+ .text.libgcc   0x000000000000018a        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_exit.o)
  .text.libgcc.prologue
-                0x0000000000000156        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_exit.o)
+                0x000000000000018a        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_exit.o)
  .text.libgcc.builtins
-                0x0000000000000156        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_exit.o)
+                0x000000000000018a        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_exit.o)
  .text.libgcc.fmul
-                0x0000000000000156        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_exit.o)
+                0x000000000000018a        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_exit.o)
  .text.libgcc.fixed
-                0x0000000000000156        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_exit.o)
-                0x0000000000000156                . = ALIGN (0x2)
+                0x000000000000018a        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_exit.o)
+                0x000000000000018a                . = ALIGN (0x2)
  *(.fini9)
- .fini9         0x0000000000000156        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_exit.o)
-                0x0000000000000156                exit
-                0x0000000000000156                _exit
+ .fini9         0x000000000000018a        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_exit.o)
+                0x000000000000018a                exit
+                0x000000000000018a                _exit
  *(.fini9)
  *(.fini8)
  *(.fini8)
@@ -274,11 +276,11 @@ END GROUP
  *(.fini1)
  *(.fini1)
  *(.fini0)
- .fini0         0x0000000000000156        0x4 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_exit.o)
+ .fini0         0x000000000000018a        0x4 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_exit.o)
  *(.fini0)
-                0x000000000000015a                _etext = .
+                0x000000000000018e                _etext = .
 
-.data           0x0000000000800200        0x0 load address 0x000000000000015a
+.data           0x0000000000800200        0x0 load address 0x000000000000018e
                 0x0000000000800200                PROVIDE (__data_start, .)
  *(.data)
  .data          0x0000000000800200        0x0 /usr/lib/gcc/avr/4.8.2/../../../avr/lib/avr6/crtm2560.o
@@ -303,8 +305,8 @@ END GROUP
  *(.bss*)
  *(COMMON)
                 0x0000000000800200                PROVIDE (__bss_end, .)
-                0x000000000000015a                __data_load_start = LOADADDR (.data)
-                0x000000000000015a                __data_load_end = (__data_load_start + SIZEOF (.data))
+                0x000000000000018e                __data_load_start = LOADADDR (.data)
+                0x000000000000018e                __data_load_end = (__data_load_start + SIZEOF (.data))
 
 .noinit         0x0000000000800200        0x0
                 0x0000000000800200                PROVIDE (__noinit_start, .)
@@ -332,17 +334,17 @@ END GROUP
 .user_signatures
  *(.user_signatures*)
 
-.stab           0x0000000000000000     0x1050
+.stab           0x0000000000000000     0x1170
  *(.stab)
  .stab          0x0000000000000000      0x6e4 /usr/lib/gcc/avr/4.8.2/../../../avr/lib/avr6/crtm2560.o
- .stab          0x00000000000006e4      0x624 buzzer.o
-                                        0x630 (size before relaxing)
- .stab          0x0000000000000d08      0x348 app.o
+ .stab          0x00000000000006e4      0x744 buzzer.o
+                                        0x750 (size before relaxing)
+ .stab          0x0000000000000e28      0x348 app.o
                                         0x510 (size before relaxing)
 
-.stabstr        0x0000000000000000      0xc8f
+.stabstr        0x0000000000000000      0xccf
  *(.stabstr)
- .stabstr       0x0000000000000000      0xc8f /usr/lib/gcc/avr/4.8.2/../../../avr/lib/avr6/crtm2560.o
+ .stabstr       0x0000000000000000      0xccf /usr/lib/gcc/avr/4.8.2/../../../avr/lib/avr6/crtm2560.o
 
 .stab.excl
  *(.stab.excl)

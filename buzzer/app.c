@@ -6,7 +6,7 @@
 //Main Function
 int main(void)
 {
-    init_devices();
+    buzzer_init_devices();
     while(1)
     {
         buzzer_on();
