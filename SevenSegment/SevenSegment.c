@@ -87,9 +87,15 @@ void seven_display_num(int num) {
         digit = our_num % 10;
         if (digit == 6) {
             buzzer_beep(100); // The buzzer does beep here for when "our_num" becomes 16
+            if (seven_convert_to_hex(digit) == 0x41) {
+                buzzer_beep(200); // The buzzer does beep
+            }
         }
-        if (seven_convert_to_hex(digit) == 0x41) {
-            buzzer_beep(100); // The buzzer does not beep here
+        if (digit == 4) {
+            buzzer_beep(300); // The buzzer does beep here for when "our_num" becomes 16
+            if (seven_convert_to_hex(digit) == 0x99) {
+                buzzer_beep(500); // The buzzer does beep
+            }
         }
         PORTJ = seven_convert_to_hex(digit);
         _delay_ms(500);
