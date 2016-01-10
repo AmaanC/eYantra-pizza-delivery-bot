@@ -1,11 +1,13 @@
 Archive member included because of file (symbol)
 
-/usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_udivmodhi4.o)
-                              SevenSegment.o (__udivmodhi4)
+/usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_divmodhi4.o)
+                              SevenSegment.o (__divmodhi4)
 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_exit.o)
                               /usr/lib/gcc/avr/4.8.2/../../../avr/lib/avr6/crtm2560.o (exit)
 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_copy_data.o)
                               SevenSegment.o (__do_copy_data)
+/usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_udivmodhi4.o)
+                              /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_divmodhi4.o) (__udivmodhi4)
 
 Memory Configuration
 
@@ -25,6 +27,7 @@ Address of section .data set to 0x800200
 LOAD /usr/lib/gcc/avr/4.8.2/../../../avr/lib/avr6/crtm2560.o
 LOAD SevenSegment.o
 LOAD app.o
+LOAD ../buzzer/buzzer.o
 START GROUP
 LOAD /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a
 LOAD /usr/lib/gcc/avr/4.8.2/../../../avr/lib/avr6/libm.a
@@ -121,7 +124,7 @@ END GROUP
 .rela.plt
  *(.rela.plt)
 
-.text           0x0000000000000000      0x256
+.text           0x0000000000000000      0x2a4
  *(.vectors)
  .vectors       0x0000000000000000       0xe4 /usr/lib/gcc/avr/4.8.2/../../../avr/lib/avr6/crtm2560.o
                 0x0000000000000000                __vectors
@@ -232,65 +235,89 @@ END GROUP
                 0x0000000000000116                __vector_18
                 0x0000000000000116                __vector_20
                 0x0000000000000116                __vector_42
- .text          0x000000000000011a       0xf8 SevenSegment.o
+ .text          0x000000000000011a       0xc0 SevenSegment.o
                 0x000000000000011a                seven_segment_pin_config
                 0x000000000000012c                seven_port_init
                 0x0000000000000130                seven_init_devices
                 0x000000000000013a                seven_convert_to_hex
-                0x0000000000000194                seven_display_num
- .text          0x0000000000000212        0x0 app.o
- .text          0x0000000000000212        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_udivmodhi4.o)
- .text          0x0000000000000212        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_exit.o)
- .text          0x0000000000000212        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_copy_data.o)
-                0x0000000000000212                . = ALIGN (0x2)
+                0x0000000000000152                seven_display_num
+ .text          0x00000000000001da        0x0 app.o
+ .text          0x00000000000001da       0x58 ../buzzer/buzzer.o
+                0x00000000000001da                buzzer_pin_config
+                0x00000000000001e0                buzzer_port_init
+                0x00000000000001e4                buzzer_on
+                0x00000000000001ec                buzzer_off
+                0x00000000000001f4                my_delay_ms
+                0x000000000000020a                buzzer_beep
+                0x0000000000000228                buzzer_init_devices
+ .text          0x0000000000000232        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_divmodhi4.o)
+ .text          0x0000000000000232        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_exit.o)
+ .text          0x0000000000000232        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_copy_data.o)
+ .text          0x0000000000000232        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_udivmodhi4.o)
+                0x0000000000000232                . = ALIGN (0x2)
  *(.text.*)
- .text.startup  0x0000000000000212       0x18 app.o
-                0x0000000000000212                main
+ .text.startup  0x0000000000000232       0x1e app.o
+                0x0000000000000232                main
  .text.libgcc.mul
-                0x000000000000022a        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_udivmodhi4.o)
+                0x0000000000000250        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_divmodhi4.o)
  .text.libgcc.div
-                0x000000000000022a       0x28 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_udivmodhi4.o)
-                0x000000000000022a                __udivmodhi4
- .text.libgcc   0x0000000000000252        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_udivmodhi4.o)
+                0x0000000000000250       0x28 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_divmodhi4.o)
+                0x0000000000000250                __divmodhi4
+                0x0000000000000250                _div
+ .text.libgcc   0x0000000000000278        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_divmodhi4.o)
  .text.libgcc.prologue
-                0x0000000000000252        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_udivmodhi4.o)
+                0x0000000000000278        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_divmodhi4.o)
  .text.libgcc.builtins
-                0x0000000000000252        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_udivmodhi4.o)
+                0x0000000000000278        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_divmodhi4.o)
  .text.libgcc.fmul
-                0x0000000000000252        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_udivmodhi4.o)
+                0x0000000000000278        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_divmodhi4.o)
  .text.libgcc.fixed
-                0x0000000000000252        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_udivmodhi4.o)
+                0x0000000000000278        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_divmodhi4.o)
  .text.libgcc.mul
-                0x0000000000000252        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_exit.o)
+                0x0000000000000278        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_exit.o)
  .text.libgcc.div
-                0x0000000000000252        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_exit.o)
- .text.libgcc   0x0000000000000252        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_exit.o)
+                0x0000000000000278        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_exit.o)
+ .text.libgcc   0x0000000000000278        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_exit.o)
  .text.libgcc.prologue
-                0x0000000000000252        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_exit.o)
+                0x0000000000000278        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_exit.o)
  .text.libgcc.builtins
-                0x0000000000000252        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_exit.o)
+                0x0000000000000278        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_exit.o)
  .text.libgcc.fmul
-                0x0000000000000252        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_exit.o)
+                0x0000000000000278        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_exit.o)
  .text.libgcc.fixed
-                0x0000000000000252        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_exit.o)
+                0x0000000000000278        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_exit.o)
  .text.libgcc.mul
-                0x0000000000000252        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_copy_data.o)
+                0x0000000000000278        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_copy_data.o)
  .text.libgcc.div
-                0x0000000000000252        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_copy_data.o)
- .text.libgcc   0x0000000000000252        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_copy_data.o)
+                0x0000000000000278        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_copy_data.o)
+ .text.libgcc   0x0000000000000278        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_copy_data.o)
  .text.libgcc.prologue
-                0x0000000000000252        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_copy_data.o)
+                0x0000000000000278        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_copy_data.o)
  .text.libgcc.builtins
-                0x0000000000000252        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_copy_data.o)
+                0x0000000000000278        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_copy_data.o)
  .text.libgcc.fmul
-                0x0000000000000252        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_copy_data.o)
+                0x0000000000000278        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_copy_data.o)
  .text.libgcc.fixed
-                0x0000000000000252        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_copy_data.o)
-                0x0000000000000252                . = ALIGN (0x2)
+                0x0000000000000278        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_copy_data.o)
+ .text.libgcc.mul
+                0x0000000000000278        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_udivmodhi4.o)
+ .text.libgcc.div
+                0x0000000000000278       0x28 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_udivmodhi4.o)
+                0x0000000000000278                __udivmodhi4
+ .text.libgcc   0x00000000000002a0        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_udivmodhi4.o)
+ .text.libgcc.prologue
+                0x00000000000002a0        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_udivmodhi4.o)
+ .text.libgcc.builtins
+                0x00000000000002a0        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_udivmodhi4.o)
+ .text.libgcc.fmul
+                0x00000000000002a0        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_udivmodhi4.o)
+ .text.libgcc.fixed
+                0x00000000000002a0        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_udivmodhi4.o)
+                0x00000000000002a0                . = ALIGN (0x2)
  *(.fini9)
- .fini9         0x0000000000000252        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_exit.o)
-                0x0000000000000252                exit
-                0x0000000000000252                _exit
+ .fini9         0x00000000000002a0        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_exit.o)
+                0x00000000000002a0                exit
+                0x00000000000002a0                _exit
  *(.fini9)
  *(.fini8)
  *(.fini8)
@@ -309,49 +336,53 @@ END GROUP
  *(.fini1)
  *(.fini1)
  *(.fini0)
- .fini0         0x0000000000000252        0x4 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_exit.o)
+ .fini0         0x00000000000002a0        0x4 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_exit.o)
  *(.fini0)
-                0x0000000000000256                _etext = .
+                0x00000000000002a4                _etext = .
 
-.data           0x0000000000800200       0x14 load address 0x0000000000000256
+.data           0x0000000000800200        0xa load address 0x00000000000002a4
                 0x0000000000800200                PROVIDE (__data_start, .)
  *(.data)
  .data          0x0000000000800200        0x0 /usr/lib/gcc/avr/4.8.2/../../../avr/lib/avr6/crtm2560.o
  .data          0x0000000000800200        0x0 SevenSegment.o
  .data          0x0000000000800200        0x0 app.o
- .data          0x0000000000800200        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_udivmodhi4.o)
+ .data          0x0000000000800200        0x0 ../buzzer/buzzer.o
+ .data          0x0000000000800200        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_divmodhi4.o)
  .data          0x0000000000800200        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_exit.o)
  .data          0x0000000000800200        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_copy_data.o)
+ .data          0x0000000000800200        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_udivmodhi4.o)
  *(.data*)
  *(.rodata)
- .rodata        0x0000000000800200       0x14 SevenSegment.o
+ .rodata        0x0000000000800200        0xa SevenSegment.o
  *(.rodata*)
  *(.gnu.linkonce.d*)
-                0x0000000000800214                . = ALIGN (0x2)
-                0x0000000000800214                _edata = .
-                0x0000000000800214                PROVIDE (__data_end, .)
+                0x000000000080020a                . = ALIGN (0x2)
+                0x000000000080020a                _edata = .
+                0x000000000080020a                PROVIDE (__data_end, .)
 
-.bss            0x0000000000800214        0x0
-                0x0000000000800214                PROVIDE (__bss_start, .)
+.bss            0x000000000080020a        0x0
+                0x000000000080020a                PROVIDE (__bss_start, .)
  *(.bss)
- .bss           0x0000000000800214        0x0 /usr/lib/gcc/avr/4.8.2/../../../avr/lib/avr6/crtm2560.o
- .bss           0x0000000000800214        0x0 SevenSegment.o
- .bss           0x0000000000800214        0x0 app.o
- .bss           0x0000000000800214        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_udivmodhi4.o)
- .bss           0x0000000000800214        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_exit.o)
- .bss           0x0000000000800214        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_copy_data.o)
+ .bss           0x000000000080020a        0x0 /usr/lib/gcc/avr/4.8.2/../../../avr/lib/avr6/crtm2560.o
+ .bss           0x000000000080020a        0x0 SevenSegment.o
+ .bss           0x000000000080020a        0x0 app.o
+ .bss           0x000000000080020a        0x0 ../buzzer/buzzer.o
+ .bss           0x000000000080020a        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_divmodhi4.o)
+ .bss           0x000000000080020a        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_exit.o)
+ .bss           0x000000000080020a        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_copy_data.o)
+ .bss           0x000000000080020a        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_udivmodhi4.o)
  *(.bss*)
  *(COMMON)
-                0x0000000000800214                PROVIDE (__bss_end, .)
-                0x0000000000000256                __data_load_start = LOADADDR (.data)
-                0x000000000000026a                __data_load_end = (__data_load_start + SIZEOF (.data))
+                0x000000000080020a                PROVIDE (__bss_end, .)
+                0x00000000000002a4                __data_load_start = LOADADDR (.data)
+                0x00000000000002ae                __data_load_end = (__data_load_start + SIZEOF (.data))
 
-.noinit         0x0000000000800214        0x0
-                0x0000000000800214                PROVIDE (__noinit_start, .)
+.noinit         0x000000000080020a        0x0
+                0x000000000080020a                PROVIDE (__noinit_start, .)
  *(.noinit*)
-                0x0000000000800214                PROVIDE (__noinit_end, .)
-                0x0000000000800214                _end = .
-                0x0000000000800214                PROVIDE (__heap_start, .)
+                0x000000000080020a                PROVIDE (__noinit_end, .)
+                0x000000000080020a                _end = .
+                0x000000000080020a                PROVIDE (__heap_start, .)
 
 .eeprom         0x0000000000810000        0x0
  *(.eeprom*)
@@ -372,17 +403,19 @@ END GROUP
 .user_signatures
  *(.user_signatures*)
 
-.stab           0x0000000000000000     0x1134
+.stab           0x0000000000000000     0x16c8
  *(.stab)
  .stab          0x0000000000000000      0x6e4 /usr/lib/gcc/avr/4.8.2/../../../avr/lib/avr6/crtm2560.o
  .stab          0x00000000000006e4      0x738 SevenSegment.o
                                         0x744 (size before relaxing)
- .stab          0x0000000000000e1c      0x318 app.o
-                                        0x4e0 (size before relaxing)
+ .stab          0x0000000000000e1c      0x324 app.o
+                                        0x4ec (size before relaxing)
+ .stab          0x0000000000001140      0x588 ../buzzer/buzzer.o
+                                        0x750 (size before relaxing)
 
-.stabstr        0x0000000000000000      0xd5a
+.stabstr        0x0000000000000000      0xdc8
  *(.stabstr)
- .stabstr       0x0000000000000000      0xd5a /usr/lib/gcc/avr/4.8.2/../../../avr/lib/avr6/crtm2560.o
+ .stabstr       0x0000000000000000      0xdc8 /usr/lib/gcc/avr/4.8.2/../../../avr/lib/avr6/crtm2560.o
 
 .stab.excl
  *(.stab.excl)
@@ -401,6 +434,7 @@ END GROUP
  .comment       0x0000000000000000       0x11 SevenSegment.o
                                          0x12 (size before relaxing)
  .comment       0x0000000000000000       0x12 app.o
+ .comment       0x0000000000000000       0x12 ../buzzer/buzzer.o
 
 .debug
  *(.debug)
