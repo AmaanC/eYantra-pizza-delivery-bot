@@ -1,12 +1,13 @@
-Pin 25 - PD4
-Pin 29 - PD5
-Pin 33 - PD6
-Pin 34 - PD7
+Pin 25 - PD4 - CA0
+Pin 29 - PD5 - CA1
+Pin 33 - PD6 - CA2
+Pin 34 - PD7 - CA3
 
 Port D
 Pin (digital):	7   6   5   4
 Pin (physical):	34  33  29  25
 Pin values:		0	0	0	1 (example for CA0)
+
 
 CA0 - 0x10
 CA1 - 0x20
