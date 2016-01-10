@@ -75,6 +75,7 @@ int seven_convert_to_hex(int num) {
 
 void seven_display_num(int num) {
     int digit;
+    int ret;
     int our_num = 14;
     int MIN_SELECT_VALUE = 0x10;
     int MAX_SELECT_VALUE = 0x20;
@@ -85,19 +86,19 @@ void seven_display_num(int num) {
 
     while (select_value <= MAX_SELECT_VALUE) {
         digit = our_num % 10;
-        if (digit == 6) {
-            buzzer_beep(100); // The buzzer does beep here for when "our_num" becomes 16
-            if (seven_convert_to_hex(digit) == 0x41) {
-                buzzer_beep(200); // The buzzer does beep
-            }
-        }
-        if (digit == 4) {
-            buzzer_beep(300); // The buzzer does beep here for when "our_num" becomes 16
-            if (seven_convert_to_hex(digit) == 0x99) {
-                buzzer_beep(500); // The buzzer does beep
-            }
-        }
-        PORTJ = seven_convert_to_hex(digit);
+        // if (digit == 6) {
+        //     buzzer_beep(100); // The buzzer does beep here for when "our_num" becomes 16
+        //     if (seven_convert_to_hex(digit) == 0x41) {
+        //         buzzer_beep(200); // The buzzer does beep
+        //     }
+        // }
+        // if (digit == 4) {
+        //     buzzer_beep(300); // The buzzer does beep here for when "our_num" becomes 16
+        //     if (seven_convert_to_hex(digit) == 0x99) {
+        //         buzzer_beep(500); // The buzzer does beep
+        //     }
+        // }
+        ret = seven_convert_to_hex(digit);
         _delay_ms(500);
         select_value *= 2;
         if (select_value <= MAX_SELECT_VALUE) {
