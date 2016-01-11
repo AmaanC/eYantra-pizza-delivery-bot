@@ -30,7 +30,7 @@ void seven_init_devices(void)
     sei();   // Enables the global interrupt
 }
 
-int seven_convert_to_hex(unsigned char num) {
+int seven_convert_to_hex(int num) {
     int ret = 0x00;
     int values[10];
     values[0] = 0x03;
