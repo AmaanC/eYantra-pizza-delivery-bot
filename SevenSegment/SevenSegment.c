@@ -5,7 +5,6 @@
 #include <avr/interrupt.h>
 #include <util/delay.h>
 #include "SevenSegment.h"
-#include "../buzzer/buzzer.h"
 
 void seven_segment_pin_config(void)
 {

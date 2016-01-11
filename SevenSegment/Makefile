@@ -6,7 +6,7 @@ CFLAGS=-g -DF_CPU=14745600 -mmcu=atmega2560
 
 # Modify these 2 for each project as needed
 FILENAME=SevenSegment
-DEPS=app.o ../buzzer/buzzer.o
+DEPS=app.o
 
 #Info til AVRDUDE
 PROGRAMMER = avrdude
