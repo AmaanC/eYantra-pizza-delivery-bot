@@ -1,7 +1,6 @@
 #include <avr/io.h>
 #include <avr/interrupt.h>
 #include <util/delay.h>
-
 #include "../timer/timer.h"
 #include "../SevenSegment/SevenSegment.h"
 
