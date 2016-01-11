@@ -4,7 +4,6 @@
 #include "timer.h"
 #include "../buzzer/buzzer.h"
 
-
 // TIMER4 initialize - prescale:1024
 // WGM: 0) Normal, TOP=0xFFFF
 // desired value: 1Hz
@@ -35,7 +34,7 @@ ISR(TIMER4_OVF_vect) {
     timer_1s_magic();
 }
 
-void timer_init_devices(void) {
+void timer_init_devices() {
     cli(); // Clears the global interrupts
     timer_timer4_init();
     TIMSK4 = 0x01; // timer4 overflow interrupt enable

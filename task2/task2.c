@@ -13,7 +13,7 @@ void timer_1s_magic() {
     }
 }
 
-int main(void) {
+int main() {
     timer_init_devices();
     seven_init_devices();
     while(1) {
