@@ -14,14 +14,11 @@ void timer_1s_magic() {
     }
 }
 
-//Main Function
-int main(void)
-{
+int main(void) {
     timer_init_devices();
     seven_init_devices();
-    while(1)
-    {
+    while(1) {
        seven_display_num(count);
        _delay_ms(1);
-   }
+    }
 }
