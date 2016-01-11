@@ -20,11 +20,12 @@ rom.hex : app.out
 	$(OBJCOPY) -j .text -O ihex app.out rom.hex
 
 app.out : $(FILENAME).o app.o
-	$(CC) $(CFLAGS) -o app.out -Wl,-Map,$(FILENAME).map $(FILENAME).o $(DEPS)
+	$(CC) $(CFLAGS) -o app.out $(FILENAME).o $(DEPS)
 
 %.o : %.c
 	$(CC) $(CFLAGS) -Os -c $<
 
+.PHONY: clean program
 clean:
 	rm -f *.o *.out *.map *.hex
 

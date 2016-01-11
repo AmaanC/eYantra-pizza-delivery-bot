@@ -4,29 +4,33 @@
 #include "../buzzer/buzzer.h"
 #include "SevenSegment.h"
 
+
+
 //Main
 int main(void) {
     seven_init_devices();
     buzzer_init_devices();
-    int a = 0x99;
-    // This one fails to work
-    // int a = seven_convert_to_hex(9);
-    int b = 0x49;
+    // int num = 123;
+    // int digit;
+    // int select_value = 0x10;
     while(1) {
-        // seven_display_num(12);
-        // _delay_ms(5);
-        // buzzer_beep(100);
-        PORTD = PORTD & 0x0F;
-        PORTD = PORTD | 0x10;
-        PORTJ = a;
+        seven_display_num(12);
         _delay_ms(1);
-        PORTD = PORTD & 0x0F;
-        PORTD = PORTD | 0x20;
-        PORTJ = b;
-        _delay_ms(1);
-        PORTD = PORTD & 0x0F;
-        PORTD = PORTD | 0x40;
-        PORTJ = a;
-        _delay_ms(1);
+
+        // digit = num % 10;
+        // PORTD = PORTD & 0x0F;
+        // select_value = select_value & 0xF0; // Clear the lower nibble to be safe
+        // PORTD = PORTD | select_value; // Set upper nibble to select value
+        // // PORTJ = values[i % 10];
+        // PORTJ = seven_convert_to_hex(digit);
+        // // if (i > 2) {
+        // //     i = 0;
+        // // }
+        // select_value *= 2;
+        // if (select_value > 0x40) {
+        //     select_value = 0x10;
+        // }
+        // num /= 10;
+        // _delay_ms(1);
     }
 }
