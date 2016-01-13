@@ -1,0 +1,14 @@
+PH    4,5,6,7
+Pins: 4,5,6,26
+
+Connections:
+ 
+Vcc - servo pod pin 7 (pin 8 is on the left)
+Vdd - servo pod pin 6
+OE  - Pin23 (GND)
+
+O  - PD0 - Pin 20
+S0 - PH4 - Pin 4
+S1 - PH5 - Pin 5
+S2 - PH6 - Pin 6
+S3 - PH7 - Pin 26
