@@ -1,7 +1,6 @@
 #include <avr/io.h>
 #include <avr/interrupt.h>
 #include <util/delay.h>
-#include <math.h>
 #include "color_sensor.h"
 
 volatile unsigned long int color_pulse = 0;
@@ -66,6 +65,8 @@ char color_get() {
     // r for red
     // g for green
     // b for blue
+
+    // It'll ideally take 300ms for this function to run, since we collect 100ms of data for each filter
     
     char ret = 'u';
     int red, green, blue;
