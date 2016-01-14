@@ -4,7 +4,7 @@
 #include "color_sensor.h"
 
 volatile unsigned long int color_pulse = 0;
-int color_data_time = 100;
+const int color_data_time = 100;
 
 
 void color_pin_config() {
