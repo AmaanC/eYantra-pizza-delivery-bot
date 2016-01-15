@@ -1,0 +1,61 @@
+Deliver H2 first, LR
+r1->c6 = 1s
+TACAT = 4.5s
+c6->r1 = 1s
+r1->r2->r3->r4->h2 = 15s + 1s
+TAC = 2.5s
+---------------------- 25s
+Deliver to H5, SB
+AT = 2s
+h2->r1 = 16s
+====18s
+r1->c8 = 3s
+TACAT = 4.5s
+c8->r1 = 3s
+r1->r2->r13->r12->r11->r10->r9->h5 = 30+1s
+TAC = 2.5s
+---------------------- 62s (alone), 87s total
+Deliver to H10, SG
+AT=2s
+h5->r1 = 31s
+====33s
+r1->c5 = 1s
+TACAT = 4.5s
+c5->r1 = 1s
+r1->r2->r14->h9->r15->h10 = 25s
+TAC = 2.5s
+---------------------- 67s, 154s
+Deliver to H8, MR
+AT = 2s
+h10->r1 = 25s
+====27s
+r1->c1 = 5s
+TACAT = 4.5s
+c1->r1 = 5s
+r1->r2-r13->h8 = 11s
+TAC = 2.5s
+---------------------- 55s, 209s
+Deliver to H7, SR, LG
+AT = 2s
+h8->r1 = 11s
+====13s
+r1->c2 = 4s
+TACAT = 4.5s (front arm)
+c2->c3 = 1s
+TACAT = 4.5s (back arm)
+c3->r1 = 3s
+r1->r2->r13->r12->h7 = 15s + 1s
+TAC = 2.5s (simultaneous delivery, OH YEAH)
+--------------------- 48.5s, 257.5
+Deliver to H4, LB
+AC = 2s
+h7->r1 = 16s
+====18s
+r1->c7 = 2s
+TACAT = 4.5s
+c7->r1 = 2s
+r1->r2->r3->r4->r5->r6->r7->h4 = 31s
+TAC = 2.5s
+--------------------- 60s, 317.5
+
+SCORE = (600 - 317.5) + (7 * 50) + (7 * 50) + (6*50) + (7* 10) = 1352.5
