@@ -109,7 +109,7 @@ Total time taken for operation = 13s
 Cumulative time taken = 222s
 
 
-Deliver Small Red, LG pizza to H7
+Deliver Small Red and Large Green pizza to H7
 Step 1) r1->c2
     Time taken: 4s
 Step 2) TACAT (front arm)
