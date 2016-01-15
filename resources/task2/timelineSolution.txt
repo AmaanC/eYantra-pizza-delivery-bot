@@ -1,61 +1,169 @@
-Deliver H2 first, LR
-r1->c6 = 1s
-TACAT = 4.5s
-c6->r1 = 1s
-r1->r2->r3->r4->h2 = 15s + 1s
-TAC = 2.5s
----------------------- 25s
-Deliver to H5, SB
-AT = 2s
-h2->r1 = 16s
-====18s
-r1->c8 = 3s
-TACAT = 4.5s
-c8->r1 = 3s
-r1->r2->r13->r12->r11->r10->r9->h5 = 30+1s
-TAC = 2.5s
----------------------- 62s (alone), 87s total
-Deliver to H10, SG
-AT=2s
-h5->r1 = 31s
-====33s
-r1->c5 = 1s
-TACAT = 4.5s
-c5->r1 = 1s
-r1->r2->r14->h9->r15->h10 = 25s
-TAC = 2.5s
----------------------- 67s, 154s
-Deliver to H8, MR
-AT = 2s
-h10->r1 = 25s
-====27s
-r1->c1 = 5s
-TACAT = 4.5s
-c1->r1 = 5s
-r1->r2-r13->h8 = 11s
-TAC = 2.5s
----------------------- 55s, 209s
-Deliver to H7, SR, LG
-AT = 2s
-h8->r1 = 11s
-====13s
-r1->c2 = 4s
-TACAT = 4.5s (front arm)
-c2->c3 = 1s
-TACAT = 4.5s (back arm)
-c3->r1 = 3s
-r1->r2->r13->r12->h7 = 15s + 1s
-TAC = 2.5s (simultaneous delivery, OH YEAH)
---------------------- 48.5s, 257.5
-Deliver to H4, LB
-AC = 2s
-h7->r1 = 16s
-====18s
-r1->c7 = 2s
-TACAT = 4.5s
-c7->r1 = 2s
-r1->r2->r3->r4->r5->r6->r7->h4 = 31s
-TAC = 2.5s
---------------------- 60s, 317.5
+Using the image above for reference, we show the path the bot will take and the time it takes.
+We assume that all deliveries are correct in terms of the bot selecting the correct pizza, delivering it to the correct house, and delivering it within the deposition zone.
+We also assume the following variables for certain actions. Different assumptions would change the maximum score achieved.
+The variables are:
+T = Time taken for robot to turn 90 degrees   = 1s
+A = Time taken for robot to lower / raise arm = 1s
+C = Time taken for robot to close / open grip = 0.5s
 
-SCORE = (600 - 317.5) + (7 * 50) + (7 * 50) + (6*50) + (7* 10) = 1352.5
+Our solution to the timeline is as follows:
+
+Deliver Large Red pizza to H2
+Step 1) r1->c6
+    Time taken: 1s
+Step 2) TACAT
+    Time taken: 4.5s
+Step 3) c6->r1
+    Time taken: 1s
+Step 4) r1->r2->r3->r4->h2
+    Time taken: 15s + 1s = 16s
+Step 5) TAC
+    Time taken: 2.5s
+
+Total time taken for operation = 25s
+Cumulative tips received = 1 (for delivery in time)
+
+
+Go back to pizza counter:
+Step 1) AT
+    Time taken: 2s
+Step 2) h2->r1
+    Time taken: 16s
+
+Total time for operation = 18s
+Cumulative time taken = 43s
+
+
+Deliver Small Blue pizza to H5:
+Step 1) r1->c8
+    Time taken: 3s
+Step 2) TACAT
+    Time taken: 4.5s
+Step 3) c8->r1
+    Time taken: 3s
+Step 4) r1->r2->r13->r12->r11->r10->r9->h5
+    Time taken: 30s + 1s = 31s
+Step 5) TAC
+    Time taken: 2.5s
+
+Total time taken for operation = 44s
+Cumulative time taken = 87s
+Cumulative tips received = 2
+
+
+Go back to pizza counter:
+Step 1) AT
+    Time taken: 2s
+Step 2) h5->r1
+    Time taken: 31s
+Total time taken for operation = 33s
+Cumulative time taken = 120s
+
+
+Deliver Small Green pizza to H10
+Step 1) r1->c5
+    Time taken: 1s
+Step 2) TACAT
+    Time taken: 4.5s
+Step 3) c5->r1
+    Time taken: 1s
+Step 4) r1->r2->r14->h9->r15->h10
+    Time taken: 25s
+Step 5) TAC
+    Time taken: 2.5s
+Total time taken for operation = 34s
+Cumulative time taken = 154s
+Cumulative tips received = 3
+
+
+Go back to pizza counter:
+Step 1) AT
+    Time taken: 2s
+Step 2) h10->r1
+    Time taken: 25s
+Total time taken for operation = 27s
+Cumulative time taken = 181s
+
+
+Deliver Medium Red pizza to H8
+Step 1) r1->c1
+    Time taken: 5s
+Step 2) TACAT
+    Time taken: 4.5s
+Step 3) c1->r1
+    Time taken: 5s
+Step 4) r1->r2-r13->h8
+    Time taken: 11s
+Step 5) TAC
+    Time taken: 2.5s
+Total time taken for operation = 28s
+Cumulative time taken = 209s
+Cumulative tips received = 4
+
+Go back to pizza counter:
+Step 1) AT
+    Time taken: 2s
+Step 2) h8->r1
+    Time taken: 11s
+Total time taken for operation = 13s
+Cumulative time taken = 222s
+
+
+Deliver Small Red, LG pizza to H7
+Step 1) r1->c2
+    Time taken: 4s
+Step 2) TACAT (front arm)
+    Time taken: 4.5s
+Step 3) c2->c3
+    Time taken: 1s
+Step 4) TACAT (back arm)
+    Time taken: 4.5s
+Step 5) c3->r1
+    Time taken: 3s
+Step 6) r1->r2->r13->r12->h7
+    Time taken: 15s + 1s = 16s
+Step 7) TAC (simultaneous delivery)
+    Time taken: 2.5s
+Total time taken for operation = 35.5s
+Cumulative time taken = 257.5
+Cumulative tips received = 6 (for 2 pizza deliveries)
+
+
+Go back to pizza counter:
+Step 1) AT
+    Time taken: 2s
+Step 2) h7->r1
+    Time taken: 16s
+Total time taken for operation = 18s
+Cumulative time taken = 275.5s
+
+
+Deliver Large Blue pizza to H4
+Step 1) r1->c7
+    Time taken: 2s
+Step 2) TACAT
+    Time taken: 4.5s
+Step 3) c7->r1
+    Time taken: 2s
+Step 4) r1->r2->r3->r4->r5->r6->r7->h4
+    Time taken: 31s
+Step 5) TAC
+    Time taken: 2.5s
+Total time taken for operation = 42s
+Cumulative time taken = 317.5
+Cumulative tips received = 6
+
+
+Formula = (600 - T) + (CPD * 50) + (CPCD * 50) + (TIP * 50) + (CD * 10) - (IPD * 20) - (P*50)
+According to our solution:
+T = 317.5
+CPD = 7
+CPCD = 7
+TIP = 6
+CD = 7
+IPD = 0
+P = 0
+
+Therefore:
+Score = (600 - 317.5) + (7 * 50) + (7 * 50) + (6 * 50) + (7 * 10)
+Score = 1352.5
