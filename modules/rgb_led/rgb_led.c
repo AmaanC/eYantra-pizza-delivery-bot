@@ -18,13 +18,13 @@ void rgb_led_glow(char color) {
     int val = 0xF1; // Off by default
     switch(color) {
         case 'r':
-            value = 0x02;
+            val = 0x02;
             break;
         case 'g':
-            value = 0x04;
+            val = 0x04;
             break;
         case 'b':
-            value = 0x08;
+            val = 0x08;
             break;
     }
     rgb_led_off();

@@ -2,6 +2,8 @@ Archive member included because of file (symbol)
 
 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_exit.o)
                               /usr/lib/gcc/avr/4.8.2/../../../avr/lib/avr6/crtm2560.o (exit)
+/usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_copy_data.o)
+                              rgb_led.o (__do_copy_data)
 
 Memory Configuration
 
@@ -117,7 +119,7 @@ END GROUP
 .rela.plt
  *(.rela.plt)
 
-.text           0x0000000000000000      0x170
+.text           0x0000000000000000      0x1a8
  *(.vectors)
  .vectors       0x0000000000000000       0xe4 /usr/lib/gcc/avr/4.8.2/../../../avr/lib/avr6/crtm2560.o
                 0x0000000000000000                __vectors
@@ -155,6 +157,8 @@ END GROUP
  *(.init3)
  *(.init3)
  *(.init4)
+ .init4         0x00000000000000f4       0x1a /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_copy_data.o)
+                0x00000000000000f4                __do_copy_data
  *(.init4)
  *(.init5)
  *(.init5)
@@ -165,97 +169,109 @@ END GROUP
  *(.init8)
  *(.init8)
  *(.init9)
- .init9         0x00000000000000f4        0x8 /usr/lib/gcc/avr/4.8.2/../../../avr/lib/avr6/crtm2560.o
+ .init9         0x000000000000010e        0x8 /usr/lib/gcc/avr/4.8.2/../../../avr/lib/avr6/crtm2560.o
  *(.init9)
  *(.text)
- .text          0x00000000000000fc        0x4 /usr/lib/gcc/avr/4.8.2/../../../avr/lib/avr6/crtm2560.o
-                0x00000000000000fc                __vector_38
-                0x00000000000000fc                __vector_22
-                0x00000000000000fc                __vector_28
-                0x00000000000000fc                __vector_1
-                0x00000000000000fc                __vector_32
-                0x00000000000000fc                __vector_34
-                0x00000000000000fc                __vector_24
-                0x00000000000000fc                __vector_12
-                0x00000000000000fc                __vector_55
-                0x00000000000000fc                __vector_46
-                0x00000000000000fc                __bad_interrupt
-                0x00000000000000fc                __vector_6
-                0x00000000000000fc                __vector_31
-                0x00000000000000fc                __vector_35
-                0x00000000000000fc                __vector_39
-                0x00000000000000fc                __vector_3
-                0x00000000000000fc                __vector_23
-                0x00000000000000fc                __vector_30
-                0x00000000000000fc                __vector_45
-                0x00000000000000fc                __vector_25
-                0x00000000000000fc                __vector_11
-                0x00000000000000fc                __vector_54
-                0x00000000000000fc                __vector_13
-                0x00000000000000fc                __vector_17
-                0x00000000000000fc                __vector_19
-                0x00000000000000fc                __vector_56
-                0x00000000000000fc                __vector_7
-                0x00000000000000fc                __vector_49
-                0x00000000000000fc                __vector_41
-                0x00000000000000fc                __vector_43
-                0x00000000000000fc                __vector_27
-                0x00000000000000fc                __vector_5
-                0x00000000000000fc                __vector_33
-                0x00000000000000fc                __vector_47
-                0x00000000000000fc                __vector_52
-                0x00000000000000fc                __vector_37
-                0x00000000000000fc                __vector_4
-                0x00000000000000fc                __vector_44
-                0x00000000000000fc                __vector_51
-                0x00000000000000fc                __vector_9
-                0x00000000000000fc                __vector_2
-                0x00000000000000fc                __vector_21
-                0x00000000000000fc                __vector_15
-                0x00000000000000fc                __vector_36
-                0x00000000000000fc                __vector_29
-                0x00000000000000fc                __vector_40
-                0x00000000000000fc                __vector_8
-                0x00000000000000fc                __vector_26
-                0x00000000000000fc                __vector_48
-                0x00000000000000fc                __vector_14
-                0x00000000000000fc                __vector_53
-                0x00000000000000fc                __vector_10
-                0x00000000000000fc                __vector_50
-                0x00000000000000fc                __vector_16
-                0x00000000000000fc                __vector_18
-                0x00000000000000fc                __vector_20
-                0x00000000000000fc                __vector_42
- .text          0x0000000000000100       0x28 rgb_led.o
-                0x0000000000000100                rgb_led_init
-                0x0000000000000108                rgb_led_off
-                0x0000000000000110                rgb_led_red
-                0x0000000000000118                rgb_led_green
-                0x0000000000000120                rgb_led_blue
- .text          0x0000000000000128        0x0 app.o
- .text          0x0000000000000128        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_exit.o)
-                0x0000000000000128                . = ALIGN (0x2)
+ .text          0x0000000000000116        0x4 /usr/lib/gcc/avr/4.8.2/../../../avr/lib/avr6/crtm2560.o
+                0x0000000000000116                __vector_38
+                0x0000000000000116                __vector_22
+                0x0000000000000116                __vector_28
+                0x0000000000000116                __vector_1
+                0x0000000000000116                __vector_32
+                0x0000000000000116                __vector_34
+                0x0000000000000116                __vector_24
+                0x0000000000000116                __vector_12
+                0x0000000000000116                __vector_55
+                0x0000000000000116                __vector_46
+                0x0000000000000116                __bad_interrupt
+                0x0000000000000116                __vector_6
+                0x0000000000000116                __vector_31
+                0x0000000000000116                __vector_35
+                0x0000000000000116                __vector_39
+                0x0000000000000116                __vector_3
+                0x0000000000000116                __vector_23
+                0x0000000000000116                __vector_30
+                0x0000000000000116                __vector_45
+                0x0000000000000116                __vector_25
+                0x0000000000000116                __vector_11
+                0x0000000000000116                __vector_54
+                0x0000000000000116                __vector_13
+                0x0000000000000116                __vector_17
+                0x0000000000000116                __vector_19
+                0x0000000000000116                __vector_56
+                0x0000000000000116                __vector_7
+                0x0000000000000116                __vector_49
+                0x0000000000000116                __vector_41
+                0x0000000000000116                __vector_43
+                0x0000000000000116                __vector_27
+                0x0000000000000116                __vector_5
+                0x0000000000000116                __vector_33
+                0x0000000000000116                __vector_47
+                0x0000000000000116                __vector_52
+                0x0000000000000116                __vector_37
+                0x0000000000000116                __vector_4
+                0x0000000000000116                __vector_44
+                0x0000000000000116                __vector_51
+                0x0000000000000116                __vector_9
+                0x0000000000000116                __vector_2
+                0x0000000000000116                __vector_21
+                0x0000000000000116                __vector_15
+                0x0000000000000116                __vector_36
+                0x0000000000000116                __vector_29
+                0x0000000000000116                __vector_40
+                0x0000000000000116                __vector_8
+                0x0000000000000116                __vector_26
+                0x0000000000000116                __vector_48
+                0x0000000000000116                __vector_14
+                0x0000000000000116                __vector_53
+                0x0000000000000116                __vector_10
+                0x0000000000000116                __vector_50
+                0x0000000000000116                __vector_16
+                0x0000000000000116                __vector_18
+                0x0000000000000116                __vector_20
+                0x0000000000000116                __vector_42
+ .text          0x000000000000011a       0x3a rgb_led.o
+                0x000000000000011a                rgb_led_init
+                0x0000000000000122                rgb_led_off
+                0x000000000000012a                rgb_led_glow
+ .text          0x0000000000000154        0x0 app.o
+ .text          0x0000000000000154        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_exit.o)
+ .text          0x0000000000000154        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_copy_data.o)
+                0x0000000000000154                . = ALIGN (0x2)
  *(.text.*)
- .text.startup  0x0000000000000128       0x44 app.o
-                0x0000000000000128                main
+ .text.startup  0x0000000000000154       0x50 app.o
+                0x0000000000000154                main
  .text.libgcc.mul
-                0x000000000000016c        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_exit.o)
+                0x00000000000001a4        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_exit.o)
  .text.libgcc.div
-                0x000000000000016c        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_exit.o)
- .text.libgcc   0x000000000000016c        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_exit.o)
+                0x00000000000001a4        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_exit.o)
+ .text.libgcc   0x00000000000001a4        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_exit.o)
  .text.libgcc.prologue
-                0x000000000000016c        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_exit.o)
+                0x00000000000001a4        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_exit.o)
  .text.libgcc.builtins
-                0x000000000000016c        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_exit.o)
+                0x00000000000001a4        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_exit.o)
  .text.libgcc.fmul
-                0x000000000000016c        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_exit.o)
+                0x00000000000001a4        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_exit.o)
  .text.libgcc.fixed
-                0x000000000000016c        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_exit.o)
-                0x000000000000016c                . = ALIGN (0x2)
+                0x00000000000001a4        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_exit.o)
+ .text.libgcc.mul
+                0x00000000000001a4        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_copy_data.o)
+ .text.libgcc.div
+                0x00000000000001a4        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_copy_data.o)
+ .text.libgcc   0x00000000000001a4        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_copy_data.o)
+ .text.libgcc.prologue
+                0x00000000000001a4        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_copy_data.o)
+ .text.libgcc.builtins
+                0x00000000000001a4        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_copy_data.o)
+ .text.libgcc.fmul
+                0x00000000000001a4        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_copy_data.o)
+ .text.libgcc.fixed
+                0x00000000000001a4        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_copy_data.o)
+                0x00000000000001a4                . = ALIGN (0x2)
  *(.fini9)
- .fini9         0x000000000000016c        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_exit.o)
-                0x000000000000016c                exit
-                0x000000000000016c                _exit
+ .fini9         0x00000000000001a4        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_exit.o)
+                0x00000000000001a4                exit
+                0x00000000000001a4                _exit
  *(.fini9)
  *(.fini8)
  *(.fini8)
@@ -274,44 +290,48 @@ END GROUP
  *(.fini1)
  *(.fini1)
  *(.fini0)
- .fini0         0x000000000000016c        0x4 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_exit.o)
+ .fini0         0x00000000000001a4        0x4 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_exit.o)
  *(.fini0)
-                0x0000000000000170                _etext = .
+                0x00000000000001a8                _etext = .
 
-.data           0x0000000000800200        0x0 load address 0x0000000000000170
+.data           0x0000000000800200       0x12 load address 0x00000000000001a8
                 0x0000000000800200                PROVIDE (__data_start, .)
  *(.data)
  .data          0x0000000000800200        0x0 /usr/lib/gcc/avr/4.8.2/../../../avr/lib/avr6/crtm2560.o
  .data          0x0000000000800200        0x0 rgb_led.o
  .data          0x0000000000800200        0x0 app.o
  .data          0x0000000000800200        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_exit.o)
+ .data          0x0000000000800200        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_copy_data.o)
  *(.data*)
  *(.rodata)
+ .rodata        0x0000000000800200       0x11 rgb_led.o
  *(.rodata*)
  *(.gnu.linkonce.d*)
-                0x0000000000800200                . = ALIGN (0x2)
-                0x0000000000800200                _edata = .
-                0x0000000000800200                PROVIDE (__data_end, .)
+                0x0000000000800212                . = ALIGN (0x2)
+ *fill*         0x0000000000800211        0x1 
+                0x0000000000800212                _edata = .
+                0x0000000000800212                PROVIDE (__data_end, .)
 
-.bss            0x0000000000800200        0x0
-                0x0000000000800200                PROVIDE (__bss_start, .)
+.bss            0x0000000000800212        0x0
+                0x0000000000800212                PROVIDE (__bss_start, .)
  *(.bss)
- .bss           0x0000000000800200        0x0 /usr/lib/gcc/avr/4.8.2/../../../avr/lib/avr6/crtm2560.o
- .bss           0x0000000000800200        0x0 rgb_led.o
- .bss           0x0000000000800200        0x0 app.o
- .bss           0x0000000000800200        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_exit.o)
+ .bss           0x0000000000800212        0x0 /usr/lib/gcc/avr/4.8.2/../../../avr/lib/avr6/crtm2560.o
+ .bss           0x0000000000800212        0x0 rgb_led.o
+ .bss           0x0000000000800212        0x0 app.o
+ .bss           0x0000000000800212        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_exit.o)
+ .bss           0x0000000000800212        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_copy_data.o)
  *(.bss*)
  *(COMMON)
-                0x0000000000800200                PROVIDE (__bss_end, .)
-                0x0000000000000170                __data_load_start = LOADADDR (.data)
-                0x0000000000000170                __data_load_end = (__data_load_start + SIZEOF (.data))
+                0x0000000000800212                PROVIDE (__bss_end, .)
+                0x00000000000001a8                __data_load_start = LOADADDR (.data)
+                0x00000000000001ba                __data_load_end = (__data_load_start + SIZEOF (.data))
 
-.noinit         0x0000000000800200        0x0
-                0x0000000000800200                PROVIDE (__noinit_start, .)
+.noinit         0x0000000000800212        0x0
+                0x0000000000800212                PROVIDE (__noinit_start, .)
  *(.noinit*)
-                0x0000000000800200                PROVIDE (__noinit_end, .)
-                0x0000000000800200                _end = .
-                0x0000000000800200                PROVIDE (__heap_start, .)
+                0x0000000000800212                PROVIDE (__noinit_end, .)
+                0x0000000000800212                _end = .
+                0x0000000000800212                PROVIDE (__heap_start, .)
 
 .eeprom         0x0000000000810000        0x0
  *(.eeprom*)
@@ -332,17 +352,17 @@ END GROUP
 .user_signatures
  *(.user_signatures*)
 
-.stab           0x0000000000000000     0x1044
+.stab           0x0000000000000000      0xfe4
  *(.stab)
  .stab          0x0000000000000000      0x6e4 /usr/lib/gcc/avr/4.8.2/../../../avr/lib/avr6/crtm2560.o
- .stab          0x00000000000006e4      0x5f4 rgb_led.o
-                                        0x600 (size before relaxing)
- .stab          0x0000000000000cd8      0x36c app.o
+ .stab          0x00000000000006e4      0x594 rgb_led.o
+                                        0x5a0 (size before relaxing)
+ .stab          0x0000000000000c78      0x36c app.o
                                         0x534 (size before relaxing)
 
-.stabstr        0x0000000000000000      0xcb1
+.stabstr        0x0000000000000000      0xc9f
  *(.stabstr)
- .stabstr       0x0000000000000000      0xcb1 /usr/lib/gcc/avr/4.8.2/../../../avr/lib/avr6/crtm2560.o
+ .stabstr       0x0000000000000000      0xc9f /usr/lib/gcc/avr/4.8.2/../../../avr/lib/avr6/crtm2560.o
 
 .stab.excl
  *(.stab.excl)
