@@ -30,7 +30,7 @@ void right_encoder_pin_config (void)
 }
 
 //Function to initialize ports
-void port_init()
+void pos_encoder_port_init()
 {
  motion_pin_config(); //robot motion pins config
  left_encoder_pin_config(); //left encoder pin config
@@ -230,7 +230,7 @@ void soft_right_2_degrees(unsigned int Degrees)
 void init_devices()
 {
  cli(); //Clears the global interrupt
- port_init();  //Initializes all the ports
+ pos_encoder_port_init();  //Initializes all the ports
  left_position_encoder_interrupt_init();
  right_position_encoder_interrupt_init();
  sei();   // Enables the global interrupt 
