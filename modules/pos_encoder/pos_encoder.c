@@ -7,7 +7,7 @@ unsigned long int ShaftCountRight = 0; //to keep track of right position encoder
 unsigned int Degrees; //to accept angle in degrees for turning
 
 //Function to configure ports to enable robot's motion
-void motion_pin_config (void) 
+void pos_encoder_motion_pin_config (void) 
 {
  DDRA = DDRA | 0x0F;
  PORTA = PORTA & 0xF0;
@@ -68,7 +68,7 @@ ISR(INT4_vect)
 
 
 //Function used for setting motor's direction
-void motion_set (unsigned char Direction)
+void pos_encoder_motion_set (unsigned char Direction)
 {
  unsigned char PortARestore = 0;
 
@@ -79,54 +79,54 @@ void motion_set (unsigned char Direction)
  PORTA = PortARestore; 		// executing the command
 }
 
-void forward (void) //both wheels forward
+void pos_encoder_forward (void) //both wheels forward
 {
   motion_set(0x06);
 }
 
-void back (void) //both wheels backward
+void pos_encoder_back (void) //both wheels backward
 {
   motion_set(0x09);
 }
 
-void left (void) //Left wheel backward, Right wheel forward
+void pos_encoder_left (void) //Left wheel backward, Right wheel forward
 {
   motion_set(0x05);
 }
 
-void right (void) //Left wheel forward, Right wheel backward
+void pos_encoder_right (void) //Left wheel forward, Right wheel backward
 {
   motion_set(0x0A);
 }
 
-void soft_left (void) //Left wheel stationary, Right wheel forward
+void pos_encoder_soft_left (void) //Left wheel stationary, Right wheel forward
 {
  motion_set(0x04);
 }
 
-void soft_right (void) //Left wheel forward, Right wheel is stationary
+void pos_encoder_soft_right (void) //Left wheel forward, Right wheel is stationary
 {
  motion_set(0x02);
 }
 
-void soft_left_2 (void) //Left wheel backward, right wheel stationary
+void pos_encoder_soft_left_2 (void) //Left wheel backward, right wheel stationary
 {
  motion_set(0x01);
 }
 
-void soft_right_2 (void) //Left wheel stationary, Right wheel backward
+void pos_encoder_soft_right_2 (void) //Left wheel stationary, Right wheel backward
 {
  motion_set(0x08);
 }
 
-void stop (void)
+void pos_encoder_stop (void)
 {
   motion_set(0x00);
 }
 
 
 //Function used for turning robot by specified degrees
-void angle_rotate(unsigned int Degrees)
+void pos_encoder_angle_rotate(unsigned int Degrees)
 {
  float ReqdShaftCount = 0;
  unsigned long int ReqdShaftCountInt = 0;
@@ -146,7 +146,7 @@ void angle_rotate(unsigned int Degrees)
 
 //Function used for moving robot forward by specified distance
 
-void linear_distance_mm(unsigned int DistanceInMM)
+void pos_encoder_linear_distance_mm(unsigned int DistanceInMM)
 {
  float ReqdShaftCount = 0;
  unsigned long int ReqdShaftCountInt = 0;
@@ -165,19 +165,19 @@ void linear_distance_mm(unsigned int DistanceInMM)
  stop(); //Stop robot
 }
 
-void forward_mm(unsigned int DistanceInMM)
+void pos_encoder_forward_mm(unsigned int DistanceInMM)
 {
  forward();
  linear_distance_mm(DistanceInMM);
 }
 
-void back_mm(unsigned int DistanceInMM)
+void pos_encoder_back_mm(unsigned int DistanceInMM)
 {
  back();
  linear_distance_mm(DistanceInMM);
 }
 
-void left_degrees(unsigned int Degrees) 
+void pos_encoder_left_degrees(unsigned int Degrees) 
 {
 // 88 pulses for 360 degrees rotation 4.090 degrees per count
  left(); //Turn left
@@ -186,7 +186,7 @@ void left_degrees(unsigned int Degrees)
 
 
 
-void right_degrees(unsigned int Degrees)
+void pos_encoder_right_degrees(unsigned int Degrees)
 {
 // 88 pulses for 360 degrees rotation 4.090 degrees per count
  right(); //Turn right
@@ -194,7 +194,7 @@ void right_degrees(unsigned int Degrees)
 }
 
 
-void soft_left_degrees(unsigned int Degrees)
+void pos_encoder_soft_left_degrees(unsigned int Degrees)
 {
  // 176 pulses for 360 degrees rotation 2.045 degrees per count
  soft_left(); //Turn soft left
@@ -202,7 +202,7 @@ void soft_left_degrees(unsigned int Degrees)
  angle_rotate(Degrees);
 }
 
-void soft_right_degrees(unsigned int Degrees)
+void pos_encoder_soft_right_degrees(unsigned int Degrees)
 {
  // 176 pulses for 360 degrees rotation 2.045 degrees per count
  soft_right();  //Turn soft right
@@ -210,7 +210,7 @@ void soft_right_degrees(unsigned int Degrees)
  angle_rotate(Degrees);
 }
 
-void soft_left_2_degrees(unsigned int Degrees)
+void pos_encoder_soft_left_2_degrees(unsigned int Degrees)
 {
  // 176 pulses for 360 degrees rotation 2.045 degrees per count
  soft_left_2(); //Turn reverse soft left
@@ -218,7 +218,7 @@ void soft_left_2_degrees(unsigned int Degrees)
  angle_rotate(Degrees);
 }
 
-void soft_right_2_degrees(unsigned int Degrees)
+void pos_encoder_soft_right_2_degrees(unsigned int Degrees)
 {
  // 176 pulses for 360 degrees rotation 2.045 degrees per count
  soft_right_2();  //Turn reverse soft right
@@ -227,7 +227,7 @@ void soft_right_2_degrees(unsigned int Degrees)
 }
 
 //Function to initialize all the devices
-void init_devices()
+void pos_encoder_init_devices()
 {
  cli(); //Clears the global interrupt
  pos_encoder_port_init();  //Initializes all the ports
