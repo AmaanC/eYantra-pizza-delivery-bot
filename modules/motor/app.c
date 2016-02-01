@@ -7,8 +7,8 @@
 int main()
 {
     init_devices();
-    velocity (126.25905331, 153.89310331); //Set robot velocity here. Smaller the value lesser will be the velocity
-                         //Try different valuse between 0 to 255
+    velocity (126.25905331, 153.89310331);
+    // Try different valuse between 0 to 255
     while(1)
     {
     
