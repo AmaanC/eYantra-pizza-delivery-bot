@@ -7,12 +7,10 @@
 void main() {
     servo_init_devices();
 
-    servo_servo_1(90);
+    servo_1_to(90);
     _delay_ms(1000);
-    servo_servo_1(0);
+    servo_1_to(0);
     while(1) {
-        // _delay_ms(5000);
-        // servo_1_move(90, 0);
-        // _delay_ms(5000);
+
     }
 }
