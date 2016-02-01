@@ -5,6 +5,7 @@
 #include <avr/interrupt.h>
 #include <util/delay.h>
 #include "buzzer.h"
+#include "../custom_delay/custom_delay.h"
 
 //Function to initialize Buzzer 
 void buzzer_pin_config (void)
@@ -34,20 +35,11 @@ void buzzer_off (void)
  PORTC = port_restore;
 }
 
-void my_delay_ms(int ms)
-{
-  while (0 < ms)
-  {  
-    _delay_ms(1);
-    --ms;
-  }
-}
-
 void buzzer_beep(int ms) {
     buzzer_on();
-    my_delay_ms(ms);
+    custom_delay(ms);
     buzzer_off();
-    my_delay_ms(ms);
+    custom_delay(ms);
 }
 
 void buzzer_init_devices (void)

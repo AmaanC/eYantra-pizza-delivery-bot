@@ -21,6 +21,7 @@ Address of section .data set to 0x800200
 LOAD /usr/lib/gcc/avr/4.8.2/../../../avr/lib/avr6/crtm2560.o
 LOAD buzzer.o
 LOAD app.o
+LOAD ../custom_delay/custom_delay.o
 START GROUP
 LOAD /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a
 LOAD /usr/lib/gcc/avr/4.8.2/../../../avr/lib/avr6/libm.a
@@ -226,15 +227,16 @@ END GROUP
                 0x00000000000000fc                __vector_18
                 0x00000000000000fc                __vector_20
                 0x00000000000000fc                __vector_42
- .text          0x0000000000000100       0x58 buzzer.o
+ .text          0x0000000000000100       0x42 buzzer.o
                 0x0000000000000100                buzzer_pin_config
                 0x0000000000000106                buzzer_port_init
                 0x000000000000010a                buzzer_on
                 0x0000000000000112                buzzer_off
-                0x000000000000011a                my_delay_ms
-                0x0000000000000130                buzzer_beep
-                0x000000000000014e                buzzer_init_devices
- .text          0x0000000000000158        0x0 app.o
+                0x000000000000011a                buzzer_beep
+                0x0000000000000138                buzzer_init_devices
+ .text          0x0000000000000142        0x0 app.o
+ .text          0x0000000000000142       0x16 ../custom_delay/custom_delay.o
+                0x0000000000000142                custom_delay
  .text          0x0000000000000158        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_exit.o)
                 0x0000000000000158                . = ALIGN (0x2)
  *(.text.*)
@@ -286,6 +288,7 @@ END GROUP
  .data          0x0000000000800200        0x0 /usr/lib/gcc/avr/4.8.2/../../../avr/lib/avr6/crtm2560.o
  .data          0x0000000000800200        0x0 buzzer.o
  .data          0x0000000000800200        0x0 app.o
+ .data          0x0000000000800200        0x0 ../custom_delay/custom_delay.o
  .data          0x0000000000800200        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_exit.o)
  *(.data*)
  *(.rodata)
@@ -301,6 +304,7 @@ END GROUP
  .bss           0x0000000000800200        0x0 /usr/lib/gcc/avr/4.8.2/../../../avr/lib/avr6/crtm2560.o
  .bss           0x0000000000800200        0x0 buzzer.o
  .bss           0x0000000000800200        0x0 app.o
+ .bss           0x0000000000800200        0x0 ../custom_delay/custom_delay.o
  .bss           0x0000000000800200        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_exit.o)
  *(.bss*)
  *(COMMON)
@@ -334,17 +338,19 @@ END GROUP
 .user_signatures
  *(.user_signatures*)
 
-.stab           0x0000000000000000     0x1170
+.stab           0x0000000000000000     0x1410
  *(.stab)
  .stab          0x0000000000000000      0x6e4 /usr/lib/gcc/avr/4.8.2/../../../avr/lib/avr6/crtm2560.o
- .stab          0x00000000000006e4      0x744 buzzer.o
-                                        0x750 (size before relaxing)
- .stab          0x0000000000000e28      0x348 app.o
+ .stab          0x00000000000006e4      0x6b4 buzzer.o
+                                        0x6c0 (size before relaxing)
+ .stab          0x0000000000000d98      0x348 app.o
                                         0x510 (size before relaxing)
+ .stab          0x00000000000010e0      0x330 ../custom_delay/custom_delay.o
+                                        0x4c8 (size before relaxing)
 
-.stabstr        0x0000000000000000      0xccf
+.stabstr        0x0000000000000000      0xd63
  *(.stabstr)
- .stabstr       0x0000000000000000      0xccf /usr/lib/gcc/avr/4.8.2/../../../avr/lib/avr6/crtm2560.o
+ .stabstr       0x0000000000000000      0xd63 /usr/lib/gcc/avr/4.8.2/../../../avr/lib/avr6/crtm2560.o
 
 .stab.excl
  *(.stab.excl)
@@ -363,6 +369,7 @@ END GROUP
  .comment       0x0000000000000000       0x11 buzzer.o
                                          0x12 (size before relaxing)
  .comment       0x0000000000000000       0x12 app.o
+ .comment       0x0000000000000000       0x12 ../custom_delay/custom_delay.o
 
 .debug
  *(.debug)
