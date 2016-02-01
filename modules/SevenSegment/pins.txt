@@ -17,4 +17,7 @@ CA3 - 0x80
 
 Port J
 a   b   c   d   e   f   g   DEC
-40  39  42  41  44  43  46  45
+40  39  42  41  44  43  46  21
+
+Vcc - DEC (not PJ0!)
+We do this because DEC is always 1, so we don't need to waste a GPIO on it
