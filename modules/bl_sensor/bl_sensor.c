@@ -74,7 +74,7 @@ unsigned char bl_sensor_ADC_Conversion(unsigned char Ch)
 	return a;
 }
 
-// sensor_num should be 1, 2, 3
+// sensor_num should be 1, 2, 3, where 1 is the sensor on the right
 unsigned char bl_sensor_get(unsigned char sensor_num)
 {
 	return bl_sensor_ADC_Conversion(sensor_num) ;
