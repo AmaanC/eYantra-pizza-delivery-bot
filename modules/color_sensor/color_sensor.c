@@ -9,6 +9,7 @@ const int color_data_time = 100;
 
 void color_pin_config() {
     DDRH = DDRH | 0xF0; // Set upper nibble of Port H as output
+    DDRJ = DDRJ | 0x01; // Set PJ0 as output
     DDRD = DDRD & 0xFE; // Set pin 0 of Port D as input (interrupt)
 }
 
@@ -49,7 +50,7 @@ int color_get_blue() {
 }
 
 void color_sensor_scaling() {
-    PORTH = PORTH | 0x10; //set S0 high
+    PORTJ = PORTJ | 0x01; //set S0 high
     PORTH = PORTH | 0x20; //set S1 high
 }
 

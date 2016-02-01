@@ -8,7 +8,7 @@ Vdd - servo pod pin 6
 OE  - Pin23 (GND)
 
 O  - PD0 - Pin 20
-S0 - PH4 - Pin 4
+S0 - PJ0 - Pin 45
 S1 - PH5 - Pin 5
 S2 - PH6 - Pin 6
 S3 - PH7 - Pin 26
