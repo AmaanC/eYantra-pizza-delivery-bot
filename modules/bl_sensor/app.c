@@ -2,7 +2,7 @@
 #include <avr/interrupt.h>
 #include <util/delay.h>
 #include <math.h> //included to support power function
-#include "Bl_sensor.h"
+#include "bl_sensor.h"
 
 //Main Function
 int main()

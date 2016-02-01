@@ -5,7 +5,7 @@ OBJCOPY=avr-objcopy
 CFLAGS=-g -DF_CPU=14745600 -mmcu=atmega2560
 
 # Modify these 2 for each project as needed
-FILENAME=Bl_sensor
+FILENAME=bl_sensor
 DEPS=app.o
 
 #Info til AVRDUDE
