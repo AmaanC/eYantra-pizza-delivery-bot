@@ -1,4 +1,5 @@
-We're recording edges here. The edge between Node1 and Node2 will be shown as:
+We're recording edges here. Remember to put spaces and commas exactly as shown.
+The edge between Node1 and Node2 will be shown as:
 Node1, Node2, cost
 S, r1, 10
 
