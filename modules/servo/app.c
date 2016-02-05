@@ -7,16 +7,17 @@
 void main() {
     servo_init_devices();
 
-    servo_1_to(0);
-    servo_2_to(0);
+    servo_1_to(20); // Lever
+    servo_2_to(0); // Gripper
+    _delay_ms(2000);
+    servo_1_to(115); // Lower arm
+    _delay_ms(2000);
+    servo_2_to(85); // Close grip
+    
     servo_3_to(0);
     servo_4_to(0);
     
-    _delay_ms(3000);
-    
     while(1) {
-        servo_1_to(67);
-        servo_2_to(60);
         servo_3_to(60);
         servo_4_to(60);
     }

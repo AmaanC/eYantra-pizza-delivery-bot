@@ -1,5 +1,6 @@
-Servo 4's PWM wire (orange or white) goes to PH4
-PWM wire - Pin 4
+Servo 4 PWM wire - Pin 4 - PH4
+Black (GND) - Pin 23
+Red (Vcc) - Pin 22
 
 For all the others, connect them on the servo pod with the black wire (GND)
 facing the bot's back (toward the charging port)
