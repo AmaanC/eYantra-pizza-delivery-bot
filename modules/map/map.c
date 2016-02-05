@@ -17,17 +17,17 @@
 Node *current_node;
 
 // Returns a pointer to a node
-Node* CreateNode(int x, int y, int num_connections) {
+Node* CreateNode(int x, int y, int num_connected) {
     int i;
     Node *new_node;
     new_node = malloc(sizeof(Node));
 
     new_node->x = x;
     new_node->y = y;
-    new_node->num_connections = num_connections;
+    new_node->num_connected = num_connected;
 
-    new_node->connected = malloc(new_node->num_connections * sizeof(Connection*)); // Create space for an array of connection pointers
-    for (i = 0; i < num_connections; i++) {
+    new_node->connected = malloc(new_node->num_connected * sizeof(Connection*)); // Create space for an array of connection pointers
+    for (i = 0; i < num_connected; i++) {
         new_node->connected[i] = malloc(sizeof(Connection)); // Create space for every individual connection in the array
     }
 
@@ -62,7 +62,7 @@ void InitGraph() {
     start = CreateNode(0, 0, 1);
     r1 = CreateNode(20, 20, 1);
 
-    // Actually create the connections between the nodes with the cost at the edge
+    // Actually create the connected between the nodes with the cost at the edge
     ConnectNodes(start, r1, 10);
 
     current_node = start; // We're assuming that we'll start there
@@ -114,14 +114,46 @@ void MoveBotToNode(Node* target_node) {
     // 2) Update distances from current_node
     // 3) Select next current_node based on the lowest cost found (for a node which hasn't been *done*)
     // 4) Repeat from step 2
-    Node *current_node;
+    int i, loop_limiter;
+    int MAX_ITERATIONS = 10000;
+    int accum_cost, temp_cost;
+    // Initialize to infinity so it can be compared and the lower cost will be selected
+    float lowest_cost = INFINITY;
+    // current_node: the node we're looking at right now
+    // counter_node: the node, which is a neighbour of current_node, that we're updating the cost for
+    // candidate_node: the node with the lowest cost so far, which is a candidate for being the 
+    //                 current_node in the next iteration
+    Node *current_node, *counter_node, *candidate_node;
     Node *source_node = GetCurrentNode();
     source_node->path_cost = 0;
     source_node->done = TRUE;
 
     current_node = source_node;
     DFSEval(source_node, source_node->visited, InitNodesDijkstra);
+    loop_limiter = 0;
     while (current_node != target_node) {
+        // The accum_cost is the cost from the source_node to the current_node
+        // It'll be used to update the costs of all neighbours
+        accum_cost = current_node->path_cost;
         // Update path_costs for all neighbouring nodes
+        for (i = 0; i < current_node->counter; i++) {
+            counter_node = current_node->connected[i]->ptr;
+            if (counter_node->done != TRUE) {
+                temp_cost = accum_cost + current_node->connected[i]->cost;
+                if (temp_cost < counter_node->path_cost) {
+                    counter_node->path_cost = temp_cost;
+                }
+                if (counter_node->path_cost < lowest_cost) {
+                    lowest_cost = counter_node->path_cost;
+                    candidate_node = counter_node;
+                }
+            }
+        }
+        current_node = candidate_node;
+        loop_limiter++;
+        if (loop_limiter >= MAX_ITERATIONS) {
+            printf("Too many iterations!\n");
+            break;
+        }
     }
 }

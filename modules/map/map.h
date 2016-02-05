@@ -17,12 +17,12 @@ typedef struct NodeStruct {
     int x;
     int y;
     // Length of the array called "connected" below
-    int num_connections;
+    int num_connected;
     // So we can easily "push" more nodes using the function. Just counts how many connections have been made already
     int counter;
 
     // NOT SET MANUALLY. This is used during Dijkstra's algorithm and is subject to change based on the source & target
-    int path_cost;
+    float path_cost;
     // Boolean value used during Dijkstra's algorithm to indicate whether or not the optimal path for the current
     // node has been found
     // TODO: Consider using bit fields?
@@ -40,7 +40,7 @@ typedef struct NodeStruct {
     Connection **connected;
 } Node;
 
-Node* CreateNode(int x, int y, int num_connections);
+Node* CreateNode(int x, int y, int num_connected);
 void ConnectNodes(Node *a, Node *b, int cost);
 void InitGraph();
 Node* GetCurrentNode();
