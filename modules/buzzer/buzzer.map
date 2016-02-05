@@ -348,9 +348,9 @@ END GROUP
  .stab          0x00000000000010e0      0x330 ../custom_delay/custom_delay.o
                                         0x4c8 (size before relaxing)
 
-.stabstr        0x0000000000000000      0xd63
+.stabstr        0x0000000000000000      0xd42
  *(.stabstr)
- .stabstr       0x0000000000000000      0xd63 /usr/lib/gcc/avr/4.8.2/../../../avr/lib/avr6/crtm2560.o
+ .stabstr       0x0000000000000000      0xd42 /usr/lib/gcc/avr/4.8.2/../../../avr/lib/avr6/crtm2560.o
 
 .stab.excl
  *(.stab.excl)
