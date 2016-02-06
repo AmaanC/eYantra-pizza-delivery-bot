@@ -17,14 +17,16 @@
 Node *current_node;
 
 // Returns a pointer to a node
-Node* CreateNode(int x, int y, int num_connected) {
+Node* CreateNode(int x, int y, int num_connected, char *name) {
     int i;
     Node *new_node;
     new_node = malloc(sizeof(Node));
+    new_node->name = malloc(5); // 5 char array for the name
 
     new_node->x = x;
     new_node->y = y;
     new_node->num_connected = num_connected;
+    new_node->name = name;
 
     new_node->connected = malloc(new_node->num_connected * sizeof(Connection*)); // Create space for an array of connection pointers
     for (i = 0; i < num_connected; i++) {
@@ -59,8 +61,8 @@ void InitGraph() {
 
     Node *start, *r1;
     // Initialize the 2 nodes with their x, y, and number of connected nodes
-    start = CreateNode(0, 0, 1);
-    r1 = CreateNode(20, 20, 1);
+    start = CreateNode(0, 0, 1, "S");
+    r1 = CreateNode(20, 20, 1, "r1");
 
     // Actually create the connected between the nodes with the cost at the edge
     ConnectNodes(start, r1, 10);
@@ -104,8 +106,11 @@ void InitNodesDijkstra(Node* current_node) {
 // It'll also update the current_node variable, of course.
 void MoveBotToNode(Node* target_node) {
     // For Dijkstra's algorithm, we need the following:
-    // An array to store the current minimum distances to nodes
-    // An array to store the current optimal path to target
+    // A place to store the current minimum distances to nodes (stored on each Node struct)
+    // Every Node stores a prev_index, which refers to the node from where we got to the
+    // current one (i.e. using the optimal path, because the prev_index will be updated
+    // whenever we find a lower cost path to the current node)
+    // This way, to find the path from source to target, we can use reverse iteration!
 
     // Since we use an adjacency list, to get all the vertices, we
     // can use DFS
