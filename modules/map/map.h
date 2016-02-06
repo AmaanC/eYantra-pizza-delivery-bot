@@ -11,6 +11,7 @@ typedef struct _Connection {
 // 1 is a pizza pick up node
 // 2 is a house door node
 // 3 is a house deposit node
+typedef struct NodeStruct Node; // Forward declaration
 typedef struct NodeStruct {
     // A char array for the name string. TODO: Remove for finals
     char *name;
@@ -28,11 +29,16 @@ typedef struct NodeStruct {
     // node has been found
     // TODO: Consider using bit fields?
     int done;
-    // Index of the node (in this node's connected array) which got us to this node in Dijkstra's algorithm.
-    // This works because our graph is an undirected graph (in a way)
-    // We store the prev_index so that we can go backwards from the target node to find
+    // Pointer to the node which got us to this node in Dijkstra's algorithm.
+    // We store the prev_node so that we can go backwards from the target node to find
     // the path we took to get there all the way from the source node.
-    int prev_index;
+    // For A-B-C-D
+    // D->prev_node = C
+    // C->prev_node = B
+    // B->prev_node = A (which is the source)
+    // If we use reverse iteration like this in a stack, we can pop the nodes off the stack
+    // and just move the bot to each node one by one
+    Node *prev_node;
 
     // Used as a toggle / flag during DFS. Since we'll be running DFS several times, the plan is to
     // check the source node's visited value initially, and use that as the "unvisited value".
