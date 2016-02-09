@@ -156,7 +156,7 @@ Node* GetLowestUndone(Node **node_costs, int len) {
 // This function will figure that path out and call move_to(B.x, B.y)
 // first. Then it'll call move_to(C.x, C.y) when it is done.
 // It'll also update the current_node variable, of course.
-void MoveBotToNode(Node* target_node) {
+PathStack* Dijkstra(Node *source_node, Node *target_node) {
     // Refer to map.h for some documentation too, since it explains how some member variables are used
     // For Dijkstra's algorithm, we need the following:
     // A place to store the current minimum distances to nodes (stored on each Node struct)
@@ -187,22 +187,21 @@ void MoveBotToNode(Node* target_node) {
     // current_node: the node we're looking at right now
     // counter_node: the node, which is a neighbour of current_node, that we're updating the cost for
     Node *current_node, *counter_node;
-    Node *source_node = GetCurrentNode();
     // An array used to find the next lowest cost node, required for the next iteration of cost updating
     // This is an array of Node pointers
     Node **node_costs;
     // Length of the array above
     int node_costs_len = 0;
     // Records the actual final path to be taken from source to dest
-    Node **final_path;
-    // Helps "push" elements to the array above and to record the length when done pushing
-    int final_path_ctr = 0;
+    PathStack *final_path;
 
     current_node = source_node;
     DFSEval(source_node, source_node->visited, InitNodesDijkstra);
     node_costs = malloc(num_nodes * sizeof(Node*));
     // The final_path won't always be this long, but we need enough memory in case it is, somehow
-    final_path = malloc(num_nodes * sizeof(Node*));
+    final_path = malloc(sizeof(PathStack));
+    final_path->path = malloc(num_nodes * sizeof(Node*));
+    final_path->len = 0;
 
     source_node->path_cost = 0;
     source_node->done = TRUE;
@@ -240,19 +239,27 @@ void MoveBotToNode(Node* target_node) {
     // Dijkstra's is done!
     // Now we can reverse iterate and use the prev_node pointers to find the path the bot should take
     counter_node = target_node;
-    final_path[final_path_ctr] = counter_node;
-    final_path_ctr++;
+    final_path->path[final_path->len] = counter_node;
+    final_path->len++;
     do {
         // Iterate backwards
         counter_node = counter_node->prev_node;
 
-        final_path[final_path_ctr] = counter_node;
-        final_path_ctr++;
+        final_path->path[final_path->len] = counter_node;
+        final_path->len++;
     }
     while (counter_node != source_node);
+    // printf("%d", final_path->len);
+    return final_path;
+}
 
-    for (i = final_path_ctr - 1; i >= 0; i--) {
-        printf("%s, ", final_path[i]->name);
+void MoveBotToNode(Node* target_node) {
+    PathStack *final_path;
+    int i;
+
+    final_path = Dijkstra(GetCurrentNode(), target_node);
+    for (i = final_path->len - 1; i >= 0; i--) {
+        printf("%s, ", final_path->path[i]->name);
     }
     printf("\n");
 

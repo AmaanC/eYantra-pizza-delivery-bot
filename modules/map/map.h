@@ -52,6 +52,13 @@ typedef struct NodeStruct {
     Connection **connected;
 } Node;
 
+// A "stack" of Nodes. Len indicates the next empty element, so to use it as a stack, use
+// for (i = len-1; i >= 0; i--)
+typedef struct _PathStack {
+    Node **path;
+    int len;
+} PathStack;
+
 Node* CreateNode(int x, int y, int num_connected, char *name);
 void ConnectNodes(Node *a, Node *b, int cost);
 void InitGraph();
@@ -60,5 +67,6 @@ Node* GetCurrentNode();
 void DFSEval(Node *source_node, int unvisited_value, void fn());
 void InitNodesDijkstra(Node* current_node);
 void MoveBotToNode(Node* target_node);
+PathStack* Dijsktra(Node *source_node, Node *target_node);
 
 #endif
