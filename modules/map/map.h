@@ -59,4 +59,6 @@ Node* GetCurrentNode();
 
 void DFSEval(Node *source_node, int unvisited_value, void fn());
 void InitNodesDijkstra(Node* current_node);
+void MoveBotToNode(Node* target_node);
+
 #endif

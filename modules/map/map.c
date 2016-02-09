@@ -84,7 +84,10 @@ void InitGraph() {
     ConnectNodes(d, f, 8);
     ConnectNodes(e, f, 7);
 
-    current_node = a; // We're assuming that we'll start there
+    current_node = g; // We're assuming that we'll start there
+
+    MoveBotToNode(b);
+    MoveBotToNode(h);
 }
 
 Node* GetCurrentNode() {
