@@ -6,7 +6,7 @@ int main() {
     InitGraph();
     Node *start = GetCurrentNode();
     DFSEval(start, start->visited, InitNodesDijkstra);
-    MoveBotToNode(start->connected[0]->ptr);
+    MoveBotToNode(start->connected[0]->ptr->connected[1]->ptr);
 
     // Just to make sure it worked
     printf("start to r1 cost: %d\n", start->connected[0]->cost);

@@ -16,6 +16,11 @@
 // This is how the bot's position is maintained
 Node *current_node;
 
+// Number of nodes (vertices) in the graph. This *should* be stored in a Graph struct, but
+// temporarily, this will do. TODO: REMOVE THIS
+// The value is filled in by the DFSEval function
+int num_nodes = 0;
+
 // Returns a pointer to a node
 Node* CreateNode(int x, int y, int num_connected, char *name) {
     int i;
@@ -59,15 +64,27 @@ void ConnectNodes(Node *a, Node *b, int cost) {
 // Defeat them against all odds
 void InitGraph() {
 
-    Node *start, *r1;
+    Node *a, *b, *c, *d, *e, *f, *g, *h;
     // Initialize the 2 nodes with their x, y, and number of connected nodes
-    start = CreateNode(0, 0, 1, "S");
-    r1 = CreateNode(20, 20, 1, "r1");
-
+    a = CreateNode(0, 0, 2, "1");
+    b = CreateNode(0, 0, 1, "2");
+    c = CreateNode(0, 0, 3, "3");
+    d = CreateNode(0, 0, 3, "4");
+    e = CreateNode(0, 0, 1, "8");
+    f = CreateNode(0, 0, 3, "9");
+    g = CreateNode(0, 0, 1, "11");
+    h = CreateNode(0, 0, 2, "13");
     // Actually create the connected between the nodes with the cost at the edge
-    ConnectNodes(start, r1, 10);
+    ConnectNodes(a, d, 5);
+    ConnectNodes(a, h, 4);
+    ConnectNodes(b, d, 9);
+    ConnectNodes(c, f, 10);
+    ConnectNodes(c, g, 2);
+    ConnectNodes(c, h, 8);
+    ConnectNodes(d, f, 8);
+    ConnectNodes(e, f, 7);
 
-    current_node = start; // We're assuming that we'll start there
+    current_node = a; // We're assuming that we'll start there
 }
 
 Node* GetCurrentNode() {
@@ -79,6 +96,8 @@ Node* GetCurrentNode() {
 void DFSEval(Node *source_node, int unvisited_value, void fn()) {
     int i;
     fn(source_node);
+    // TODO: REMOVE
+    num_nodes++;
     source_node->visited = !unvisited_value;
     for (i = 0; i < source_node->counter; i++) {
         // If it hasn't been visited already, run DFS on the node too.
@@ -94,6 +113,36 @@ void DFSEval(Node *source_node, int unvisited_value, void fn()) {
 void InitNodesDijkstra(Node* current_node) {
     current_node->path_cost = INFINITY; // INFINITY is a macro from math.h
     current_node->done = FALSE;
+}
+
+// If a node isn't already in the array, add it. Else, ignore the call
+void UpdateNodeInArray(Node **node_costs, int *len, Node* new_node) {
+    int i;
+    Node *current_node;
+    for (i = 0; i < *len; i++) {
+        current_node = node_costs[i];
+        if (current_node == new_node) {
+            return;
+        }
+    }
+    node_costs[*len] = new_node;
+    (*len)++;
+}
+
+Node* GetLowestUndone(Node **node_costs, int len) {
+    int i;
+    float lowest_cost = INFINITY;
+    Node *lowest, *current_node;
+    for (i = 0; i < len; i++) {
+        current_node = node_costs[i];
+        if (current_node->done == FALSE) {
+            // Get lowest from these
+            if (current_node->path_cost < lowest_cost) {
+                lowest = current_node;
+            }
+        }
+    }
+    return lowest;
 }
 
 // Use Dijkstra's algorithm to figure out best path and then use
@@ -120,30 +169,41 @@ void MoveBotToNode(Node* target_node) {
     // 2) Update distances from current_node
     // 3) Select next current_node based on the lowest cost found (for a node which hasn't been *done*)
     // 4) Repeat from step 2
+
+    // i is used for a for loop
+    // loop_limiter is used to prevent the program from going into an infinite loop in case a non-existent target node
+    // was passed as the argument
     int i, loop_limiter;
     int MAX_ITERATIONS = 10000;
+    // accum_cost is the cost we have accrued *up to* the current node
+    // temp_cost is the accum_cost + the edge cost for a node. Basically, this is used when we find a new
+    // route to a certain node. temp_cost is compared with the Node's current path_cost, and if it's lower
+    // the Node's path_cost is updated
     int accum_cost = 0;
     int temp_cost = 0;
-    // Initialize to infinity so it can be compared and the lower cost will be selected in each iteration
-    float lowest_cost = INFINITY;
     // current_node: the node we're looking at right now
     // counter_node: the node, which is a neighbour of current_node, that we're updating the cost for
-    // candidate_node: the node with the lowest cost so far, which is a candidate for being the 
-    //                 current_node in the next iteration
-    Node *current_node, *counter_node, *candidate_node;
+    Node *current_node, *counter_node;
     Node *source_node = GetCurrentNode();
+    // A sorted array (by insertion sort, dynamically when an element is inserted) used to find the next
+    // lowest cost node, required for the next iteration of cost updating
+    // This is an array of Node pointers
+    Node **node_costs;
+    // Length of the array above
+    int node_costs_len = 0;
 
     current_node = source_node;
     DFSEval(source_node, source_node->visited, InitNodesDijkstra);
+    node_costs = malloc(num_nodes * sizeof(Node*));
 
     source_node->path_cost = 0;
     source_node->done = TRUE;
     loop_limiter = 0;
+    printf("Target name: %s\n\n", target_node->name);
     while (current_node != target_node) {
         // The accum_cost is the cost from the source_node to the current_node
         // It'll be used to update the costs of all neighbours
         accum_cost = current_node->path_cost;
-        lowest_cost = INFINITY;
         // printf("\n\n%s: %f\n\n", current_node->name, current_node->path_cost);
         current_node->done = TRUE;
         // Update path_costs for all neighbouring nodes
@@ -155,15 +215,14 @@ void MoveBotToNode(Node* target_node) {
                     counter_node->path_cost = temp_cost;
                     // We found a better way to get to counter_node, so we update its prev_node reference
                     counter_node->prev_node = current_node;
-                }
-                if (counter_node->path_cost < lowest_cost) {
-                    lowest_cost = counter_node->path_cost;
-                    candidate_node = counter_node;
+
+                    // Make sure that the node is in the array
+                    UpdateNodeInArray(node_costs, &node_costs_len, counter_node);
                 }
             }
         }
-        // printf("cur_node: %s, accum_cost: %d\n", target_node->name, &current_node == &target_node);
-        current_node = candidate_node;
+        printf("cur_node: %s, accum_cost: %d\n", current_node->name, &current_node == &target_node);
+        current_node = GetLowestUndone(node_costs, node_costs_len);
         loop_limiter++;
         if (loop_limiter >= MAX_ITERATIONS) {
             printf("Too many iterations!\n");
@@ -172,7 +231,7 @@ void MoveBotToNode(Node* target_node) {
     }
     // Dijkstra's is done!
     // Now we can reverse iterate and use the prev_node pointers to find the path the bot should take
-    // counter_node = target_node;
+    counter_node = target_node;
     printf("%s, ", counter_node->name);
     do {
         // Iterate backwards
