@@ -59,6 +59,7 @@ typedef struct NodeStruct {
 typedef struct _PathStack {
     Node **path;
     int top;
+    float total_cost;
 } PathStack;
 
 

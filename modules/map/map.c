@@ -261,10 +261,11 @@ PathStack* Dijkstra(Node *source_node, Node *target_node) {
             break;
         }
     }
-    printf("cur_node: %s, enter_deg: %f\n", current_node->name, current_node->enter_radians * 180 / PI);
+    printf("cur_node: %s, enter_deg: %f, total_cost: %f\n", current_node->name, current_node->enter_radians * 180 / PI, current_node->path_cost);
     // Dijkstra's is done!
     // Now we can reverse iterate and use the prev_node pointers to find the path the bot should take
     counter_node = target_node;
+    final_path->total_cost = target_node->path_cost;
     final_path->path[final_path->top] = counter_node;
     final_path->top++;
     do {
@@ -287,7 +288,7 @@ void MoveBotToNode(Node* target_node) {
     for (i = final_path->top - 1; i >= 0; i--) {
         printf("%s, ", final_path->path[i]->name);
     }
-    printf("\n");
+    printf("\nTotal cost: %f\n", final_path->total_cost);
 
     // Now that we know the path to take, here's how we actually get there
     // To go from A to D
