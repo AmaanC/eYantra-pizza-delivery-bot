@@ -6,13 +6,13 @@ CFLAGS=-g -DF_CPU=14745600 -mmcu=atmega2560
 
 # Modify these 2 for each project as needed
 FILENAME=motor
-DEPS=app.o
+DEPS=app.o ../buzzer/buzzer.o ../custom_delay/custom_delay.o ../pos_encoder/pos_encoder.o
 
 #Info til AVRDUDE
 PROGRAMMER = avrdude
 BOARD = stk500v2
 MCU = m2560
-PORT = /dev/ttyACM0
+PORT = /dev/tty.usbmodem1421
 
 PFLAGS = -p $(MCU) -c $(BOARD) -P $(PORT)
 
