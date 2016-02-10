@@ -236,3 +236,19 @@ void pos_encoder_init_devices()
  sei();   // Enables the global interrupt 
 }
 
+void pos_encoder_rotate_bot(int Degrees)
+{
+    if(Degrees == 90)
+    {
+      pos_encoder_left_degrees(90);
+      pos_encoder_stop();     
+      _delay_ms(500); 
+    }
+    elseif(Degrees == -90)
+    {
+      pos_encoder_right_degrees(90);
+      pos_encoder_stop();     
+      _delay_ms(500); 
+    }
+
+}
