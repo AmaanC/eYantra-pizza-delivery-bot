@@ -39,6 +39,8 @@ typedef struct NodeStruct {
     // If we use reverse iteration like this in a stack, we can pop the nodes off the stack
     // and just move the bot to each node one by one
     Node *prev_node;
+    // The angle at which we arrive at the current node. Also used in Dijsktra's to add a rotation_cost
+    float enter_radians;
 
     // Used as a toggle / flag during DFS. Since we'll be running DFS several times, the plan is to
     // check the source node's visited value initially, and use that as the "unvisited value".
@@ -53,11 +55,18 @@ typedef struct NodeStruct {
 } Node;
 
 // A "stack" of Nodes. Len indicates the next empty element, so to use it as a stack, use
-// for (i = len-1; i >= 0; i--)
+// for (i = top-1; i >= 0; i--)
 typedef struct _PathStack {
     Node **path;
-    int len;
+    int top;
 } PathStack;
+
+
+// A struct to store the position of the bot
+typedef struct _Pos {
+    Node *cur_node;
+    float cur_radians;
+} Position;
 
 Node* CreateNode(int x, int y, int num_connected, char *name);
 void ConnectNodes(Node *a, Node *b, int cost);

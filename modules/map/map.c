@@ -4,6 +4,7 @@
 
 #define TRUE 1
 #define FALSE 0
+#define PI 3.14159265
 
 // #include <avr/io.h>
 // #include <avr/interrupt.h>
@@ -13,8 +14,8 @@
 #include <math.h>
 #include "map.h"
 
-// This is how the bot's position is maintained
-Node *current_node;
+// This is how the bot's (actual) position is maintained
+Position *bot_position;
 
 // Number of nodes (vertices) in the graph. This *should* be stored in a Graph struct, but
 // temporarily, this will do. TODO: REMOVE THIS
@@ -65,10 +66,12 @@ void ConnectNodes(Node *a, Node *b, int cost) {
 void InitGraph() {
 
     Node *a, *b, *c, *d, *e, *f, *g, *h;
+
+    bot_position = malloc(sizeof(Position));
     // Initialize the 2 nodes with their x, y, and number of connected nodes
     a = CreateNode(0, 0, 2, "1");
     b = CreateNode(0, 0, 1, "2");
-    c = CreateNode(0, 0, 3, "3");
+    c = CreateNode(90, 90, 3, "3");
     d = CreateNode(0, 0, 3, "4");
     e = CreateNode(0, 0, 1, "8");
     f = CreateNode(0, 0, 3, "9");
@@ -84,14 +87,14 @@ void InitGraph() {
     ConnectNodes(d, f, 8);
     ConnectNodes(e, f, 7);
 
-    current_node = g; // We're assuming that we'll start there
+    bot_position->cur_node = g; // We're assuming that we'll start there
 
     MoveBotToNode(b);
     MoveBotToNode(h);
 }
 
 Node* GetCurrentNode() {
-    return current_node;
+    return bot_position->cur_node;
 }
 
 // Call it like this:
@@ -148,6 +151,12 @@ Node* GetLowestUndone(Node **node_costs, int len) {
     return lowest;
 }
 
+// Time taken for the bot to turn X radians. Needs to factor into Dijkstra's
+float GetRotationCost(float radians) {
+    // TODO: Use actual measured value
+    return 1.0 * fabs(radians);
+}
+
 // Use Dijkstra's algorithm to figure out best path and then use
 // move_to module to move the bot through all the nodes
 // in the route we choose. (move_to uses the pos_encoder and bl_sensor to
@@ -182,8 +191,14 @@ PathStack* Dijkstra(Node *source_node, Node *target_node) {
     // temp_cost is the accum_cost + the edge cost for a node. Basically, this is used when we find a new
     // route to a certain node. temp_cost is compared with the Node's current path_cost, and if it's lower
     // the Node's path_cost is updated
+    // rotation_cost is the cost of rotating from node A to node B
+    // rot_radians is the new enter_radians for node B
+    // temp_radians is the angle the bot will start from at node A
     int accum_cost = 0;
     int temp_cost = 0;
+    int rotation_cost = 0;
+    float rot_radians = 0;
+    float temp_radians = 0;
     // current_node: the node we're looking at right now
     // counter_node: the node, which is a neighbour of current_node, that we're updating the cost for
     Node *current_node, *counter_node;
@@ -201,10 +216,11 @@ PathStack* Dijkstra(Node *source_node, Node *target_node) {
     // The final_path won't always be this long, but we need enough memory in case it is, somehow
     final_path = malloc(sizeof(PathStack));
     final_path->path = malloc(num_nodes * sizeof(Node*));
-    final_path->len = 0;
+    final_path->top = 0;
 
     source_node->path_cost = 0;
     source_node->done = TRUE;
+    source_node->enter_radians = bot_position->cur_radians;
     loop_limiter = 0;
     printf("Target name: %s\n\n", target_node->name);
     while (current_node != target_node) {
@@ -217,9 +233,18 @@ PathStack* Dijkstra(Node *source_node, Node *target_node) {
         for (i = 0; i < current_node->counter; i++) {
             counter_node = current_node->connected[i]->ptr;
             if (counter_node->done != TRUE) {
-                temp_cost = accum_cost + current_node->connected[i]->cost;
+                temp_radians = current_node->enter_radians;
+                // the angle between the current node & the counter node
+                // atan2 always returns in the range of -pi to pi, so we don't need to worry about
+                // sanitizing its output
+                rot_radians = atan2(counter_node->y - current_node->y, counter_node->x - current_node->x);
+                rotation_cost = GetRotationCost(temp_radians - rot_radians);
+                temp_cost = accum_cost + rotation_cost + current_node->connected[i]->cost;
+                // printf("Pos: %d,%d\ntemp_radians: %f\n%s: %f\n\n\n", counter_node->x, counter_node->y, temp_radians, counter_node->name, rot_radians);
                 if (temp_cost < counter_node->path_cost) {
                     counter_node->path_cost = temp_cost;
+                    // Save the angle we came into the node at
+                    counter_node->enter_radians = rot_radians;
                     // We found a better way to get to counter_node, so we update its prev_node reference
                     counter_node->prev_node = current_node;
 
@@ -228,7 +253,7 @@ PathStack* Dijkstra(Node *source_node, Node *target_node) {
                 }
             }
         }
-        printf("cur_node: %s, accum_cost: %d\n", current_node->name, &current_node == &target_node);
+        printf("cur_node: %s, enter_deg: %f\n", current_node->name, current_node->enter_radians * 180 / PI);
         current_node = GetLowestUndone(node_costs, node_costs_len);
         loop_limiter++;
         if (loop_limiter >= MAX_ITERATIONS) {
@@ -236,20 +261,21 @@ PathStack* Dijkstra(Node *source_node, Node *target_node) {
             break;
         }
     }
+    printf("cur_node: %s, enter_deg: %f\n", current_node->name, current_node->enter_radians * 180 / PI);
     // Dijkstra's is done!
     // Now we can reverse iterate and use the prev_node pointers to find the path the bot should take
     counter_node = target_node;
-    final_path->path[final_path->len] = counter_node;
-    final_path->len++;
+    final_path->path[final_path->top] = counter_node;
+    final_path->top++;
     do {
         // Iterate backwards
         counter_node = counter_node->prev_node;
 
-        final_path->path[final_path->len] = counter_node;
-        final_path->len++;
+        final_path->path[final_path->top] = counter_node;
+        final_path->top++;
     }
     while (counter_node != source_node);
-    // printf("%d", final_path->len);
+    // printf("%d", final_path->top);
     return final_path;
 }
 
@@ -258,7 +284,7 @@ void MoveBotToNode(Node* target_node) {
     int i;
 
     final_path = Dijkstra(GetCurrentNode(), target_node);
-    for (i = final_path->len - 1; i >= 0; i--) {
+    for (i = final_path->top - 1; i >= 0; i--) {
         printf("%s, ", final_path->path[i]->name);
     }
     printf("\n");
