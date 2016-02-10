@@ -1,6 +1,7 @@
 We're recording nodes here. Remember to put spaces and commas exactly as shown.
 The format is:
 NodeName, xPosition, yPosition
+------------------------------
 P1, -90, 7
 P2, -72, 7
 P3, -54, 7
