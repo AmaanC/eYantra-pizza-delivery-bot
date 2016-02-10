@@ -2,7 +2,7 @@
 #define MAP_H_
 
 typedef struct _Connection {
-    int cost;
+    float cost;
     struct NodeStruct *ptr;
 } Connection;
 
@@ -70,7 +70,7 @@ typedef struct _Pos {
 } Position;
 
 Node* CreateNode(int x, int y, int num_connected, char *name);
-void ConnectNodes(Node *a, Node *b, int cost);
+void ConnectNodes(Node *a, Node *b, float cost);
 void InitGraph();
 Node* GetCurrentNode();
 

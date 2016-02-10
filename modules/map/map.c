@@ -43,7 +43,7 @@ Node* CreateNode(int x, int y, int num_connected, char *name) {
 }
 
 // Note that this function connects "a" to "b" *and* "b" to "a". They don't need to be connected individually
-void ConnectNodes(Node *a, Node *b, int cost) {
+void ConnectNodes(Node *a, Node *b, float cost) {
     int a_count = a->counter;
     int b_count = b->counter;
 
@@ -64,33 +64,145 @@ void ConnectNodes(Node *a, Node *b, int cost) {
 // We shall prevail
 // Defeat them against all odds
 void InitGraph() {
-
-    Node *a, *b, *c, *d, *e, *f, *g, *h;
+    Node *H12, *P1, *P2, *P3, *P4, *P5, *P6, *P7, *P8, *P9, *P10, *c1, *c2, *c3,
+         *c4, *c5, *c6, *c7, *c8, *c9, *c10, *S, *r1, *r2, *r3, *r4, *r5, *r6, *r7,
+         *r8, *r9, *r10, *r11, *r12, *r13, *r14, *r15, *r16, *r17, *r18, *H1DA, *H1DB,
+         *H2DA, *H2DB, *H3DA, *H3DB, *H4DA, *H4DB, *H5DA, *H5DB, *H6DA, *H6DB, *H7DA,
+         *H7DB, *H8DA, *H8DB, *H1, *H2, *H3, *H4, *H5, *H6, *H7, *H8, *H9, *H10, *H11;
 
     bot_position = malloc(sizeof(Position));
     // Initialize the 2 nodes with their x, y, and number of connected nodes
-    a = CreateNode(0, 0, 2, "1");
-    b = CreateNode(0, 0, 1, "2");
-    c = CreateNode(90, 90, 3, "3");
-    d = CreateNode(0, 0, 3, "4");
-    e = CreateNode(0, 0, 1, "8");
-    f = CreateNode(0, 0, 3, "9");
-    g = CreateNode(0, 0, 1, "11");
-    h = CreateNode(0, 0, 2, "13");
+
+    P1 = CreateNode(-90, 7, 1, "P1");
+    P2 = CreateNode(-72, 7, 1, "P2");
+    P3 = CreateNode(-54, 7, 1, "P3");
+    P4 = CreateNode(-36, 7, 1, "P4");
+    P5 = CreateNode(-18, 7, 1, "P5");
+    P6 = CreateNode(18, 7, 1, "P6");
+    P7 = CreateNode(36, 7, 1, "P7");
+    P8 = CreateNode(54, 7, 1, "P8");
+    P9 = CreateNode(72, 7, 1, "P9");
+    P10 = CreateNode(90, 7, 1, "P10");
+    c1 = CreateNode(-90, 25, 2, "c1");
+    c2 = CreateNode(-72, 25, 3, "c2");
+    c3 = CreateNode(-54, 25, 3, "c3");
+    c4 = CreateNode(-36, 25, 3, "c4");
+    c5 = CreateNode(-18, 25, 3, "c5");
+    c6 = CreateNode(18, 25, 3, "c6");
+    c7 = CreateNode(36, 25, 3, "c7");
+    c8 = CreateNode(54, 25, 3, "c8");
+    c9 = CreateNode(72, 25, 3, "c9");
+    c10 = CreateNode(90, 25, 2, "c10");
+    S = CreateNode(0, 0, 1, "S");
+    r1 = CreateNode(0, 25, 4, "r1");
+    r2 = CreateNode(0, 65, 4, "r2");
+    r3 = CreateNode(-35, 65, 3, "r3");
+    r4 = CreateNode(-67.5, 97.5, 3, "r4");
+    r5 = CreateNode(-67.5, 132.5, 3, "r5");
+    r6 = CreateNode(-67.5, 167.5, 3, "r6");
+    r7 = CreateNode(-35, 200, 3, "r7");
+    r8 = CreateNode(0, 200, 3, "r8");
+    r9 = CreateNode(35, 200, 3, "r9");
+    r10 = CreateNode(67.5, 167.5, 3, "r10");
+    r11 = CreateNode(67.5, 132.5, 3, "r11");
+    r12 = CreateNode(67.5, 97.5, 3, "r12");
+    r13 = CreateNode(35, 65, 3, "r13");
+    r14 = CreateNode(0, 102.5, 3, "r14");
+    r15 = CreateNode(-30, 132.5, 3, "r15");
+    r16 = CreateNode(0, 162.5, 3, "r16");
+    r17 = CreateNode(30, 132.5, 3, "r17");
+    r18 = CreateNode(0, 132.5, 4, "r18");
+    H1DA = CreateNode(-53, 45, 0, "H1DA");
+    H1DB = CreateNode(-17, 45, 0, "H1DB");
+    H2DA = CreateNode(-87.5, 115.5, 0, "H2DA");
+    H2DB = CreateNode(-87.5, 79.5, 0, "H2DB");
+    H3DA = CreateNode(-87.5, 185.5, 0, "H3DA");
+    H3DB = CreateNode(-87.5, 149.5, 0, "H3DB");
+    H4DA = CreateNode(-17, 220, 0, "H4DA");
+    H4DB = CreateNode(-53, 220, 0, "H4DB");
+    H5DA = CreateNode(53, 220, 0, "H5DA");
+    H5DB = CreateNode(17, 220, 0, "H5DB");
+    H6DA = CreateNode(87.5, 149.5, 0, "H6DA");
+    H6DB = CreateNode(87.5, 185.5, 0, "H6DB");
+    H7DA = CreateNode(87.5, 79.5, 0, "H7DA");
+    H7DB = CreateNode(87.5, 115.5, 0, "H7DB");
+    H8DA = CreateNode(17, 45, 0, "H8DA");
+    H8DB = CreateNode(53, 45, 0, "H8DB");
+    H1 = CreateNode(-35, 45, 1, "H1");
+    H2 = CreateNode(-87.5, 97.5, 1, "H2");
+    H3 = CreateNode(-87.5, 167.5, 1, "H3");
+    H4 = CreateNode(-35, 220, 1, "H4");
+    H5 = CreateNode(35, 220, 1, "H5");
+    H6 = CreateNode(87.5, 167.5, 1, "H6");
+    H7 = CreateNode(87.5, 97.5, 1, "H7");
+    H8 = CreateNode(35, 45, 1, "H8");
+    H9 = CreateNode(-30, 102.5, 3, "H9");
+    H10 = CreateNode(-30, 162.5, 3, "H10");
+    H11 = CreateNode(30, 162.5, 3, "H11");
+    H12 = CreateNode(30, 102.5, 3, "H12");
     // Actually create the connected between the nodes with the cost at the edge
-    ConnectNodes(a, d, 5);
-    ConnectNodes(a, h, 4);
-    ConnectNodes(b, d, 9);
-    ConnectNodes(c, f, 10);
-    ConnectNodes(c, g, 2);
-    ConnectNodes(c, h, 8);
-    ConnectNodes(d, f, 8);
-    ConnectNodes(e, f, 7);
+    ConnectNodes(S, r1, 1.59);
+    ConnectNodes(r1, c5, 1.15);
+    ConnectNodes(c5, P5, 1.15);
+    ConnectNodes(c5, c4, 1.15);
+    ConnectNodes(c4, P4, 1.15);
+    ConnectNodes(c4, c3, 1.15);
+    ConnectNodes(c3, P3, 1.15);
+    ConnectNodes(c3, c2, 1.15);
+    ConnectNodes(c2, P2, 1.15);
+    ConnectNodes(c2, c1, 1.15);
+    ConnectNodes(c1, P1, 1.15);
+    ConnectNodes(r1, c6, 1.15);
+    ConnectNodes(c6, P6, 1.15);
+    ConnectNodes(c6, c7, 1.15);
+    ConnectNodes(c7, P7, 1.15);
+    ConnectNodes(c7, c8, 1.15);
+    ConnectNodes(c8, P8, 1.15);
+    ConnectNodes(c8, c9, 1.15);
+    ConnectNodes(c9, P9, 1.15);
+    ConnectNodes(c9, c10, 1.15);
+    ConnectNodes(c10, P10, 1.15);
+    ConnectNodes(r1, r2, 2.55);
+    ConnectNodes(r2, r3, 2.23);
+    ConnectNodes(r3, H1, 1.27);
+    ConnectNodes(r3, r4, 3.78);
+    ConnectNodes(r4, H2, 1.27);
+    ConnectNodes(r4, r5, 2.23);
+    ConnectNodes(r5, r15, 2.39);
+    ConnectNodes(r5, r6, 2.23);
+    ConnectNodes(r6, H3, 1.27);
+    ConnectNodes(r6, r7, 3.78);
+    ConnectNodes(r7, H4, 1.27);
+    ConnectNodes(r7, r8, 2.23);
+    ConnectNodes(r8, r16, 2.39);
+    ConnectNodes(r8, r9, 2.23);
+    ConnectNodes(r9, H5, 1.27);
+    ConnectNodes(r9, r10, 3.78);
+    ConnectNodes(r10, H6, 1.27);
+    ConnectNodes(r10, r11, 2.23);
+    ConnectNodes(r11, r17, 2.39);
+    ConnectNodes(r11, r12, 2.23);
+    ConnectNodes(r12, H7, 1.27);
+    ConnectNodes(r12, r13, 3.78);
+    ConnectNodes(r13, H8, 1.27);
+    ConnectNodes(r13, r2, 2.23);
+    ConnectNodes(r2, r14, 2.39);
+    ConnectNodes(r14, H9, 1.91);
+    ConnectNodes(H9, r15, 1.91);
+    ConnectNodes(r15, H10, 1.91);
+    ConnectNodes(H10, r16, 1.91);
+    ConnectNodes(r16, H11, 1.91);
+    ConnectNodes(H11, r17, 1.91);
+    ConnectNodes(r17, H12, 1.91);
+    ConnectNodes(H12, r14, 1.91);
+    ConnectNodes(H9, r18, 2.70);
+    ConnectNodes(H10, r18, 2.70);
+    ConnectNodes(H11, r18, 2.70);
+    ConnectNodes(H12, r18, 2.70);
 
-    bot_position->cur_node = g; // We're assuming that we'll start there
+    bot_position->cur_node = S; // We're assuming that we'll start there
 
-    MoveBotToNode(b);
-    MoveBotToNode(h);
+    MoveBotToNode(r10);
 }
 
 Node* GetCurrentNode() {
@@ -154,7 +266,7 @@ Node* GetLowestUndone(Node **node_costs, int len) {
 // Time taken for the bot to turn X radians. Needs to factor into Dijkstra's
 float GetRotationCost(float radians) {
     // TODO: Use actual measured value
-    return 1.0 * fabs(radians);
+    return 0.0 * fabs(radians);
 }
 
 // Use Dijkstra's algorithm to figure out best path and then use
@@ -194,9 +306,9 @@ PathStack* Dijkstra(Node *source_node, Node *target_node) {
     // rotation_cost is the cost of rotating from node A to node B
     // rot_radians is the new enter_radians for node B
     // temp_radians is the angle the bot will start from at node A
-    int accum_cost = 0;
-    int temp_cost = 0;
-    int rotation_cost = 0;
+    float accum_cost = 0;
+    float temp_cost = 0;
+    float rotation_cost = 0;
     float rot_radians = 0;
     float temp_radians = 0;
     // current_node: the node we're looking at right now
@@ -282,6 +394,7 @@ PathStack* Dijkstra(Node *source_node, Node *target_node) {
 
 void MoveBotToNode(Node* target_node) {
     PathStack *final_path;
+    Node *current_node;
     int i;
 
     final_path = Dijkstra(GetCurrentNode(), target_node);
@@ -298,4 +411,7 @@ void MoveBotToNode(Node* target_node) {
     // Rotate towards next_dest (skip if rotation diff < threshold like 5 degs)
     // Move forward dist using pos encoders
     // Repeat for next pair of nodes
+    i = final_path->top - 1;
+    current_node = bot_position->cur_node;
+
 }
