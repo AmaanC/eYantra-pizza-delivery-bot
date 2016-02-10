@@ -202,7 +202,7 @@ void InitGraph() {
 
     bot_position->cur_node = S; // We're assuming that we'll start there
 
-    MoveBotToNode(r10);
+    MoveBotToNode(r11);
 }
 
 Node* GetCurrentNode() {
@@ -243,6 +243,7 @@ void UpdateNodeInArray(Node **node_costs, int *len, Node* new_node) {
             return;
         }
     }
+    printf("\tPushed new_node %s, %f, %d\n", new_node->name, new_node->path_cost, new_node->done);
     node_costs[*len] = new_node;
     (*len)++;
 }
@@ -257,9 +258,11 @@ Node* GetLowestUndone(Node **node_costs, int len) {
             // Get lowest from these
             if (current_node->path_cost < lowest_cost) {
                 lowest = current_node;
+                lowest_cost = current_node->path_cost;
             }
         }
     }
+    printf("\t\tLowest node is: %s, %d\n", lowest->name, len);
     return lowest;
 }
 
@@ -338,12 +341,14 @@ PathStack* Dijkstra(Node *source_node, Node *target_node) {
     while (current_node != target_node) {
         // The accum_cost is the cost from the source_node to the current_node
         // It'll be used to update the costs of all neighbours
-        accum_cost = current_node->path_cost;
+        // accum_cost = current_node->path_cost;
         // printf("\n\n%s: %f\n\n", current_node->name, current_node->path_cost);
         current_node->done = TRUE;
         // Update path_costs for all neighbouring nodes
         for (i = 0; i < current_node->counter; i++) {
             counter_node = current_node->connected[i]->ptr;
+            accum_cost = current_node->path_cost;
+
             if (counter_node->done != TRUE) {
                 temp_radians = current_node->enter_radians;
                 // the angle between the current node & the counter node
@@ -354,6 +359,7 @@ PathStack* Dijkstra(Node *source_node, Node *target_node) {
                 temp_cost = accum_cost + rotation_cost + current_node->connected[i]->cost;
                 // printf("Pos: %d,%d\ntemp_radians: %f\n%s: %f\n\n\n", counter_node->x, counter_node->y, temp_radians, counter_node->name, rot_radians);
                 if (temp_cost < counter_node->path_cost) {
+                    printf("Updated: %s, %f\n", counter_node->name, temp_cost);
                     counter_node->path_cost = temp_cost;
                     // Save the angle we came into the node at
                     counter_node->enter_radians = rot_radians;
