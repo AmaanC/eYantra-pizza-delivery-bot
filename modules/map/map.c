@@ -202,7 +202,7 @@ void InitGraph() {
 
     bot_position->cur_node = S; // We're assuming that we'll start there
 
-    MoveBotToNode(r11);
+    MoveBotToNode(H12);
 }
 
 Node* GetCurrentNode() {
@@ -243,7 +243,7 @@ void UpdateNodeInArray(Node **node_costs, int *len, Node* new_node) {
             return;
         }
     }
-    printf("\tPushed new_node %s, %f, %d\n", new_node->name, new_node->path_cost, new_node->done);
+    // printf("\tPushed new_node %s, %f, %d\n", new_node->name, new_node->path_cost, new_node->done);
     node_costs[*len] = new_node;
     (*len)++;
 }
@@ -262,14 +262,14 @@ Node* GetLowestUndone(Node **node_costs, int len) {
             }
         }
     }
-    printf("\t\tLowest node is: %s, %d\n", lowest->name, len);
+    // printf("\t\tLowest node is: %s, %d\n", lowest->name, len);
     return lowest;
 }
 
 // Time taken for the bot to turn X radians. Needs to factor into Dijkstra's
 float GetRotationCost(float radians) {
     // TODO: Use actual measured value
-    return 0.0 * fabs(radians);
+    return 0.5 * fabs(radians);
 }
 
 // Use Dijkstra's algorithm to figure out best path and then use
@@ -359,7 +359,7 @@ PathStack* Dijkstra(Node *source_node, Node *target_node) {
                 temp_cost = accum_cost + rotation_cost + current_node->connected[i]->cost;
                 // printf("Pos: %d,%d\ntemp_radians: %f\n%s: %f\n\n\n", counter_node->x, counter_node->y, temp_radians, counter_node->name, rot_radians);
                 if (temp_cost < counter_node->path_cost) {
-                    printf("Updated: %s, %f\n", counter_node->name, temp_cost);
+                    // printf("Updated: %s, %f, %f\n", counter_node->name, temp_cost, rotation_cost);
                     counter_node->path_cost = temp_cost;
                     // Save the angle we came into the node at
                     counter_node->enter_radians = rot_radians;
@@ -371,7 +371,7 @@ PathStack* Dijkstra(Node *source_node, Node *target_node) {
                 }
             }
         }
-        printf("cur_node: %s, enter_deg: %f\n", current_node->name, current_node->enter_radians * 180 / PI);
+        // printf("cur_node: %s, enter_deg: %f\n", current_node->name, current_node->enter_radians * 180 / PI);
         current_node = GetLowestUndone(node_costs, node_costs_len);
         loop_limiter++;
         if (loop_limiter >= MAX_ITERATIONS) {
@@ -379,7 +379,7 @@ PathStack* Dijkstra(Node *source_node, Node *target_node) {
             break;
         }
     }
-    printf("cur_node: %s, enter_deg: %f, total_cost: %f\n", current_node->name, current_node->enter_radians * 180 / PI, current_node->path_cost);
+    // printf("cur_node: %s, enter_deg: %f, total_cost: %f\n", current_node->name, current_node->enter_radians * 180 / PI, current_node->path_cost);
     // Dijkstra's is done!
     // Now we can reverse iterate and use the prev_node pointers to find the path the bot should take
     counter_node = target_node;
