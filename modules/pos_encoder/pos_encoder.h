@@ -28,6 +28,7 @@ void pos_encoder_soft_right_degrees(unsigned int Degrees);
 void pos_encoder_soft_left_2_degrees(unsigned int Degrees);
 void pos_encoder_soft_right_2_degrees(unsigned int Degrees);
 void pos_encoder_init_devices();
+void pos_encoder_rotate_bot(int Degrees);
 
 
 #endif
