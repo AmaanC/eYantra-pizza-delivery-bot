@@ -238,15 +238,14 @@ void pos_encoder_init_devices()
 
 void pos_encoder_rotate_bot(int Degrees)
 {
-    if(Degrees == 90)
+    if(Degrees > 0)
     {
-      pos_encoder_left_degrees(90);
+      pos_encoder_left_degrees(abs(Degrees));
       pos_encoder_stop();     
       _delay_ms(500); 
     }
-    elseif(Degrees == -90)
-    {
-      pos_encoder_right_degrees(90);
+    else {
+      pos_encoder_right_degrees(abs(Degrees));
       pos_encoder_stop();     
       _delay_ms(500); 
     }
