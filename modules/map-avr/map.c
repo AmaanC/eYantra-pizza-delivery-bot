@@ -449,7 +449,7 @@ void CurveTowards(Node *source_node, Node *target_node) {
     // Start the motors on the path for the curve
     pos_encoder_velocity(left_motor, right_motor);
     // Let them keep going until one of the motors has spun enough
-    pos_encoder_angle_rotate(angle * 180 / PI);
+    pos_encoder_angle_rotate(abs(angle * 180 / PI));
 }
 
 void MoveBotToNode(Node *target_node) {
