@@ -242,12 +242,12 @@ void pos_encoder_rotate_bot(int Degrees)
     {
       pos_encoder_left_degrees(abs(Degrees));
       pos_encoder_stop();     
-      _delay_ms(500); 
+      // _delay_ms(500); 
     }
     else {
       pos_encoder_right_degrees(abs(Degrees));
       pos_encoder_stop();     
-      _delay_ms(500); 
+      // _delay_ms(500); 
     }
 
 }
