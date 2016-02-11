@@ -25,9 +25,10 @@ Position *bot_position;
 int num_nodes = 0;
 
 Node **curve_nodes;
+const int curve_nodes_len = 8;
 
 // Returns a pointer to a node
-Node* CreateNode(int x, int y, int num_connected, char *name) {
+Node *CreateNode(int x, int y, int num_connected, char *name) {
     int i;
     Node *new_node;
     new_node = malloc(sizeof(Node));
@@ -205,7 +206,13 @@ void InitGraph() {
     ConnectNodes(H11, r18, 2.70);
     ConnectNodes(H12, r18, 2.70);
 
-    bot_position->cur_node = S; // We're assuming that we'll start there
+    // We always start at S
+    bot_position->cur_node = S;
+
+    // Define the nodes where we want to use our custom curve function instead of
+    // rotating towards the next node and going forward
+    // Which direction we're curving in is done by using atan2 and finding the 
+    // angle between the nodes
     curve_nodes[0] = r3;
     curve_nodes[1] = r4;
     curve_nodes[2] = r6;
@@ -218,7 +225,7 @@ void InitGraph() {
     MoveBotToNode(H12);
 }
 
-Node* GetCurrentNode() {
+Node *GetCurrentNode() {
     return bot_position->cur_node;
 }
 
@@ -241,27 +248,38 @@ void DFSEval(Node *source_node, int unvisited_value, void fn()) {
 // The things you need to do to initialize all the nodes for Dijkstra's algorithm
 // Namely, set the path_cost to infinite
 // And set the done flag to FALSE
-void InitNodesDijkstra(Node* current_node) {
+void InitNodesDijkstra(Node *current_node) {
     current_node->path_cost = INFINITY; // INFINITY is a macro from math.h
     current_node->done = FALSE;
 }
 
-// If a node isn't already in the array, add it. Else, ignore the call
-void UpdateNodeInArray(Node **node_costs, int *len, Node* new_node) {
+int IndexOfNode(Node **node_arr, int len, Node *needle) {
+    int index = -1;
     int i;
-    Node *current_node;
-    for (i = 0; i < *len; i++) {
-        current_node = node_costs[i];
-        if (current_node == new_node) {
-            return;
+    for (i = 0; i < len; i++) {
+        if (node_arr[i] == needle) {
+            index = i;
+            break;
         }
+    }
+    return index;
+}
+
+// If a node isn't already in the array, add it. Else, ignore the call
+void UpdateNodeInArray(Node **node_costs, int *len, Node *new_node) {
+    int index;
+    Node *current_node;
+    index = IndexOfNode(node_costs, *len, new_node);
+    // If it is in the array already, ignore the call
+    if (index != -1) {
+        return;
     }
     // printf("\tPushed new_node %s, %f, %d\n", new_node->name, new_node->path_cost, new_node->done);
     node_costs[*len] = new_node;
     (*len)++;
 }
 
-Node* GetLowestUndone(Node **node_costs, int len) {
+Node *GetLowestUndone(Node **node_costs, int len) {
     int i;
     float lowest_cost = INFINITY;
     Node *lowest, *current_node;
@@ -411,7 +429,30 @@ PathStack* Dijkstra(Node *source_node, Node *target_node) {
     return final_path;
 }
 
-void MoveBotToNode(Node* target_node) {
+void CurveTowards(Node *source_node, Node *target_node) {
+    // These values come from calculating angular velocities and whatnot
+    unsigned char fast_value = 255;
+    unsigned char slow_value = 210;
+    unsigned char left_motor, right_motor;
+    float angle = atan2(target_node->y - source_node->y, target_node->x - source_node->x);
+    // The angle between the curve nodes are roughly 45 degrees
+    // But what matters here is whether it's positive or negative
+    // If it's positive, we curve to the left, so the right motor is faster
+    if (angle > 0) {
+        right_motor = fast_value;
+        left_motor = slow_value;
+    }
+    else {
+        right_motor = slow_value;
+        left_motor = fast_value;
+    }
+    // Start the motors on the path for the curve
+    pos_encoder_velocity(left_motor, right_motor);
+    // Let them keep going until one of the motors has spun enough
+    pos_encoder_angle_rotate(angle * 180 / PI);
+}
+
+void MoveBotToNode(Node *target_node) {
     PathStack *final_path;
     Node *current_node, *next_node;
     int i;
@@ -436,11 +477,20 @@ void MoveBotToNode(Node* target_node) {
     while (current_node != target_node) {
         i--;
         next_node = final_path->path[i];
-
-        xDist = current_node->x - next_node->x;
-        yDist = current_node->y - next_node->y;
-        pos_encoder_rotate_bot((bot_position->cur_radians - next_node->enter_radians) * 180 / PI);
-        pos_encoder_forward_mm(sqrt(xDist * xDist + yDist * yDist));
+        // If both the current and next nodes are part of our "curve_nodes", use
+        // our curve function
+        if (
+            IndexOfNode(curve_nodes, curve_nodes_len, current_node) != -1 &&
+            IndexOfNode(curve_nodes, curve_nodes_len, next_node) != -1
+        ) {
+            CurveTowards(current_node, next_node);
+        }
+        else {
+            xDist = current_node->x - next_node->x;
+            yDist = current_node->y - next_node->y;
+            pos_encoder_rotate_bot((bot_position->cur_radians - next_node->enter_radians) * 180 / PI);
+            pos_encoder_forward_mm(sqrt(xDist * xDist + yDist * yDist));
+        }
 
         current_node = next_node;
     }
