@@ -8,6 +8,7 @@
 int main()
 {
 	pos_encoder_init_devices();
+	pos_encoder_timer5_init();
 
 	while(1)
 	{
