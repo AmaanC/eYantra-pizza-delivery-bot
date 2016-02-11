@@ -400,7 +400,7 @@ PathStack* Dijkstra(Node *source_node, Node *target_node) {
 
 void MoveBotToNode(Node* target_node) {
     PathStack *final_path;
-    Node *current_node;
+    Node *current_node, *next_node;
     int i;
 
     final_path = Dijkstra(GetCurrentNode(), target_node);
@@ -419,5 +419,13 @@ void MoveBotToNode(Node* target_node) {
     // Repeat for next pair of nodes
     i = final_path->top - 1;
     current_node = bot_position->cur_node;
+    while (current_node != target_node) {
+        i--;
+        next_node = final_path->path[i];
 
+        // pos_encoder_rotate_bot((bot_position->cur_radians - next_node->enter_radians) * 180 / PI);
+        // pos_encoder_forward_cm()
+
+        current_node = next_node;
+    }
 }
