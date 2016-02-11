@@ -5,8 +5,8 @@ OBJCOPY=avr-objcopy
 CFLAGS=-g -DF_CPU=14745600 -mmcu=atmega2560
 
 # Modify these 2 for each project as needed
-FILENAME=pos_encoder
-DEPS=app.o
+FILENAME=map
+DEPS=app.o ../pos_encoder/pos_encoder.o
 
 #Info til AVRDUDE
 PROGRAMMER = avrdude
@@ -20,7 +20,7 @@ rom.hex : app.out
 	$(OBJCOPY) -j .text -O ihex app.out rom.hex
 
 app.out : $(FILENAME).o $(DEPS)
-	$(CC) $(CFLAGS) -o app.out -Wl,-Map,$(FILENAME).map $(FILENAME).o $(DEPS) -lm
+	$(CC) $(CFLAGS) -o app.out -Wl,-Map,$(FILENAME).map $(FILENAME).o $(DEPS)
 
 %.o : %.c
 	$(CC) $(CFLAGS) -Os -c $<

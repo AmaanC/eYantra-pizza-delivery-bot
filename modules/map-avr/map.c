@@ -6,9 +6,9 @@
 #define FALSE 0
 #define PI 3.14159265
 
-// #include <avr/io.h>
-// #include <avr/interrupt.h>
-// #include <util/delay.h>
+#include <avr/io.h>
+#include <avr/interrupt.h>
+#include <util/delay.h>
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -447,9 +447,9 @@ void CurveTowards(Node *source_node, Node *target_node) {
         left_motor = fast_value;
     }
     // Start the motors on the path for the curve
-    // pos_encoder_velocity(left_motor, right_motor);
+    pos_encoder_velocity(left_motor, right_motor);
     // Let them keep going until one of the motors has spun enough
-    // pos_encoder_angle_rotate(angle * 180 / PI);
+    pos_encoder_angle_rotate(abs(angle * 180 / PI));
 }
 
 void MoveBotToNode(Node *target_node) {
@@ -488,8 +488,8 @@ void MoveBotToNode(Node *target_node) {
         else {
             xDist = current_node->x - next_node->x;
             yDist = current_node->y - next_node->y;
-            // pos_encoder_rotate_bot((bot_position->cur_radians - next_node->enter_radians) * 180 / PI);
-            // pos_encoder_forward_mm(sqrt(xDist * xDist + yDist * yDist));
+            pos_encoder_rotate_bot((bot_position->cur_radians - next_node->enter_radians) * 180 / PI);
+            pos_encoder_forward_mm(sqrt(xDist * xDist + yDist * yDist));
         }
 
         current_node = next_node;

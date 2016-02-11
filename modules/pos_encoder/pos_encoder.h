@@ -7,6 +7,8 @@ void right_encoder_pin_config();
 void pos_encoder_port_init();
 void left_position_encoder_interrupt_init();
 void right_position_encoder_interrupt_init(); 
+void pos_encoder_timer5_init();
+void pos_encoder_velocity(unsigned char left_motor, unsigned char right_motor);
 void pos_encoder_motion_set (unsigned char Direction);
 void pos_encoder_forward();
 void pos_encoder_back(); 
