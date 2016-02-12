@@ -1,8 +1,16 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "map.h"
+#include "../pos_encoder/pos_encoder.h"
+#include "../lcd/lcd.h"
 
 int main() {
+    pos_encoder_init_devices();
+    pos_encoder_timer5_init();
+    lcd_init_devices();
+    lcd_set_4bit();
+    lcd_init();
+    
     InitGraph();
     // Node *start = GetCurrentNode();
     // DFSEval(start, start->visited, InitNodesDijkstra);

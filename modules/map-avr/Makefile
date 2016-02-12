@@ -6,7 +6,7 @@ CFLAGS=-g -DF_CPU=14745600 -mmcu=atmega2560
 
 # Modify these 2 for each project as needed
 FILENAME=map
-DEPS=app.o ../pos_encoder/pos_encoder.o
+DEPS=app.o ../pos_encoder/pos_encoder.o ../lcd/lcd.o
 
 #Info til AVRDUDE
 PROGRAMMER = avrdude

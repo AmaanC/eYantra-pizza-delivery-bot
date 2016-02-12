@@ -15,6 +15,7 @@
 #include <math.h>
 #include "map.h"
 #include "../pos_encoder/pos_encoder.h"
+#include "../lcd/lcd.h"
 
 // This is how the bot's (actual) position is maintained
 Position *bot_position;
@@ -460,9 +461,16 @@ void MoveBotToNode(Node *target_node) {
 
     final_path = Dijkstra(GetCurrentNode(), target_node);
     for (i = final_path->top - 1; i >= 0; i--) {
-        printf("%s, ", final_path->path[i]->name);
+
+        lcd_cursor(0,0);
+        lcd_string(final_path->path[i]->name);
+        _delay_ms(200);
+        // printf("%s, ", final_path->path[i]->name);
     }
-    printf("\nTotal cost: %f\n", final_path->total_cost);
+    lcd_cursor(0,0);
+    lcd_string(final_path->total_cost);
+
+    // printf("\nTotal cost: %f\n", final_path->total_cost);
 
     // Now that we know the path to take, here's how we actually get there
     // To go from A to D
@@ -483,9 +491,15 @@ void MoveBotToNode(Node *target_node) {
             IndexOfNode(curve_nodes, curve_nodes_len, current_node) != -1 &&
             IndexOfNode(curve_nodes, curve_nodes_len, next_node) != -1
         ) {
+            lcd_cursor(0,0);
+            lcd_string("Curve");
+
             CurveTowards(current_node, next_node);
         }
         else {
+            lcd_cursor(0,0);
+            lcd_string("Straight");
+
             xDist = current_node->x - next_node->x;
             yDist = current_node->y - next_node->y;
             pos_encoder_rotate_bot((bot_position->cur_radians - next_node->enter_radians) * 180 / PI);
