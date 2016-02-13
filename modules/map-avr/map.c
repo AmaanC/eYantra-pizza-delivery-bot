@@ -222,6 +222,8 @@ void InitGraph() {
     curve_nodes[5] = r10;
     curve_nodes[6] = r12;
     curve_nodes[7] = r13;
+    lcd_printf("Added");
+    _delay_ms(100);
 
     MoveBotToNode(H12);
 }
