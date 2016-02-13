@@ -29,6 +29,8 @@
 #include <util/delay.h>
 #include "lcd.h"
 
+#include <stdarg.h>
+
 #define RS 0
 #define RW 1
 #define EN 2
@@ -177,10 +179,22 @@ void lcd_home()
 	lcd_wr_command(0x80);
 }
 
+void lcd_printf(const char *fmt, ...) {
+    va_list argp;
+    char *str;
+    va_start(argp, fmt);
+
+    vsprintf(str, fmt, argp);
+
+    va_end(argp);
+
+    lcd_string(str);
+}
 
 //Function to Print String on LCD
 void lcd_string(char *str)
 {
+	lcd_wr_command(0x01); // Clear the LCD display
 	while(*str != '\0')
 	{
 		lcd_wr_char(*str);

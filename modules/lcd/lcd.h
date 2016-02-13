@@ -9,6 +9,7 @@ void lcd_init();
 void lcd_wr_command(unsigned char cmd);
 void lcd_wr_char(char letter);
 void lcd_home();
+void lcd_printf(const char *fmt, ...);
 void lcd_string(char *str);
 void lcd_cursor (char row, char column);
 void lcd_print (char row, char coloumn, unsigned int value, int digits);
