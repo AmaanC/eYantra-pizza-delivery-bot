@@ -181,15 +181,17 @@ void lcd_home()
 
 void lcd_printf(const char *fmt, ...) {
     va_list argp;
-    char *str;
+    const int LCD_LEN = 16;
+    char str[LCD_LEN];
     va_start(argp, fmt);
 
-    vsprintf(str, fmt, argp);
+    vsnprintf(str, LCD_LEN, fmt, argp);
 
     va_end(argp);
 
     lcd_string(str);
 }
+
 
 //Function to Print String on LCD
 void lcd_string(char *str)
