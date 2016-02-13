@@ -2,6 +2,7 @@
 #include <avr/interrupt.h>
 #include <util/delay.h>
 #include "pos_encoder.h"
+#include "../lcd/lcd.h"
 
 //Main Function
 
@@ -9,10 +10,13 @@ int main()
 {
 	pos_encoder_init_devices();
 	pos_encoder_timer5_init();
-
+	lcd_init_devices();
+	lcd_set_4bit();
+	lcd_init();
+	lcd_printf("DANGER ZONE");
 	while(1)
 	{
-		pos_encoder_forward_mm(100); //Moves robot forward 100mm
+		pos_encoder_forward_mm(10); //Moves robot forward 100mm
 		pos_encoder_stop();
 		_delay_ms(500);			
 		
@@ -45,3 +49,4 @@ int main()
 		_delay_ms(500);
 	}
 }
+

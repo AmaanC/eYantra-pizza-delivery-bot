@@ -2,9 +2,10 @@
 #include <avr/interrupt.h>
 #include <util/delay.h>
 #include "pos_encoder.h"
+#include "../lcd/lcd.h"
 
-unsigned long int ShaftCountLeft = 0; //to keep track of left position encoder 
-unsigned long int ShaftCountRight = 0; //to keep track of right position encoder
+volatile unsigned long int ShaftCountLeft = 0; //to keep track of left position encoder 
+volatile unsigned long int ShaftCountRight = 0; //to keep track of right position encoder
 unsigned int Degrees; //to accept angle in degrees for turning
 
 //Function to configure ports to enable robot's motion
@@ -170,6 +171,7 @@ void pos_encoder_angle_rotate(unsigned int Degrees)
 
  while (1)
  {
+  // lcd_printf("Right %d", ShaftCountRight);
   if((ShaftCountRight >= ReqdShaftCountInt) | (ShaftCountLeft >= ReqdShaftCountInt))
   break;
  }
@@ -189,6 +191,7 @@ void pos_encoder_linear_distance_mm(unsigned int DistanceInMM)
  ShaftCountRight = 0;
  while(1)
  {
+  // lcd_printf("Right %d", ShaftCountRight);
   if(ShaftCountRight > ReqdShaftCountInt)
   {
   	break;
