@@ -39,6 +39,8 @@ Node *CreateNode(int x, int y, int num_connected, char *name) {
     new_node->y = y;
     new_node->num_connected = num_connected;
     new_node->name = name;
+    new_node->counter = 0;
+    new_node->visited = 0;
 
     new_node->connected = malloc(new_node->num_connected * sizeof(Connection*)); // Create space for an array of connection pointers
     for (i = 0; i < num_connected; i++) {
