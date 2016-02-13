@@ -13,11 +13,12 @@ int main(void)
 	_delay_ms(1000);
 	while(1)
 	{
-		lcd_cursor(0,0);
-		lcd_string("DANGER ZONE!");
+		lcd_printf("DANGER ZONE! %d", 42);
 		// lcd_wr_char('a');
 		// lcd_wr_char('b');
 		_delay_ms(1000);
-		lcd_wr_command(0x01); //Clear the LCD
+		lcd_printf("%s", "HAL 9000");
+		_delay_ms(1000);
+		// lcd_wr_command(0x01); //Clear the LCD
 	}
 }
