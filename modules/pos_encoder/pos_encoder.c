@@ -179,7 +179,7 @@ void pos_encoder_angle_rotate(unsigned int Degrees)
 }
 
 //Function used for moving robot forward by specified distance
-
+// If the motors move at different speeds, you want to pass the distance the faster motor needs to turn
 void pos_encoder_linear_distance_mm(unsigned int DistanceInMM)
 {
  float ReqdShaftCount = 0;
@@ -192,7 +192,7 @@ void pos_encoder_linear_distance_mm(unsigned int DistanceInMM)
  while(1)
  {
   // lcd_printf("Right %d", ShaftCountRight);
-  if(ShaftCountRight > ReqdShaftCountInt)
+  if(ShaftCountRight > ReqdShaftCountInt | ShaftCountLeft > ReqdShaftCountInt)
   {
   	break;
   }
