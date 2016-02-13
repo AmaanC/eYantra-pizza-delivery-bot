@@ -189,10 +189,11 @@ void pos_encoder_linear_distance_mm(unsigned int DistanceInMM)
  ReqdShaftCountInt = (unsigned long int) ReqdShaftCount;
   
  ShaftCountRight = 0;
+ ShaftCountLeft = 0;
  while(1)
  {
   // lcd_printf("Right %d", ShaftCountRight);
-  if(ShaftCountRight > ReqdShaftCountInt | ShaftCountLeft > ReqdShaftCountInt)
+  if((ShaftCountRight > ReqdShaftCountInt) | (ShaftCountLeft > ReqdShaftCountInt))
   {
   	break;
   }
