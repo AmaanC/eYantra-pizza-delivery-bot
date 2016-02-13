@@ -41,6 +41,7 @@ Node *CreateNode(int x, int y, int num_connected, char *name) {
     new_node->name = name;
     new_node->counter = 0;
     new_node->visited = 0;
+    new_node->done = 0;
 
     new_node->connected = malloc(new_node->num_connected * sizeof(Connection*)); // Create space for an array of connection pointers
     for (i = 0; i < num_connected; i++) {
@@ -211,6 +212,7 @@ void InitGraph() {
 
     // We always start at S
     bot_position->cur_node = S;
+    bot_position->cur_radians = PI / 2;
 
     // Define the nodes where we want to use our custom curve function instead of
     // rotating towards the next node and going forward
@@ -228,6 +230,8 @@ void InitGraph() {
     _delay_ms(100);
 
     MoveBotToNode(H12);
+    MoveBotToNode(S);
+    MoveBotToNode(r12);
 }
 
 Node *GetCurrentNode() {
@@ -242,10 +246,17 @@ void DFSEval(Node *source_node, int unvisited_value, void fn()) {
     // TODO: REMOVE
     num_nodes++;
     source_node->visited = !unvisited_value;
-    lcd_printf("DFS: %d", num_nodes);
-    _delay_ms(200);
+    if (num_nodes > 45) {
+        // lcd_printf("DFS: %d", num_nodes);
+        // _delay_ms(200);
+    }
     for (i = 0; i < source_node->counter; i++) {
         // If it hasn't been visited already, run DFS on the node too.
+
+        if (num_nodes > 45) {
+            // lcd_printf("i: %d", i);
+            // _delay_ms(200);
+        }
         if (source_node->connected[i]->ptr->visited == unvisited_value) {
             DFSEval(source_node->connected[i]->ptr, unvisited_value, fn);
         }
@@ -375,7 +386,8 @@ PathStack* Dijkstra(Node *source_node, Node *target_node) {
     source_node->done = TRUE;
     source_node->enter_radians = bot_position->cur_radians;
     loop_limiter = 0;
-    printf("Target name: %s\n\n", target_node->name);
+    // lcd_printf("Targ: %s", target_node->name);
+    // _delay_ms(200);
     while (current_node != target_node) {
         // The accum_cost is the cost from the source_node to the current_node
         // It'll be used to update the costs of all neighbours
@@ -466,12 +478,13 @@ void MoveBotToNode(Node *target_node) {
     float xDist, yDist;
 
     final_path = Dijkstra(GetCurrentNode(), target_node);
-    for (i = final_path->top - 1; i >= 0; i--) {
-        lcd_printf("%s", final_path->path[i]->name);
-        _delay_ms(1000);
-        // printf("%s, ", final_path->path[i]->name);
-    }
-    lcd_printf("Cost: %d", final_path->total_cost);
+    // for (i = final_path->top - 1; i >= 0; i--) {
+    //     lcd_printf("%s", final_path->path[i]->name);
+    //     _delay_ms(500);
+    //     // printf("%s, ", final_path->path[i]->name);
+    // }
+    lcd_printf("Cost: %d", (int) final_path->total_cost);
+    _delay_ms(500);
 
     // printf("\nTotal cost: %f\n", final_path->total_cost);
 
@@ -499,14 +512,18 @@ void MoveBotToNode(Node *target_node) {
             CurveTowards(current_node, next_node);
         }
         else {
-            lcd_printf("Straight");
 
             xDist = current_node->x - next_node->x;
             yDist = current_node->y - next_node->y;
-            pos_encoder_rotate_bot((bot_position->cur_radians - next_node->enter_radians) * 180 / PI);
+            lcd_printf("Rot: %d", (int) ((next_node->enter_radians - bot_position->cur_radians) * 180 / PI));
+            _delay_ms(500);
+            pos_encoder_rotate_bot((next_node->enter_radians - bot_position->cur_radians) * 180 / PI);
+            bot_position->cur_radians = next_node->enter_radians;
             pos_encoder_forward_mm(10 * sqrt(xDist * xDist + yDist * yDist));
         }
 
+        bot_position->cur_node = current_node;
         current_node = next_node;
     }
+    bot_position->cur_node = target_node;
 }
