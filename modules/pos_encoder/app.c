@@ -16,6 +16,11 @@ int main()
 	lcd_printf("DANGER ZONE");
 	while(1)
 	{
+		pos_encoder_velocity(255, 210);
+		pos_encoder_forward();
+		pos_encoder_linear_distance_mm(300);
+		_delay_ms(500);
+
 		pos_encoder_forward_mm(10); //Moves robot forward 100mm
 		pos_encoder_stop();
 		_delay_ms(500);			
