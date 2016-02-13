@@ -1,3 +1,7 @@
+#include <avr/io.h>
+#include <avr/interrupt.h>
+#include <util/delay.h>
+
 #include <stdio.h>
 #include <stdlib.h>
 #include "map.h"
@@ -10,6 +14,9 @@ int main() {
     lcd_init_devices();
     lcd_set_4bit();
     lcd_init();
+
+    lcd_printf("Starting");
+    _delay_ms(1000);
     
     InitGraph();
     // Node *start = GetCurrentNode();

@@ -238,6 +238,8 @@ void DFSEval(Node *source_node, int unvisited_value, void fn()) {
     // TODO: REMOVE
     num_nodes++;
     source_node->visited = !unvisited_value;
+    lcd_printf("DFS: %d", num_nodes);
+    _delay_ms(200);
     for (i = 0; i < source_node->counter; i++) {
         // If it hasn't been visited already, run DFS on the node too.
         if (source_node->connected[i]->ptr->visited == unvisited_value) {
@@ -461,14 +463,11 @@ void MoveBotToNode(Node *target_node) {
 
     final_path = Dijkstra(GetCurrentNode(), target_node);
     for (i = final_path->top - 1; i >= 0; i--) {
-
-        lcd_cursor(0,0);
-        lcd_string(final_path->path[i]->name);
-        _delay_ms(200);
+        lcd_printf("%s", final_path->path[i]->name);
+        _delay_ms(1000);
         // printf("%s, ", final_path->path[i]->name);
     }
-    lcd_cursor(0,0);
-    lcd_string(final_path->total_cost);
+    lcd_printf("Cost: %d", final_path->total_cost);
 
     // printf("\nTotal cost: %f\n", final_path->total_cost);
 
@@ -491,19 +490,17 @@ void MoveBotToNode(Node *target_node) {
             IndexOfNode(curve_nodes, curve_nodes_len, current_node) != -1 &&
             IndexOfNode(curve_nodes, curve_nodes_len, next_node) != -1
         ) {
-            lcd_cursor(0,0);
-            lcd_string("Curve");
+            lcd_printf("Curve");
 
             CurveTowards(current_node, next_node);
         }
         else {
-            lcd_cursor(0,0);
-            lcd_string("Straight");
+            lcd_printf("Straight");
 
             xDist = current_node->x - next_node->x;
             yDist = current_node->y - next_node->y;
             pos_encoder_rotate_bot((bot_position->cur_radians - next_node->enter_radians) * 180 / PI);
-            pos_encoder_forward_mm(sqrt(xDist * xDist + yDist * yDist));
+            pos_encoder_forward_mm(10 * sqrt(xDist * xDist + yDist * yDist));
         }
 
         current_node = next_node;
