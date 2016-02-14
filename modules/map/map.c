@@ -376,12 +376,12 @@ float MakePositiveRad(float angle) {
 // Returns 1 if the right motor should be the faster one
 // -1 if the left should be faster
 int GetCurveDirection(Node *source_node, Node *target_node) {
-    float angle = RadToDeg(atan2(target_node->y - source_node->y, target_node->x - source_node->x));
-    angle = MakePositiveDeg(angle);
-    // When you move anticlockwise, if the target is within 90 degrees of you, you need to curve
-    // so that the right motor is faster
-    printf("%f, %f\n", source_node->enter_deg, angle);
-    if ((angle > source_node->enter_deg) && (angle < source_node->enter_deg + 90)) {
+    float angular_velocity = GetAngularVelocity(source_node, target_node);
+    // We calculate the angular velocity by seeing the angle between the target_node from the center
+    // and the source_node from the center. If this angle is positive, we're moving in the anticlockwise
+    // direction
+    // printf("%f, %f\n", source_node->enter_deg, angular_velocity);
+    if (angular_velocity >= 0) {
         return 1;
     }
     return -1;
@@ -526,32 +526,41 @@ PathStack* Dijkstra(Node *source_node, Node *target_node) {
     return final_path;
 }
 
+// Get the angular velocity to travel from node1 to node2 on a curve in 1 second
+float GetAngularVelocity(Node *node1, Node *node2) {
+    float angular_velocity = 0;
+
+    // To find the angle formed if you joined the center to curve_node_1 and curve_node_2
+    float angle_to_1 = atan2(curve_center->y - node1->y, curve_center->x - node1->x);
+    float angle_to_2 = atan2(curve_center->y - node2->y, curve_center->x - node2->x);
+
+    // Bring it in the range of 0-2pi so +ves and -ves don't throw us off
+    // In 1 second, we need to turn X radians, as calculated here
+    angular_velocity = MakePositiveRad(angle_to_2) - MakePositiveRad(angle_to_1);
+
+    return angular_velocity;
+}
+
 void CurveTowards(Node *source_node, Node *target_node) {
     // We can use the center of the circle and a curve node to find the radius
     // Using the radius, we can calculate the angular velocities required by
     // each of the wheels
-
     unsigned char fast_value = 0;
     unsigned char slow_value = 0;
     unsigned char left_motor, right_motor;
     unsigned char max_speed = 0xFF; // The max speed either motor can turn at
-    float radius = 0; // The radius will be calculated dynamically
     const wheel_dist = 7.5; // According to measurement
-    float angular_velocity = 0;
     float ratio = 1;
+    float angular_velocity = 0;
 
+    float radius = 0; // The radius will be calculated dynamically
     // Needed to find the radius
     float xDist = source_node->x - curve_center->x;
     float yDist = source_node->y - curve_center->y;
-
-    // To find the angle formed if you joined the center to curve_node_1 and curve_node_2
-    float angle_to_1 = atan2(curve_center->y - source_node->y, curve_center->x - source_node->x);
-    float angle_to_2 = atan2(curve_center->y - target_node->y, curve_center->x - target_node->x);
-
     radius = sqrt(xDist * xDist + yDist * yDist);
-    // Bring it in the range of 0-2pi so +ves and -ves don't throw us off
-    // In 1 second, we need to turn X radians, as calculated here
-    angular_velocity = MakePositiveRad(angle_to_2) - MakePositiveRad(angle_to_1);
+    printf("%f\n", radius);
+
+    angular_velocity = GetAngularVelocity(source_node, target_node);
     // Linear velocity = radius * angular velocity
     // Our motors have different radiuses, which is why they have different linear velocities
     slow_value = (radius - wheel_dist) * fabs(angular_velocity);
