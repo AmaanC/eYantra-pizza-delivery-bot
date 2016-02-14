@@ -15,7 +15,7 @@ int main() {
     // lcd_set_4bit();
     // lcd_init();
 
-    printf("Starting");
+    // printf("Starting");
     // _delay_ms(1000);
     
     InitGraph();
