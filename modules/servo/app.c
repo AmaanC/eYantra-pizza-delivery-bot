@@ -9,20 +9,20 @@ void main() {
 
     while (1) {
         servo_1_to(20); // Lever
-        servo_3_to(20); // Lever
+        servo_4_to(160); // Lever
 
         servo_2_to(0); // Gripper
-        servo_4_to(0); // Gripper
+        servo_3_to(0); // Gripper
 
         _delay_ms(2000);
 
-        servo_1_to(115); // Lower arm
-        servo_3_to(115); // Lower arm
+        servo_1_to(130); // Lower arm
+        servo_4_to(50); // Lower arm
 
         _delay_ms(2000);
 
         servo_2_to(85); // Close grip
-        servo_4_to(85); // Close grip
+        servo_3_to(85); // Close grip
         
         _delay_ms(5000);
     }
