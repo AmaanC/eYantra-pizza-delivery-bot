@@ -281,7 +281,7 @@ int CheckNodeName(Node *current_node) {
 Node *GetNodeByName(char *name) {
     Node *start_node;
     start_node = GetCurrentNode();
-    found_node = NULL;
+    found_node = start_node; // By default, let it be the current node
     current_search_name = name;
     // CheckNodeName automatically modifies a global variable called found_node, so we can just return that
     DFSEval(start_node, start_node->visited, CheckNodeName);
