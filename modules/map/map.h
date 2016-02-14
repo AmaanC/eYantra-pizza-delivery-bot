@@ -40,7 +40,7 @@ typedef struct NodeStruct {
     // and just move the bot to each node one by one
     Node *prev_node;
     // The angle at which we arrive at the current node. Also used in Dijsktra's to add a rotation_cost
-    float enter_radians;
+    float enter_deg;
 
     // Used as a toggle / flag during DFS. Since we'll be running DFS several times, the plan is to
     // check the source node's visited value initially, and use that as the "unvisited value".
@@ -70,7 +70,7 @@ typedef struct _PathStack {
 // A struct to store the position of the bot
 typedef struct _Pos {
     Node *cur_node;
-    float cur_radians;
+    float cur_deg;
 } Position;
 
 Node* CreateNode(float x, float y, int num_connected, char *name);

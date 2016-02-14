@@ -217,7 +217,7 @@ void InitGraph() {
     // We always start at S
     our_graph->start = S;
     bot_position->cur_node = S;
-    bot_position->cur_radians = PI / 2;
+    bot_position->cur_deg = 90;
 
     // Define the nodes where we want to use our custom curve function instead of
     // rotating towards the next node and going forward
@@ -234,9 +234,9 @@ void InitGraph() {
     // lcd_printf("Added");
     // _delay_ms(100);
 
-    MoveBotToNode(H12);
-    MoveBotToNode(S);
     MoveBotToNode(r10);
+    MoveBotToNode(r6);
+    MoveBotToNode(S);
 }
 
 Node *GetCurrentNode() {
@@ -341,10 +341,37 @@ Node *GetLowestUndone(Node **node_costs, int len) {
     return lowest;
 }
 
-// Time taken for the bot to turn X radians. Needs to factor into Dijkstra's
-float GetRotationCost(float radians) {
+// Time taken for the bot to turn X deg. Needs to factor into Dijkstra's
+float GetRotationCost(float deg) {
     // TODO: Use actual measured value
-    return 0.5 * fabs(radians);
+    return 0.1 * fabs(deg);
+}
+
+float RadToDeg(float radians) {
+    return 180 / PI * radians;
+}
+
+float MakePositiveAngle(float angle) {
+    if (angle < 0) {
+        return MakePositiveAngle(angle + 360);
+    }
+    else {
+        return (float) ((int)angle % 360);
+    }
+}
+
+// Returns 1 if the right motor should be the faster one
+// -1 if the left should be faster
+int GetCurveDirection(Node *source_node, Node *target_node) {
+    float angle = RadToDeg(atan2(target_node->y - source_node->y, target_node->x - source_node->x));
+    angle = MakePositiveAngle(angle);
+    // When you move anticlockwise, if the target is within 90 degrees of you, you need to curve
+    // so that the right motor is faster
+    printf("%f, %f\n", source_node->enter_deg, angle);
+    if ((angle > source_node->enter_deg) && (angle < source_node->enter_deg + 90)) {
+        return 1;
+    }
+    return -1;
 }
 
 // Use Dijkstra's algorithm to figure out best path and then use
@@ -382,13 +409,13 @@ PathStack* Dijkstra(Node *source_node, Node *target_node) {
     // route to a certain node. temp_cost is compared with the Node's current path_cost, and if it's lower
     // the Node's path_cost is updated
     // rotation_cost is the cost of rotating from node A to node B
-    // rot_radians is the new enter_radians for node B
-    // temp_radians is the angle the bot will start from at node A
+    // rot_deg is the new enter_deg for node B
+    // temp_deg is the angle the bot will start from at node A
     float accum_cost = 0;
     float temp_cost = 0;
     float rotation_cost = 0;
-    float rot_radians = 0;
-    float temp_radians = 0;
+    float rot_deg = 0;
+    float temp_deg = 0;
     // current_node: the node we're looking at right now
     // counter_node: the node, which is a neighbour of current_node, that we're updating the cost for
     Node *current_node, *counter_node;
@@ -410,7 +437,7 @@ PathStack* Dijkstra(Node *source_node, Node *target_node) {
 
     source_node->path_cost = 0;
     source_node->done = TRUE;
-    source_node->enter_radians = bot_position->cur_radians;
+    source_node->enter_deg = bot_position->cur_deg;
     loop_limiter = 0;
     // lcd_printf("Targ: %s", target_node->name);
     // _delay_ms(200);
@@ -426,19 +453,31 @@ PathStack* Dijkstra(Node *source_node, Node *target_node) {
             accum_cost = current_node->path_cost;
 
             if (counter_node->done != TRUE) {
-                temp_radians = current_node->enter_radians;
+                temp_deg = current_node->enter_deg;
                 // the angle between the current node & the counter node
-                // atan2 always returns in the range of -pi to pi, so we don't need to worry about
-                // sanitizing its output
-                rot_radians = atan2(counter_node->y - current_node->y, counter_node->x - current_node->x);
-                rotation_cost = GetRotationCost(temp_radians - rot_radians);
+                // atan2 always returns in the range of -pi to pi, so we convert it to degrees
+                rot_deg = RadToDeg(atan2(counter_node->y - current_node->y, counter_node->x - current_node->x));
+                rotation_cost = GetRotationCost(temp_deg - rot_deg);
+
+                // If we're considering the cost of going through a curve (i.e. we're at A and considering B
+                // as the counter_node), we should not be considering any rot_cost, since no rotation is 
+                // required before movement
+                if (
+                    IndexOfNode(curve_nodes, curve_nodes_len, current_node) != -1 &&
+                    IndexOfNode(curve_nodes, curve_nodes_len, counter_node) != -1
+                ) {
+                    rotation_cost = 0;
+                    // rot_deg is used to set enter_deg for the counter_node, which will be +90 deg of the current
+                    // one if we move anticlockwise, i.e. with the right motor faster
+                    rot_deg = current_node->enter_deg + 90 * GetCurveDirection(current_node, counter_node);
+                }
                 temp_cost = accum_cost + rotation_cost + current_node->connected[i]->cost;
-                // printf("Pos: %d,%d\ntemp_radians: %f\n%s: %f\n\n\n", counter_node->x, counter_node->y, temp_radians, counter_node->name, rot_radians);
+                // printf("Pos: %d,%d\ntemp_deg: %f\n%s: %f\n\n\n", counter_node->x, counter_node->y, temp_deg, counter_node->name, rot_deg);
                 if (temp_cost < counter_node->path_cost) {
                     // printf("Updated: %s, %f, %f\n", counter_node->name, temp_cost, rotation_cost);
                     counter_node->path_cost = temp_cost;
                     // Save the angle we came into the node at
-                    counter_node->enter_radians = rot_radians;
+                    counter_node->enter_deg = MakePositiveAngle(rot_deg);
                     // We found a better way to get to counter_node, so we update its prev_node reference
                     counter_node->prev_node = current_node;
 
@@ -447,7 +486,7 @@ PathStack* Dijkstra(Node *source_node, Node *target_node) {
                 }
             }
         }
-        // printf("cur_node: %s, enter_deg: %f\n", current_node->name, current_node->enter_radians * 180 / PI);
+        // printf("cur_node: %s, enter_deg: %f\n", current_node->name, current_node->enter_deg * 180 / PI);
         current_node = GetLowestUndone(node_costs, node_costs_len);
         loop_limiter++;
         if (loop_limiter >= MAX_ITERATIONS) {
@@ -455,7 +494,7 @@ PathStack* Dijkstra(Node *source_node, Node *target_node) {
             break;
         }
     }
-    // printf("cur_node: %s, enter_deg: %f, total_cost: %f\n", current_node->name, current_node->enter_radians * 180 / PI, current_node->path_cost);
+    // printf("cur_node: %s, enter_deg: %f, total_cost: %f\n", current_node->name, current_node->enter_deg * 180 / PI, current_node->path_cost);
     // Dijkstra's is done!
     // Now we can reverse iterate and use the prev_node pointers to find the path the bot should take
     counter_node = target_node;
@@ -479,11 +518,8 @@ void CurveTowards(Node *source_node, Node *target_node) {
     unsigned char fast_value = 255;
     unsigned char slow_value = 210;
     unsigned char left_motor, right_motor;
-    float angle = atan2(target_node->y - source_node->y, target_node->x - source_node->x);
-    // The angle between the curve nodes are roughly 45 degrees
-    // But what matters here is whether it's positive or negative
-    // If it's positive, we curve to the left, so the right motor is faster
-    if (angle > 0) {
+    
+    if (GetCurveDirection(source_node, target_node) == 1) {
         right_motor = fast_value;
         left_motor = slow_value;
     }
@@ -491,6 +527,7 @@ void CurveTowards(Node *source_node, Node *target_node) {
         right_motor = slow_value;
         left_motor = fast_value;
     }
+    printf("\tCurve %s to %s: %d, %d\n", source_node->name, target_node->name, left_motor, right_motor);
     // Start the motors on the path for the curve
     // pos_encoder_velocity(left_motor, right_motor);
     // Let them keep going until one of the motors has spun enough
@@ -542,10 +579,10 @@ void MoveBotToNode(Node *target_node) {
 
             xDist = current_node->x - next_node->x;
             yDist = current_node->y - next_node->y;
-            // lcd_printf("Rot: %d", (int) ((next_node->enter_radians - bot_position->cur_radians) * 180 / PI));
+            // lcd_printf("Rot: %d", (int) ((next_node->enter_deg - bot_position->cur_deg)));
             // _delay_ms(500);
-            // pos_encoder_rotate_bot((next_node->enter_radians - bot_position->cur_radians) * 180 / PI);
-            bot_position->cur_radians = next_node->enter_radians;
+            // pos_encoder_rotate_bot((next_node->enter_deg - bot_position->cur_deg));
+            bot_position->cur_deg = next_node->enter_deg;
             // pos_encoder_forward_mm(10 * sqrt(xDist * xDist + yDist * yDist));
         }
 
