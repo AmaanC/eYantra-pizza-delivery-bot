@@ -99,10 +99,7 @@ void init_timeline(){
 
 void block_time(Pizza **Orders){
     int i, j, k = 0;
-    int time_threshold = 5;
-    int time_beween;
-    PathStack *Path;
-    float cost_threshold = 5;
+    int overlap;
     Blocked_Time **block;
     block = malloc(10 * sizeof(Blocked_Time));
     //start time when we pick up pizza from second block
@@ -110,19 +107,23 @@ void block_time(Pizza **Orders){
     //end time will be changed dynamically as soon a s we deliver the pizza
     for(i=0; i<10; i++){
         for(j=0; j<10; j++){
-            if(Orders[i]->block->start_time > Orders[j]->block->start_time ){
-                block[k]->start_time = Orders[i]->block->start_time 
-                block[k]->end_time = INFINITY; 
-                k++;
-            }
-            else {
-                block[k]->start_time = Orders[i]->block->start_time;
-                block[k]->end_time = INFINITY;
-                k++;
-            }
-        }
-    }
-}
+            overlap = check_overlap(Orders[i]->block, Orders[j]->block);
+            if(overlap == 1){
+                if(Orders[i]->block->start_time > Orders[j]->block->start_time ){
+                    block[k]->start_time = Orders[i]->block->start_time 
+                    block[k]->end_time = INFINITY; 
+                    k++;
+                }
+                else {
+                    block[k]->start_time = Orders[i]->block->start_time;
+                    block[k]->end_time = INFINITY;
+                    k++;
+                }//end of nested else
+            }//end of if statement
+        }//end of nester for loop
+    }//end of for loop  
+}//end of function
+
 void display(Pizza *current_pizza) {
     printf("colour: %c\n", current_pizza->colour);
     printf("size: %c\n", current_pizza->size);
