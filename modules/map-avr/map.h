@@ -54,6 +54,11 @@ typedef struct NodeStruct {
     Connection **connected;
 } Node;
 
+typedef struct _Graph {
+    Node *start; // For our map, we can get to any node from the starting position, so all we need is this
+    int num_nodes;
+} Graph;
+
 // A "stack" of Nodes. Len indicates the next empty element, so to use it as a stack, use
 // for (i = top-1; i >= 0; i--)
 typedef struct _PathStack {
@@ -61,7 +66,6 @@ typedef struct _PathStack {
     int top;
     float total_cost;
 } PathStack;
-
 
 // A struct to store the position of the bot
 typedef struct _Pos {

@@ -20,10 +20,7 @@
 // This is how the bot's (actual) position is maintained
 Position *bot_position;
 
-// Number of nodes (vertices) in the graph. This *should* be stored in a Graph struct, but
-// temporarily, this will do. TODO: REMOVE THIS
-// The value is filled in by the DFSEval function
-int num_nodes = 0;
+Graph *our_graph;
 
 Node **curve_nodes;
 const int curve_nodes_len = 8;
@@ -47,6 +44,8 @@ Node *CreateNode(int x, int y, int num_connected, char *name) {
     for (i = 0; i < num_connected; i++) {
         new_node->connected[i] = malloc(sizeof(Connection)); // Create space for every individual connection in the array
     }
+
+    our_graph->num_nodes++;
 
     return new_node;
 }
@@ -81,8 +80,10 @@ void InitGraph() {
 
     bot_position = malloc(sizeof(Position));
     curve_nodes = malloc(8 * sizeof(Node*));
-    // Initialize the 2 nodes with their x, y, and number of connected nodes
+    our_graph = malloc(sizeof(Graph));
+    our_graph->num_nodes = 0;
 
+    // Initialize the 2 nodes with their x, y, and number of connected nodes
     P1 = CreateNode(-90, 7, 1, "P1");
     P2 = CreateNode(-72, 7, 1, "P2");
     P3 = CreateNode(-54, 7, 1, "P3");
@@ -211,6 +212,7 @@ void InitGraph() {
     ConnectNodes(H12, r18, 2.70);
 
     // We always start at S
+    our_graph->start = S;
     bot_position->cur_node = S;
     bot_position->cur_radians = PI / 2;
 
@@ -243,20 +245,9 @@ Node *GetCurrentNode() {
 void DFSEval(Node *source_node, int unvisited_value, void fn()) {
     int i;
     fn(source_node);
-    // TODO: REMOVE
-    num_nodes++;
     source_node->visited = !unvisited_value;
-    if (num_nodes > 45) {
-        // lcd_printf("DFS: %d", num_nodes);
-        // _delay_ms(200);
-    }
     for (i = 0; i < source_node->counter; i++) {
         // If it hasn't been visited already, run DFS on the node too.
-
-        if (num_nodes > 45) {
-            // lcd_printf("i: %d", i);
-            // _delay_ms(200);
-        }
         if (source_node->connected[i]->ptr->visited == unvisited_value) {
             DFSEval(source_node->connected[i]->ptr, unvisited_value, fn);
         }
@@ -376,10 +367,10 @@ PathStack* Dijkstra(Node *source_node, Node *target_node) {
 
     current_node = source_node;
     DFSEval(source_node, source_node->visited, InitNodesDijkstra);
-    node_costs = malloc(num_nodes * sizeof(Node*));
+    node_costs = malloc(our_graph->num_nodes * sizeof(Node*));
     // The final_path won't always be this long, but we need enough memory in case it is, somehow
     final_path = malloc(sizeof(PathStack));
-    final_path->path = malloc(num_nodes * sizeof(Node*));
+    final_path->path = malloc(our_graph->num_nodes * sizeof(Node*));
     final_path->top = 0;
 
     source_node->path_cost = 0;
