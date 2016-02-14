@@ -77,9 +77,10 @@ Node* CreateNode(int x, int y, int num_connected, char *name);
 void ConnectNodes(Node *a, Node *b, float cost);
 void InitGraph();
 Node* GetCurrentNode();
+Node* GetNodeByName(char *name);
 
-void DFSEval(Node *source_node, int unvisited_value, void fn());
-void InitNodesDijkstra(Node* current_node);
+void DFSEval(Node *source_node, int unvisited_value, int fn());
+int InitNodesDijkstra(Node* current_node);
 void MoveBotToNode(Node* target_node);
 PathStack* Dijsktra(Node *source_node, Node *target_node);
 

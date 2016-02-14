@@ -22,6 +22,9 @@ Position *bot_position;
 
 Graph *our_graph;
 
+Node *found_node; // The node we find by name in our timeline solver
+char *current_search_name; // The name of the node we're looking for in the timeline solver
+
 Node **curve_nodes;
 const int curve_nodes_len = 8;
 
@@ -242,10 +245,18 @@ Node *GetCurrentNode() {
 
 // Call it like this:
 // DFSEval(GetCurrentNode(), GetCurrentNode()->visited, update_dist)
-void DFSEval(Node *source_node, int unvisited_value, void fn()) {
+void DFSEval(Node *source_node, int unvisited_value, int fn()) {
     int i;
-    fn(source_node);
     source_node->visited = !unvisited_value;
+    // If the following fn returns TRUE, we can stop DFS right now.
+    // Helps *some* with performance, right?
+    // Right?
+    // Fine, don't say anything.
+    // FINE.
+    // NO MORE COMMENTS FOR YOU, MISSY.
+    if (fn(source_node) == TRUE) {
+        return;
+    }
     for (i = 0; i < source_node->counter; i++) {
         // If it hasn't been visited already, run DFS on the node too.
         if (source_node->connected[i]->ptr->visited == unvisited_value) {
@@ -254,12 +265,36 @@ void DFSEval(Node *source_node, int unvisited_value, void fn()) {
     }
 }
 
+
+// This uses 2 global variables, current_search_name and found_node
+// I realize that this is terrible, but I picked this method over
+// having N different functions, all of which used DFS for different logic
+// So you've been warned, this function has side effects
+int CheckNodeName(Node *current_node) {
+    if (strcmp(current_node->name, current_search_name) == 0) {
+        found_node = current_node;
+        return TRUE;
+    }
+    return FALSE;
+}
+
+Node *GetNodeByName(char *name) {
+    Node *start_node;
+    start_node = GetCurrentNode();
+    found_node = NULL;
+    current_search_name = name;
+    // CheckNodeName automatically modifies a global variable called found_node, so we can just return that
+    DFSEval(start_node, start_node->visited, CheckNodeName);
+    return found_node;
+}
+
 // The things you need to do to initialize all the nodes for Dijkstra's algorithm
 // Namely, set the path_cost to infinite
 // And set the done flag to FALSE
-void InitNodesDijkstra(Node *current_node) {
+int InitNodesDijkstra(Node *current_node) {
     current_node->path_cost = INFINITY; // INFINITY is a macro from math.h
     current_node->done = FALSE;
+    return FALSE;
 }
 
 int IndexOfNode(Node **node_arr, int len, Node *needle) {
