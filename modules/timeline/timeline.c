@@ -23,7 +23,7 @@
 // permutations will be dismissed.
 
 
-Pizza* insert_values(
+Pizza *CreatePizza(
 		char colour,
 		char size,
 		int order_time,
@@ -31,23 +31,22 @@ Pizza* insert_values(
 		char *delivery_house,
 		char *pickup_point
 	) {
-	Pizza* temp;
-	temp = malloc(sizeof(Pizza));
-	temp->colour = colour;
-	temp->size = size;
-	temp->order_time = order_time;
-	temp->order_type = order_type;
-	temp->delivery_house = delivery_house;
-	temp->pickup_point = pickup_point;
-	return temp;
+	Pizza* new_pizza;
+	new_pizza = malloc(sizeof(Pizza));
+	new_pizza->colour = colour;
+	new_pizza->size = size;
+	new_pizza->order_time = order_time;
+	new_pizza->order_type = order_type;
+	new_pizza->delivery_house = delivery_house;
+	new_pizza->pickup_point = pickup_point;
+	return new_pizza;
 }
 
-void display(Pizza* temp)
-{
-	printf("colour: %c\n", temp->colour);
-	printf("size: %c\n", temp->size);
-	printf("order time: %d\n", temp->order_time);
-	printf("order type: %c\n", temp->order_type);
-	printf("house: %s\n", temp->delivery_house);
-	printf("pickup point: %s\n", temp->pickup_point );
+void display(Pizza *current_pizza) {
+	printf("colour: %c\n", current_pizza->colour);
+	printf("size: %c\n", current_pizza->size);
+	printf("order time: %d\n", current_pizza->order_time);
+	printf("order type: %c\n", current_pizza->order_type);
+	printf("house: %s\n", current_pizza->delivery_house);
+	printf("pickup point: %s\n", current_pizza->pickup_point);
 }
