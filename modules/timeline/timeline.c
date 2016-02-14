@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "timeline.h"
+#include "../map/map.h"
 
 // Here's how we plan on solving the order timeline
 // First, you obviously have to enter the order timeline
@@ -24,29 +25,29 @@
 
 
 Pizza *CreatePizza(
-		char colour,
-		char size,
-		int order_time,
-		char order_type,
-		char *delivery_house,
-		char *pickup_point
-	) {
-	Pizza* new_pizza;
-	new_pizza = malloc(sizeof(Pizza));
-	new_pizza->colour = colour;
-	new_pizza->size = size;
-	new_pizza->order_time = order_time;
-	new_pizza->order_type = order_type;
-	new_pizza->delivery_house = delivery_house;
-	new_pizza->pickup_point = pickup_point;
-	return new_pizza;
+        char colour,
+        char size,
+        int order_time,
+        char order_type,
+        char *delivery_house_name
+    ) {
+    Pizza *new_pizza;
+    new_pizza = malloc(sizeof(Pizza));
+    new_pizza->colour = colour;
+    new_pizza->size = size;
+    new_pizza->order_time = order_time;
+    new_pizza->order_type = order_type;
+    new_pizza->delivery_house = GetNodeByName(delivery_house_name);
+    new_pizza->pickup_point = NULL;
+
+    return new_pizza;
 }
 
 void display(Pizza *current_pizza) {
-	printf("colour: %c\n", current_pizza->colour);
-	printf("size: %c\n", current_pizza->size);
-	printf("order time: %d\n", current_pizza->order_time);
-	printf("order type: %c\n", current_pizza->order_type);
-	printf("house: %s\n", current_pizza->delivery_house);
-	printf("pickup point: %s\n", current_pizza->pickup_point);
+    printf("colour: %c\n", current_pizza->colour);
+    printf("size: %c\n", current_pizza->size);
+    printf("order time: %d\n", current_pizza->order_time);
+    printf("order type: %c\n", current_pizza->order_type);
+    printf("house: %s\n", current_pizza->delivery_house->name);
+    // printf("pickup point: %s\n", current_pizza->pickup_point);
 }
