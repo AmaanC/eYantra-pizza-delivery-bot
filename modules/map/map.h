@@ -16,8 +16,8 @@ typedef struct NodeStruct {
     // A char array for the name string. TODO: Remove for finals
     char *name;
     // Co-ordinates are relative to the "start" block
-    int x;
-    int y;
+    float x;
+    float y;
     // Length of the array called "connected" below
     int num_connected;
     // So we can easily "push" more nodes using the function. Just counts how many connections have been made already

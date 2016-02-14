@@ -558,7 +558,7 @@ void CurveTowards(Node *source_node, Node *target_node) {
     float xDist = source_node->x - curve_center->x;
     float yDist = source_node->y - curve_center->y;
     radius = sqrt(xDist * xDist + yDist * yDist);
-    printf("%f\n", radius);
+    printf("%f, %f\n", source_node->x, yDist);
 
     angular_velocity = GetAngularVelocity(source_node, target_node);
     // Linear velocity = radius * angular velocity
