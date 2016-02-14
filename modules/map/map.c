@@ -373,6 +373,21 @@ float MakePositiveRad(float angle) {
     }
 }
 
+// Get the angular velocity to travel from node1 to node2 on a curve in 1 second
+float GetAngularVelocity(Node *node1, Node *node2) {
+    float angular_velocity = 0;
+
+    // To find the angle formed if you joined the center to curve_node_1 and curve_node_2
+    float angle_to_1 = atan2(curve_center->y - node1->y, curve_center->x - node1->x);
+    float angle_to_2 = atan2(curve_center->y - node2->y, curve_center->x - node2->x);
+
+    // Bring it in the range of 0-2pi so +ves and -ves don't throw us off
+    // In 1 second, we need to turn X radians, as calculated here
+    angular_velocity = MakePositiveRad(angle_to_2) - MakePositiveRad(angle_to_1);
+
+    return angular_velocity;
+}
+
 // Returns 1 if the right motor should be the faster one
 // -1 if the left should be faster
 int GetCurveDirection(Node *source_node, Node *target_node) {
@@ -524,21 +539,6 @@ PathStack* Dijkstra(Node *source_node, Node *target_node) {
     while (counter_node != source_node);
     // printf("%d", final_path->top);
     return final_path;
-}
-
-// Get the angular velocity to travel from node1 to node2 on a curve in 1 second
-float GetAngularVelocity(Node *node1, Node *node2) {
-    float angular_velocity = 0;
-
-    // To find the angle formed if you joined the center to curve_node_1 and curve_node_2
-    float angle_to_1 = atan2(curve_center->y - node1->y, curve_center->x - node1->x);
-    float angle_to_2 = atan2(curve_center->y - node2->y, curve_center->x - node2->x);
-
-    // Bring it in the range of 0-2pi so +ves and -ves don't throw us off
-    // In 1 second, we need to turn X radians, as calculated here
-    angular_velocity = MakePositiveRad(angle_to_2) - MakePositiveRad(angle_to_1);
-
-    return angular_velocity;
 }
 
 void CurveTowards(Node *source_node, Node *target_node) {
