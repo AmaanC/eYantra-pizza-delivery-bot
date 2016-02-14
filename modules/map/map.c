@@ -15,14 +15,15 @@
 #include <math.h>
 #include "map.h"
 #include "../pos_encoder/pos_encoder.h"
+#include "../lcd/lcd.h"
 
 // This is how the bot's (actual) position is maintained
 Position *bot_position;
 
-// Number of nodes (vertices) in the graph. This *should* be stored in a Graph struct, but
-// temporarily, this will do. TODO: REMOVE THIS
-// The value is filled in by the DFSEval function
-int num_nodes = 0;
+Graph *our_graph;
+
+Node *found_node; // The node we find by name in our timeline solver
+char *current_search_name; // The name of the node we're looking for in the timeline solver
 
 Node **curve_nodes;
 const int curve_nodes_len = 8;
@@ -38,11 +39,16 @@ Node *CreateNode(int x, int y, int num_connected, char *name) {
     new_node->y = y;
     new_node->num_connected = num_connected;
     new_node->name = name;
+    new_node->counter = 0;
+    new_node->visited = 0;
+    new_node->done = 0;
 
     new_node->connected = malloc(new_node->num_connected * sizeof(Connection*)); // Create space for an array of connection pointers
     for (i = 0; i < num_connected; i++) {
         new_node->connected[i] = malloc(sizeof(Connection)); // Create space for every individual connection in the array
     }
+
+    our_graph->num_nodes++;
 
     return new_node;
 }
@@ -77,8 +83,10 @@ void InitGraph() {
 
     bot_position = malloc(sizeof(Position));
     curve_nodes = malloc(8 * sizeof(Node*));
-    // Initialize the 2 nodes with their x, y, and number of connected nodes
+    our_graph = malloc(sizeof(Graph));
+    our_graph->num_nodes = 0;
 
+    // Initialize the 2 nodes with their x, y, and number of connected nodes
     P1 = CreateNode(-90, 7, 1, "P1");
     P2 = CreateNode(-72, 7, 1, "P2");
     P3 = CreateNode(-54, 7, 1, "P3");
@@ -207,7 +215,9 @@ void InitGraph() {
     ConnectNodes(H12, r18, 2.70);
 
     // We always start at S
+    our_graph->start = S;
     bot_position->cur_node = S;
+    bot_position->cur_radians = PI / 2;
 
     // Define the nodes where we want to use our custom curve function instead of
     // rotating towards the next node and going forward
@@ -221,8 +231,12 @@ void InitGraph() {
     curve_nodes[5] = r10;
     curve_nodes[6] = r12;
     curve_nodes[7] = r13;
+    // lcd_printf("Added");
+    // _delay_ms(100);
 
     MoveBotToNode(H12);
+    MoveBotToNode(S);
+    MoveBotToNode(r12);
 }
 
 Node *GetCurrentNode() {
@@ -231,12 +245,18 @@ Node *GetCurrentNode() {
 
 // Call it like this:
 // DFSEval(GetCurrentNode(), GetCurrentNode()->visited, update_dist)
-void DFSEval(Node *source_node, int unvisited_value, void fn()) {
+void DFSEval(Node *source_node, int unvisited_value, int fn()) {
     int i;
-    fn(source_node);
-    // TODO: REMOVE
-    num_nodes++;
     source_node->visited = !unvisited_value;
+    // If the following fn returns TRUE, we can stop DFS right now.
+    // Helps *some* with performance, right?
+    // Right?
+    // Fine, don't say anything.
+    // FINE.
+    // NO MORE COMMENTS FOR YOU, MISSY.
+    if (fn(source_node) == TRUE) {
+        return;
+    }
     for (i = 0; i < source_node->counter; i++) {
         // If it hasn't been visited already, run DFS on the node too.
         if (source_node->connected[i]->ptr->visited == unvisited_value) {
@@ -245,12 +265,36 @@ void DFSEval(Node *source_node, int unvisited_value, void fn()) {
     }
 }
 
+
+// This uses 2 global variables, current_search_name and found_node
+// I realize that this is terrible, but I picked this method over
+// having N different functions, all of which used DFS for different logic
+// So you've been warned, this function has side effects
+int CheckNodeName(Node *current_node) {
+    if (strcmp(current_node->name, current_search_name) == 0) {
+        found_node = current_node;
+        return TRUE;
+    }
+    return FALSE;
+}
+
+Node *GetNodeByName(char *name) {
+    Node *start_node;
+    start_node = GetCurrentNode();
+    found_node = NULL;
+    current_search_name = name;
+    // CheckNodeName automatically modifies a global variable called found_node, so we can just return that
+    DFSEval(start_node, start_node->visited, CheckNodeName);
+    return found_node;
+}
+
 // The things you need to do to initialize all the nodes for Dijkstra's algorithm
 // Namely, set the path_cost to infinite
 // And set the done flag to FALSE
-void InitNodesDijkstra(Node *current_node) {
+int InitNodesDijkstra(Node *current_node) {
     current_node->path_cost = INFINITY; // INFINITY is a macro from math.h
     current_node->done = FALSE;
+    return FALSE;
 }
 
 int IndexOfNode(Node **node_arr, int len, Node *needle) {
@@ -305,7 +349,7 @@ float GetRotationCost(float radians) {
 
 // Use Dijkstra's algorithm to figure out best path and then use
 // move_to module to move the bot through all the nodes
-// in the route we choose. (move_to uses the pos_encoder and bl_sensor to
+// in the route we choose. (move_to uses the pos encoder and bl sensor to
 // ensure that the bot travels exactly to the point we want it to.)
 // For eg. the path fro going from A -> C is A->B->C
 // This function will figure that path out and call move_to(B.x, B.y)
@@ -358,17 +402,18 @@ PathStack* Dijkstra(Node *source_node, Node *target_node) {
 
     current_node = source_node;
     DFSEval(source_node, source_node->visited, InitNodesDijkstra);
-    node_costs = malloc(num_nodes * sizeof(Node*));
+    node_costs = malloc(our_graph->num_nodes * sizeof(Node*));
     // The final_path won't always be this long, but we need enough memory in case it is, somehow
     final_path = malloc(sizeof(PathStack));
-    final_path->path = malloc(num_nodes * sizeof(Node*));
+    final_path->path = malloc(our_graph->num_nodes * sizeof(Node*));
     final_path->top = 0;
 
     source_node->path_cost = 0;
     source_node->done = TRUE;
     source_node->enter_radians = bot_position->cur_radians;
     loop_limiter = 0;
-    printf("Target name: %s\n\n", target_node->name);
+    // lcd_printf("Targ: %s", target_node->name);
+    // _delay_ms(200);
     while (current_node != target_node) {
         // The accum_cost is the cost from the source_node to the current_node
         // It'll be used to update the costs of all neighbours
@@ -449,7 +494,8 @@ void CurveTowards(Node *source_node, Node *target_node) {
     // Start the motors on the path for the curve
     // pos_encoder_velocity(left_motor, right_motor);
     // Let them keep going until one of the motors has spun enough
-    // pos_encoder_angle_rotate(angle * 180 / PI);
+    // pos_encoder_forward();
+    // pos_encoder_angle_rotate(abs(angle * 180 / PI));
 }
 
 void MoveBotToNode(Node *target_node) {
@@ -459,10 +505,15 @@ void MoveBotToNode(Node *target_node) {
     float xDist, yDist;
 
     final_path = Dijkstra(GetCurrentNode(), target_node);
-    for (i = final_path->top - 1; i >= 0; i--) {
-        printf("%s, ", final_path->path[i]->name);
-    }
-    printf("\nTotal cost: %f\n", final_path->total_cost);
+    // for (i = final_path->top - 1; i >= 0; i--) {
+        // lcd_printf("%s", final_path->path[i]->name);
+    //     _delay_ms(500);
+    //     // printf("%s, ", final_path->path[i]->name);
+    // }
+    // lcd_printf("Cost: %d", (int) final_path->total_cost);
+    // _delay_ms(500);
+
+    // printf("\nTotal cost: %f\n", final_path->total_cost);
 
     // Now that we know the path to take, here's how we actually get there
     // To go from A to D
@@ -483,15 +534,23 @@ void MoveBotToNode(Node *target_node) {
             IndexOfNode(curve_nodes, curve_nodes_len, current_node) != -1 &&
             IndexOfNode(curve_nodes, curve_nodes_len, next_node) != -1
         ) {
+            // lcd_printf("Curve");
+
             CurveTowards(current_node, next_node);
         }
         else {
+
             xDist = current_node->x - next_node->x;
             yDist = current_node->y - next_node->y;
-            // pos_encoder_rotate_bot((bot_position->cur_radians - next_node->enter_radians) * 180 / PI);
-            // pos_encoder_forward_mm(sqrt(xDist * xDist + yDist * yDist));
+            // lcd_printf("Rot: %d", (int) ((next_node->enter_radians - bot_position->cur_radians) * 180 / PI));
+            // _delay_ms(500);
+            // pos_encoder_rotate_bot((next_node->enter_radians - bot_position->cur_radians) * 180 / PI);
+            bot_position->cur_radians = next_node->enter_radians;
+            // pos_encoder_forward_mm(10 * sqrt(xDist * xDist + yDist * yDist));
         }
 
+        bot_position->cur_node = current_node;
         current_node = next_node;
     }
+    bot_position->cur_node = target_node;
 }

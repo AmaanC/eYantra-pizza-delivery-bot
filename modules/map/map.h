@@ -54,6 +54,11 @@ typedef struct NodeStruct {
     Connection **connected;
 } Node;
 
+typedef struct _Graph {
+    Node *start; // For our map, we can get to any node from the starting position, so all we need is this
+    int num_nodes;
+} Graph;
+
 // A "stack" of Nodes. Len indicates the next empty element, so to use it as a stack, use
 // for (i = top-1; i >= 0; i--)
 typedef struct _PathStack {
@@ -61,7 +66,6 @@ typedef struct _PathStack {
     int top;
     float total_cost;
 } PathStack;
-
 
 // A struct to store the position of the bot
 typedef struct _Pos {
@@ -73,9 +77,10 @@ Node* CreateNode(int x, int y, int num_connected, char *name);
 void ConnectNodes(Node *a, Node *b, float cost);
 void InitGraph();
 Node* GetCurrentNode();
+Node* GetNodeByName(char *name);
 
-void DFSEval(Node *source_node, int unvisited_value, void fn());
-void InitNodesDijkstra(Node* current_node);
+void DFSEval(Node *source_node, int unvisited_value, int fn());
+int InitNodesDijkstra(Node* current_node);
 void MoveBotToNode(Node* target_node);
 PathStack* Dijsktra(Node *source_node, Node *target_node);
 

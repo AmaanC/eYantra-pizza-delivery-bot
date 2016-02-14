@@ -4,6 +4,9 @@
 
 int main() {
     InitGraph();
+    printf("found.name: %s\n", GetNodeByName("H12")->name);
+    printf("found.name: %s\n", GetNodeByName("P2")->name);
+    printf("found.name: %s\n", GetNodeByName("r12")->name);
     // Node *start = GetCurrentNode();
     // DFSEval(start, start->visited, InitNodesDijkstra);
     // MoveBotToNode(start->connected[0]->ptr->connected[1]->ptr);
