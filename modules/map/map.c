@@ -29,7 +29,7 @@ Node **curve_nodes;
 const int curve_nodes_len = 8;
 
 // Returns a pointer to a node
-Node *CreateNode(int x, int y, int num_connected, char *name) {
+Node *CreateNode(float x, float y, int num_connected, char *name) {
     int i;
     Node *new_node;
     new_node = malloc(sizeof(Node));
@@ -281,7 +281,7 @@ int CheckNodeName(Node *current_node) {
 Node *GetNodeByName(char *name) {
     Node *start_node;
     start_node = GetCurrentNode();
-    found_node = start_node; // By default, let it be the current node
+    found_node = NULL;
     current_search_name = name;
     // CheckNodeName automatically modifies a global variable called found_node, so we can just return that
     DFSEval(start_node, start_node->visited, CheckNodeName);
@@ -349,7 +349,7 @@ float GetRotationCost(float radians) {
 
 // Use Dijkstra's algorithm to figure out best path and then use
 // move_to module to move the bot through all the nodes
-// in the route we choose. (move_to uses the pos encoder and bl sensor to
+// in the route we choose. (move_to uses the pos_encoder and bl_sensor to
 // ensure that the bot travels exactly to the point we want it to.)
 // For eg. the path fro going from A -> C is A->B->C
 // This function will figure that path out and call move_to(B.x, B.y)
@@ -507,7 +507,7 @@ void MoveBotToNode(Node *target_node) {
     final_path = Dijkstra(GetCurrentNode(), target_node);
     // for (i = final_path->top - 1; i >= 0; i--) {
         // lcd_printf("%s", final_path->path[i]->name);
-    //     _delay_ms(500);
+        // _delay_ms(500);
     //     // printf("%s, ", final_path->path[i]->name);
     // }
     // lcd_printf("Cost: %d", (int) final_path->total_cost);

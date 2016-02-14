@@ -73,7 +73,7 @@ typedef struct _Pos {
     float cur_radians;
 } Position;
 
-Node* CreateNode(int x, int y, int num_connected, char *name);
+Node* CreateNode(float x, float y, int num_connected, char *name);
 void ConnectNodes(Node *a, Node *b, float cost);
 void InitGraph();
 Node* GetCurrentNode();
