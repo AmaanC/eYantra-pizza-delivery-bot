@@ -4,7 +4,7 @@
 
 #define TRUE 1
 #define FALSE 0
-#define PI 3.14159265
+// #define M_PI 3.14159265
 
 // #include <avr/io.h>
 // #include <avr/interrupt.h>
@@ -25,8 +25,9 @@ Graph *our_graph;
 Node *found_node; // The node we find by name in our timeline solver
 char *current_search_name; // The name of the node we're looking for in the timeline solver
 
-Node **curve_nodes;
-const int curve_nodes_len = 8;
+Node *curve_center; // The center of the circle whose arc segments form the curve on the map
+Node **curve_nodes; // Nodes that are involved in the arcs
+const int curve_nodes_len = 8; // Number of nodes involved
 
 // Returns a pointer to a node
 Node *CreateNode(float x, float y, int num_connected, char *name) {
@@ -231,6 +232,9 @@ void InitGraph() {
     curve_nodes[5] = r10;
     curve_nodes[6] = r12;
     curve_nodes[7] = r13;
+
+    curve_center = r18;
+
     // lcd_printf("Added");
     // _delay_ms(100);
 
@@ -348,15 +352,24 @@ float GetRotationCost(float deg) {
 }
 
 float RadToDeg(float radians) {
-    return 180 / PI * radians;
+    return 180 / M_PI * radians;
 }
 
-float MakePositiveAngle(float angle) {
+float MakePositiveDeg(float angle) {
     if (angle < 0) {
-        return MakePositiveAngle(angle + 360);
+        return MakePositiveDeg(angle + 360);
     }
     else {
-        return (float) ((int)angle % 360);
+        return fmod(angle, 360);
+    }
+}
+
+float MakePositiveRad(float angle) {
+    if (angle < 0) {
+        return MakePositiveDeg(angle + 2 * M_PI);
+    }
+    else {
+        return fmod(angle, 2 * M_PI);
     }
 }
 
@@ -364,7 +377,7 @@ float MakePositiveAngle(float angle) {
 // -1 if the left should be faster
 int GetCurveDirection(Node *source_node, Node *target_node) {
     float angle = RadToDeg(atan2(target_node->y - source_node->y, target_node->x - source_node->x));
-    angle = MakePositiveAngle(angle);
+    angle = MakePositiveDeg(angle);
     // When you move anticlockwise, if the target is within 90 degrees of you, you need to curve
     // so that the right motor is faster
     printf("%f, %f\n", source_node->enter_deg, angle);
@@ -477,7 +490,7 @@ PathStack* Dijkstra(Node *source_node, Node *target_node) {
                     // printf("Updated: %s, %f, %f\n", counter_node->name, temp_cost, rotation_cost);
                     counter_node->path_cost = temp_cost;
                     // Save the angle we came into the node at
-                    counter_node->enter_deg = MakePositiveAngle(rot_deg);
+                    counter_node->enter_deg = MakePositiveDeg(rot_deg);
                     // We found a better way to get to counter_node, so we update its prev_node reference
                     counter_node->prev_node = current_node;
 
@@ -486,7 +499,7 @@ PathStack* Dijkstra(Node *source_node, Node *target_node) {
                 }
             }
         }
-        // printf("cur_node: %s, enter_deg: %f\n", current_node->name, current_node->enter_deg * 180 / PI);
+        // printf("cur_node: %s, enter_deg: %f\n", current_node->name, current_node->enter_deg * 180 / M_PI);
         current_node = GetLowestUndone(node_costs, node_costs_len);
         loop_limiter++;
         if (loop_limiter >= MAX_ITERATIONS) {
@@ -494,7 +507,7 @@ PathStack* Dijkstra(Node *source_node, Node *target_node) {
             break;
         }
     }
-    // printf("cur_node: %s, enter_deg: %f, total_cost: %f\n", current_node->name, current_node->enter_deg * 180 / PI, current_node->path_cost);
+    // printf("cur_node: %s, enter_deg: %f, total_cost: %f\n", current_node->name, current_node->enter_deg * 180 / M_PI, current_node->path_cost);
     // Dijkstra's is done!
     // Now we can reverse iterate and use the prev_node pointers to find the path the bot should take
     counter_node = target_node;
@@ -514,12 +527,42 @@ PathStack* Dijkstra(Node *source_node, Node *target_node) {
 }
 
 void CurveTowards(Node *source_node, Node *target_node) {
-    // These values come from calculating angular velocities and whatnot
-    unsigned char fast_value = 255;
-    unsigned char slow_value = 210;
+    // We can use the center of the circle and a curve node to find the radius
+    // Using the radius, we can calculate the angular velocities required by
+    // each of the wheels
+
+    unsigned char fast_value = 0;
+    unsigned char slow_value = 0;
     unsigned char left_motor, right_motor;
+    unsigned char max_speed = 0xFF; // The max speed either motor can turn at
+    float radius = 0; // The radius will be calculated dynamically
+    const wheel_dist = 7.5; // According to measurement
+    float angular_velocity = 0;
+    float ratio = 1;
+
+    // Needed to find the radius
+    float xDist = source_node->x - curve_center->x;
+    float yDist = source_node->y - curve_center->y;
+
+    // To find the angle formed if you joined the center to curve_node_1 and curve_node_2
+    float angle_to_1 = atan2(curve_center->y - source_node->y, curve_center->x - source_node->x);
+    float angle_to_2 = atan2(curve_center->y - target_node->y, curve_center->x - target_node->x);
+
+    radius = sqrt(xDist * xDist + yDist * yDist);
+    // Bring it in the range of 0-2pi so +ves and -ves don't throw us off
+    // In 1 second, we need to turn X radians, as calculated here
+    angular_velocity = MakePositiveRad(angle_to_2) - MakePositiveRad(angle_to_1);
+    // Linear velocity = radius * angular velocity
+    // Our motors have different radiuses, which is why they have different linear velocities
+    slow_value = (radius - wheel_dist) * fabs(angular_velocity);
+    fast_value = (radius + wheel_dist) * fabs(angular_velocity);
+    ratio = max_speed / fast_value;
+
+    fast_value = max_speed;
+    slow_value *= ratio;
     
-    if (GetCurveDirection(source_node, target_node) == 1) {
+    // if (GetCurveDirection(source_node, target_node) == 1) {
+    if (angular_velocity > 0) {
         right_motor = fast_value;
         left_motor = slow_value;
     }
@@ -532,7 +575,7 @@ void CurveTowards(Node *source_node, Node *target_node) {
     // pos_encoder_velocity(left_motor, right_motor);
     // Let them keep going until one of the motors has spun enough
     // pos_encoder_forward();
-    // pos_encoder_angle_rotate(abs(angle * 180 / PI));
+    // pos_encoder_angle_rotate(abs(angle * 180 / M_PI));
 }
 
 void MoveBotToNode(Node *target_node) {
