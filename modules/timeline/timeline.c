@@ -84,15 +84,16 @@ void InitTimeline() {
     CreateOrder(our_timeline, 'r', 'l', 30, 'r', "H12");
     CreateOrder(our_timeline, 'g', 'l', 50, 'p', "H2");
     CreateOrder(our_timeline, 'r', 'l', 60, 'r', "H4");
-    CreateOrder(our_timeline, 'b', 'l', 70, 'r', "H4");
-    CreateOrder(our_timeline, 'b', 'l', 100, 'r', "H6");
-    CreateOrder(our_timeline, 'r', 'l', 130, 'p', "H9");
+    CreateOrder(our_timeline, 'b', 'l', 89, 'r', "H4");
+    CreateOrder(our_timeline, 'b', 'l', 0, 'r', "H6");
+    CreateOrder(our_timeline, 'r', 'l', 30, 'p', "H6");
 }
 
 Timeline *GetTimeline() {
     return our_timeline;
 }
 
+// TODO: Consider adding a threshold. An overlap of 1s means very little
 int CheckOverlap(TimeBlock *a, TimeBlock *b){
     // An overlap occurs if A starts before B ends *and* B starts before A ends.
     if (
@@ -120,7 +121,7 @@ TimeBlock *GetCurrentTimeBlock() {
 void FindNextDefiniteNeed(Timeline *timeline) {
     int i, j;
     Order *order1, *order2;
-    float start_time = 0; // The potential start time of the next_required_period
+    float start_time = INFINITY; // The potential start time of the next_required_period
     float lowest_start_time = INFINITY; // The lowest required period we've found so far
     TimeBlock *next_potential; // Potentially the next_required_period
 
@@ -131,6 +132,7 @@ void FindNextDefiniteNeed(Timeline *timeline) {
     }
 
     next_potential = malloc(sizeof(TimeBlock));
+    next_potential->start = INFINITY;
     next_potential->end = INFINITY;
 
     // We'll look at every combination of the orders we've got and see if any of them have an overlapping period
@@ -172,7 +174,7 @@ void FindNextDefiniteNeed(Timeline *timeline) {
             ) {
                 lowest_start_time = start_time;
                 next_potential->start = start_time;
-                printf("Overlap between %s and %f: %f\n", order1->delivery_house->name, order2->block->start, start_time);
+                printf("Overlap between %s, %f and %f\n", order1->delivery_house->name, order1->block->start, order2->block->start);
             }
             
         }
