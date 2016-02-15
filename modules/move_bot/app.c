@@ -9,7 +9,8 @@
 
 int main(){
 	move_bot_init_devices();
-	move_bot_forward(100);
+	pos_encoder_velocity(255, 255);
+	move_bot_forward_mm(100);
 	_delay_ms(500);
 	rotate_bot(90);
 	_delay_ms(500);
