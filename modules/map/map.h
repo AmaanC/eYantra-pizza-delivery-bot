@@ -59,19 +59,17 @@ typedef struct _Graph {
     int num_nodes;
 } Graph;
 
-// A "stack" of Nodes. Len indicates the next empty element, so to use it as a stack, use
-// for (i = top-1; i >= 0; i--)
-typedef struct _PathStack {
-    Node **path;
-    int top;
-    float total_cost;
-} PathStack;
-
 // A struct to store the position of the bot
 typedef struct _Pos {
     Node *cur_node;
     float cur_deg;
 } Position;
+
+typedef struct _CurveInfo {
+    Node *curve_center; // The center of the circle whose arc segments form the curve on the map
+    Node **curve_nodes; // Nodes that are involved in the arcs
+    int curve_nodes_len; // Number of nodes involved
+} CurveInfo;
 
 Node* CreateNode(float x, float y, int num_connected, char *name);
 void ConnectNodes(Node *a, Node *b, float cost);
@@ -80,8 +78,9 @@ Node* GetCurrentNode();
 Node* GetNodeByName(char *name);
 
 void DFSEval(Node *source_node, int unvisited_value, int fn());
-int InitNodesDijkstra(Node* current_node);
+
 void MoveBotToNode(Node* target_node);
-PathStack* Dijsktra(Node *source_node, Node *target_node);
+CurveInfo *GetCurveInfo();
+Graph *GetGraph();
 
 #endif
