@@ -73,13 +73,23 @@ void CreateOrder(
     i = timeline->len;
     // printf("%d: %s\n", i, delivery_house_name);
     // Here, we want to insert the new_order into the array and keep the
-    // array sorted by order_time in ascending order
+    // array sorted by their delivery period's end time in ascending order
+
+    // Reason for the decision:
+    // For example, if there's a reg order at time 50, and a preorder at time 70
+    // We can pick up the preorder at 40 and the reg at 50
+    // We *have* to deliver the pre by 100 and the reg by 80
+    // By default, we want to maximize deliveries in time, and to do that
+    // I'll pick up the pizza which is due right now over the one
+    // that is due later.
+    // Therefore, sort by due time.
+
     // To do so, we shift the array's elements to the right until we find
     // the new_order's spot. Then we insert the new_order at that spot
     while (
         i > 0 &&
         timeline->orders[i - 1] != NULL &&
-        new_order->order_time < timeline->orders[i - 1]->order_time
+        new_order->block->end < timeline->orders[i - 1]->block->end
     ) {
         timeline->orders[i] = timeline->orders[i - 1];
         i--;
@@ -97,8 +107,8 @@ void InitTimeline() {
     next_required_period->start = next_required_period->end = 0;
 
     CreateOrder(our_timeline, 'r', 'l', 30, 'r', "H12");
-    CreateOrder(our_timeline, 'g', 'l', 50, 'p', "H2");
-    CreateOrder(our_timeline, 'r', 'l', 60, 'r', "H4");
+    CreateOrder(our_timeline, 'g', 'l', 70, 'p', "H2");
+    CreateOrder(our_timeline, 'r', 'l', 50, 'r', "H4");
     CreateOrder(our_timeline, 'b', 'l', 89, 'r', "H4");
     CreateOrder(our_timeline, 'b', 'l', 0, 'r', "H6");
     CreateOrder(our_timeline, 'r', 'l', 30, 'p', "H6");
