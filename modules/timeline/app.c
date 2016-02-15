@@ -4,11 +4,18 @@
 #include "../map/map.h"
 
 int main() {
+    Timeline *timeline;
+    int i;
+
     InitGraph();
     InitTimeline();
-    printf("Num orders: %d\n", GetTimeline()->len);
-    printf("Order 2 start: %f\n", GetTimeline()->orders[2]->block->start);
-    FindNextDefiniteNeed(GetTimeline());
-
+    timeline = GetTimeline();
+    printf("Num orders: %d\n", timeline->len);
+    printf("Order 2 start: %f\n", timeline->orders[2]->block->start);
+    FindNextDefiniteNeed(timeline);
+    
+    for (i = 0; i < timeline->len; i++) {
+        Display(timeline->orders[i]);
+    }
     return 0;
 }

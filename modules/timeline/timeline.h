@@ -34,5 +34,6 @@ typedef struct _Timeline {
 void CreateOrder(Timeline *timeline, char colour, char size, int order_time, char order_type, char *delivery_house_name);
 Timeline *GetTimeline();
 void FindNextDefiniteNeed(Timeline *timeline);
+void Display(Order *current_order);
 
 #endif

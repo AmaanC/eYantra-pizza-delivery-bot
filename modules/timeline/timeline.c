@@ -49,6 +49,7 @@ void CreateOrder(
     ) {
 
     Order *new_order;
+    int i = 0;
 
     new_order = malloc(sizeof(Order));
     new_order->colour = colour;
@@ -69,7 +70,21 @@ void CreateOrder(
         new_order->block->end = order_time + DELIVERY_PERIOD;
     }
 
-    timeline->orders[timeline->len] = new_order;
+    i = timeline->len;
+    // printf("%d: %s\n", i, delivery_house_name);
+    // Here, we want to insert the new_order into the array and keep the
+    // array sorted by order_time in ascending order
+    // To do so, we shift the array's elements to the right until we find
+    // the new_order's spot. Then we insert the new_order at that spot
+    while (
+        i > 0 &&
+        timeline->orders[i - 1] != NULL &&
+        new_order->order_time < timeline->orders[i - 1]->order_time
+    ) {
+        timeline->orders[i] = timeline->orders[i - 1];
+        i--;
+    }
+    timeline->orders[i] = new_order;
     timeline->len++;
 }
 
@@ -185,11 +200,19 @@ void FindNextDefiniteNeed(Timeline *timeline) {
     next_required_period = next_potential;
 }
 
-void display(Order *current_order) {
-    printf("colour: %c\n", current_order->colour);
-    printf("size: %c\n", current_order->size);
-    printf("order time: %d\n", current_order->order_time);
-    printf("order type: %c\n", current_order->order_type);
+// This is called when we've got some free time, and want to consider doing the following:
+// Finding more pizzas
+// Picking an extra pizza up with the second arm
+// Picking an old, canceled pizza up
+void FreeTimeDecision() {
+
+}
+
+void Display(Order *current_order) {
+    printf("colour: %c, ", current_order->colour);
+    printf("size: %c, ", current_order->size);
+    printf("order time: %d, ", current_order->order_time);
+    printf("order type: %c, ", current_order->order_type);
     printf("house: %s\n", current_order->delivery_house->name);
     // printf("pickup point: %s\n", current_order->pickup_point);
 }
