@@ -111,6 +111,8 @@ void InitTimeline() {
     next_required_period = malloc(sizeof(TimeBlock));
     next_required_period->start = next_required_period->end = 0;
 
+    // For reference:
+    // CreateOrder(OrderList *timeline, char colour, char size, int order_time, char order_type, char *delivery_house_name)
     CreateOrder(our_timeline, 'r', 'l', 30, 'r', "H12");
     CreateOrder(our_timeline, 'g', 'l', 70, 'p', "H2");
     CreateOrder(our_timeline, 'r', 'l', 50, 'r', "H4");
