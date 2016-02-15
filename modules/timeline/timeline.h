@@ -3,6 +3,12 @@
 
 #include "../map/map.h"
 
+// A period of time. We use it to check for overlaps between different time blocks
+typedef struct _TimeBlock {
+    int start;
+    int end;
+} TimeBlock;
+
 typedef struct _Pizza {
     char colour; // r, g, b: red, green, blue
     char size; // s, m, l: small, medium, large
@@ -16,14 +22,9 @@ typedef struct _Pizza {
     //'d' = delivered
     //'h' = holding
     //'c' = canceled
-    Time_Block *block;
+    TimeBlock *block;
 } Pizza;
 
 Pizza *CreatePizza(char colour, char size, int order_time, char order_type, char *delivery_house_name);
-
-typedef struct _Time_Block {
-	int start_time;
-	int end_time;
-}Time_Block;
 
 #endif

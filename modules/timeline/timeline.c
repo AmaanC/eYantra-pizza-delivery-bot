@@ -33,8 +33,7 @@ Pizza *CreatePizza(
         char size,
         int order_time,
         char order_type,
-        char *delivery_house_name,
-        char status
+        char *delivery_house_name
     ) {
     Pizza *new_pizza;
     new_pizza = malloc(sizeof(Pizza));
@@ -45,20 +44,21 @@ Pizza *CreatePizza(
     new_pizza->delivery_house = GetNodeByName(delivery_house_name);
     new_pizza->status = 'n';
     new_pizza->pickup_point = NULL;
+    new_pizza->block = malloc(sizeof(TimeBlock));
     if(order_type = 'p'){
-        new_pizza->block->start_time = order_time - 30;
-        new_pizza->block->end_time = order_time + 30;
+        new_pizza->block->start = order_time - 30;
+        new_pizza->block->end = order_time + 30;
     }
     else
     {
-        new_pizza->block->start_time = order_time;
-        new_pizza->block->end_time = order_time + 30;
+        new_pizza->block->start = order_time;
+        new_pizza->block->end = order_time + 30;
     }
 
     return new_pizza;
 }
 
-int check_overlap(Time_Block *a, Time_Block *b){
+int check_overlap(TimeBlock *a, TimeBlock *b){
     if(a->start < b->start && a->end > b->start){
         return 1;
     }
@@ -100,8 +100,8 @@ void init_timeline(){
 void block_time(Pizza **Orders){
     int i, j, k = 0;
     int overlap;
-    Blocked_Time **block;
-    block = malloc(10 * sizeof(Blocked_Time));
+    TimeBlock **block;
+    block = malloc(10 * sizeof(TimeBlock));
     //start time when we pick up pizza from second block
     //end time when we deliver pizza from any one of blocks
     //end time will be changed dynamically as soon a s we deliver the pizza
@@ -109,14 +109,14 @@ void block_time(Pizza **Orders){
         for(j=0; j<10; j++){
             overlap = check_overlap(Orders[i]->block, Orders[j]->block);
             if(overlap == 1){
-                if(Orders[i]->block->start_time > Orders[j]->block->start_time ){
-                    block[k]->start_time = Orders[i]->block->start_time 
-                    block[k]->end_time = INFINITY; 
+                if(Orders[i]->block->start > Orders[j]->block->start ){
+                    block[k]->start = Orders[i]->block->start;
+                    block[k]->end = INFINITY; 
                     k++;
                 }
                 else {
-                    block[k]->start_time = Orders[i]->block->start_time;
-                    block[k]->end_time = INFINITY;
+                    block[k]->start = Orders[i]->block->start;
+                    block[k]->end = INFINITY;
                     k++;
                 }//end of nested else
             }//end of if statement
