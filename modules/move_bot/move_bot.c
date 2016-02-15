@@ -38,7 +38,7 @@ void rotate_bot(int Degrees){
 			Right_Black_Line = bl_sensor_ADC_Conversion(1);	
     		pos_encoder_left_degrees(abs(rem)); 
 
-    		if(Right_Black_Line > 0x28 && !(Center_Black_Line < 0x28))
+    		if(Right_Black_Line > 0x28 && !(Center_Black_Line > 0x28))
     			continue;
     		else
     			break;
@@ -51,7 +51,7 @@ void rotate_bot(int Degrees){
 			Center_Black_Line = bl_sensor_ADC_Conversion(2);
     		pos_encoder_right_degrees(abs(rem)); 	
 
-    		if(Left_Black_Line > 0x28 && !(Center_Black_Line < 0x28))
+    		if(Left_Black_Line > 0x28 && !(Center_Black_Line > 0x28))
     			continue;
     		else
     			break;
