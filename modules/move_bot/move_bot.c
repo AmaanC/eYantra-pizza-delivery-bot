@@ -33,29 +33,31 @@ void rotate_bot(int Degrees){
 
     if(Degrees > 0){
     	temp = Degrees;
-    	for(rem = 5; rem <= temp; rem += 5){
+    	for(rem = 10; rem <= temp; rem += 10){
     		Center_Black_Line = bl_sensor_ADC_Conversion(2);
 			Right_Black_Line = bl_sensor_ADC_Conversion(1);	
     		pos_encoder_left_degrees(abs(rem)); 
 
-    		if(Right_Black_Line > 0x28 && !(Center_Black_Line > 0x28))
+    		if(Right_Black_Line < 0x28 && Center_Black_Line < 0x28)
     			continue;
     		else
     			break;
     	}
+    	pos_encoder_stop();
     }
     else if (Degrees < 0 ){
     	temp = Degrees;
-    	for(rem = 5; rem <= temp; rem += 5){
+    	for(rem = 10; rem <= temp; rem += 10){
     		Left_Black_Line = bl_sensor_ADC_Conversion(3);
 			Center_Black_Line = bl_sensor_ADC_Conversion(2);
     		pos_encoder_right_degrees(abs(rem)); 	
 
-    		if(Left_Black_Line > 0x28 && !(Center_Black_Line > 0x28))
+    		if(Left_Black_Line < 0x28 && Center_Black_Line < 0x28)
     			continue;
     		else
     			break;
     	}
+    	pos_encoder_stop();
     }
 }
 
