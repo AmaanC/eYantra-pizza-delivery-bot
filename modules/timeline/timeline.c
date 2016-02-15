@@ -93,7 +93,6 @@ int CheckOverlap(TimeBlock *a, TimeBlock *b){
     }
     return FALSE;
 }
-;
 
 // Find the time block where we'll definitely need 2 arms
 // Note that this function *does not* set the end time of the block time
