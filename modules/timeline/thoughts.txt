@@ -1,0 +1,48 @@
+TimelineControl:
+    state = 'free'
+    while(1) {
+        // both functions below will be blocking
+        // this means that they will not return until they've completed their task
+        // free will return only when it's picked up the extra pizza or called find_pizzas
+        // or it has set the state to busy
+        // reg will only return when it has delivered the pizzas the bot is carrying
+        if (state == 'free') {
+            free() // this will set the state to busy if it didn't find any pizzas to deliver
+        }
+        else {
+            reg() // the will set the state to free when the delivery is done
+        }
+    }
+
+
+Reg:
+    if we're in a blocked_time {
+        predict time to find both pizzas
+        predict time to deliver both
+        if best prediction means we do it in time, do it // TODO: Best prediction or worst prediction?
+    }
+    else {
+        if pizza found {
+            DeliverTo(House)
+        }
+        else {
+            FindPizza()
+        }
+    }
+
+FindPizza:
+    Go to r1
+    Pick side we haven't visited before
+    Detect pizza
+    state = 'free'
+
+Free:
+    GetAvailablePizzas(TimeBlock) // gets all pizzas we've found that we can pick up in a certain period
+    Eliminate pizzas which:
+     - Overlap with blocked time
+     - Delay our next scheduled order
+     - Are already our next scheduled order
+
+    If pizzas left on list, get one due earliest
+    PickPizza(earliest_due_pizza)
+    state = 'reg'
