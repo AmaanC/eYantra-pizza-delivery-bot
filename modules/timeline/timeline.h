@@ -26,14 +26,14 @@ typedef struct _Order {
 } Order;
 
 // A timeline is just an array of orders
-typedef struct _Timeline {
+typedef struct _OrderList {
     Order **orders;
     int len;
-} Timeline;
+} OrderList;
 
-void CreateOrder(Timeline *timeline, char colour, char size, int order_time, char order_type, char *delivery_house_name);
-Timeline *GetTimeline();
-void FindNextDefiniteNeed(Timeline *timeline);
+void CreateOrder(OrderList *timeline, char colour, char size, int order_time, char order_type, char *delivery_house_name);
+OrderList *GetTimeline();
+void FindNextDefiniteNeed(OrderList *timeline);
 void Display(Order *current_order);
 
 #endif

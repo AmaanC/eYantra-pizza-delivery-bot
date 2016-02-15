@@ -4,7 +4,7 @@
 #include "../map/map.h"
 
 int main() {
-    Timeline *timeline;
+    OrderList *timeline;
     int i;
 
     InitGraph();

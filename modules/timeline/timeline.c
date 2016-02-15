@@ -27,7 +27,7 @@
 // of time. These blocked off periods will be considered in our "free time" considerations, and any overlapping
 // permutations will be dismissed.
 
-Timeline *our_timeline;
+OrderList *our_timeline;
 
 // A time period when we will *require* 2 arms
 // Since it's end period is set dynamically, every time that we stop requiring it
@@ -39,8 +39,37 @@ TimeBlock *next_required_period;
 const int MAX_ORDERS = 10;
 const int DELIVERY_PERIOD = 30;
 
+void InsertOrder(OrderList *timeline, Order *new_order) {
+    int i = 0;
+    i = timeline->len;
+    // Here, we want to insert the new_order into the array and keep the
+    // array sorted by their delivery period's end time in ascending order
+
+    // Reason for the decision:
+    // For example, if there's a reg order at time 50, and a preorder at time 70
+    // We can pick up the preorder at 40 and the reg at 50
+    // We *have* to deliver the pre by 100 and the reg by 80
+    // By default, we want to maximize deliveries in time, and to do that
+    // I'll pick up the pizza which is due right now over the one
+    // that is due later.
+    // Therefore, sort by due time.
+
+    // To do so, we shift the array's elements to the right until we find
+    // the new_order's spot. Then we insert the new_order at that spot
+    while (
+        i > 0 &&
+        timeline->orders[i - 1] != NULL &&
+        new_order->block->end < timeline->orders[i - 1]->block->end
+    ) {
+        timeline->orders[i] = timeline->orders[i - 1];
+        i--;
+    }
+    timeline->orders[i] = new_order;
+    timeline->len++;
+}
+
 void CreateOrder(
-        Timeline *timeline,
+        OrderList *timeline,
         char colour,
         char size,
         int order_time,
@@ -70,36 +99,12 @@ void CreateOrder(
         new_order->block->end = order_time + DELIVERY_PERIOD;
     }
 
-    i = timeline->len;
+    InsertOrder(timeline, new_order);
     // printf("%d: %s\n", i, delivery_house_name);
-    // Here, we want to insert the new_order into the array and keep the
-    // array sorted by their delivery period's end time in ascending order
-
-    // Reason for the decision:
-    // For example, if there's a reg order at time 50, and a preorder at time 70
-    // We can pick up the preorder at 40 and the reg at 50
-    // We *have* to deliver the pre by 100 and the reg by 80
-    // By default, we want to maximize deliveries in time, and to do that
-    // I'll pick up the pizza which is due right now over the one
-    // that is due later.
-    // Therefore, sort by due time.
-
-    // To do so, we shift the array's elements to the right until we find
-    // the new_order's spot. Then we insert the new_order at that spot
-    while (
-        i > 0 &&
-        timeline->orders[i - 1] != NULL &&
-        new_order->block->end < timeline->orders[i - 1]->block->end
-    ) {
-        timeline->orders[i] = timeline->orders[i - 1];
-        i--;
-    }
-    timeline->orders[i] = new_order;
-    timeline->len++;
 }
 
 void InitTimeline() {
-    our_timeline = malloc(sizeof(Timeline));
+    our_timeline = malloc(sizeof(OrderList));
     our_timeline->orders = malloc(MAX_ORDERS * sizeof(Order));
     our_timeline->len = 0;
 
@@ -114,7 +119,7 @@ void InitTimeline() {
     CreateOrder(our_timeline, 'r', 'l', 30, 'p', "H6");
 }
 
-Timeline *GetTimeline() {
+OrderList *GetTimeline() {
     return our_timeline;
 }
 
@@ -143,7 +148,7 @@ TimeBlock *GetCurrentTimeBlock() {
 // Note that this function *does not* set the end time of the block time
 // Since our algorithm doesn't look ahead into the future for delivery permutations
 // we leave it to the arm lower function to set the end time
-void FindNextDefiniteNeed(Timeline *timeline) {
+void FindNextDefiniteNeed(OrderList *timeline) {
     int i, j;
     Order *order1, *order2;
     float start_time = INFINITY; // The potential start time of the next_required_period
@@ -210,11 +215,39 @@ void FindNextDefiniteNeed(Timeline *timeline) {
     next_required_period = next_potential;
 }
 
+
+// Get all the pizzas that I can pick up in the current_period
+// These are pizzas that we've already found, and whose start times
+// are past the start time of the current_period
+// Example:
+// If the bot is at H12, and has free time, it'll create a TimeBlock which
+// starts at the current time + the time it'll need to go to the pizza counter
+// This function will check which pizzas are available to be picked up in that time
+// Whichever *are* available are returned in an array
+OrderList *GetAvailablePizzas(TimeBlock current_period) {
+
+}
+
 // This is called when we've got some free time, and want to consider doing the following:
 // Finding more pizzas
-// Picking an extra pizza up with the second arm
+// Picking an extra pizza up with the second arm (regular or preorder, doesn't matter)
 // Picking an old, canceled pizza up
 void FreeTimeDecision() {
+    // We get the pizzas we can pick up in the next N seconds, where
+    // N is the time taken for the bot to get to the pizza counter
+    // Out of all of these, we'll eliminate pizzas based on this:
+    // - If the cost of delivering this pizza + your next regular one
+    // is enough to delay your next order or the one after that,
+    // eliminate it
+    // - If the cost mentioned above overlaps with a blocked period
+    // of time, eliminate it
+    // - If the next regular one is in the list, eliminate it
+
+    // Whichever are left now can be picked up without any repurcussions,
+    // so pick the one that's due the earliest up (TODO: should this be the one
+    // that's closest instead?)
+
+    // If no pizzas are left, let's go ahead and find more pizzas if time permits
 
 }
 

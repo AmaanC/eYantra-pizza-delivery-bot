@@ -1,7 +1,7 @@
 CC=gcc
 FILENAME=app
 
-objects := $(patsubst %.c,%.o,$(wildcard *.c)) ../map/map.o
+objects := $(patsubst %.c,%.o,$(wildcard *.c)) ../map/map.o ../dijkstra/dijkstra.o
 
 $(FILENAME) : $(objects)
 	cc -Wall -o $(FILENAME).out $(objects) -lm
