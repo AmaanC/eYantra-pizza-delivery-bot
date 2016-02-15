@@ -111,7 +111,6 @@ void pos_encoder_velocity(unsigned char left_motor, unsigned char right_motor)
   OCR5BL = (unsigned char)right_motor;
 }
 
-
 void pos_encoder_forward (void) //both wheels forward
 {
   pos_encoder_motion_set(0x06);
@@ -270,6 +269,7 @@ void pos_encoder_init_devices()
  right_position_encoder_interrupt_init();
  sei();   // Enables the global interrupt 
 }
+
 
 void pos_encoder_rotate_bot(int Degrees)
 {
