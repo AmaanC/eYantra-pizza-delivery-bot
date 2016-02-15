@@ -29,9 +29,15 @@
 
 Timeline *our_timeline;
 
+// A time period when we will *require* 2 arms
+// Since it's end period is set dynamically, every time that we stop requiring it
+// we can check the future orders again for another "definite need"
+TimeBlock *next_required_period;
+
 // We only have 10 pizza pick up points, and since the rules state that no pizzas will be added
 // or removed *during* a run, we can assume that the max orders we'll get is 10
 const int MAX_ORDERS = 10;
+const int DELIVERY_PERIOD = 30;
 
 void CreateOrder(
         Timeline *timeline,
@@ -54,13 +60,13 @@ void CreateOrder(
     new_order->pickup_point = NULL;
     new_order->block = malloc(sizeof(TimeBlock));
 
-    if (order_type = 'p') {
-        new_order->block->start = order_time - 30;
-        new_order->block->end = order_time + 30;
+    if (order_type == 'p') {
+        new_order->block->start = order_time - DELIVERY_PERIOD;
+        new_order->block->end = order_time + DELIVERY_PERIOD;
     }
     else {
         new_order->block->start = order_time;
-        new_order->block->end = order_time + 30;
+        new_order->block->end = order_time + DELIVERY_PERIOD;
     }
 
     timeline->orders[timeline->len] = new_order;
@@ -70,11 +76,15 @@ void CreateOrder(
 void InitTimeline() {
     our_timeline = malloc(sizeof(Timeline));
     our_timeline->orders = malloc(MAX_ORDERS * sizeof(Order));
+    our_timeline->len = 0;
+
+    next_required_period = malloc(sizeof(TimeBlock));
+    next_required_period->start = next_required_period->end = 0;
 
     CreateOrder(our_timeline, 'r', 'l', 30, 'r', "H12");
     CreateOrder(our_timeline, 'g', 'l', 50, 'p', "H2");
     CreateOrder(our_timeline, 'r', 'l', 60, 'r', "H4");
-    CreateOrder(our_timeline, 'b', 'l', 60, 'r', "H4");
+    CreateOrder(our_timeline, 'b', 'l', 70, 'r', "H4");
     CreateOrder(our_timeline, 'b', 'l', 100, 'r', "H6");
     CreateOrder(our_timeline, 'r', 'l', 130, 'p', "H9");
 }
@@ -94,36 +104,83 @@ int CheckOverlap(TimeBlock *a, TimeBlock *b){
     return FALSE;
 }
 
+TimeBlock *GetCurrentTimeBlock() {
+    TimeBlock *current;
+    current = malloc(sizeof(TimeBlock));
+    // TODO: USE TIMER TO GET CURRENT TIME
+    // current->start = TimerGetTime();
+    current->start = 0;
+    current->end = current->start + 1;
+}
+
 // Find the time block where we'll definitely need 2 arms
 // Note that this function *does not* set the end time of the block time
 // Since our algorithm doesn't look ahead into the future for delivery permutations
 // we leave it to the arm lower function to set the end time
-void FindNextDefiniteNeed(Order **Orders){
-    int i, j, k = 0;
-    int overlap;
-    TimeBlock **block;
-    block = malloc(10 * sizeof(TimeBlock));
-    // The start time is set to when we pick up order from second block,
-    // since that's when we start using 2 arms
-    // The end time will be changed dynamically as soon as we deliver the order,
-    // since that's when we stop using 2 arms
-    for (i = 0; i < 10; i++) {
-        for (j = 0; j < 10; j++) {
-            overlap = CheckOverlap(Orders[i]->block, Orders[j]->block);
-            if (overlap == TRUE) {
-                if (Orders[i]->block->start > Orders[j]->block->start) {
-                    block[k]->start = Orders[i]->block->start;
-                    block[k]->end = INFINITY; 
-                    k++;
-                }
-                else {
-                    block[k]->start = Orders[i]->block->start;
-                    block[k]->end = INFINITY;
-                    k++;
-                }
+void FindNextDefiniteNeed(Timeline *timeline) {
+    int i, j;
+    Order *order1, *order2;
+    float start_time = 0; // The potential start time of the next_required_period
+    float lowest_start_time = INFINITY; // The lowest required period we've found so far
+    TimeBlock *next_potential; // Potentially the next_required_period
+
+    // If there's a required_period going on right now, there's no point to checking for the next one
+    // until this one ends
+    if (CheckOverlap(GetCurrentTimeBlock(), next_required_period)) {
+        return;
+    }
+
+    next_potential = malloc(sizeof(TimeBlock));
+    next_potential->end = INFINITY;
+
+    // We'll look at every combination of the orders we've got and see if any of them have an overlapping period
+    // and are going to the same house.
+    // This is the only situation we see where we *definitely* need to use our 2 arms
+    // If the orders go to different houses, we might spend more time and might get delayed for
+    // our other orders, so this isn't a *definite* thing, it's something to consider, which
+    // will be done by our algorithm in its "free time" state.
+    // Note, though, that we can only consider finding our next definite need if our current one
+    // is over
+    // This function needs to find the *next* required period, not *a* required period.
+    // So we need the one with the timeframe being as soon as possible compared to right now.
+    for (i = 0; i < timeline->len; i++) {
+        for (j = 0; j < timeline->len; j++) {
+            if (i == j) {
+                continue;
             }
+            order1 = timeline->orders[i];
+            order2 = timeline->orders[j];
+
+            // The start time is set to when we pick up the order from second block,
+            // since that's when we start using 2 arms
+            // The end time will be changed dynamically as soon as we deliver the order,
+            // since that's when we stop using 2 arms
+            if (order1->block->start > order2->block->start) {
+                start_time = order1->block->start;
+            }
+            else {
+                start_time = order2->block->start;
+            }
+
+            // If it's the lowest one we've found
+            // and going to the same house
+            // and their timings overlap
+            if (
+                start_time < lowest_start_time &&
+                order1->delivery_house == order2->delivery_house &&
+                CheckOverlap(order1->block, order2->block) == TRUE
+            ) {
+                lowest_start_time = start_time;
+                next_potential->start = start_time;
+                printf("Overlap between %s and %f: %f\n", order1->delivery_house->name, order2->block->start, start_time);
+            }
+            
         }
     }
+    printf("Next period: %f to %f\n", next_potential->start, next_potential->end);
+    // Out of all the required periods available, the one with the lowest time
+    // is set to next_potential, so we set that to the next_required_period
+    next_required_period = next_potential;
 }
 
 void display(Order *current_order) {

@@ -5,8 +5,8 @@
 
 // A period of time. We use it to check for overlaps between different time blocks
 typedef struct _TimeBlock {
-    int start;
-    int end;
+    float start;
+    float end;
 } TimeBlock;
 
 typedef struct _Order {
@@ -33,5 +33,6 @@ typedef struct _Timeline {
 
 void CreateOrder(Timeline *timeline, char colour, char size, int order_time, char order_type, char *delivery_house_name);
 Timeline *GetTimeline();
+void FindNextDefiniteNeed(Timeline *timeline);
 
 #endif
