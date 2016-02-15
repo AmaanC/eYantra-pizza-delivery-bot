@@ -11,7 +11,8 @@ unsigned char Flag = 0;
 unsigned char Left_Black_Line = 0;
 unsigned char Center_Black_Line = 0;
 unsigned char Right_Black_Line = 0;
-unsigned char max_velocity = 255;
+unsigned char high_velocity = 255;
+unsigned char low_velocity = 200;
 volatile unsigned long int ShaftCounterLeft = 0; //to keep track of left position encoder 
 volatile unsigned long int ShaftCounterRight = 0; //to keep track of right position encoder
 unsigned int Degrees; //to accept angle in degrees for turning
@@ -32,7 +33,7 @@ void angle_rotate_left(unsigned int Degrees)
  {
  	Center_Black_Line = bl_sensor_ADC_Conversion(2);
  	Right_Black_Line = bl_sensor_ADC_Conversion(1);
-  	if(((ShaftCounterRight >= ReqdShaftCounterInt) | (ShaftCounterLeft >= ReqdShaftCounterInt)) && (Right_Black_Line < 0x28 && Center_Black_Line < 0x28))
+  	if(((ShaftCounterRight >= ReqdShaftCounterInt) | (ShaftCounterLeft >= ReqdShaftCounterInt)) | ( Center_Black_Line > 0x28))
   		break;
  }
   pos_encoder_stop(); 
@@ -50,7 +51,7 @@ void angle_rotate_right(unsigned int Degrees)
  {
  	Left_Black_Line = bl_sensor_ADC_Conversion(3);
 	Center_Black_Line = bl_sensor_ADC_Conversion(2);
-  	if(((ShaftCounterRight >= ReqdShaftCounterInt) | (ShaftCounterLeft >= ReqdShaftCounterInt)) && (Left_Black_Line < 0x28 && Center_Black_Line < 0x28))
+  	if(((ShaftCounterRight >= ReqdShaftCounterInt) | (ShaftCounterLeft >= ReqdShaftCounterInt)) | ( Center_Black_Line > 0x28))
   		break;
  }
   pos_encoder_stop(); 
@@ -97,17 +98,17 @@ void move_bot_forward_mm(unsigned int DistanceInMM)
 
 		if(Center_Black_Line > 0x28){
 			Flag = 1;
-			pos_encoder_velocity(255,255);
+			pos_encoder_velocity(high_velocity, high_velocity);
 		}
 
 		if((Left_Black_Line < 0x28) && (Flag==0)){
 			Flag=1;
-			pos_encoder_velocity(255,200);
+			pos_encoder_velocity(high_velocity, low_velocity);
 		}
 
 		if((Right_Black_Line < 0x28) && (Flag==0)){
 			Flag=1;
-			pos_encoder_velocity(200,255);
+			pos_encoder_velocity(low_velocity, high_velocity);
 		}
 
 		if(Center_Black_Line < 0x28 && Left_Black_Line < 0x28 && Right_Black_Line < 0x28){
