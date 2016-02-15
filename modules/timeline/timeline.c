@@ -57,21 +57,15 @@ Order *CreateOrder(
     return new_order;
 }
 
-int check_overlap(TimeBlock *a, TimeBlock *b){
-    if(a->start < b->start && a->end > b->start){
-        return 1;
+int CheckOverlap(TimeBlock *a, TimeBlock *b){
+    // An overlap occurs if A starts before B ends *and* B starts before A ends.
+    if (
+        a->start < b->end &&
+        b->start < a->end
+    ) {
+        return TRUE;
     }
-
-    else if(a->start == b->start && a->end == b->end){
-        return 1;
-    }
-
-    else if(a->start > b->start && a->start < b->end){
-        return 1;
-    }
-
-    else 
-        return 0;
+    return FALSE;
 }
 
 // void init_timeline(){
@@ -96,7 +90,11 @@ int check_overlap(TimeBlock *a, TimeBlock *b){
 //     }
 // }
 
-void block_time(Order **Orders){
+// Find the time block where we'll definitely need 2 arms
+// Note that this function *does not* set the end time of the block time
+// Since our algorithm doesn't look ahead into the future for delivery permutations
+// we leave it to the arm lower function to set the end time
+void FindDefiniteNeed(Order **Orders){
     int i, j, k = 0;
     int overlap;
     TimeBlock **block;
@@ -106,7 +104,7 @@ void block_time(Order **Orders){
     //end time will be changed dynamically as soon a s we deliver the order
     for(i = 0; i < 10; i++){
         for(j = 0; j < 10; j++){
-            overlap = check_overlap(Orders[i]->block, Orders[j]->block);
+            overlap = CheckOverlap(Orders[i]->block, Orders[j]->block);
             if(overlap == 1){
                 if(Orders[i]->block->start > Orders[j]->block->start ){
                     block[k]->start = Orders[i]->block->start;
