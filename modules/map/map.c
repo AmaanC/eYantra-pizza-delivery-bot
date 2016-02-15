@@ -237,10 +237,6 @@ void InitGraph() {
 
     // lcd_printf("Added");
     // _delay_ms(100);
-
-    MoveBotToNode(r6);
-    MoveBotToNode(r10);
-    MoveBotToNode(S);
 }
 
 Node *GetCurrentNode() {

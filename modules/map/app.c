@@ -19,6 +19,11 @@ int main() {
     // _delay_ms(1000);
     
     InitGraph();
+
+    MoveBotToNode(GetNodeByName("r6"));
+    MoveBotToNode(GetNodeByName("r10"));
+    MoveBotToNode(GetNodeByName("S"));
+
     // Node *start = GetCurrentNode();
     // DFSEval(start, start->visited, InitNodesDijkstra);
     // MoveBotToNode(start->connected[0]->ptr->connected[1]->ptr);
