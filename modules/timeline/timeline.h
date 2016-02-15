@@ -9,7 +9,7 @@ typedef struct _TimeBlock {
     int end;
 } TimeBlock;
 
-typedef struct _Pizza {
+typedef struct _Order {
     char colour; // r, g, b: red, green, blue
     char size; // s, m, l: small, medium, large
     int order_time; // 30, for example
@@ -23,8 +23,8 @@ typedef struct _Pizza {
     //'h' = holding
     //'c' = canceled
     TimeBlock *block;
-} Pizza;
+} Order;
 
-Pizza *CreatePizza(char colour, char size, int order_time, char order_type, char *delivery_house_name);
+Order *CreateOrder(char colour, char size, int order_time, char order_type, char *delivery_house_name);
 
 #endif

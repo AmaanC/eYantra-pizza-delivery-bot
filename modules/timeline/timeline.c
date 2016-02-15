@@ -27,35 +27,34 @@
 // of time. These blocked off periods will be considered in our "free time" considerations, and any overlapping
 // permutations will be dismissed.
 
-
-Pizza *CreatePizza(
+Order *CreateOrder(
         char colour,
         char size,
         int order_time,
         char order_type,
         char *delivery_house_name
     ) {
-    Pizza *new_pizza;
-    new_pizza = malloc(sizeof(Pizza));
-    new_pizza->colour = colour;
-    new_pizza->size = size;
-    new_pizza->order_time = order_time;
-    new_pizza->order_type = order_type;
-    new_pizza->delivery_house = GetNodeByName(delivery_house_name);
-    new_pizza->status = 'n';
-    new_pizza->pickup_point = NULL;
-    new_pizza->block = malloc(sizeof(TimeBlock));
+    Order *new_order;
+    new_order = malloc(sizeof(Order));
+    new_order->colour = colour;
+    new_order->size = size;
+    new_order->order_time = order_time;
+    new_order->order_type = order_type;
+    new_order->delivery_house = GetNodeByName(delivery_house_name);
+    new_order->status = 'n';
+    new_order->pickup_point = NULL;
+    new_order->block = malloc(sizeof(TimeBlock));
     if(order_type = 'p'){
-        new_pizza->block->start = order_time - 30;
-        new_pizza->block->end = order_time + 30;
+        new_order->block->start = order_time - 30;
+        new_order->block->end = order_time + 30;
     }
     else
     {
-        new_pizza->block->start = order_time;
-        new_pizza->block->end = order_time + 30;
+        new_order->block->start = order_time;
+        new_order->block->end = order_time + 30;
     }
 
-    return new_pizza;
+    return new_order;
 }
 
 int check_overlap(TimeBlock *a, TimeBlock *b){
@@ -75,38 +74,38 @@ int check_overlap(TimeBlock *a, TimeBlock *b){
         return 0;
 }
 
-void init_timeline(){
-    Pizza **Orders;
-    int o, i;
-    char colour;
-    char size;
-    int order_time;
-    char order_type;
-    char *delivery_house_name;
-    printf("No. of pizzas: ");
-    scanf("%d", &o);
-    Orders = malloc(o * sizeof(Pizza));
-    for(i=0; i<o; i++){
-        printf("pizza: %d", i);
-        scanf("colour: %c\n", &colour);
-        scanf("size: %c\n", &size);
-        scanf("order time: %d\n", &order_time);
-        scanf("order type: %c\n", &order_type);
-        scanf("house: %s\n", delivery_house_name);
-        Orders[i] = CreatePizza(colour, size, order_time, order_type, delivery_house_name);
-    }
-}
+// void init_timeline(){
+//     Order **Orders;
+//     int o, i;
+//     char colour;
+//     char size;
+//     int order_time;
+//     char order_type;
+//     char *delivery_house_name;
+//     printf("No. of orders: ");
+//     scanf("%d", &o);
+//     Orders = malloc(o * sizeof(Order));
+//     for(i=0; i<o; i++){
+//         printf("order: %d", i);
+//         scanf("colour: %c\n", &colour);
+//         scanf("size: %c\n", &size);
+//         scanf("order time: %d\n", &order_time);
+//         scanf("order type: %c\n", &order_type);
+//         scanf("house: %s\n", delivery_house_name);
+//         Orders[i] = CreateOrder(colour, size, order_time, order_type, delivery_house_name);
+//     }
+// }
 
-void block_time(Pizza **Orders){
+void block_time(Order **Orders){
     int i, j, k = 0;
     int overlap;
     TimeBlock **block;
     block = malloc(10 * sizeof(TimeBlock));
-    //start time when we pick up pizza from second block
-    //end time when we deliver pizza from any one of blocks
-    //end time will be changed dynamically as soon a s we deliver the pizza
-    for(i=0; i<10; i++){
-        for(j=0; j<10; j++){
+    //start time when we pick up order from second block
+    //end time when we deliver order from any one of blocks
+    //end time will be changed dynamically as soon a s we deliver the order
+    for(i = 0; i < 10; i++){
+        for(j = 0; j < 10; j++){
             overlap = check_overlap(Orders[i]->block, Orders[j]->block);
             if(overlap == 1){
                 if(Orders[i]->block->start > Orders[j]->block->start ){
@@ -118,17 +117,17 @@ void block_time(Pizza **Orders){
                     block[k]->start = Orders[i]->block->start;
                     block[k]->end = INFINITY;
                     k++;
-                }//end of nested else
-            }//end of if statement
-        }//end of nester for loop
-    }//end of for loop  
-}//end of function
+                }
+            }
+        }
+    }
+}
 
-void display(Pizza *current_pizza) {
-    printf("colour: %c\n", current_pizza->colour);
-    printf("size: %c\n", current_pizza->size);
-    printf("order time: %d\n", current_pizza->order_time);
-    printf("order type: %c\n", current_pizza->order_type);
-    printf("house: %s\n", current_pizza->delivery_house->name);
-    // printf("pickup point: %s\n", current_pizza->pickup_point);
+void display(Order *current_order) {
+    printf("colour: %c\n", current_order->colour);
+    printf("size: %c\n", current_order->size);
+    printf("order time: %d\n", current_order->order_time);
+    printf("order type: %c\n", current_order->order_type);
+    printf("house: %s\n", current_order->delivery_house->name);
+    // printf("pickup point: %s\n", current_order->pickup_point);
 }

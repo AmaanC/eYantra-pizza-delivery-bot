@@ -4,9 +4,9 @@
 #include "../map/map.h"
 
 int main() {
-    Pizza *temp;
+    Order *temp;
     InitGraph();
-    temp = CreatePizza('r','l',150,'R',"H2");
+    temp = CreateOrder('r','l',150,'R',"H2");
     display(temp);
     return 0;
 }
