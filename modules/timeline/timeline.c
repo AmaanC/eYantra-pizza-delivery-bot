@@ -99,14 +99,15 @@ void FindDefiniteNeed(Order **Orders){
     int overlap;
     TimeBlock **block;
     block = malloc(10 * sizeof(TimeBlock));
-    //start time when we pick up order from second block
-    //end time when we deliver order from any one of blocks
-    //end time will be changed dynamically as soon a s we deliver the order
-    for(i = 0; i < 10; i++){
-        for(j = 0; j < 10; j++){
+    // The start time is set to when we pick up order from second block,
+    // since that's when we start using 2 arms
+    // The end time will be changed dynamically as soon as we deliver the order,
+    // since that's when we stop using 2 arms
+    for (i = 0; i < 10; i++) {
+        for (j = 0; j < 10; j++) {
             overlap = CheckOverlap(Orders[i]->block, Orders[j]->block);
-            if(overlap == 1){
-                if(Orders[i]->block->start > Orders[j]->block->start ){
+            if (overlap == 1) {
+                if (Orders[i]->block->start > Orders[j]->block->start ) {
                     block[k]->start = Orders[i]->block->start;
                     block[k]->end = INFINITY; 
                     k++;
