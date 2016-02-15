@@ -19,6 +19,7 @@ void bl_sensor_adc_pin_config (void)
  PORTK = 0x00;
 }
 
+
 //Function to Initialize PORTS
 void bl_sensor_port_init()
 {
