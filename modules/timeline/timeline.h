@@ -25,6 +25,13 @@ typedef struct _Order {
     TimeBlock *block;
 } Order;
 
-Order *CreateOrder(char colour, char size, int order_time, char order_type, char *delivery_house_name);
+// A timeline is just an array of orders
+typedef struct _Timeline {
+    Order **orders;
+    int len;
+} Timeline;
+
+void CreateOrder(Timeline *timeline, char colour, char size, int order_time, char order_type, char *delivery_house_name);
+Timeline *GetTimeline();
 
 #endif

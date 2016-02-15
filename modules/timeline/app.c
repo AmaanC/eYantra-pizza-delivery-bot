@@ -4,9 +4,10 @@
 #include "../map/map.h"
 
 int main() {
-    Order *temp;
     InitGraph();
-    temp = CreateOrder('r','l',150,'R',"H2");
-    display(temp);
+    InitTimeline();
+    printf("Num orders: %d\n", GetTimeline()->len);
+    printf("Order 2 colour: %c\n", GetTimeline()->orders[2]->colour);
+
     return 0;
 }

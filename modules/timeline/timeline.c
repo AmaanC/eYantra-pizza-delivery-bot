@@ -27,14 +27,23 @@
 // of time. These blocked off periods will be considered in our "free time" considerations, and any overlapping
 // permutations will be dismissed.
 
-Order *CreateOrder(
+Timeline *our_timeline;
+
+// We only have 10 pizza pick up points, and since the rules state that no pizzas will be added
+// or removed *during* a run, we can assume that the max orders we'll get is 10
+const int MAX_ORDERS = 10;
+
+void CreateOrder(
+        Timeline *timeline,
         char colour,
         char size,
         int order_time,
         char order_type,
         char *delivery_house_name
     ) {
+
     Order *new_order;
+
     new_order = malloc(sizeof(Order));
     new_order->colour = colour;
     new_order->size = size;
@@ -44,17 +53,34 @@ Order *CreateOrder(
     new_order->status = 'n';
     new_order->pickup_point = NULL;
     new_order->block = malloc(sizeof(TimeBlock));
-    if(order_type = 'p'){
+
+    if (order_type = 'p') {
         new_order->block->start = order_time - 30;
         new_order->block->end = order_time + 30;
     }
-    else
-    {
+    else {
         new_order->block->start = order_time;
         new_order->block->end = order_time + 30;
     }
 
-    return new_order;
+    timeline->orders[timeline->len] = new_order;
+    timeline->len++;
+}
+
+void InitTimeline() {
+    our_timeline = malloc(sizeof(Timeline));
+    our_timeline->orders = malloc(MAX_ORDERS * sizeof(Order));
+
+    CreateOrder(our_timeline, 'r', 'l', 30, 'r', "H12");
+    CreateOrder(our_timeline, 'g', 'l', 50, 'p', "H2");
+    CreateOrder(our_timeline, 'r', 'l', 60, 'r', "H4");
+    CreateOrder(our_timeline, 'b', 'l', 60, 'r', "H4");
+    CreateOrder(our_timeline, 'b', 'l', 100, 'r', "H6");
+    CreateOrder(our_timeline, 'r', 'l', 130, 'p', "H9");
+}
+
+Timeline *GetTimeline() {
+    return our_timeline;
 }
 
 int CheckOverlap(TimeBlock *a, TimeBlock *b){
@@ -67,34 +93,13 @@ int CheckOverlap(TimeBlock *a, TimeBlock *b){
     }
     return FALSE;
 }
-
-// void init_timeline(){
-//     Order **Orders;
-//     int o, i;
-//     char colour;
-//     char size;
-//     int order_time;
-//     char order_type;
-//     char *delivery_house_name;
-//     printf("No. of orders: ");
-//     scanf("%d", &o);
-//     Orders = malloc(o * sizeof(Order));
-//     for(i=0; i<o; i++){
-//         printf("order: %d", i);
-//         scanf("colour: %c\n", &colour);
-//         scanf("size: %c\n", &size);
-//         scanf("order time: %d\n", &order_time);
-//         scanf("order type: %c\n", &order_type);
-//         scanf("house: %s\n", delivery_house_name);
-//         Orders[i] = CreateOrder(colour, size, order_time, order_type, delivery_house_name);
-//     }
-// }
+;
 
 // Find the time block where we'll definitely need 2 arms
 // Note that this function *does not* set the end time of the block time
 // Since our algorithm doesn't look ahead into the future for delivery permutations
 // we leave it to the arm lower function to set the end time
-void FindDefiniteNeed(Order **Orders){
+void FindNextDefiniteNeed(Order **Orders){
     int i, j, k = 0;
     int overlap;
     TimeBlock **block;
@@ -107,7 +112,7 @@ void FindDefiniteNeed(Order **Orders){
         for (j = 0; j < 10; j++) {
             overlap = CheckOverlap(Orders[i]->block, Orders[j]->block);
             if (overlap == TRUE) {
-                if (Orders[i]->block->start > Orders[j]->block->start ) {
+                if (Orders[i]->block->start > Orders[j]->block->start) {
                     block[k]->start = Orders[i]->block->start;
                     block[k]->end = INFINITY; 
                     k++;
