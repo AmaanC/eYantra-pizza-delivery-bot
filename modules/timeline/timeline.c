@@ -106,7 +106,7 @@ void FindDefiniteNeed(Order **Orders){
     for (i = 0; i < 10; i++) {
         for (j = 0; j < 10; j++) {
             overlap = CheckOverlap(Orders[i]->block, Orders[j]->block);
-            if (overlap == 1) {
+            if (overlap == TRUE) {
                 if (Orders[i]->block->start > Orders[j]->block->start ) {
                     block[k]->start = Orders[i]->block->start;
                     block[k]->end = INFINITY; 
