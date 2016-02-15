@@ -6,7 +6,7 @@ CFLAGS=-g -DF_CPU=14745600 -mmcu=atmega2560
 
 # Modify these 2 for each project as needed
 FILENAME=move_bot
-DEPS=app.o ../bl_sensor/bl_sensor.o ../pos_encoder/pos_encoder.o
+DEPS=app.o ../bl_sensor/bl_sensor.o ../pos_encoder/pos_encoder.o ../custom_delay/custom_delay.o
 
 #Info til AVRDUDE
 PROGRAMMER = avrdude

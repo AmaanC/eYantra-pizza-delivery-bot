@@ -23,8 +23,7 @@ void move_bot_init_devices(){
 	pos_encoder_timer5_init();
 }
 
-void rotate_bot(int Degrees)
-{
+void rotate_bot(int Degrees){
 	Left_black_line = black_line_following_ADC_Conversion(3);
 	Center_black_line = black_line_following_ADC_Conversion(2);
 	Right_black_line = black_line_following_ADC_Conversion(1);	
@@ -48,8 +47,6 @@ void move_bot_forward(unsigned int distance){
 	Center_black_line = black_line_following_ADC_Conversion(2);	//Getting data of Center WL Sensor
 	Right_black_line = black_line_following_ADC_Conversion(1);	//Getting data of Right WL Sensor
 
-	flag = 0;
-
 	if(Center_black_line>0x28)
 		{
 			flag=1;
@@ -63,8 +60,6 @@ void move_bot_back(unsigned int distance){
 	Left_black_line = black_line_following_ADC_Conversion(3);	//Getting data of Left WL Sensor
 	Center_black_line = black_line_following_ADC_Conversion(2);	//Getting data of Center WL Sensor
 	Right_black_line = black_line_following_ADC_Conversion(1);	//Getting data of Right WL Sensor
-
-	flag = 0;
 
 	if(Center_black_line>0x28)
 		{
