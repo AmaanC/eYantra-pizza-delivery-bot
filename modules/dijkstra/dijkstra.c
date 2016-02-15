@@ -89,7 +89,8 @@ PathStack* Dijkstra(Node *source_node, Node *target_node, float cur_deg, Graph *
     // Records the actual final path to be taken from source to dest
     PathStack *final_path;
     // Curve info
-    CurveInfo *curve_info = GetCurveInfo();
+    CurveInfo *curve_info;
+    curve_info = GetCurveInfo();
 
     current_node = source_node;
     DFSEval(source_node, source_node->visited, InitNodesDijkstra);
@@ -103,8 +104,13 @@ PathStack* Dijkstra(Node *source_node, Node *target_node, float cur_deg, Graph *
     source_node->done = TRUE;
     source_node->enter_deg = cur_deg;
     loop_limiter = 0;
+
     // lcd_printf("Targ: %s", target_node->name);
     // _delay_ms(200);
+    if (current_node == NULL || target_node == NULL) {
+        printf("ERROR: NULL pointer for source or target\n\n\n");
+        return;
+    }
     while (current_node != target_node) {
         // The accum_cost is the cost from the source_node to the current_node
         // It'll be used to update the costs of all neighbours
@@ -122,7 +128,6 @@ PathStack* Dijkstra(Node *source_node, Node *target_node, float cur_deg, Graph *
                 // atan2 always returns in the range of -pi to pi, so we convert it to degrees
                 rot_deg = RadToDeg(atan2(counter_node->y - current_node->y, counter_node->x - current_node->x));
                 rotation_cost = GetRotationCost(temp_deg - rot_deg);
-
                 // If we're considering the cost of going through a curve (i.e. we're at A and considering B
                 // as the counter_node), we should not be considering any rot_cost, since no rotation is 
                 // required before movement
@@ -135,6 +140,7 @@ PathStack* Dijkstra(Node *source_node, Node *target_node, float cur_deg, Graph *
                     // one if we move anticlockwise, i.e. with the right motor faster
                     rot_deg = current_node->enter_deg + 90 * GetCurveDirection(current_node, counter_node);
                 }
+
                 temp_cost = accum_cost + rotation_cost + current_node->connected[i]->cost;
                 // printf("Pos: %d,%d\ntemp_deg: %f\n%s: %f\n\n\n", counter_node->x, counter_node->y, temp_deg, counter_node->name, rot_deg);
                 if (temp_cost < counter_node->path_cost) {

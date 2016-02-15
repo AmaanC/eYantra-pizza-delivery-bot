@@ -251,16 +251,10 @@ Node *GetCurrentNode() {
 // DFSEval(GetCurrentNode(), GetCurrentNode()->visited, update_dist)
 void DFSEval(Node *source_node, int unvisited_value, int fn()) {
     int i;
+    // printf("DFS: %s\n", source_node->name);
     source_node->visited = !unvisited_value;
-    // If the following fn returns TRUE, we can stop DFS right now.
-    // Helps *some* with performance, right?
-    // Right?
-    // Fine, don't say anything.
-    // FINE.
-    // NO MORE COMMENTS FOR YOU, MISSY.
-    if (fn(source_node) == TRUE) {
-        return;
-    }
+
+    fn(source_node);
     for (i = 0; i < source_node->counter; i++) {
         // If it hasn't been visited already, run DFS on the node too.
         if (source_node->connected[i]->ptr->visited == unvisited_value) {
@@ -275,6 +269,7 @@ void DFSEval(Node *source_node, int unvisited_value, int fn()) {
 // having N different functions, all of which used DFS for different logic
 // So you've been warned, this function has side effects
 int CheckNodeName(Node *current_node) {
+    // printf("Checking %s vs. %s\n", current_node->name, current_search_name);
     if (strcmp(current_node->name, current_search_name) == 0) {
         found_node = current_node;
         return TRUE;
@@ -284,11 +279,15 @@ int CheckNodeName(Node *current_node) {
 
 Node *GetNodeByName(char *name) {
     Node *start_node;
-    start_node = GetCurrentNode();
+    start_node = our_graph->start;
     found_node = NULL;
     current_search_name = name;
     // CheckNodeName automatically modifies a global variable called found_node, so we can just return that
     DFSEval(start_node, start_node->visited, CheckNodeName);
+    if (found_node == NULL) {
+        printf("ERROR: found_node for %s is NULL\n\n\n", name);
+        return our_graph->start;
+    }
     return found_node;
 }
 
@@ -333,7 +332,7 @@ float GetRotationCost(float deg) {
 }
 
 float RadToDeg(float radians) {
-    return 180 / M_PI * radians;
+    return radians * 180 / M_PI;
 }
 
 float MakePositiveDeg(float angle) {

@@ -19,10 +19,14 @@ int main() {
     // _delay_ms(1000);
     
     InitGraph();
-
+    printf("Targ name: %s\n", GetNodeByName("r1")->name);
+    // printf("Targ name: %s\n", GetNodeByName("r1")->name);
+    
     MoveBotToNode(GetNodeByName("r6"));
     MoveBotToNode(GetNodeByName("r10"));
     MoveBotToNode(GetNodeByName("S"));
+
+    printf("Num nodes: %d\n", GetGraph()->num_nodes);
 
     // Node *start = GetCurrentNode();
     // DFSEval(start, start->visited, InitNodesDijkstra);

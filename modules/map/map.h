@@ -82,5 +82,6 @@ void DFSEval(Node *source_node, int unvisited_value, int fn());
 void MoveBotToNode(Node* target_node);
 CurveInfo *GetCurveInfo();
 Graph *GetGraph();
+float RadToDeg(float radians);
 
 #endif
