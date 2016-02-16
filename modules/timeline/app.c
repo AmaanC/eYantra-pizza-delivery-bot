@@ -4,7 +4,7 @@
 #include "../map/map.h"
 
 int main() {
-    OrderList *timeline;
+    OrderList *timeline, *available;
     Order *order;
     int i;
 
@@ -17,6 +17,7 @@ int main() {
     
     for (i = 0; i < timeline->len; i++) {
         Display(timeline->orders[i]);
+        timeline->orders[i]->state = 'f';
     }
 
     // So what happens initially is that we call our free time function, and since we've
@@ -48,7 +49,13 @@ int main() {
     // for (i = 0; i < 4; i++) {
     //     order = GetNextOrder(GetTimeline());
     //     printf("%s\n", order->delivery_house->name);
-    //     order->state = 'd';
+    //     order->state = 'f';
     // }
+
+    printf("Available:\n\n");
+    available = GetAvailablePizzas(GetCurrentTimeBlock());
+    for (i = 0; i < available->len; i++) {
+        Display(available->orders[i]);
+    }
     return 0;
 }

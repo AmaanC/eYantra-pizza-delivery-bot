@@ -291,8 +291,22 @@ Order *GetNextOrder(OrderList *timeline) {
 // starts at the current time + the time it'll need to go to the pizza counter
 // This function will check which pizzas are available to be picked up in that time
 // Whichever *are* available are returned in an OrderList
-OrderList *GetAvailablePizzas(TimeBlock current_period) {
+OrderList *GetAvailablePizzas(TimeBlock *current_period) {
+    OrderList *available_pizzas;
+    Order *current_order;
+    int i = 0;
+    available_pizzas = malloc(sizeof(OrderList));
+    available_pizzas->orders = malloc(MAX_ORDERS * sizeof(Order));
 
+    for (i = 0; i < our_timeline->len; i++) {
+        current_order = our_timeline->orders[i];
+        // If the current order has been found and it's delivery period overlaps with the current_period
+        // it's an available pizza!
+        if (current_order->state == 'f' && CheckOverlap(current_period, current_order->block)) {
+            InsertOrder(available_pizzas, current_order);
+        }
+    }
+    return available_pizzas;
 }
 
 // This is called when we've got some free time, and want to consider doing the following:
@@ -316,6 +330,14 @@ void FreeTimeDecision() {
 
     // If no pizzas are left, let's go ahead and find more pizzas *if time permits*
     // If there isn't time for that, set state to 'b'
+    OrderList *available_pizzas;
+    int i = 0;
+    available_pizzas = GetAvailablePizzas(GetCurrentTimeBlock());
+    // Every OrderList is sorted by due time already, so the first one we find that
+    // ConsiderCancel thinks won't delay orders is the one we consider delivering
+    for (i = 0; i < available_pizzas->len; i++) {
+
+    }
 
 }
 

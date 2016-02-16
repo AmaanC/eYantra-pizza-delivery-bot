@@ -36,5 +36,7 @@ OrderList *GetTimeline();
 void FindNextDefiniteNeed(OrderList *timeline);
 void Display(Order *current_order);
 Order *GetNextOrder(OrderList *timeline);
+OrderList *GetAvailablePizzas(TimeBlock *current_period);
+TimeBlock *GetCurrentTimeBlock();
 
 #endif
