@@ -5,24 +5,43 @@
 #include "../buzzer/buzzer.h"
 
 void main() {
-    servo_init_devices();
+    ServoInitDevices();
+    const int UP_LEVER_1 = 20;
+    const int UP_LEVER_2 = 160;
+    const int DOWN_LEVER_1 = 130;
+    const int DOWN_LEVER_2 = 50;
+
+    const int OPEN_GRIPPER_1 = 60;
+    const int OPEN_GRIPPER_2 = 125;
+    const int CLOSE_GRIPPER_1 = 120;
+    const int CLOSE_GRIPPER_2 = 95;
 
     while (1) {
-        servo_1_to(20); // Lever
-        servo_4_to(160); // Lever
+        Servo1To(UP_LEVER_1); // Lever up
+        Servo4To(UP_LEVER_2); // Lever up
 
-        servo_2_to(0); // Gripper
-        servo_3_to(0); // Gripper
-
-        _delay_ms(2000);
-
-        servo_1_to(130); // Lower arm
-        servo_4_to(50); // Lower arm
+        Servo2To(OPEN_GRIPPER_1); // Gripper open
+        Servo3To(OPEN_GRIPPER_2); // Gripper open
 
         _delay_ms(2000);
 
-        servo_2_to(85); // Close grip
-        servo_3_to(85); // Close grip
+        Servo1To(DOWN_LEVER_1); // Lever down
+        Servo4To(DOWN_LEVER_2); // Lever down
+
+        _delay_ms(2000);
+
+        Servo2To(CLOSE_GRIPPER_1); // Close grip
+        Servo3To(CLOSE_GRIPPER_2); // Close grip
+
+        _delay_ms(1000);
+
+        Servo1To(UP_LEVER_1); // Lever up
+        Servo4To(UP_LEVER_2); // Lever up
+
+        _delay_ms(1000);
+
+        Servo1To(DOWN_LEVER_1); // Lever down
+        Servo4To(DOWN_LEVER_2); // Lever down
         
         _delay_ms(5000);
     }

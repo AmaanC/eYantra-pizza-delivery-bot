@@ -1,23 +1,23 @@
 #ifndef SERVO_H_
 #define SERVO_H_
 
-void servo_1_pin_config();
-void servo_2_pin_config();
-void servo_3_pin_config();
-void servo_4_pin_config();
+void Servo1PinConfig();
+void Servo2PinConfig();
+void Servo3PinConfig();
+void Servo4PinConfig();
 
-void servo_port_init();
-void servo_timer_init();
-void servo_init_devices();
+void ServoPortInit();
+void ServoTimerInit();
+void ServoInitDevices();
 
-void servo_1_to(unsigned char degrees);
-void servo_2_to(unsigned char degrees);
-void servo_3_to(unsigned char degrees);
-void servo_4_to(unsigned char degrees);
+void Servo1To(unsigned char degrees);
+void Servo2To(unsigned char degrees);
+void Servo3To(unsigned char degrees);
+void Servo4To(unsigned char degrees);
 
-void servo_1_free();
-void servo_2_free();
-void servo_3_free();
-void servo_4_free();
+void Servo1Free();
+void Servo2Free();
+void Servo3Free();
+void Servo4Free();
 
 #endif
