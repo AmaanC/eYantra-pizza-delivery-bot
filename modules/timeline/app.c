@@ -17,7 +17,9 @@ int main() {
     
     for (i = 0; i < timeline->len; i++) {
         Display(timeline->orders[i]);
-        timeline->orders[i]->state = 'f';
+        if (i < 2) {
+            timeline->orders[i]->state = 'f';
+        }
     }
 
     // So what happens initially is that we call our free time function, and since we've
