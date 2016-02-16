@@ -25,6 +25,10 @@ typedef struct _PizzaList {
 } PizzaList;
 
 typedef struct _Order {
+    // r, g, b: red, green, blue
+    char colour;
+    // s, m, l: small, medium, large
+    char size;
     // 30, for example
     int order_time;
     // r, p: regular, preorder

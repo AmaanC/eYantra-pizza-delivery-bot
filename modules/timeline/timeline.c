@@ -29,8 +29,29 @@
 // of time. These blocked off periods will be considered in our "free time" considerations, and any overlapping
 // permutations will be dismissed.
 
+// We maintain a list of orders
 OrderList *our_timeline;
+
+// and a list of pizzas
 PizzaList *our_pizzas;
+
+// Number of pizzas found to the left of the pizza counter and to
+// the right of the pizza counter
+// We can use these values to decide which side is likelier to yield more results
+int left_pizzas = 0;
+int right_pizzas = 0;
+
+// We maintain the two lists independently because, for example,
+// H2 and H8 can both have ordered small green pizzas.
+// We need to separate the pizza's identity (and personality) from their orders
+// It doesn't matter *which* small green pizza goes where.
+// All that matters is that both houses get a tasty small green pizza!
+// So when we want to deliver a pizza, we'll see if that pizza has been found
+// and if it has, only then do we consider delivering it.
+// Else we'll consider searching
+// For when we're considering using 2 arms, we'll make sure that 2 different orders
+// aren't both considering the same pizza, so we'll need a counter of sorts
+// or some kind of state
 
 Node *PIZZA_COUNTER_NODE;
 
@@ -130,10 +151,11 @@ void CreateOrder(
     Order *new_order;
     int i = 0;
 
+    CreatePizza(colour, size);
     new_order = malloc(sizeof(Order));
 
-    new_order->pizza = CreatePizza(colour, size);
-
+    new_order->colour = colour;
+    new_order->size = size;
     new_order->order_time = order_time;
     new_order->order_type = order_type;
     new_order->delivery_house = GetNodeByName(delivery_house_name);
@@ -349,10 +371,40 @@ OrderList *GetAvailablePizzas(TimeBlock *current_period) {
 // to detect the pizza and save its details in our Order struct
 // The state will change to 'f' to indicate that its been found
 void DetectPizza() {
+    int i = 0;
+    Pizza *current_pizza;
+    BotInfo *bot_info;
     char block_size = 's'; // SharpGetBlockSize();
     char colour = 'r'; // ColourGet();
     
-
+    // Check the bot's current position
+    // If we already have a pizza detected at this location, we're detecting nothing new
+    // If we haven't, then correlate it to our_pizzas, and attach the current location to it
+    // Also, use our current location to see which side the pizza was on
+    // That information will be used in the future to decide which side is likelier to have pizzas
+    // Now that we've found a new pizza, set the state to free, and let FreeTime
+    // decide if we want to pick it up or not
+    bot_info = GetBotInfo();
+    if (bot_info->cur_position->cur_node->x < PIZZA_COUNTER_NODE->x) {
+        left_pizzas++;
+    }
+    else {
+        right_pizzas++;
+    }
+    for (i = 0; i < our_pizzas->len; i++) {
+        current_pizza = our_pizzas->pizzas[i];
+        if (
+            current_pizza->colour == colour &&
+            current_pizza->size == block_size &&
+            current_pizza->location == NULL
+        ) {
+            current_pizza->location = bot_info->cur_position->cur_node;
+            // There might be multiple pizzas with the same color and size so we want to make sure
+            // we're filling in for one where the location was unfilled, and fill it only for that one
+            // Hence the break
+            break;
+        }
+    }
 }
 
 // Consider looking for more pizzas
@@ -484,8 +536,8 @@ void TimelineControl() {
 }
 
 void Display(Order *current_order) {
-    printf("colour: %c, ", current_order->pizza->colour);
-    printf("size: %c, ", current_order->pizza->size);
+    printf("colour: %c, ", current_order->colour);
+    printf("size: %c, ", current_order->size);
     printf("order time: %d, ", current_order->order_time);
     printf("order type: %c, ", current_order->order_type);
     printf("house: %s\n", current_order->delivery_house->name);
