@@ -17,9 +17,7 @@
 #include "../dijkstra/dijkstra.h"
 #include "../pos_encoder/pos_encoder.h"
 #include "../lcd/lcd.h"
-
-// This is how the bot's (actual) position is maintained
-Position *bot_position;
+#include "../bot_memory/bot_memory.h"
 
 Graph *our_graph;
 

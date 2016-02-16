@@ -59,12 +59,6 @@ typedef struct _Graph {
     int num_nodes;
 } Graph;
 
-// A struct to store the position of the bot
-typedef struct _Pos {
-    Node *cur_node;
-    float cur_deg;
-} Position;
-
 typedef struct _CurveInfo {
     Node *curve_center; // The center of the circle whose arc segments form the curve on the map
     Node **curve_nodes; // Nodes that are involved in the arcs
