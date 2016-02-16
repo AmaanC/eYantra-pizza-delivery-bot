@@ -47,6 +47,10 @@ Free:
     PickPizza(earliest_due_pizza)
     state = 'reg'
 
+The only times the state changes are:
+- Found new pizza (to reg)
+- Picked up pizza (to reg)
+- Delivered pizza (to free)
 
 Hardware Control
 

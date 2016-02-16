@@ -29,6 +29,12 @@
 
 OrderList *our_timeline;
 
+// State can be either 'f' or 'b' for free and busy
+// When it's in the free state, it'll consider doing extra things in its free time like
+// looking for more pizzas
+// In its busy state, it'll find the next pizza due on the list, and just deliver that
+char cur_state = 'f';
+
 // A time period when we will *require* 2 arms
 // Since it's end period is set dynamically, every time that we stop requiring it
 // we can check the future orders again for another "definite need"
@@ -225,7 +231,7 @@ void FindNextDefiniteNeed(OrderList *timeline) {
 // If the bot is at H12, and has free time, it'll create a TimeBlock which
 // starts at the current time + the time it'll need to go to the pizza counter
 // This function will check which pizzas are available to be picked up in that time
-// Whichever *are* available are returned in an array
+// Whichever *are* available are returned in an OrderList
 OrderList *GetAvailablePizzas(TimeBlock current_period) {
 
 }
@@ -251,6 +257,36 @@ void FreeTimeDecision() {
 
     // If no pizzas are left, let's go ahead and find more pizzas if time permits
 
+}
+
+void TimelineControl() {
+    SetState('f');
+    while (1) {
+        // both functions below will be blocking
+        // this means that they will not return until they've completed their task
+        // free will return only when it's picked up the extra pizza or called find_pizzas
+        // or it has set the state to busy
+        // reg will only return when it has delivered the pizzas the bot is carrying
+        if (GetState() == 'f') {
+            FreeTimeDecision(); // this will set the state to busy if it didn't find any pizzas to deliver
+        }
+        else {
+            NormalOperation(); // this will set the state to free when the delivery is done
+        }
+    }
+}
+
+char GetState() {
+    return cur_state;
+}
+
+void SetState(char new_state) {
+    if (new_state == 'f') {
+        cur_state = new_state;
+    }
+    else {
+        cur_state = 'b';
+    }
 }
 
 void Display(Order *current_order) {
