@@ -236,7 +236,33 @@ void FindNextDefiniteNeed(OrderList *timeline) {
     next_required_period = next_potential;
 }
 
-void ConsiderCancel() {
+
+// Consider canceling an order in case it'll take too long or it'll delay our next order
+
+// Problem with above:
+// What about 2 arm orders?
+// If next_reg = A
+// next_extra = B
+// next to next reg = C
+
+// We consider canceling B first in our free time fn
+// To do so, we consider the time it would take to deliver A and B
+// and if that delays C, we eliminate B
+
+// When called from FreeTime, order1 will be the next_reg_order and
+// order2 will be the one we're considering picking up in our free time
+// This function will return 1 if you should cancel for this combination
+// because the combo delays our later orders
+
+// When called from NormalOperation, order1 will be the next_reg_order and
+// order2 will be NULL. It'll calculate the cost of delivering order1
+// and if it doesn't delay our next orders, we'll return 0.
+
+// By "delaying" an order, we mean that we'll calculate the cost of completing 
+// whatever we were considering + the cost of coming back for our next order
+// + the cost of delivering that. If this total cost is less than
+// the next order's due time, we haven't delayed it.
+void ConsiderCancel(Order *order1, Order *order2) {
 
 }
 

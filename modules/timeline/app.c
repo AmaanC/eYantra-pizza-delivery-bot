@@ -45,10 +45,10 @@ int main() {
     // 2 arms
     // What happens if we've found one of the pizzas, and not found the other?
 
-    for (i = 0; i < 4; i++) {
-        order = GetNextOrder(GetTimeline());
-        printf("%s\n", order->delivery_house->name);
-        order->state = 'd';
-    }
+    // for (i = 0; i < 4; i++) {
+    //     order = GetNextOrder(GetTimeline());
+    //     printf("%s\n", order->delivery_house->name);
+    //     order->state = 'd';
+    // }
     return 0;
 }
