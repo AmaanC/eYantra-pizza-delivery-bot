@@ -46,3 +46,18 @@ Free:
     If pizzas left on list, get one due earliest
     PickPizza(earliest_due_pizza)
     state = 'reg'
+
+
+Hardware Control
+
+- FindPizza // Figures out where pizzas are likelier to be found and goes there and calls DetectPizza
+- PickPizza // Uses arm code to actually pick a pizza up in the correct arm
+- DeliverPizza (cost of a + b vs. b + a) // delivers all pizzas in arms right now
+- MoveBotToNode // Moves bot from A to B
+- DetectPizza // Detects pizza based on color and size
+
+
+Bot Memory
+
+- Sensor location // So we don't have to hardcode its turns within the pizza counter
+- Bot position // So all other modules can use it
