@@ -20,39 +20,51 @@ unsigned int Degrees; //to accept angle in degrees for turning
 unsigned int temp = 0; //temporary variable to divide the degrees and distances so that the black like sensor 
 unsigned int rem = 0;  //can check if it is at the correct path or not
 
+const int rotation_threshold = 5; // in degrees
 
-void angle_rotate_left(unsigned int Degrees)
+// This function will stop the bot in a range of +- rotation_threshold
+// For eg:
+// If you pass 90 degrees, but the line is at 87 degrees, it'll stop there
+// If the line is at 92 degrees, it'll stop there
+// If you're turning on white entirely, it'll turn 95 degrees, and then turn back 5 degrees
+// because it didn't find a black line at all
+// To indicate that it's turned too far, we return 1
+// Else we return 0
+int angle_rotate(unsigned int Degrees)
 {
  float ReqdShaftCounter = 0;
  unsigned long int ReqdShaftCounterInt = 0;
- ReqdShaftCounter = (float) Degrees/ 4.090; 
+ float MinShaftCount = 0;
+ unsigned long int MinShaftCountInt = 0;
+ ReqdShaftCounter = (float) (Degrees + rotation_threshold) / 4.090;
  ReqdShaftCounterInt = (unsigned int) ReqdShaftCounter;
+
+ MinShaftCount = (float) (Degrees - rotation_threshold) / 4.090;
+ MinShaftCountInt = (unsigned int) MinShaftCount;
+
  ShaftCounterRight = 0; 
  ShaftCounterLeft = 0; 
  while (1)
  {
  	Center_Black_Line = bl_sensor_ADC_Conversion(2);
- 	Right_Black_Line = bl_sensor_ADC_Conversion(1);
-  	if(((ShaftCounterRight >= ReqdShaftCounterInt) | (ShaftCounterLeft >= ReqdShaftCounterInt)) | ( Center_Black_Line > 0x28))
+    // We stop in the following conditions:
+    // - If the pos encoder says we've reached
+    // - If the bl sensor says we've reached
+    // If we rotate too far, and still don't see a black line, let's rotate back
+  	if(
+        ((ShaftCounterRight >= ReqdShaftCounterInt) | (ShaftCounterLeft >= ReqdShaftCounterInt)) ||
+        (Center_Black_Line > 0x28 && (ShaftCounterRight >= MinShaftCountInt || ShaftCounterLeft >= MinShaftCountInt))
+    ) {
   		break;
+    }
  }
-  pos_encoder_stop(); 
-}
-
-void angle_rotate_right(unsigned int Degrees)
-{
- float ReqdShaftCounter = 0;
- unsigned long int ReqdShaftCounterInt = 0;
- ReqdShaftCounter = (float) Degrees/ 4.090; 
- ReqdShaftCounterInt = (unsigned int) ReqdShaftCounter;
- ShaftCounterRight = 0; 
- ShaftCounterLeft = 0; 
- while (1)
- {
- 	Left_Black_Line = bl_sensor_ADC_Conversion(3);
-	Center_Black_Line = bl_sensor_ADC_Conversion(2);
-  	if(((ShaftCounterRight >= ReqdShaftCounterInt) | (ShaftCounterLeft >= ReqdShaftCounterInt)) | ( Center_Black_Line > 0x28))
-  		break;
+ // If we see a black line, then this is the correct place to have stopped
+ // Else, we've probably gone too far, and should return back to exactly the degrees that were passed in
+ if (Center_Black_Line > 0x28) {
+    return 0;
+ }
+ else {
+    return 1;
  }
   pos_encoder_stop(); 
 }
@@ -64,13 +76,22 @@ void move_bot_init_devices(void){
 }
 
 void rotate_bot(int Degrees){
+    int too_far = 0;
     if(Degrees > 0){
     	pos_encoder_left();
-    	angle_rotate_left(Degrees);
+    	too_far = angle_rotate(Degrees);
+        if (too_far == 1) {
+            pos_encoder_right();
+            pos_encoder_angle_rotate(rotation_threshold);
+        }
     }
     else if (Degrees < 0 ){
     	pos_encoder_right();
-    	angle_rotate_right(Degrees);
+        too_far = angle_rotate(Degrees);
+        if (too_far == 1) {
+            pos_encoder_left();
+            pos_encoder_angle_rotate(rotation_threshold);
+        }
     }
 }
 
