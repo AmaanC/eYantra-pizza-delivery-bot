@@ -5,13 +5,13 @@
 
 int main() {
     while(1) {
-        rgb_led_glow('r');
+        RgbLedGlow('r');
         _delay_ms(1000);
         
-        rgb_led_glow('g');
+        RgbLedGlow('g');
         _delay_ms(1000);
         
-        rgb_led_glow('b');
+        RgbLedGlow('b');
         _delay_ms(1000);
     }
     return 0;

@@ -6,27 +6,29 @@
 // Red   - D1 - Pin 19
 // Green - D2 - Pin 38
 // Blue  - D3 - Pin 37
-void rgb_led_init() {
+// Vcc        - Pin 21
+
+void RgbLedInit() {
     DDRD = DDRD | 0x0E; // Set Port D's 1, 2, 3 as output
 }
 
-void rgb_led_off() {
+void RgbLedOff() {
     PORTD = PORTD & 0xF1; // Reset D1, 2, 3
 }
 
-void rgb_led_glow(char color) {
+void RgbLedGlow(char color) {
     int val = 0xF1; // Off by default
     switch(color) {
         case 'r':
-            val = 0x02;
+            val = 0xFD; // 1101
             break;
         case 'g':
-            val = 0x04;
+            val = 0xFB; // 1011
             break;
         case 'b':
-            val = 0x08;
+            val = 0xF7; // 0111
             break;
     }
-    rgb_led_off();
-    PORTD = PORTD | val;
+    RgbLedOff();
+    PORTD = PORTD & val;
 }
