@@ -105,7 +105,7 @@ void CreateOrder(
     new_order->order_time = order_time;
     new_order->order_type = order_type;
     new_order->delivery_house = GetNodeByName(delivery_house_name);
-    new_order->status = 'n';
+    new_order->state = 'n';
     new_order->pickup_point = NULL;
     new_order->block = malloc(sizeof(TimeBlock));
 
@@ -236,6 +236,26 @@ void FindNextDefiniteNeed(OrderList *timeline) {
     next_required_period = next_potential;
 }
 
+void ConsiderCancel() {
+
+}
+
+// Finds the next regularly scheduled order
+Order *GetNextOrder(OrderList *timeline) {
+    int i;
+    Order *current_order, *next_reg_order;
+    for (i = 0; i < timeline->len; i++) {
+        current_order = timeline->orders[i];
+        // If it hasn't already been canceled, delivered, or picked up, this is our next order
+        if (current_order->state != 'c' && current_order->state != 'd' && current_order->state != 'h') {
+            // printf("%c\n", current_order->state);
+            next_reg_order = current_order;
+            break;
+        }
+    }
+    return next_reg_order;
+}
+
 
 // Get all the pizzas that I can pick up in the current_period
 // These are pizzas that we've already found, and whose start times
@@ -296,9 +316,9 @@ void NormalOperation() {
     In the Circle
     The Circle of Life
     */
-    
-    Order *left_arm = BotGetLeftOrder();
-    Order *right_arm = BotGetRightOrder();
+
+    // Order *left_arm = BotGetLeftOrder();
+    // Order *right_arm = BotGetRightOrder();
 }
 
 void TimelineControl() {

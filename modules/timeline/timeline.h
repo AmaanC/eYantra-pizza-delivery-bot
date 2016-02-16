@@ -16,12 +16,12 @@ typedef struct _Order {
     char order_type; // r, p: regular, preorder
     Node *delivery_house; // it is a node now, not just a name.
     Node *pickup_point; // this too.
-    char status;
-    //'f' = found
-    //'n' = not found
-    //'d' = delivered
-    //'h' = holding
-    //'c' = canceled
+    char state;
+    // 'f' = found
+    // 'n' = not found
+    // 'd' = delivered
+    // 'h' = holding
+    // 'c' = canceled
     TimeBlock *block;
 } Order;
 
@@ -35,5 +35,6 @@ void CreateOrder(OrderList *timeline, char colour, char size, int order_time, ch
 OrderList *GetTimeline();
 void FindNextDefiniteNeed(OrderList *timeline);
 void Display(Order *current_order);
+Order *GetNextOrder(OrderList *timeline);
 
 #endif

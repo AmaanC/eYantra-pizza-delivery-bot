@@ -4,19 +4,20 @@
 #include "../map/map.h"
 
 int main() {
-    // OrderList *timeline;
-    // int i;
+    OrderList *timeline;
+    Order *order;
+    int i;
 
     InitGraph();
     InitTimeline();
-    // timeline = GetTimeline();
-    // printf("Num orders: %d\n", timeline->len);
-    // printf("Order 2 start: %f\n", timeline->orders[2]->block->start);
-    // FindNextDefiniteNeed(timeline);
+    timeline = GetTimeline();
+    printf("Num orders: %d\n", timeline->len);
+    printf("Order 2 start: %f\n", timeline->orders[2]->block->start);
+    FindNextDefiniteNeed(timeline);
     
-    // for (i = 0; i < timeline->len; i++) {
-    //     Display(timeline->orders[i]);
-    // }
+    for (i = 0; i < timeline->len; i++) {
+        Display(timeline->orders[i]);
+    }
 
     // So what happens initially is that we call our free time function, and since we've
     // found 0 pizzas, no pizzas will be considered right now.
@@ -43,5 +44,11 @@ int main() {
     // TODO: Think about our blocked_time, which is for times when we definitely need
     // 2 arms
     // What happens if we've found one of the pizzas, and not found the other?
+
+    for (i = 0; i < 4; i++) {
+        order = GetNextOrder(GetTimeline());
+        printf("%s\n", order->delivery_house->name);
+        order->state = 'd';
+    }
     return 0;
 }
