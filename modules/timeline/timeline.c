@@ -40,6 +40,13 @@ char cur_state = 'f';
 // we can check the future orders again for another "definite need"
 TimeBlock *next_required_period;
 
+// This may be NULL often. It'll be the pizza we pick up using our extra arm when our FreeTime function
+// thinks it's a good idea.
+// To clarify, FreeTime will only set this variable to an order.
+// The NormalOperation function is the one that will actually pick it up
+// and deliver it.
+Order *next_extra_order;
+
 // We only have 10 pizza pick up points, and since the rules state that no pizzas will be added
 // or removed *during* a run, we can assume that the max orders we'll get is 10
 const int MAX_ORDERS = 10;
@@ -309,6 +316,15 @@ OrderList *GetAvailablePizzas(TimeBlock *current_period) {
     return available_pizzas;
 }
 
+// Consider looking for more pizzas
+// This function will consider the cost of finding pizzas
+// If the cost doesn't delay us for our regular order, it'll actually go search for pizzas
+// Upon finding its first unknown pizza, it'll set the state to free (from within DetectPizza)
+// If the cost does delay us, it'll set the state to 'b' so that NormalOperation can continue
+void FindPizzas() {
+
+}
+
 // This is called when we've got some free time, and want to consider doing the following:
 // Finding more pizzas
 // Picking an extra pizza up with the second arm (regular or preorder, doesn't matter)
@@ -331,12 +347,34 @@ void FreeTimeDecision() {
     // If no pizzas are left, let's go ahead and find more pizzas *if time permits*
     // If there isn't time for that, set state to 'b'
     OrderList *available_pizzas;
+    Order *current_orde, *next_order;
     int i = 0;
     available_pizzas = GetAvailablePizzas(GetCurrentTimeBlock());
+    next_order = GetNextOrder();
     // Every OrderList is sorted by due time already, so the first one we find that
     // ConsiderCancel thinks won't delay orders is the one we consider delivering
     for (i = 0; i < available_pizzas->len; i++) {
+        // If it isn't our next_reg_order anyway
+        // and doesn't overlap with our blocked time
+        // and doesn't delay next orders
+        // LET'S DO THIS!
+        current_order = available_pizzas->orders[i];
+        if (
+            current_order == next_order &&
+            !CheckOverlap(next_required_period, GetTimeReqForOrders(next_order, current_order)) &&
+            !ConsiderCancel(next_order, current_order)
+        ) {
+            next_extra_order = current_order;
+            break;
+        }
+    }
 
+    // If no pizzas were found that satisfied the conditions above, we should consider looking for
+    // more pizzas
+    if (next_extra_order == NULL) {
+        // FindPizzas takes care of considering cost and everything.
+        // If it thinks it'll delay us to find more pizzas, it'll change the state to 'b'
+        FindPizzas();
     }
 
 }
