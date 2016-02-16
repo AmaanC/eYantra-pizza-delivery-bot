@@ -7,22 +7,19 @@
 #include "SharpSensor.h"
 
 //ADC pin configuration
-void sharp_adc_pin_config()
-{
+void SharpAdcPinConfig() {
 	DDRF = 0x00; //set PORTF direction as input
 	PORTF = 0x00; //set PORTF pins floating
 	DDRK = 0x00; //set PORTK direction as input
 	PORTK = 0x00; //set PORTK pins floating
 }
 
-void sharp_port_init()
-{
-	sharp_adc_pin_config();
+void SharpPortInit() {
+	SharpAdcPinConfig();
 }
 
 //Function to Initialize ADC
-void sharp_adc_init()
-{
+void SharpAdcInit() {
 	ADCSRA = 0x00;
 	ADCSRB = 0x00;		//MUX5 = 0
 	ADMUX = 0x20;		//Vref=5V external --- ADLAR=1 --- MUX4:0 = 0000
@@ -30,17 +27,15 @@ void sharp_adc_init()
 	ADCSRA = 0x86;		//ADEN=1 --- ADIE=1 --- ADPS2:0 = 1 1 0
 }
 
-void sharp_init_devices()
-{
+void SharpInitDevices() {
     cli(); //Clears the global interrupt
-    sharp_port_init();  //Initializes all the ports
-	sharp_adc_init();
+    SharpPortInit();  //Initializes all the ports
+	SharpAdcInit();
     sei();   // Enables the global interrupt
 }
 
 //This Function accepts the Channel Number and returns the corresponding Analog Value 
-unsigned char sharp_ADC_Conversion(unsigned char Ch)
-{
+unsigned char SharpAdcConversion(unsigned char Ch) {
 	unsigned char a;
 	if(Ch>7)
 	{
@@ -58,22 +53,21 @@ unsigned char sharp_ADC_Conversion(unsigned char Ch)
 
 // This Function calculates the actual distance in millimeters(mm) from the input
 // analog value of Sharp Sensor. 
-unsigned int sharp_GP2D12_estimation(unsigned char adc_reading)
-{
+unsigned int SharpGp2d12Estimation(unsigned char adc_reading) {
 	float distance;
-	unsigned int distanceInt;
+	unsigned int distance_int;
 	distance = (int)(10.00*(2799.6*(1.00/(pow(adc_reading,1.1546)))));
-	distanceInt = (int)distance;
-	if(distanceInt>800)
+	distance_int = (int)distance;
+	if(distance_int>800)
 	{
-		distanceInt=800;
+		distance_int=800;
 	}
-	return distanceInt;
+	return distance_int;
 }
 
 // default_dist is used when we can't tell what block we're detecting 
 // because it is between two threshold values (small+threshold and medium-threshold)
-int sharp_get_block_size(int distance, int default_dist) {
+int SharpGetBlockSize(int distance, int default_dist) {
     int threshold = 13;
 	int no_block_threshold = 16;
 	// All experimental averages

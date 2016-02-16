@@ -4,36 +4,37 @@
 #include <math.h>
 #include "color_sensor.h"
 #include "../buzzer/buzzer.h"
+#include "../custom_delay/custom_delay.h"
 
 int main() {
     char color;
-    color_init_devices();
+    ColorInitDevices();
     while(1) {
         // Alerts us that it's reading the colour now
-        buzzer_beep(100);
+        BuzzerBeep(100);
 
         color = color_get();
         switch(color) {
             // 2 short
             case 'r':
-                buzzer_beep(100);
-                buzzer_beep(100);
+                BuzzerBeep(100);
+                BuzzerBeep(100);
                 break;
             // 2 long
             case 'g':
-                buzzer_beep(300);
-                buzzer_beep(300);
+                BuzzerBeep(300);
+                BuzzerBeep(300);
                 break;
             // 1 long, 1 short
             case 'b':
-                buzzer_beep(300);
-                buzzer_beep(100);
+                BuzzerBeep(300);
+                BuzzerBeep(100);
                 break;
             // 3 short for error
             default:
-                buzzer_beep(100);
-                buzzer_beep(100);
-                buzzer_beep(100);
+                BuzzerBeep(100);
+                BuzzerBeep(100);
+                BuzzerBeep(100);
                 break;
         }
 

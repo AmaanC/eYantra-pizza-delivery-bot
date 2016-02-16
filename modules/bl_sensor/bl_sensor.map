@@ -237,13 +237,13 @@ END GROUP
                 0x0000010c                __vector_20
                 0x0000010c                __vector_38
  .text          0x00000110       0xb0 bl_sensor.o
-                0x00000110                bl_sensor_adc_pin_config
-                0x0000011e                bl_sensor_port_init
-                0x00000122                bl_sensor_timer5_init
-                0x00000158                bl_sensor_adc_init
-                0x00000172                bl_sensor_ADC_Conversion
-                0x000001aa                bl_sensor_get
-                0x000001ae                bl_sensor_init_devices
+                0x00000110                BlSensorAdcPinConfig
+                0x0000011e                BlSensorPortInit
+                0x00000122                BlSensorTimer5Init
+                0x00000158                BlSensorAdcInit
+                0x00000172                BlSensorAdcConversion
+                0x000001aa                BlSensorGet
+                0x000001ae                BlSensorInitDevices
  .text          0x000001c0        0x0 app.o
  .text          0x000001c0        0x0 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr6/libgcc.a(_exit.o)
  .text          0x000001c0        0x0 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr6/libgcc.a(_clear_bss.o)
@@ -443,12 +443,12 @@ END GROUP
  .debug_frame   0x00000000       0x84 bl_sensor.o
  .debug_frame   0x00000084       0x24 app.o
 
-.debug_str      0x00000000      0x184
+.debug_str      0x00000000      0x16f
  *(.debug_str)
- .debug_str     0x00000000      0x179 bl_sensor.o
-                                0x1ad (size before relaxing)
- .debug_str     0x00000179        0xb app.o
-                                0x12b (size before relaxing)
+ .debug_str     0x00000000      0x164 bl_sensor.o
+                                0x198 (size before relaxing)
+ .debug_str     0x00000164        0xb app.o
+                                0x125 (size before relaxing)
 
 .debug_loc      0x00000000       0x5e
  *(.debug_loc)

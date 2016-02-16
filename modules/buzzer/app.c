@@ -2,16 +2,16 @@
 #include <avr/interrupt.h>
 #include <util/delay.h>
 #include "buzzer.h"
+#include "../custom_delay/custom_delay.h"
 
 //Main Function
-int main(void)
-{
-    buzzer_init_devices();
+int main(void) {
+    BuzzerInitDevices();
     while(1)
     {
-        buzzer_on();
+        BuzzerOn();
         _delay_ms(1000);        //delay
-        buzzer_off();
+        BuzzerOff();
         _delay_ms(3000);        //delay
     }
 }

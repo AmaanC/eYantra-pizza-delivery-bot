@@ -7,7 +7,7 @@
 //Main Function
 int main()
 {
-	bl_sensor_init_devices();
+	BlSensorInitDevices();
 	unsigned char Left_black_line = 0;
 	unsigned char Center_black_line = 0;
 	unsigned char Right_black_line = 0;
@@ -16,9 +16,9 @@ int main()
 	while(1)
 	{
 
-		Left_black_line = bl_sensor_ADC_Conversion(3);	//Getting data of Left WL Sensor
-		Center_black_line = bl_sensor_ADC_Conversion(2);	//Getting data of Center WL Sensor
-		Right_black_line = bl_sensor_ADC_Conversion(1);	//Getting data of Right WL Sensor
+		Left_black_line = BlSensorAdcConversion(3);	//Getting data of Left WL Sensor
+		Center_black_line = BlSensorAdcConversion(2);	//Getting data of Center WL Sensor
+		Right_black_line = BlSensorAdcConversion(1);	//Getting data of Right WL Sensor
 
 		flag=0;		
 
