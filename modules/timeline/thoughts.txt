@@ -61,3 +61,4 @@ Bot Memory
 
 - Sensor location // So we don't have to hardcode its turns within the pizza counter
 - Bot position // So all other modules can use it
+- Arm location & status (whether carrying a pizza or not)
