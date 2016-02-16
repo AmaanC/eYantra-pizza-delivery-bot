@@ -1,8 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
 #include "timeline.h"
 #include "../map/map.h"
-#include <math.h>
+#include "../dijkstra/dijkstra.h"
+#include "../bot_memory/bot_memory.h"
 
 #define TRUE 1
 #define FALSE 0
@@ -28,6 +30,8 @@
 // permutations will be dismissed.
 
 OrderList *our_timeline;
+
+Node *PIZZA_COUNTER_NODE;
 
 // State can be either 'f' or 'b' for free and busy
 // When it's in the free state, it'll consider doing extra things in its free time like
@@ -133,6 +137,8 @@ void InitTimeline() {
     our_timeline = malloc(sizeof(OrderList));
     our_timeline->orders = malloc(MAX_ORDERS * sizeof(Order));
     our_timeline->len = 0;
+
+    PIZZA_COUNTER_NODE = GetNodeByName("r1"); // r1 is always going to be our "pizza counter"
 
     next_required_period = malloc(sizeof(TimeBlock));
     next_required_period->start = next_required_period->end = 0;
@@ -269,7 +275,7 @@ void FindNextDefiniteNeed(OrderList *timeline) {
 // whatever we were considering + the cost of coming back for our next order
 // + the cost of delivering that. If this total cost is less than
 // the next order's due time, we haven't delayed it.
-void ConsiderCancel(Order *order1, Order *order2) {
+int ConsiderCancel(Order *order1, Order *order2) {
 
 }
 
@@ -322,7 +328,27 @@ OrderList *GetAvailablePizzas(TimeBlock *current_period) {
 // Upon finding its first unknown pizza, it'll set the state to free (from within DetectPizza)
 // If the cost does delay us, it'll set the state to 'b' so that NormalOperation can continue
 void FindPizzas() {
+    // We need to consider the cost first, and check our memory to see how many
+    // pizzas we've found on each side
+    BotInfo *bot_info;
+    PathStack *path_to_counter;
+    int cost = 0;
+    bot_info = GetBotInfo();
+    // Get the path from the bot's current node to the pizza counter
+    path_to_counter = Dijkstra(bot_info->cur_position->cur_node, PIZZA_COUNTER_NODE, bot_info->cur_position->cur_deg, GetGraph());
+    cost = path_to_counter->total_cost;
 
+    // Now we check if current time + cost + next_order_cost >= next_order.end_time
+}
+
+TimeBlock *GetTimeReqForOrders(Order *order1, Order *order2) {
+    TimeBlock *time_req;
+    time_req = malloc(sizeof(TimeBlock));
+
+    time_req->start = 0;
+    time_req->end = 0;
+
+    return time_req;
 }
 
 // This is called when we've got some free time, and want to consider doing the following:
@@ -347,10 +373,10 @@ void FreeTimeDecision() {
     // If no pizzas are left, let's go ahead and find more pizzas *if time permits*
     // If there isn't time for that, set state to 'b'
     OrderList *available_pizzas;
-    Order *current_orde, *next_order;
+    Order *current_order, *next_order;
     int i = 0;
     available_pizzas = GetAvailablePizzas(GetCurrentTimeBlock());
-    next_order = GetNextOrder();
+    next_order = GetNextOrder(our_timeline);
     // Every OrderList is sorted by due time already, so the first one we find that
     // ConsiderCancel thinks won't delay orders is the one we consider delivering
     for (i = 0; i < available_pizzas->len; i++) {
