@@ -9,20 +9,36 @@ typedef struct _TimeBlock {
     float end;
 } TimeBlock;
 
+typedef struct _Pizza {
+    // r, g, b: red, green, blue
+    char colour;
+    // s, m, l: small, medium, large
+    char size;
+    // Location of the pizza. If it hasn't been found, it'll be NULL
+    Node *location;
+} Pizza;
+
+typedef struct _PizzaList {
+    // An array of pizzas
+    Pizza **pizzas;
+    int len;
+} PizzaList;
+
 typedef struct _Order {
-    char colour; // r, g, b: red, green, blue
-    char size; // s, m, l: small, medium, large
-    int order_time; // 30, for example
-    char order_type; // r, p: regular, preorder
-    Node *delivery_house; // it is a node now, not just a name.
-    Node *pickup_point; // this too.
+    // 30, for example
+    int order_time;
+    // r, p: regular, preorder
+    char order_type;
+    Pizza *pizza;
+    // Node containing the delivery location
+    Node *delivery_house;
+    // State of the order:
+    // d: delivered
+    // h: holding
+    // c: canceled
     char state;
-    // 'f' = found
-    // 'n' = not found
-    // 'd' = delivered
-    // 'h' = holding
-    // 'c' = canceled
-    TimeBlock *block;
+    // The period within which the order must be delivered.
+    TimeBlock *delivery_period;
 } Order;
 
 // A timeline is just an array of orders

@@ -30,6 +30,7 @@
 // permutations will be dismissed.
 
 OrderList *our_timeline;
+PizzaList *our_pizzas;
 
 Node *PIZZA_COUNTER_NODE;
 
@@ -54,7 +55,7 @@ Order *next_extra_order;
 // We only have 10 pizza pick up points, and since the rules state that no pizzas will be added
 // or removed *during* a run, we can assume that the max orders we'll get is 10
 const int MAX_ORDERS = 10;
-const int DELIVERY_PERIOD = 30;
+const int GUARANTEED_PERIOD = 50;
 
 char GetState() {
     return cur_state;
@@ -89,13 +90,32 @@ void InsertOrder(OrderList *timeline, Order *new_order) {
     while (
         i > 0 &&
         timeline->orders[i - 1] != NULL &&
-        new_order->block->end < timeline->orders[i - 1]->block->end
+        new_order->delivery_period->end < timeline->orders[i - 1]->delivery_period->end
     ) {
         timeline->orders[i] = timeline->orders[i - 1];
         i--;
     }
     timeline->orders[i] = new_order;
     timeline->len++;
+}
+
+void InsertPizza(PizzaList *pizza_list, Pizza *new_pizza) {
+    pizza_list->pizzas[pizza_list->len] = new_pizza;
+    pizza_list->len++;
+}
+
+Pizza *CreatePizza(char colour, char size) {
+    Pizza *pizza;
+
+    pizza = malloc(sizeof(Pizza));
+    pizza->colour = colour;
+    pizza->size = size;
+    pizza->location = NULL;
+
+    // Insert into our array of pizzas
+    InsertPizza(our_pizzas, pizza);
+
+    return pizza;
 }
 
 void CreateOrder(
@@ -111,22 +131,22 @@ void CreateOrder(
     int i = 0;
 
     new_order = malloc(sizeof(Order));
-    new_order->colour = colour;
-    new_order->size = size;
+
+    new_order->pizza = CreatePizza(colour, size);
+
     new_order->order_time = order_time;
     new_order->order_type = order_type;
     new_order->delivery_house = GetNodeByName(delivery_house_name);
     new_order->state = 'n';
-    new_order->pickup_point = NULL;
-    new_order->block = malloc(sizeof(TimeBlock));
+    new_order->delivery_period = malloc(sizeof(TimeBlock));
 
     if (order_type == 'p') {
-        new_order->block->start = order_time - DELIVERY_PERIOD;
-        new_order->block->end = order_time + DELIVERY_PERIOD;
+        new_order->delivery_period->start = order_time - GUARANTEED_PERIOD;
+        new_order->delivery_period->end = order_time + GUARANTEED_PERIOD;
     }
     else {
-        new_order->block->start = order_time;
-        new_order->block->end = order_time + DELIVERY_PERIOD;
+        new_order->delivery_period->start = order_time;
+        new_order->delivery_period->end = order_time + GUARANTEED_PERIOD;
     }
 
     InsertOrder(timeline, new_order);
@@ -137,6 +157,9 @@ void InitTimeline() {
     our_timeline = malloc(sizeof(OrderList));
     our_timeline->orders = malloc(MAX_ORDERS * sizeof(Order));
     our_timeline->len = 0;
+
+    our_pizzas = malloc(sizeof(PizzaList));
+    our_pizzas->pizzas = malloc(MAX_ORDERS * sizeof(Pizza));
 
     PIZZA_COUNTER_NODE = GetNodeByName("r1"); // r1 is always going to be our "pizza counter"
 
@@ -221,11 +244,11 @@ void FindNextDefiniteNeed(OrderList *timeline) {
             // since that's when we start using 2 arms
             // The end time will be changed dynamically as soon as we deliver the order,
             // since that's when we stop using 2 arms
-            if (order1->block->start > order2->block->start) {
-                start_time = order1->block->start;
+            if (order1->delivery_period->start > order2->delivery_period->start) {
+                start_time = order1->delivery_period->start;
             }
             else {
-                start_time = order2->block->start;
+                start_time = order2->delivery_period->start;
             }
 
             // If it's the lowest one we've found
@@ -234,11 +257,11 @@ void FindNextDefiniteNeed(OrderList *timeline) {
             if (
                 start_time < lowest_start_time &&
                 order1->delivery_house == order2->delivery_house &&
-                CheckOverlap(order1->block, order2->block) == TRUE
+                CheckOverlap(order1->delivery_period, order2->delivery_period) == TRUE
             ) {
                 lowest_start_time = start_time;
                 next_potential->start = start_time;
-                printf("Overlap between %s, %f and %f\n", order1->delivery_house->name, order1->block->start, order2->block->start);
+                printf("Overlap between %s, %f and %f\n", order1->delivery_house->name, order1->delivery_period->start, order2->delivery_period->start);
             }
             
         }
@@ -315,7 +338,7 @@ OrderList *GetAvailablePizzas(TimeBlock *current_period) {
         current_order = our_timeline->orders[i];
         // If the current order has been found and it's delivery period overlaps with the current_period
         // it's an available pizza!
-        if (current_order->state == 'f' && CheckOverlap(current_period, current_order->block)) {
+        if (current_order->state == 'f' && CheckOverlap(current_period, current_order->delivery_period)) {
             InsertOrder(available_pizzas, current_order);
         }
     }
@@ -329,7 +352,7 @@ void DetectPizza() {
     char block_size = 's'; // SharpGetBlockSize();
     char colour = 'r'; // ColourGet();
     
-    
+
 }
 
 // Consider looking for more pizzas
@@ -461,8 +484,8 @@ void TimelineControl() {
 }
 
 void Display(Order *current_order) {
-    printf("colour: %c, ", current_order->colour);
-    printf("size: %c, ", current_order->size);
+    printf("colour: %c, ", current_order->pizza->colour);
+    printf("size: %c, ", current_order->pizza->size);
     printf("order time: %d, ", current_order->order_time);
     printf("order type: %c, ", current_order->order_type);
     printf("house: %s\n", current_order->delivery_house->name);

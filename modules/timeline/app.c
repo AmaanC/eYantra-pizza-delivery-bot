@@ -15,7 +15,7 @@ int main() {
 
     timeline = GetTimeline();
     printf("Num orders: %d\n", timeline->len);
-    printf("Order 2 start: %f\n", timeline->orders[2]->block->start);
+    printf("Order 2 start: %f\n", timeline->orders[2]->delivery_period->start);
     FindNextDefiniteNeed(timeline);
     
     for (i = 0; i < timeline->len; i++) {
