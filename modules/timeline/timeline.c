@@ -45,6 +45,19 @@ TimeBlock *next_required_period;
 const int MAX_ORDERS = 10;
 const int DELIVERY_PERIOD = 30;
 
+char GetState() {
+    return cur_state;
+}
+
+void SetState(char new_state) {
+    if (new_state == 'f') {
+        cur_state = new_state;
+    }
+    else {
+        cur_state = 'b';
+    }
+}
+
 void InsertOrder(OrderList *timeline, Order *new_order) {
     int i = 0;
     i = timeline->len;
@@ -259,6 +272,10 @@ void FreeTimeDecision() {
 
 }
 
+void NormalOperation() {
+    
+}
+
 void TimelineControl() {
     SetState('f');
     while (1) {
@@ -273,19 +290,6 @@ void TimelineControl() {
         else {
             NormalOperation(); // this will set the state to free when the delivery is done
         }
-    }
-}
-
-char GetState() {
-    return cur_state;
-}
-
-void SetState(char new_state) {
-    if (new_state == 'f') {
-        cur_state = new_state;
-    }
-    else {
-        cur_state = 'b';
     }
 }
 
