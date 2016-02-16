@@ -48,9 +48,10 @@ Free:
     state = 'reg'
 
 The only times the state changes are:
-- Found new pizza (to reg)
-- Picked up pizza (to reg)
+- Found new pizza (to free)
 - Delivered pizza (to free)
+- Picked up pizza (to reg)
+- No time to do anything (to reg)
 
 Hardware Control
 

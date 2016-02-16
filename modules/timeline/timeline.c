@@ -266,14 +266,17 @@ void FreeTimeDecision() {
 
     // Whichever are left now can be picked up without any repurcussions,
     // so pick the one that's due the earliest up (TODO: should this be the one
-    // that's closest instead?)
+    // that's closest in distance instead?)
 
-    // If no pizzas are left, let's go ahead and find more pizzas if time permits
+    // If no pizzas are left, let's go ahead and find more pizzas *if time permits*
+    // If there isn't time for that, set state to 'b'
 
 }
 
 void NormalOperation() {
-    
+    // Get all the pizzas we are carrying right now
+    // If we are carrying any, FreeTimeDecision decided that we wouldn't suffer from carrying
+    // this extra one
 }
 
 void TimelineControl() {
