@@ -322,6 +322,16 @@ OrderList *GetAvailablePizzas(TimeBlock *current_period) {
     return available_pizzas;
 }
 
+// This is called when we're already next to a pizza, and we simply want
+// to detect the pizza and save its details in our Order struct
+// The state will change to 'f' to indicate that its been found
+void DetectPizza() {
+    char block_size = 's'; // SharpGetBlockSize();
+    char colour = 'r'; // ColourGet();
+    
+    
+}
+
 // Consider looking for more pizzas
 // This function will consider the cost of finding pizzas
 // If the cost doesn't delay us for our regular order, it'll actually go search for pizzas

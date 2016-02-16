@@ -8,10 +8,11 @@ int main() {
     Order *order;
     int i;
 
+    // sharp_init_devices();
     InitBotInfo();
     InitGraph();
     InitTimeline();
-    
+
     timeline = GetTimeline();
     printf("Num orders: %d\n", timeline->len);
     printf("Order 2 start: %f\n", timeline->orders[2]->block->start);
