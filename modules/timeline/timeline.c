@@ -277,6 +277,28 @@ void NormalOperation() {
     // Get all the pizzas we are carrying right now
     // If we are carrying any, FreeTimeDecision decided that we wouldn't suffer from carrying
     // this extra one
+    // So let's go pick our next regular order
+    // Then figure out which to deliver first
+    // And deliver it
+    // Then deliver the next one
+    // When both arms are empty, state will be set to free
+    // And so the cycle continues
+
+    /*
+    Bored? Here's a song to sing:
+    It's the Circle of Life
+    And it moves us all
+    Through despair and hope
+    Through faith and love
+
+    Till we find our place
+    On the path unwinding
+    In the Circle
+    The Circle of Life
+    */
+    
+    Order *left_arm = BotGetLeftOrder();
+    Order *right_arm = BotGetRightOrder();
 }
 
 void TimelineControl() {

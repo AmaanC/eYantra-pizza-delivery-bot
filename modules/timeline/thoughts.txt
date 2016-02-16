@@ -22,12 +22,9 @@ Reg:
         if best prediction means we do it in time, do it // TODO: Best prediction or worst prediction?
     }
     else {
-        if pizza found {
-            DeliverTo(House)
-        }
-        else {
-            FindPizza()
-        }
+        PickPizzas(next_reg, next_extra)
+        GetPizzasInArms()
+        DeliverPizzas(a, b)
     }
 
 FindPizza:
@@ -44,8 +41,21 @@ Free:
      - Are already our next scheduled order
 
     If pizzas left on list, get one due earliest
-    PickPizza(earliest_due_pizza)
+    next_extra_pizza = earliest_due_pizza
     state = 'reg'
+
+PickPizzas(a, b):
+    If locations aren't known, and EstimateFindPizza says it could still deliver in time, then it'll
+    call FindPizza
+    Else, it'll call ConsiderCancel
+    Picks up 2 pizzas in the optimal way (a, b or b, a)
+    Sets state to regular
+
+DeliverPizzas(a, b):
+    a and b can be null
+    Deliver in the optimal order (i.e. a, b or b, a)
+    When done delivering, state = 'free'
+
 
 The only times the state changes are:
 - Found new pizza (to free)
