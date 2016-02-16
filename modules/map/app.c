@@ -18,6 +18,7 @@ int main() {
     // printf("Starting");
     // _delay_ms(1000);
     
+    InitBotInfo();
     InitGraph();
     printf("Targ name: %s\n", GetNodeByName("r1")->name);
     // printf("Targ name: %s\n", GetNodeByName("r1")->name);

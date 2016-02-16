@@ -26,6 +26,8 @@ char *current_search_name; // The name of the node we're looking for in the time
 
 CurveInfo *curve_info;
 
+BotInfo *bot_info;
+
 // Returns a pointer to a node
 Node *CreateNode(float x, float y, int num_connected, char *name) {
     int i;
@@ -80,7 +82,7 @@ void InitGraph() {
          *H2DA, *H2DB, *H3DA, *H3DB, *H4DA, *H4DB, *H5DA, *H5DB, *H6DA, *H6DB, *H7DA,
          *H7DB, *H8DA, *H8DB, *H1, *H2, *H3, *H4, *H5, *H6, *H7, *H8, *H9, *H10, *H11;
 
-    bot_position = malloc(sizeof(Position));
+    bot_info = GetBotInfo();
     
     curve_info = malloc(sizeof(CurveInfo));
     curve_info->curve_nodes_len = 8;
@@ -219,8 +221,8 @@ void InitGraph() {
 
     // We always start at S
     our_graph->start = S;
-    bot_position->cur_node = S;
-    bot_position->cur_deg = 90;
+    bot_info->cur_position->cur_node = S;
+    bot_info->cur_position->cur_deg = 90;
 
     // Define the nodes where we want to use our custom curve function instead of
     // rotating towards the next node and going forward
@@ -242,7 +244,7 @@ void InitGraph() {
 }
 
 Node *GetCurrentNode() {
-    return bot_position->cur_node;
+    return bot_info->cur_position->cur_node;
 }
 
 // Call it like this:
@@ -432,7 +434,7 @@ void MoveBotToNode(Node *target_node) {
     int i;
     float xDist, yDist;
 
-    final_path = Dijkstra(GetCurrentNode(), target_node, bot_position->cur_deg, our_graph);
+    final_path = Dijkstra(GetCurrentNode(), target_node, bot_info->cur_position->cur_deg, our_graph);
     for (i = final_path->top - 1; i >= 0; i--) {
         // lcd_printf("%s", final_path->path[i]->name);
         // _delay_ms(500);
@@ -452,7 +454,7 @@ void MoveBotToNode(Node *target_node) {
     // Move forward dist using pos encoders
     // Repeat for next pair of nodes
     i = final_path->top - 1;
-    current_node = bot_position->cur_node;
+    current_node = bot_info->cur_position->cur_node;
     while (current_node != target_node) {
         i--;
         next_node = final_path->path[i];
@@ -470,15 +472,15 @@ void MoveBotToNode(Node *target_node) {
 
             xDist = current_node->x - next_node->x;
             yDist = current_node->y - next_node->y;
-            // lcd_printf("Rot: %d", (int) ((next_node->enter_deg - bot_position->cur_deg)));
+            // lcd_printf("Rot: %d", (int) ((next_node->enter_deg - bot_info->cur_position->cur_deg)));
             // _delay_ms(500);
-            // pos_encoder_rotate_bot((next_node->enter_deg - bot_position->cur_deg));
-            bot_position->cur_deg = next_node->enter_deg;
+            // pos_encoder_rotate_bot((next_node->enter_deg - bot_info->cur_position->cur_deg));
+            bot_info->cur_position->cur_deg = next_node->enter_deg;
             // pos_encoder_forward_mm(10 * sqrt(xDist * xDist + yDist * yDist));
         }
 
-        bot_position->cur_node = current_node;
+        bot_info->cur_position->cur_node = current_node;
         current_node = next_node;
     }
-    bot_position->cur_node = target_node;
+    bot_info->cur_position->cur_node = target_node;
 }

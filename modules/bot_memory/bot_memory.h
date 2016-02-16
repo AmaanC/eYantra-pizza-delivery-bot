@@ -25,7 +25,7 @@ typedef struct _Arm {
 } Arm;
 
 // The bot should have the following info
-typedef strucut _BotInfo {
+typedef struct _BotInfo {
     Position *cur_position;
     // If the bot is facing 0 degrees (on the unit circle), sensor_angle is where the sharp and
     // colour sensors would be in relation to the bot
@@ -35,5 +35,8 @@ typedef strucut _BotInfo {
     Arm *arm1;
     Arm *arm2;
 } BotInfo;
+
+void InitBotInfo();
+BotInfo *GetBotInfo();
 
 #endif
