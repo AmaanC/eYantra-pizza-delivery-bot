@@ -4,9 +4,13 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
 #include "map.h"
+#include "../dijkstra/dijkstra.h"
 #include "../pos_encoder/pos_encoder.h"
 #include "../lcd/lcd.h"
+#include "../bot_memory/bot_memory.h"
+#include "../hardware_control/hardware_control.h"
 
 int main() {
     // pos_encoder_init_devices();

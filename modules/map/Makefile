@@ -1,7 +1,7 @@
 CC=gcc
 FILENAME=app
 
-objects := $(patsubst %.c,%.o,$(wildcard *.c)) ../dijkstra/dijkstra.o ../bot_memory/bot_memory.o
+objects := $(patsubst %.c,%.o,$(wildcard *.c)) ../dijkstra/dijkstra.o ../bot_memory/bot_memory.o ../hardware_control/hardware_control.o
 
 $(FILENAME) : $(objects)
 	cc -o $(FILENAME).out $(objects) -lm

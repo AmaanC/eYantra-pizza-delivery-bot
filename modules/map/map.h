@@ -73,9 +73,9 @@ Node* GetNodeByName(char *name);
 
 void DFSEval(Node *source_node, int unvisited_value, int fn());
 
-void MoveBotToNode(Node* target_node);
 CurveInfo *GetCurveInfo();
 Graph *GetGraph();
 float RadToDeg(float radians);
+float GetAngularVelocity(Node *node1, Node *node2);
 
 #endif
