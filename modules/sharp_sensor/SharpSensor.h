@@ -8,5 +8,6 @@ void SharpInitDevices();
 unsigned char SharpAdcConversion(unsigned char Ch);
 unsigned int SharpGp2d12Estimation(unsigned char adc_reading);
 int SharpgetBlockSize(int distance, int default_dist);
+char SharpGetBlockType();
 
 #endif
