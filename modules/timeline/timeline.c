@@ -761,6 +761,16 @@ void NormalOperation() {
     if (next_extra_order != NULL) {
         // PickPizzas(next_reg_order, next_extra_order);
     }
+    else {
+        ConsiderCancel(next_reg_order, NULL);
+        // If it said we should cancel, lets mark the order as canceled
+        // and move on, because there are plenty of pizzas in the sea
+        // Since our next order has changed now, we should consider doing some
+        // extra work in our free time!
+        // If we're in a tight situation, the FreeTime function will recognize
+        // that and send us back here for our regularly scheduled delivery
+        SetState('f');
+    }
 }
 
 void TimelineControl() {
