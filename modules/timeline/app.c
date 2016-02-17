@@ -9,6 +9,7 @@ int main() {
     int i;
 
     // sharp_init_devices();
+    InitTimer();
     InitBotInfo();
     InitGraph();
     InitTimeline();
