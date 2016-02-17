@@ -108,7 +108,7 @@ PathStack* Dijkstra(Node *source_node, Node *target_node, float cur_deg, Graph *
     // lcd_printf("Targ: %s", target_node->name);
     // _delay_ms(200);
     if (current_node == NULL || target_node == NULL) {
-        printf("ERROR: NULL pointer for source or target\n\n\n");
+        printf("ERROR: NULL pointer for source or target - dijkstra.c\n\n\n");
         final_path->total_cost = INFINITY;
         return final_path;
     }
