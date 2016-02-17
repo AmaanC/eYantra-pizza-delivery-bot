@@ -9,6 +9,7 @@
 #include "../dijkstra/dijkstra.h"
 #include "../bot_memory/bot_memory.h"
 #include "../timer-gcc/timer.h"
+#include "../hardware_control/hardware_control.h"
 
 #define TRUE 1
 #define FALSE 0
@@ -720,9 +721,10 @@ void FindPizzas() {
     }
     else {
         // TODO:
-        // MoveBotToNode(target_pizza_node);
-//        printf("--- Bot is at: %s\n", target_pizza_node->name);
-        GetBotInfo()->cur_position->cur_node = target_pizza_node;
+        MoveBotToNode(target_pizza_node);
+        // printf("--- Bot is at: %s\n", target_pizza_node->name);
+        // GetBotInfo()->cur_position->cur_node = target_pizza_node;
+        // sleep(cost);
         DetectPizza();
     }
 }

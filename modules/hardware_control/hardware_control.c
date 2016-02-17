@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
+#include <unistd.h>
 #include "../map/map.h"
 #include "../dijkstra/dijkstra.h"
 #include "../pos_encoder/pos_encoder.h"
@@ -49,6 +50,7 @@ void CurveTowards(Node *source_node, Node *target_node) {
         left_motor = fast_value;
     }
     printf("\tCurve %s to %s: %d, %d\n", source_node->name, target_node->name, left_motor, right_motor);
+    sleep(5);
     // Start the motors on the path for the curve
     // pos_encoder_velocity(left_motor, right_motor);
     // Let them keep going until one of the motors has spun enough
@@ -75,6 +77,7 @@ void MoveBotToNode(Node *target_node) {
     // _delay_ms(500);
 
     printf("\nTotal cost: %f\n", final_path->total_cost);
+    sleep(final_path->total_cost);
 
     // Now that we know the path to take, here's how we actually get there
     // To go from A to D
