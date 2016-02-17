@@ -10,4 +10,4 @@ clean:
 	rm -f *.o *.out *.map *.hex
 
 run: $(FILENAME)
-    ./app.out
+	./app.out
