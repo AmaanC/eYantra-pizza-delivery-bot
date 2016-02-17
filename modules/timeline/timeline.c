@@ -472,6 +472,7 @@ float EstimateNextCost(Node *source_node, int pos) {
         // We don't know where the pizza is, so we have to estimate the time to find it
         // TODO: Actually implement this
         pizza_location = PIZZA_COUNTER_NODE;
+        printf("Assuming pizza is at %s\n", PIZZA_COUNTER_NODE->name);
     }
     cost_to_pizza = Dijkstra(source_node, pizza_location, source_node->enter_deg, our_graph)->total_cost;
     cost_to_delivery = Dijkstra(pizza_location, next_order->delivery_house, pizza_location->enter_deg, our_graph)->total_cost;

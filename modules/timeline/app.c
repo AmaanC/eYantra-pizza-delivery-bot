@@ -15,16 +15,14 @@ int main() {
 
     timeline = GetTimeline();
     printf("Num orders: %d\n", timeline->len);
-    printf("Order 2 start: %f\n", timeline->orders[2]->delivery_period->start);
-    ConsiderCancel(timeline->orders[1], timeline->orders[2]);
+    // printf("Order 2 start: %f\n", timeline->orders[2]->delivery_period->start);
     FindNextDefiniteNeed(timeline);
     
     for (i = 0; i < timeline->len; i++) {
         Display(timeline->orders[i]);
-        if (i < 2) {
-            timeline->orders[i]->state = 'f';
-        }
     }
+    printf("Estimated cost of delivery 0: %f\n", EstimateNextCost(GetCurrentNode(), 0));
+    printf("Order 0 and 2 at the same time: %d\n", ConsiderCancel(timeline->orders[1], timeline->orders[2])->should_cancel);
 
     // So what happens initially is that we call our free time function, and since we've
     // found 0 pizzas, no pizzas will be considered right now.
