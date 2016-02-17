@@ -67,6 +67,13 @@ int AngleRotate(unsigned int degrees) {
     PosEncoderStop(); 
 }
 
+void GetSensorsStatus() {
+    left_black_line = BlSensorAdcConversion(3);
+    center_black_line = BlSensorAdcConversion(2);    
+    right_black_line = BlSensorAdcConversion(1);
+
+}
+
 void MoveBotInitDevices(void) {
 	BlSensorInitDevices();
 	PosEncoderInitDevices();
@@ -93,6 +100,10 @@ void RotateBot(int degrees) {
     }
 }
 
+static int right_turn = 0;
+static int left_turn = 0;
+
+
 void MoveBotForwardMm(unsigned int distance_in_mm) {
     float reqd_shaft_counter = 0;
     unsigned long int reqd_shaft_counter_int = 0;
@@ -100,6 +111,8 @@ void MoveBotForwardMm(unsigned int distance_in_mm) {
     reqd_shaft_counter = distance_in_mm / 5.338; 
     reqd_shaft_counter_int = (unsigned long int) reqd_shaft_counter;
      
+    right_turn = 0;
+    left_turn = 0;
     ShaftCounterRight = 0;
     ShaftCounterLeft = 0;
     while(1)
@@ -108,11 +121,9 @@ void MoveBotForwardMm(unsigned int distance_in_mm) {
      	   break;
      }
      else {
-     		 Flag = 0;
-	   	   left_black_line = BlSensorAdcConversion(3);
-	   	   center_black_line = BlSensorAdcConversion(2);	
-	   	   right_black_line = BlSensorAdcConversion(1);	
-   
+        GetSensorsStatus();
+     		 Flag = 0;	
+
 	   if(center_black_line > 0x28) {
 	   		 Flag = 1;
 	   		 PosEncoderVelocity(high_velocity, high_velocity);
@@ -121,11 +132,25 @@ void MoveBotForwardMm(unsigned int distance_in_mm) {
 	   if((left_black_line < 0x28) && (Flag==0)) {
 	   		 Flag=1;
 	   		 PosEncoderVelocity(high_velocity, low_velocity);
+             right_turn++;
+             if(right_turn == 2) {
+                PosEncoderVelocity(low_velocity, high_velocity);
+             }
+             else if(right_turn == 3) {
+                PosEncoderVelocity(high_velocity, high_velocity);
+             }
 	   	}
    
 	   if((right_black_line < 0x28) && (Flag==0)) {
 	   		 Flag=1;
 	   		 PosEncoderVelocity(low_velocity, high_velocity);
+             left_turn++;
+             if(left_turn == 2) {
+                PosEncoderVelocity(high_velocity, low_velocity);
+             }
+             else if(left_turn == 3) {
+                PosEncoderVelocity(high_velocity, high_velocity);
+             }
 	    }
    
 	   if(center_black_line < 0x28 && left_black_line < 0x28 && right_black_line < 0x28){
