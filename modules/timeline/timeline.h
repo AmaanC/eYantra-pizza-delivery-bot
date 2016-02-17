@@ -82,5 +82,6 @@ Order *GetNextOrder(OrderList *timeline, int pos);
 OrderList *GetAvailablePizzas(TimeBlock *current_period);
 TimeBlock *GetCurrentTimeBlock();
 Pizza *GetPizzaForOrder(Order *order);
+float EstimateNextCost(Node *source_node, int pos);
 
 #endif

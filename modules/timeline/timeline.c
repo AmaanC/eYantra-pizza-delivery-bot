@@ -337,6 +337,13 @@ DeliverySequence *ConsiderCancel(Order *order1, Order *order2) {
         single_pizza = GetPizzaForOrder(single_order);
         temp_cost = Dijkstra(bot_info->cur_position->cur_node, single_pizza->location, bot_info->cur_position->cur_deg, our_graph)->total_cost;
         temp_cost += Dijkstra(single_pizza->location, single_order->delivery_house, single_pizza->location->enter_deg, our_graph)->total_cost;
+
+        best_seq->pick1 = single_pizza->location;
+        best_seq->deliver1 = single_order->delivery_house;
+        if (temp_cost + EstimateNextCost(single_order->delivery_house, 1) > GetNextOrder(our_timeline, 1)->delivery_period->end) {
+            best_seq->should_cancel = TRUE;
+        }
+        return best_seq;
     }
 
 
@@ -364,8 +371,14 @@ DeliverySequence *ConsiderCancel(Order *order1, Order *order2) {
             if (i != j) {
                 for (a = 0; a < num_combos; a++) {
                     for (b = 0; b < num_combos; b++) {
-                        if (a != b) {
-                            // printf("%d, %d - %d, %d\n", i, j, a, b);
+                        if (
+                            a != b &&
+                            pizza_combo[i] != NULL && pizza_combo[i]->location != NULL &&
+                            pizza_combo[j] != NULL && pizza_combo[j]->location != NULL &&
+                            order_combo[a]->delivery_house != NULL &&
+                            order_combo[b]->delivery_house != NULL
+                        ) {
+                            printf("%d, %d - %d, %d\n", i, j, a, b);
                             // Get cost to pick i
                             temp_cost = Dijkstra(bot_info->cur_position->cur_node, pizza_combo[i]->location, bot_info->cur_position->cur_deg, our_graph)->total_cost;
                             // To pick j
@@ -394,6 +407,7 @@ DeliverySequence *ConsiderCancel(Order *order1, Order *order2) {
     // /▌  write such terrible code again. Kthx.
     // /\
 
+    return best_seq;
 }
 
 // Finds the next regularly scheduled order
@@ -436,7 +450,7 @@ Pizza *GetPizzaForOrder(Order *order) {
 }
 
 // Estimate the cost to delivering the next regular order when starting from the source_node
-float EstimateNextCost(Node *source_node) {
+float EstimateNextCost(Node *source_node, int pos) {
     Order *next_order;
     Pizza *matching_pizza;
     // If the pizza has been found, we'll set this to the pizza's location, otherwise
@@ -451,7 +465,7 @@ float EstimateNextCost(Node *source_node) {
 
     our_graph = GetGraph();
 
-    next_order = GetNextOrder(our_timeline, 0);
+    next_order = GetNextOrder(our_timeline, pos);
     matching_pizza = GetPizzaForOrder(next_order);
     pizza_location = matching_pizza->location;
     if (pizza_location == NULL) {
@@ -629,7 +643,7 @@ void FindPizzas() {
     cost += path_to_pizza->total_cost;
     // We don't use Dijkstra's here because we may not have found the next regular pizza yet
     // and may have to estimate the time to finding it
-    cost += EstimateNextCost(target_pizza_node);
+    cost += EstimateNextCost(target_pizza_node, 0);
 
     // Now we check if current time + cost + next_order_cost >= next_order.end_time
     if (cost + threshold > GetNextOrder(our_timeline, 0)->delivery_period->end) {
