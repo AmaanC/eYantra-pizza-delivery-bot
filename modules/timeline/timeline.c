@@ -384,6 +384,8 @@ void DetectPizza() {
     // That information will be used in the future to decide which side is likelier to have pizzas
     // Now that we've found a new pizza, set the state to free, and let FreeTime
     // decide if we want to pick it up or not
+
+    // TODO: Consider bad readings and rechecking?
     bot_info = GetBotInfo();
     if (bot_info->cur_position->cur_node->x < PIZZA_COUNTER_NODE->x) {
         left_pizzas++;
@@ -407,6 +409,30 @@ void DetectPizza() {
     }
 }
 
+int IsPizzaAt(Node *test_node) {
+    int i = 0;
+    int found = FALSE;
+    for (i = 0; i < our_pizzas->len; i++) {
+        if (our_pizzas->location == test_node) {
+            found = TRUE;
+        }
+    }
+    return found;
+}
+
+// Returns a node which is to the right (where x co-ordinate is higher) of the source_node
+// It only looks through the source_nodes connections, not through all the nodes on the map
+Node *GetNodeToRight(Node *source_node) {
+    int i;
+    Node *counter_node;
+    for (i = 0; i < source_node->counter; i++) {
+        counter_node = source_node->connected[i]->ptr;
+        if (counter_node->x > source_node->x) {
+            return counter_node;
+        }
+    }
+}
+
 // Consider looking for more pizzas
 // This function will consider the cost of finding pizzas
 // If the cost doesn't delay us for our regular order, it'll actually go search for pizzas
@@ -416,12 +442,32 @@ void FindPizzas() {
     // We need to consider the cost first, and check our memory to see how many
     // pizzas we've found on each side
     BotInfo *bot_info;
-    PathStack *path_to_counter;
+    Graph *our_graph;
+    PathStack *path_to_counter, *path_to_pizza;
+    Node *target_pizza_node;
     int cost = 0;
     bot_info = GetBotInfo();
+    our_graph = GetGraph();
     // Get the path from the bot's current node to the pizza counter
-    path_to_counter = Dijkstra(bot_info->cur_position->cur_node, PIZZA_COUNTER_NODE, bot_info->cur_position->cur_deg, GetGraph());
+    path_to_counter = Dijkstra(bot_info->cur_position->cur_node, PIZZA_COUNTER_NODE, bot_info->cur_position->cur_deg, our_graph);
     cost = path_to_counter->total_cost;
+    // If we've found more on the left of r1 than we have on the right
+    // let's go to the right
+    // Get the cost of going to the first pizza to the right, which hasn't been detected
+    if (left_pizzas > right_pizzas) {
+        // We go right
+        target_pizza_node = GetNodeToRight(PIZZA_COUNTER_NODE);
+        // If that one is already a known location in our list of pizzas, find the one to the right of that
+        // Basically, find the first one to the right which is unknown
+        while (IsPizzaAt(target_pizza_node) == TRUE) {
+            if (target_pizza_node == NULL) {
+                printf("No node to the right!\n");
+                return;
+            }
+            target_pizza_node = GetNodeToRight(target_pizza_node);
+        }
+        path_to_pizza = Dijkstra(PIZZA_COUNTER_NODE, target_pizza_node, PIZZA_COUNTER_NODE->enter_deg, our_graph);
+    }
 
     // Now we check if current time + cost + next_order_cost >= next_order.end_time
 }
