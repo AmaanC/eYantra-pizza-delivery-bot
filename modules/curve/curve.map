@@ -1,29 +1,29 @@
 Archive member included because of file (symbol)
 
-/usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_exit.o)
-                              /usr/lib/gcc/avr/4.8.2/../../../avr/lib/avr6/crtm2560.o (exit)
+/usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr6/libgcc.a(_exit.o)
+                              /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/../../../../avr/lib/avr6/crtm2560.o (exit)
 
 Memory Configuration
 
 Name             Origin             Length             Attributes
-text             0x0000000000000000 0x0000000000100000 xr
-data             0x0000000000800200 0x000000000000fe00 rw !x
-eeprom           0x0000000000810000 0x0000000000010000 rw !x
-fuse             0x0000000000820000 0x0000000000000400 rw !x
-lock             0x0000000000830000 0x0000000000000400 rw !x
-signature        0x0000000000840000 0x0000000000000400 rw !x
-user_signatures  0x0000000000850000 0x0000000000000400 rw !x
-*default*        0x0000000000000000 0xffffffffffffffff
+text             0x00000000         0x00100000         xr
+data             0x00800200         0x0000fe00         rw !x
+eeprom           0x00810000         0x00010000         rw !x
+fuse             0x00820000         0x00000400         rw !x
+lock             0x00830000         0x00000400         rw !x
+signature        0x00840000         0x00000400         rw !x
+user_signatures  0x00850000         0x00000400         rw !x
+*default*        0x00000000         0xffffffff
 
 Linker script and memory map
 
 Address of section .data set to 0x800200
-LOAD /usr/lib/gcc/avr/4.8.2/../../../avr/lib/avr6/crtm2560.o
+LOAD /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/../../../../avr/lib/avr6/crtm2560.o
 LOAD curve.o
 START GROUP
-LOAD /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a
-LOAD /usr/lib/gcc/avr/4.8.2/../../../avr/lib/avr6/libm.a
-LOAD /usr/lib/gcc/avr/4.8.2/../../../avr/lib/avr6/libc.a
+LOAD /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr6/libgcc.a
+LOAD /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/../../../../avr/lib/avr6/libm.a
+LOAD /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/../../../../avr/lib/avr6/libc.a
 END GROUP
 
 .hash
@@ -116,40 +116,41 @@ END GROUP
 .rela.plt
  *(.rela.plt)
 
-.text           0x0000000000000000      0x1fc
+.text           0x00000000      0x204
  *(.vectors)
- .vectors       0x0000000000000000       0xe4 /usr/lib/gcc/avr/4.8.2/../../../avr/lib/avr6/crtm2560.o
-                0x0000000000000000                __vectors
-                0x0000000000000000                __vector_default
+ .vectors       0x00000000       0xe4 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/../../../../avr/lib/avr6/crtm2560.o
+                0x00000000                __vectors
+                0x00000000                __vector_default
  *(.vectors)
  *(.progmem.gcc*)
- *(.progmem*)
-                0x00000000000000e4                . = ALIGN (0x2)
-                0x00000000000000e4                __trampolines_start = .
+                0x000000e4                . = ALIGN (0x2)
+                0x000000e4                __trampolines_start = .
  *(.trampolines)
- .trampolines   0x00000000000000e4        0x0 linker stubs
+ .trampolines   0x000000e4        0x0 linker stubs
  *(.trampolines*)
-                0x00000000000000e4                __trampolines_end = .
+                0x000000e4                __trampolines_end = .
+ *(.progmem*)
+                0x000000e4                . = ALIGN (0x2)
  *(.jumptables)
  *(.jumptables*)
  *(.lowtext)
  *(.lowtext*)
-                0x00000000000000e4                __ctors_start = .
+                0x000000e4                __ctors_start = .
  *(.ctors)
-                0x00000000000000e4                __ctors_end = .
-                0x00000000000000e4                __dtors_start = .
+                0x000000e4                __ctors_end = .
+                0x000000e4                __dtors_start = .
  *(.dtors)
-                0x00000000000000e4                __dtors_end = .
+                0x000000e4                __dtors_end = .
  SORT(*)(.ctors)
  SORT(*)(.dtors)
  *(.init0)
- .init0         0x00000000000000e4        0x0 /usr/lib/gcc/avr/4.8.2/../../../avr/lib/avr6/crtm2560.o
-                0x00000000000000e4                __init
+ .init0         0x000000e4        0x0 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/../../../../avr/lib/avr6/crtm2560.o
+                0x000000e4                __init
  *(.init0)
  *(.init1)
  *(.init1)
  *(.init2)
- .init2         0x00000000000000e4       0x10 /usr/lib/gcc/avr/4.8.2/../../../avr/lib/avr6/crtm2560.o
+ .init2         0x000000e4       0x10 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/../../../../avr/lib/avr6/crtm2560.o
  *(.init2)
  *(.init3)
  *(.init3)
@@ -164,106 +165,106 @@ END GROUP
  *(.init8)
  *(.init8)
  *(.init9)
- .init9         0x00000000000000f4        0x8 /usr/lib/gcc/avr/4.8.2/../../../avr/lib/avr6/crtm2560.o
+ .init9         0x000000f4        0x8 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/../../../../avr/lib/avr6/crtm2560.o
  *(.init9)
  *(.text)
- .text          0x00000000000000fc        0x4 /usr/lib/gcc/avr/4.8.2/../../../avr/lib/avr6/crtm2560.o
-                0x00000000000000fc                __vector_38
-                0x00000000000000fc                __vector_22
-                0x00000000000000fc                __vector_28
-                0x00000000000000fc                __vector_1
-                0x00000000000000fc                __vector_32
-                0x00000000000000fc                __vector_34
-                0x00000000000000fc                __vector_24
-                0x00000000000000fc                __vector_12
-                0x00000000000000fc                __vector_55
-                0x00000000000000fc                __vector_46
-                0x00000000000000fc                __bad_interrupt
-                0x00000000000000fc                __vector_6
-                0x00000000000000fc                __vector_31
-                0x00000000000000fc                __vector_35
-                0x00000000000000fc                __vector_39
-                0x00000000000000fc                __vector_3
-                0x00000000000000fc                __vector_23
-                0x00000000000000fc                __vector_30
-                0x00000000000000fc                __vector_45
-                0x00000000000000fc                __vector_25
-                0x00000000000000fc                __vector_11
-                0x00000000000000fc                __vector_54
-                0x00000000000000fc                __vector_13
-                0x00000000000000fc                __vector_17
-                0x00000000000000fc                __vector_19
-                0x00000000000000fc                __vector_56
-                0x00000000000000fc                __vector_7
-                0x00000000000000fc                __vector_49
-                0x00000000000000fc                __vector_41
-                0x00000000000000fc                __vector_43
-                0x00000000000000fc                __vector_27
-                0x00000000000000fc                __vector_5
-                0x00000000000000fc                __vector_33
-                0x00000000000000fc                __vector_47
-                0x00000000000000fc                __vector_52
-                0x00000000000000fc                __vector_37
-                0x00000000000000fc                __vector_4
-                0x00000000000000fc                __vector_44
-                0x00000000000000fc                __vector_51
-                0x00000000000000fc                __vector_9
-                0x00000000000000fc                __vector_2
-                0x00000000000000fc                __vector_21
-                0x00000000000000fc                __vector_15
-                0x00000000000000fc                __vector_36
-                0x00000000000000fc                __vector_29
-                0x00000000000000fc                __vector_40
-                0x00000000000000fc                __vector_8
-                0x00000000000000fc                __vector_26
-                0x00000000000000fc                __vector_48
-                0x00000000000000fc                __vector_14
-                0x00000000000000fc                __vector_53
-                0x00000000000000fc                __vector_10
-                0x00000000000000fc                __vector_50
-                0x00000000000000fc                __vector_16
-                0x00000000000000fc                __vector_18
-                0x00000000000000fc                __vector_20
-                0x00000000000000fc                __vector_42
- .text          0x0000000000000100       0xb6 curve.o
-                0x0000000000000100                motion_pin_config
-                0x0000000000000122                init_ports
-                0x0000000000000126                timer5_init
-                0x000000000000015c                velocity
-                0x0000000000000166                motion_set
-                0x0000000000000172                forward
-                0x0000000000000178                back
-                0x000000000000017e                left
-                0x0000000000000184                right
-                0x000000000000018a                soft_left
-                0x0000000000000190                soft_right
-                0x0000000000000196                soft_left_2
-                0x000000000000019c                soft_right_2
-                0x00000000000001a2                stop
-                0x00000000000001a8                init_devices
- .text          0x00000000000001b6        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_exit.o)
-                0x00000000000001b6                . = ALIGN (0x2)
+ .text          0x000000fc        0x4 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/../../../../avr/lib/avr6/crtm2560.o
+                0x000000fc                __vector_42
+                0x000000fc                __vector_22
+                0x000000fc                __vector_28
+                0x000000fc                __vector_1
+                0x000000fc                __vector_32
+                0x000000fc                __vector_34
+                0x000000fc                __vector_24
+                0x000000fc                __vector_12
+                0x000000fc                __vector_55
+                0x000000fc                __vector_46
+                0x000000fc                __bad_interrupt
+                0x000000fc                __vector_6
+                0x000000fc                __vector_31
+                0x000000fc                __vector_35
+                0x000000fc                __vector_39
+                0x000000fc                __vector_3
+                0x000000fc                __vector_23
+                0x000000fc                __vector_30
+                0x000000fc                __vector_45
+                0x000000fc                __vector_25
+                0x000000fc                __vector_11
+                0x000000fc                __vector_54
+                0x000000fc                __vector_13
+                0x000000fc                __vector_17
+                0x000000fc                __vector_19
+                0x000000fc                __vector_56
+                0x000000fc                __vector_7
+                0x000000fc                __vector_49
+                0x000000fc                __vector_41
+                0x000000fc                __vector_43
+                0x000000fc                __vector_27
+                0x000000fc                __vector_5
+                0x000000fc                __vector_33
+                0x000000fc                __vector_47
+                0x000000fc                __vector_52
+                0x000000fc                __vector_37
+                0x000000fc                __vector_4
+                0x000000fc                __vector_44
+                0x000000fc                __vector_51
+                0x000000fc                __vector_9
+                0x000000fc                __vector_2
+                0x000000fc                __vector_21
+                0x000000fc                __vector_15
+                0x000000fc                __vector_36
+                0x000000fc                __vector_29
+                0x000000fc                __vector_40
+                0x000000fc                __vector_8
+                0x000000fc                __vector_26
+                0x000000fc                __vector_48
+                0x000000fc                __vector_14
+                0x000000fc                __vector_53
+                0x000000fc                __vector_10
+                0x000000fc                __vector_50
+                0x000000fc                __vector_16
+                0x000000fc                __vector_18
+                0x000000fc                __vector_20
+                0x000000fc                __vector_38
+ .text          0x00000100       0xb6 curve.o
+                0x00000100                MotionPinConfig
+                0x00000122                InitPorts
+                0x00000126                Timer5Init
+                0x0000015c                Velocity
+                0x00000166                MotionSet
+                0x00000172                Forward
+                0x00000178                Back
+                0x0000017e                Left
+                0x00000184                Right
+                0x0000018a                SoftLeft
+                0x00000190                SoftRight
+                0x00000196                SoftLeft2
+                0x0000019c                SoftRight2
+                0x000001a2                Stop
+                0x000001a8                InitDevices
+ .text          0x000001b6        0x0 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr6/libgcc.a(_exit.o)
+                0x000001b6                . = ALIGN (0x2)
  *(.text.*)
- .text.startup  0x00000000000001b6       0x42 curve.o
-                0x00000000000001b6                main
+ .text.startup  0x000001b6       0x4a curve.o
+                0x000001b6                main
  .text.libgcc.mul
-                0x00000000000001f8        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_exit.o)
+                0x00000200        0x0 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr6/libgcc.a(_exit.o)
  .text.libgcc.div
-                0x00000000000001f8        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_exit.o)
- .text.libgcc   0x00000000000001f8        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_exit.o)
+                0x00000200        0x0 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr6/libgcc.a(_exit.o)
+ .text.libgcc   0x00000200        0x0 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr6/libgcc.a(_exit.o)
  .text.libgcc.prologue
-                0x00000000000001f8        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_exit.o)
+                0x00000200        0x0 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr6/libgcc.a(_exit.o)
  .text.libgcc.builtins
-                0x00000000000001f8        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_exit.o)
+                0x00000200        0x0 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr6/libgcc.a(_exit.o)
  .text.libgcc.fmul
-                0x00000000000001f8        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_exit.o)
+                0x00000200        0x0 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr6/libgcc.a(_exit.o)
  .text.libgcc.fixed
-                0x00000000000001f8        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_exit.o)
-                0x00000000000001f8                . = ALIGN (0x2)
+                0x00000200        0x0 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr6/libgcc.a(_exit.o)
+                0x00000200                . = ALIGN (0x2)
  *(.fini9)
- .fini9         0x00000000000001f8        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_exit.o)
-                0x00000000000001f8                exit
-                0x00000000000001f8                _exit
+ .fini9         0x00000200        0x0 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr6/libgcc.a(_exit.o)
+                0x00000200                exit
+                0x00000200                _exit
  *(.fini9)
  *(.fini8)
  *(.fini8)
@@ -282,46 +283,46 @@ END GROUP
  *(.fini1)
  *(.fini1)
  *(.fini0)
- .fini0         0x00000000000001f8        0x4 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_exit.o)
+ .fini0         0x00000200        0x4 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr6/libgcc.a(_exit.o)
  *(.fini0)
-                0x00000000000001fc                _etext = .
+                0x00000204                _etext = .
 
-.data           0x0000000000800200        0x0 load address 0x00000000000001fc
-                0x0000000000800200                PROVIDE (__data_start, .)
+.data           0x00800200        0x0 load address 0x00000204
+                0x00800200                PROVIDE (__data_start, .)
  *(.data)
- .data          0x0000000000800200        0x0 /usr/lib/gcc/avr/4.8.2/../../../avr/lib/avr6/crtm2560.o
- .data          0x0000000000800200        0x0 curve.o
- .data          0x0000000000800200        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_exit.o)
+ .data          0x00800200        0x0 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/../../../../avr/lib/avr6/crtm2560.o
+ .data          0x00800200        0x0 curve.o
+ .data          0x00800200        0x0 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr6/libgcc.a(_exit.o)
  *(.data*)
  *(.rodata)
  *(.rodata*)
  *(.gnu.linkonce.d*)
-                0x0000000000800200                . = ALIGN (0x2)
-                0x0000000000800200                _edata = .
-                0x0000000000800200                PROVIDE (__data_end, .)
+                0x00800200                . = ALIGN (0x2)
+                0x00800200                _edata = .
+                0x00800200                PROVIDE (__data_end, .)
 
-.bss            0x0000000000800200        0x0
-                0x0000000000800200                PROVIDE (__bss_start, .)
+.bss            0x00800200        0x0
+                0x00800200                PROVIDE (__bss_start, .)
  *(.bss)
- .bss           0x0000000000800200        0x0 /usr/lib/gcc/avr/4.8.2/../../../avr/lib/avr6/crtm2560.o
- .bss           0x0000000000800200        0x0 curve.o
- .bss           0x0000000000800200        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_exit.o)
+ .bss           0x00800200        0x0 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/../../../../avr/lib/avr6/crtm2560.o
+ .bss           0x00800200        0x0 curve.o
+ .bss           0x00800200        0x0 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr6/libgcc.a(_exit.o)
  *(.bss*)
  *(COMMON)
-                0x0000000000800200                PROVIDE (__bss_end, .)
-                0x00000000000001fc                __data_load_start = LOADADDR (.data)
-                0x00000000000001fc                __data_load_end = (__data_load_start + SIZEOF (.data))
+                0x00800200                PROVIDE (__bss_end, .)
+                0x00000204                __data_load_start = LOADADDR (.data)
+                0x00000204                __data_load_end = (__data_load_start + SIZEOF (.data))
 
-.noinit         0x0000000000800200        0x0
-                0x0000000000800200                PROVIDE (__noinit_start, .)
+.noinit         0x00800200        0x0
+                0x00800200                PROVIDE (__noinit_start, .)
  *(.noinit*)
-                0x0000000000800200                PROVIDE (__noinit_end, .)
-                0x0000000000800200                _end = .
-                0x0000000000800200                PROVIDE (__heap_start, .)
+                0x00800200                PROVIDE (__noinit_end, .)
+                0x00800200                _end = .
+                0x00800200                PROVIDE (__heap_start, .)
 
-.eeprom         0x0000000000810000        0x0
+.eeprom         0x00810000        0x0
  *(.eeprom*)
-                0x0000000000810000                __eeprom_end = .
+                0x00810000                __eeprom_end = .
 
 .fuse
  *(.fuse)
@@ -338,15 +339,11 @@ END GROUP
 .user_signatures
  *(.user_signatures*)
 
-.stab           0x0000000000000000     0x1158
+.stab
  *(.stab)
- .stab          0x0000000000000000      0x6e4 /usr/lib/gcc/avr/4.8.2/../../../avr/lib/avr6/crtm2560.o
- .stab          0x00000000000006e4      0xa74 curve.o
-                                        0xa80 (size before relaxing)
 
-.stabstr        0x0000000000000000      0xd67
+.stabstr
  *(.stabstr)
- .stabstr       0x0000000000000000      0xd67 /usr/lib/gcc/avr/4.8.2/../../../avr/lib/avr6/crtm2560.o
 
 .stab.excl
  *(.stab.excl)
@@ -360,10 +357,10 @@ END GROUP
 .stab.indexstr
  *(.stab.indexstr)
 
-.comment        0x0000000000000000       0x11
+.comment        0x00000000       0x11
  *(.comment)
- .comment       0x0000000000000000       0x11 curve.o
-                                         0x12 (size before relaxing)
+ .comment       0x00000000       0x11 curve.o
+                                 0x12 (size before relaxing)
 
 .debug
  *(.debug)
@@ -377,30 +374,44 @@ END GROUP
 .debug_sfnames
  *(.debug_sfnames)
 
-.debug_aranges
+.debug_aranges  0x00000000       0x48
  *(.debug_aranges)
+ .debug_aranges
+                0x00000000       0x28 curve.o
+ .debug_aranges
+                0x00000028       0x20 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr6/libgcc.a(_exit.o)
 
 .debug_pubnames
  *(.debug_pubnames)
 
-.debug_info
+.debug_info     0x00000000      0x5b2
  *(.debug_info)
+ .debug_info    0x00000000      0x4f4 curve.o
+ .debug_info    0x000004f4       0xbe /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr6/libgcc.a(_exit.o)
  *(.gnu.linkonce.wi.*)
 
-.debug_abbrev
+.debug_abbrev   0x00000000      0x1bf
  *(.debug_abbrev)
+ .debug_abbrev  0x00000000      0x1ab curve.o
+ .debug_abbrev  0x000001ab       0x14 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr6/libgcc.a(_exit.o)
 
-.debug_line
+.debug_line     0x00000000      0x166
  *(.debug_line)
+ .debug_line    0x00000000      0x10e curve.o
+ .debug_line    0x0000010e       0x58 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr6/libgcc.a(_exit.o)
 
-.debug_frame
+.debug_frame    0x00000000      0x114
  *(.debug_frame)
+ .debug_frame   0x00000000      0x114 curve.o
 
-.debug_str
+.debug_str      0x00000000      0x1cd
  *(.debug_str)
+ .debug_str     0x00000000      0x1cd curve.o
+                                0x20c (size before relaxing)
 
-.debug_loc
+.debug_loc      0x00000000       0x67
  *(.debug_loc)
+ .debug_loc     0x00000000       0x67 curve.o
 
 .debug_macinfo
  *(.debug_macinfo)
@@ -408,8 +419,9 @@ END GROUP
 .debug_pubtypes
  *(.debug_pubtypes)
 
-.debug_ranges
+.debug_ranges   0x00000000       0x18
  *(.debug_ranges)
+ .debug_ranges  0x00000000       0x18 curve.o
 
 .debug_macro
  *(.debug_macro)

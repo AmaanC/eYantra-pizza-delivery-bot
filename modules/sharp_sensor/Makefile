@@ -6,13 +6,13 @@ CFLAGS=-g -DF_CPU=14745600 -mmcu=atmega2560
 
 # Modify these 2 for each project as needed
 FILENAME=SharpSensor
-DEPS=app.o
+DEPS=app.o ../lcd/lcd.o
 
 #Info til AVRDUDE
 PROGRAMMER = avrdude
 BOARD = stk500v2
 MCU = m2560
-PORT = /dev/ttyACM0
+PORT = /dev/tty.usbmodem1421
 
 PFLAGS = -p $(MCU) -c $(BOARD) -P $(PORT)
 

@@ -34,7 +34,7 @@
 #define RS 0
 #define RW 1
 #define EN 2
-#define lcd_port PORTC
+#define Lcdport PORTC
 
 #define sbit(reg,bit)	reg |= (1<<bit)			// Macro defined for Setting a bit of any register.
 #define cbit(reg,bit)	reg &= ~(1<<bit)		// Macro defined for Clearing a bit of any register.
@@ -47,225 +47,213 @@ unsigned int thousand;
 unsigned int million;
 
 //Function to configure LCD port
-void lcd_port_config (void)
-{
- DDRC = DDRC | 0xF7; //all the LCD pin's direction set as output
- PORTC = PORTC & 0x80; // all the LCD pins are set to logic 0 except PORTC 7
+void LcdPortConfig (void) {
+    DDRC = DDRC | 0xF7; //all the LCD pin's direction set as output
+    PORTC = PORTC & 0x80; // all the LCD pins are set to logic 0 except PORTC 7
 }
 
 //Function to Initialize PORTS
-void lcd_port_init()
-{
-	lcd_port_config();
+void LcdPortInit() {
+	LcdPortConfig();
 }
 
-void lcd_init_devices (void)
-{
- cli(); //Clears the global interrupts
- lcd_port_init();
- sei();   //Enables the global interrupts
+void LcdInitDevices (void) {
+    cli(); //Clears the global interrupts
+    LcdPortInit();
+    sei();   //Enables the global interrupts
 }
 
 //Function to Reset LCD
-void lcd_set_4bit()
-{
+void LcdSet4Bit() {
 	_delay_ms(1);
 
-	cbit(lcd_port,RS);				//RS=0 --- Command Input
-	cbit(lcd_port,RW);				//RW=0 --- Writing to LCD
-	lcd_port = 0x30;				//Sending 3
-	sbit(lcd_port,EN);				//Set Enable Pin
+	cbit(Lcdport,RS);				//RS=0 --- Command Input
+	cbit(Lcdport,RW);				//RW=0 --- Writing to LCD
+	Lcdport = 0x30;				//Sending 3
+	sbit(Lcdport,EN);				//Set Enable Pin
 	_delay_ms(5);					//Delay
-	cbit(lcd_port,EN);				//Clear Enable Pin
+	cbit(Lcdport,EN);				//Clear Enable Pin
 
 	_delay_ms(1);
 
-	cbit(lcd_port,RS);				//RS=0 --- Command Input
-	cbit(lcd_port,RW);				//RW=0 --- Writing to LCD
-	lcd_port = 0x30;				//Sending 3
-	sbit(lcd_port,EN);				//Set Enable Pin
+	cbit(Lcdport,RS);				//RS=0 --- Command Input
+	cbit(Lcdport,RW);				//RW=0 --- Writing to LCD
+	Lcdport = 0x30;				//Sending 3
+	sbit(Lcdport,EN);				//Set Enable Pin
 	_delay_ms(5);					//Delay
-	cbit(lcd_port,EN);				//Clear Enable Pin
+	cbit(Lcdport,EN);				//Clear Enable Pin
 
 	_delay_ms(1);
 
-	cbit(lcd_port,RS);				//RS=0 --- Command Input
-	cbit(lcd_port,RW);				//RW=0 --- Writing to LCD
-	lcd_port = 0x30;				//Sending 3
-	sbit(lcd_port,EN);				//Set Enable Pin
+	cbit(Lcdport,RS);				//RS=0 --- Command Input
+	cbit(Lcdport,RW);				//RW=0 --- Writing to LCD
+	Lcdport = 0x30;				//Sending 3
+	sbit(Lcdport,EN);				//Set Enable Pin
 	_delay_ms(5);					//Delay
-	cbit(lcd_port,EN);				//Clear Enable Pin
+	cbit(Lcdport,EN);				//Clear Enable Pin
 
 	_delay_ms(1);
 
-	cbit(lcd_port,RS);				//RS=0 --- Command Input
-	cbit(lcd_port,RW);				//RW=0 --- Writing to LCD
-	lcd_port = 0x20;				//Sending 2 to initialise LCD 4-bit mode
-	sbit(lcd_port,EN);				//Set Enable Pin
+	cbit(Lcdport,RS);				//RS=0 --- Command Input
+	cbit(Lcdport,RW);				//RW=0 --- Writing to LCD
+	Lcdport = 0x20;				//Sending 2 to initialise LCD 4-bit mode
+	sbit(Lcdport,EN);				//Set Enable Pin
 	_delay_ms(1);					//Delay
-	cbit(lcd_port,EN);				//Clear Enable Pin
+	cbit(Lcdport,EN);				//Clear Enable Pin
 
 	
 }
 
 //Function to Initialize LCD
-void lcd_init()
-{
+void LcdInit() {
 	_delay_ms(1);
 
-	lcd_wr_command(0x28);			//LCD 4-bit mode and 2 lines.
-	lcd_wr_command(0x01);
-	lcd_wr_command(0x06);
-	lcd_wr_command(0x0E);
-	lcd_wr_command(0x80);
+	LcdWrCommand(0x28);			//LCD 4-bit mode and 2 lines.
+	LcdWrCommand(0x01);
+	LcdWrCommand(0x06);
+	LcdWrCommand(0x0E);
+	LcdWrCommand(0x80);
 		
 }
 
 	 
 //Function to Write Command on LCD
-void lcd_wr_command(unsigned char cmd)
-{
+void LcdWrCommand(unsigned char cmd) {
 	unsigned char temp;
 	temp = cmd;
 	temp = temp & 0xF0;
-	lcd_port &= 0x0F;
-	lcd_port |= temp;
-	cbit(lcd_port,RS);
-	cbit(lcd_port,RW);
-	sbit(lcd_port,EN);
+	Lcdport &= 0x0F;
+	Lcdport |= temp;
+	cbit(Lcdport,RS);
+	cbit(Lcdport,RW);
+	sbit(Lcdport,EN);
 	_delay_ms(5);
-	cbit(lcd_port,EN);
+	cbit(Lcdport,EN);
 	
 	cmd = cmd & 0x0F;
 	cmd = cmd<<4;
-	lcd_port &= 0x0F;
-	lcd_port |= cmd;
-	cbit(lcd_port,RS);
-	cbit(lcd_port,RW);
-	sbit(lcd_port,EN);
+	Lcdport &= 0x0F;
+	Lcdport |= cmd;
+	cbit(Lcdport,RS);
+	cbit(Lcdport,RW);
+	sbit(Lcdport,EN);
 	_delay_ms(5);
-	cbit(lcd_port,EN);
+	cbit(Lcdport,EN);
 }
 
 //Function to Write Data on LCD
-void lcd_wr_char(char letter)
-{
+void LcdWrChar(char letter) {
 	char temp;
 	temp = letter;
 	temp = (temp & 0xF0);
-	lcd_port &= 0x0F;
-	lcd_port |= temp;
-	sbit(lcd_port,RS);
-	cbit(lcd_port,RW);
-	sbit(lcd_port,EN);
+	Lcdport &= 0x0F;
+	Lcdport |= temp;
+	sbit(Lcdport,RS);
+	cbit(Lcdport,RW);
+	sbit(Lcdport,EN);
 	_delay_ms(5);
-	cbit(lcd_port,EN);
+	cbit(Lcdport,EN);
 
 	letter = letter & 0x0F;
 	letter = letter<<4;
-	lcd_port &= 0x0F;
-	lcd_port |= letter;
-	sbit(lcd_port,RS);
-	cbit(lcd_port,RW);
-	sbit(lcd_port,EN);
+	Lcdport &= 0x0F;
+	Lcdport |= letter;
+	sbit(Lcdport,RS);
+	cbit(Lcdport,RW);
+	sbit(Lcdport,EN);
 	_delay_ms(5);
-	cbit(lcd_port,EN);
+	cbit(Lcdport,EN);
 }
 
 
 //Function to bring cursor at home position
-void lcd_home()
-{
-	lcd_wr_command(0x80);
+void LcdHome(){
+	LcdWrCommand(0x80);
 }
 
-void lcd_printf(const char *fmt, ...) {
+void LcdPrintf(const char *fmt, ...) {
     va_list argp;
-    const int LCD_LEN = 16;
-    char str[LCD_LEN];
+    const int LCDLEN = 16;
+    char str[LCDLEN];
     va_start(argp, fmt);
 
-    vsnprintf(str, LCD_LEN, fmt, argp);
+    vsnprintf(str, LCDLEN, fmt, argp);
 
     va_end(argp);
 
-    lcd_string(str);
+    LcdString(str);
 }
 
 
 //Function to Print String on LCD
-void lcd_string(char *str)
-{
-	lcd_wr_command(0x01); // Clear the LCD display
+void LcdString(char *str) {
+	LcdWrCommand(0x01); // Clear the LCD display
 	while(*str != '\0')
 	{
-		lcd_wr_char(*str);
+		LcdWrChar(*str);
 		str++;
 	}
 }
 
 //Position the LCD cursor at "row", "column".
 
-void lcd_cursor (char row, char column)
-{
+void LcdCursor (char row, char column) {
 	switch (row) {
-		case 1: lcd_wr_command (0x80 + column - 1); break;
-		case 2: lcd_wr_command (0xc0 + column - 1); break;
-		case 3: lcd_wr_command (0x94 + column - 1); break;
-		case 4: lcd_wr_command (0xd4 + column - 1); break;
+		case 1: LcdWrCommand (0x80 + column - 1); break;
+		case 2: LcdWrCommand (0xc0 + column - 1); break;
+		case 3: LcdWrCommand (0x94 + column - 1); break;
+		case 4: LcdWrCommand (0xd4 + column - 1); break;
 		default: break;
 	}
 }
 
 //Function To Print Any input value upto the desired digit on LCD
-void lcd_print (char row, char coloumn, unsigned int value, int digits)
-{
+void LcdPrint (char row, char coloumn, unsigned int value, int digits) {
 	unsigned char flag=0;
 	if(row==0||coloumn==0)
 	{
-		lcd_home();
+		LcdHome();
 	}
 	else
 	{
-		lcd_cursor(row,coloumn);
+		LcdCursor(row,coloumn);
 	}
 	if(digits==5 || flag==1)
 	{
 		million=value/10000+48;
-		lcd_wr_char(million);
+		LcdWrChar(million);
 		flag=1;
 	}
 	if(digits==4 || flag==1)
 	{
 		temp = value/1000;
 		thousand = temp%10 + 48;
-		lcd_wr_char(thousand);
+		LcdWrChar(thousand);
 		flag=1;
 	}
 	if(digits==3 || flag==1)
 	{
 		temp = value/100;
 		hundred = temp%10 + 48;
-		lcd_wr_char(hundred);
+		LcdWrChar(hundred);
 		flag=1;
 	}
 	if(digits==2 || flag==1)
 	{
 		temp = value/10;
 		tens = temp%10 + 48;
-		lcd_wr_char(tens);
+		LcdWrChar(tens);
 		flag=1;
 	}
 	if(digits==1 || flag==1)
 	{
 		unit = value%10 + 48;
-		lcd_wr_char(unit);
+		LcdWrChar(unit);
 	}
 	if(digits>5)
 	{
-		lcd_wr_char('E');
+		LcdWrChar('E');
 	}
 	
 }
 		
-

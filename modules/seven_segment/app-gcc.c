@@ -3,10 +3,10 @@
 //Main
 int main(void)
 {
-    seven_init_devices();
+    SevenInitDevices();
     while(1)
     {
-       seven_display_num(8);
+       SevenDisplayNum(8);
        sleep(1);
    }
 }

@@ -418,12 +418,12 @@ END GROUP
  .debug_abbrev  0x000001a1       0x14 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr6/libgcc.a(_exit.o)
  .debug_abbrev  0x000001b5       0x14 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr6/libgcc.a(_copy_data.o)
 
-.debug_line     0x00000000      0x212
+.debug_line     0x00000000      0x214
  *(.debug_line)
- .debug_line    0x00000000       0x78 rgb_led.o
- .debug_line    0x00000078       0xdf app.o
- .debug_line    0x00000157       0x58 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr6/libgcc.a(_exit.o)
- .debug_line    0x000001af       0x63 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr6/libgcc.a(_copy_data.o)
+ .debug_line    0x00000000       0x7a rgb_led.o
+ .debug_line    0x0000007a       0xdf app.o
+ .debug_line    0x00000159       0x58 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr6/libgcc.a(_exit.o)
+ .debug_line    0x000001b1       0x63 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr6/libgcc.a(_copy_data.o)
 
 .debug_frame    0x00000000       0x74
  *(.debug_frame)

@@ -6,21 +6,20 @@
 #include "../pos_encoder/pos_encoder.h"
 
 //Main Function
-int main()
-{
-    init_devices();
+int main() {
+    InitDevices();
     // 210, 255 for curve
-    velocity (255, 255);
+    Velocity (255, 255);
     // Try different valuse between 0 to 255
     while(1)
     {
     
-        pos_encoder_forward_mm(100); //both wheels forward
-        pos_encoder_stop();
+        PosEncoderForwardMm(100); //both wheels forward
+        PosEncoderStop();
         _delay_ms(500);
 
-        buzzer_beep(100);
-        stop();                     
+        BuzzerBeep(100);
+        Stop();                     
         _delay_ms(5000);
     }
 }

@@ -1,17 +1,17 @@
-#ifndef LCD_H
-#define LCD_H
+#ifndef LCD_H_
+#define LCD_H_
 
-void lcd_port_config();
-void lcd_port_init();
-void lcd_init_devices();
-void lcd_set_4bit();
-void lcd_init();
-void lcd_wr_command(unsigned char cmd);
-void lcd_wr_char(char letter);
-void lcd_home();
-void lcd_printf(const char *fmt, ...);
-void lcd_string(char *str);
-void lcd_cursor (char row, char column);
-void lcd_print (char row, char coloumn, unsigned int value, int digits);
+void LcdPortConfig();
+void LcdPortInit();
+void LcdInitDevices();
+void LcdSet4Bit();
+void LcdInit();
+void LcdWrCommand(unsigned char cmd);
+void LcdWrChar(char letter);
+void LcdHome();
+void LcdPrintf(const char *fmt, ...);
+void LcdString(char *str);
+void LcdCursor (char row, char column);
+void LcdPrint (char row, char coloumn, unsigned int value, int digits);
 
 #endif

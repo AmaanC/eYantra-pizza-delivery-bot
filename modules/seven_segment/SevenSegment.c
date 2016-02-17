@@ -3,7 +3,7 @@
 #include <util/delay.h>
 #include "SevenSegment.h"
 
-void seven_segment_pin_config() {
+void SevenSegmentPinConfig() {
     // Port D upper nibble for CA connections
     // Port J for a,b,c,d, e,f,g,DEC as per manual
     // Both things above are in decreasing order
@@ -14,17 +14,17 @@ void seven_segment_pin_config() {
     DDRJ = DDRJ | 0xFF; // set all bits to output
 }
 
-void seven_port_init() {
-    seven_segment_pin_config();
+void SevenPortInit() {
+    SevenSegmentPinConfig();
 }
 
-void seven_init_devices() {
+void SevenInitDevices() {
     cli(); //Clears the global interrupt
-    seven_port_init();  //Initializes all the ports
+    SevenPortInit();  //Initializes all the ports
     sei();   // Enables the global interrupt
 }
 
-int seven_convert_to_hex(int num) {
+int SevenConvertToHex(int num) {
     int ret = 0x00;
     int values[10];
     values[0] = 0x03;
@@ -44,7 +44,7 @@ int seven_convert_to_hex(int num) {
     return ret;
 }
 
-void seven_display_num(int num) {
+void SevenDisplayNum(int num) {
     int digit;
     int MIN_SELECT_VALUE = 0x10;
     int MAX_SELECT_VALUE = 0x40;
@@ -55,7 +55,7 @@ void seven_display_num(int num) {
 
     while (select_value <= MAX_SELECT_VALUE) {
         digit = num % 10;
-        PORTJ = seven_convert_to_hex(digit);
+        PORTJ = SevenConvertToHex(digit);
         _delay_ms(5);
         select_value *= 2;
         if (select_value <= MAX_SELECT_VALUE) {

@@ -11,7 +11,7 @@ unsigned char Center_black_line = 0;
 unsigned char Right_black_line = 0;
 
 //ADC pin configuration
-void bl_sensor_adc_pin_config (void)
+void BlSensorAdcPinConfig (void)
 {
  DDRF = 0x00; 
  PORTF = 0x00;
@@ -21,16 +21,16 @@ void bl_sensor_adc_pin_config (void)
 
 
 //Function to Initialize PORTS
-void bl_sensor_port_init()
+void BlSensorPortInit()
 {
-	bl_sensor_adc_pin_config();
+	BlSensorAdcPinConfig();
 }
 
 // Timer 5 initialized in PWM mode for velocity control
 // Prescale:256
 // PWM 8bit fast, TOP=0x00FF
 // Timer Frequency:225.000Hz
-void bl_sensor_timer5_init()
+void BlSensorTimer5Init()
 {
 	TCCR5B = 0x00;	//Stop
 	TCNT5H = 0xFF;	//Counter higher 8-bit value to which OCR5xH value is compared with
@@ -48,7 +48,7 @@ void bl_sensor_timer5_init()
 	TCCR5B = 0x0B;	//WGM12=1; CS12=0, CS11=1, CS10=1 (Prescaler=64)
 }
 
-void bl_sensor_adc_init()
+void BlSensorAdcInit()
 {
 	ADCSRA = 0x00;
 	ADCSRB = 0x00;		//MUX5 = 0
@@ -58,7 +58,7 @@ void bl_sensor_adc_init()
 }
 
 //Function For ADC Conversion
-unsigned char bl_sensor_ADC_Conversion(unsigned char Ch) 
+unsigned char BlSensorAdcConversion(unsigned char Ch) 
 {
 	unsigned char a;
 	if(Ch>7)
@@ -76,17 +76,17 @@ unsigned char bl_sensor_ADC_Conversion(unsigned char Ch)
 }
 
 // sensor_num should be 1, 2, 3, where 1 is the sensor on the right
-unsigned char bl_sensor_get(unsigned char sensor_num)
+unsigned char BlSensorGet(unsigned char sensor_num)
 {
-	return bl_sensor_ADC_Conversion(sensor_num) ;
+	return BlSensorAdcConversion(sensor_num) ;
 }
 
 
-void bl_sensor_init_devices (void)
+void BlSensorInitDevices (void)
 {
  	cli(); //Clears the global interrupts
-	bl_sensor_port_init();
-	bl_sensor_adc_init();
-	bl_sensor_timer5_init();
+	BlSensorPortInit();
+	BlSensorAdcInit();
+	BlSensorTimer5Init();
 	sei();   //Enables the global interrupts
 }

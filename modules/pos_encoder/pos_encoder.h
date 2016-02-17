@@ -1,36 +1,36 @@
-#ifndef POS_ENCODER_H_
-#define POS_ENCODER_H_
+#ifndef POSENCODER_H_
+#define POSENCODER_H_
 
-void pos_encoder_motion_pin_config(); 
-void left_encoder_pin_config();
-void right_encoder_pin_config();
-void pos_encoder_port_init();
-void left_position_encoder_interrupt_init();
-void right_position_encoder_interrupt_init(); 
-void pos_encoder_timer5_init();
-void pos_encoder_velocity(unsigned char left_motor, unsigned char right_motor);
-void pos_encoder_motion_set (unsigned char Direction);
-void pos_encoder_forward();
-void pos_encoder_back(); 
-void pos_encoder_left();
-void pos_encoder_right();
-void pos_encoder_soft_left(); 
-void pos_encoder_soft_right(); 
-void pos_encoder_soft_left_2(); 
-void pos_encoder_soft_right_2(); 
-void pos_encoder_stop();
-void pos_encoder_angle_rotate(unsigned int Degrees);
-void pos_encoder_linear_distance_mm(unsigned int DistanceInMM);
-void pos_encoder_forward_mm(unsigned int DistanceInMM);
-void pos_encoder_back_mm(unsigned int DistanceInMM);
-void pos_encoder_left_degrees(unsigned int Degrees) ;
-void pos_encoder_right_degrees(unsigned int Degrees);
-void pos_encoder_soft_left_degrees(unsigned int Degrees);
-void pos_encoder_soft_right_degrees(unsigned int Degrees);
-void pos_encoder_soft_left_2_degrees(unsigned int Degrees);
-void pos_encoder_soft_right_2_degrees(unsigned int Degrees);
-void pos_encoder_init_devices();
-void pos_encoder_rotate_bot(int Degrees);
+void PosEncoderMotionPinConfig(); 
+void LeftEncoderPinConfig();
+void RightEncoderPinConfig();
+void PosEncoderPortInit();
+void LeftPositionEncoderInterruptInit();
+void RightPositionEncoderInterruptInit(); 
+void PosEncoderTimer5Init();
+void PosEncoderVelocity(unsigned char leftMotor, unsigned char rightMotor);
+void PosEncoderMotionSet (unsigned char Direction);
+void PosEncoderForward();
+void PosEncoderBack(); 
+void PosEncoderLeft();
+void PosEncoderRight();
+void PosEncoderSoftLeft(); 
+void PosEncoderSoftRight(); 
+void PosEncoderSoftLeft2(); 
+void PosEncoderSoftRight2(); 
+void PosEncoderStop();
+void PosEncoderAngleRotate(unsigned int Degrees);
+void PosEncoderLinearDistanceMm(unsigned int DistanceInMM);
+void PosEncoderForwardMm(unsigned int DistanceInMM);
+void PosEncoderBackMm(unsigned int DistanceInMM);
+void PosEncoderLeftDegrees(unsigned int Degrees) ;
+void PosEncoderRightDegrees(unsigned int Degrees);
+void PosEncoderSoftLeftDegrees(unsigned int Degrees);
+void PosEncoderSoftRightDegrees(unsigned int Degrees);
+void PosEncoderSoftLeft2Degrees(unsigned int Degrees);
+void PosEncoderSoftRight2Degrees(unsigned int Degrees);
+void PosEncoderInitDevices();
+void PosEncoderRotateBot(int Degrees);
 
 
 #endif

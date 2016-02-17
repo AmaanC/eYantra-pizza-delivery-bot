@@ -2,16 +2,23 @@
 #include <avr/interrupt.h>
 #include <util/delay.h>
 #include "SharpSensor.h"
+#include "../lcd/lcd.h"
 
-int main()
-{
+int main() {
     int sharp;
     int value;
     int block_size = 0;
-    sharp_init_devices();
+
+	LcdInitDevices();
+	LcdSet4Bit();
+	LcdInit();
+
+    SharpInitDevices();
     while(1) {
-        sharp = sharp_ADC_Conversion(11);
-        value = sharp_GP2D12_estimation(sharp);
-        block_size = sharp_get_block_size(value, block_size); // Get block size from sharp sensor distance (in mm)
+        sharp = SharpAdcConversion(11);
+        value = SharpGp2d12Estimation(sharp);
+        block_size = SharpGetBlockSize(value, block_size); // Get block size from sharp sensor distance (in mm)
+        LcdPrintf("Val: %d", value);
+        _delay_ms(1000);
     }
 }

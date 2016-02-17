@@ -8,7 +8,7 @@
 // WGM: 0) Normal, TOP=0xFFFF
 // desired value: 1Hz
 // actual value:  1.000Hz (0.0%)
-void timer_timer4_init() {
+void TimerTimer4Init() {
     TCCR4B = 0x00; // stop
     TCNT4H = 0x1F; // Counter higher 8 bit value
     TCNT4L = 0x01; // Counter lower 8 bit value
@@ -31,12 +31,12 @@ ISR(TIMER4_OVF_vect) {
     TCNT4H = 0x1F; // reload counter high value
     TCNT4L = 0x01; // reload counter low value
 
-    timer_1s_magic();
+    Timer1sMagic();
 }
 
-void timer_init_devices() {
+void TimerInitDevices() {
     cli(); // Clears the global interrupts
-    timer_timer4_init();
+    TimerTimer4Init();
     TIMSK4 = 0x01; // timer4 overflow interrupt enable
     sei();   // Enables the global interrupts
 }
