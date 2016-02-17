@@ -11,12 +11,12 @@ typedef struct _TimeBlock {
 
 typedef struct _Pizza {
     // r, g, b: red, green, blue
-    // Could also be 'u' for unknown
+    // Could also be 'n' for no pizza
     // Unknown is only used in situations where there is no pizza where we expected
     // so we're making a fake, unknown pizza, which will basically be ignored
     char colour;
     // s, m, l: small, medium, large
-    // Could also be 'u' for unknown
+    // Could also be 'n' for no pizza
     char size;
     // State of the pizza
     // c: considered

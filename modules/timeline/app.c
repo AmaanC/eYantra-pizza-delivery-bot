@@ -13,16 +13,16 @@ int main() {
     InitGraph();
     InitTimeline();
 
-    timeline = GetTimeline();
-    printf("Num orders: %d\n", timeline->len);
-    // printf("Order 2 start: %f\n", timeline->orders[2]->delivery_period->start);
-    FindNextDefiniteNeed(timeline);
+    // timeline = GetTimeline();
+    // printf("Num orders: %d\n", timeline->len);
+    // // printf("Order 2 start: %f\n", timeline->orders[2]->delivery_period->start);
+    // FindNextDefiniteNeed(timeline);
     
-    for (i = 0; i < timeline->len; i++) {
-        Display(timeline->orders[i]);
-    }
-    printf("Estimated cost of delivery 0: %f\n", EstimateNextCost(GetCurrentNode(), 0));
-    printf("Order 0 and 2 at the same time: %d\n", ConsiderCancel(timeline->orders[1], timeline->orders[2])->should_cancel);
+    // for (i = 0; i < timeline->len; i++) {
+    //     Display(timeline->orders[i]);
+    // }
+    // printf("Estimated cost of delivery 0: %f\n", EstimateNextCost(GetCurrentNode(), 0));
+    // printf("Order 0 and 2 at the same time: %d\n", ConsiderCancel(timeline->orders[1], timeline->orders[2])->should_cancel);
 
     // So what happens initially is that we call our free time function, and since we've
     // found 0 pizzas, no pizzas will be considered right now.
@@ -56,10 +56,11 @@ int main() {
     //     order->state = 'f';
     // }
 
-    printf("Available:\n\n");
-    available = GetAvailablePizzas(GetCurrentTimeBlock());
-    for (i = 0; i < available->len; i++) {
-        Display(available->orders[i]);
-    }
+    // printf("Available:\n\n");
+    // available = GetAvailablePizzas(GetCurrentTimeBlock());
+    // for (i = 0; i < available->len; i++) {
+    //     Display(available->orders[i]);
+    // }
+    TimelineControl();
     return 0;
 }
