@@ -18,6 +18,15 @@ typedef struct _Pizza {
     // s, m, l: small, medium, large
     // Could also be 'u' for unknown
     char size;
+    // State of the pizza
+    // c: considered
+    // f: free
+    // The state is required for when 2 orders order the same pizza
+    // If we consider order1, with pizza1, we need to make sure order2
+    // has pizza2 available too. Without this state, GetPizzaForOrder
+    // would have no way of knowing that pizza1 was for order1, and could
+    // not be used for order2 as well, even though its colour and size match
+    char state;
     // Location of the pizza. If it hasn't been found, it'll be NULL
     Node *location;
 } Pizza;
@@ -55,12 +64,23 @@ typedef struct _OrderList {
     int len;
 } OrderList;
 
+typedef struct _DeliverySequence {
+    // When there are 2 orders, this structure allows us to figure out what the sequence of actions should be
+    Node *pick1;
+    Node *pick2;
+    Node *deliver1;
+    Node *deliver2;
+    // 0 or 1 indicating whether this delivery sequence is one that shouldn't be used
+    int should_cancel;
+} DeliverySequence;
+
 void CreateOrder(OrderList *timeline, char colour, char size, int order_time, char order_type, char *delivery_house_name);
 OrderList *GetTimeline();
 void FindNextDefiniteNeed(OrderList *timeline);
 void Display(Order *current_order);
-Order *GetNextOrder(OrderList *timeline);
+Order *GetNextOrder(OrderList *timeline, int pos);
 OrderList *GetAvailablePizzas(TimeBlock *current_period);
 TimeBlock *GetCurrentTimeBlock();
+Pizza *GetPizzaForOrder(Order *order);
 
 #endif
