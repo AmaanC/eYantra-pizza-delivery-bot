@@ -1,3 +1,18 @@
+/* 
+
+Team Id : eYRC-PD#1909
+Author List : 
+Filename: move_bot
+Theme: Pizza Delivery Service -- Specific to eYRC  
+Functions: AngleRotate(unsigned int degrees), GetSensorStatus(), MoveBotInitDevices(), RotateBot(int degrees), 
+           MoveBotForwardMm(unsigned int distance_in_mm), MoveBotForward(). 
+
+Global Variables: ADC_value, Flag = 0, left_black_line = 0, center_black_line = 0, right_black_line = 0, 
+                  high_velocity = 255, low_velocity = 200; ShaftCounterLeft = 0,
+                  ShaftCounterRight = 0, degrees, temp = 0, rem = 0, right_turn = 0, left_turn = 0.
+
+*/
+
 #include <avr/io.h>
 #include <avr/interrupt.h>
 #include <util/delay.h>
@@ -22,14 +37,20 @@ unsigned int rem = 0;  //can check if it is at the correct path or not
 
 const int rotation_threshold = 5; // in degrees
 
-// This function will stop the bot in a range of +- rotation_threshold
-// For eg:
-// If you pass 90 degrees, but the line is at 87 degrees, it'll stop there
-// If the line is at 92 degrees, it'll stop there
-// If you're turning on white entirely, it'll turn 95 degrees, and then turn back 5 degrees
-// because it didn't find a black line at all
-// To indicate that it's turned too far, we return 1
-// Else we return 0
+/*
+ * Function Name: AngleRotate
+ * Input : degrees
+ * Output : 1 or 0
+ * Logic: This function will stop the bot in a range of +- rotation_threshold 
+          For ex:
+          If you pass 90 degrees, but the line is at 87 degrees, it'll stop there
+          If the line is at 92 degrees, it'll stop there
+          If you're turning on white entirely, it'll turn 95 degrees, and then turn back 5 degrees
+          because it didn't find a black line at all
+          To indicate that it's turned too far, we return 1
+          Else we return 0
+ * Example Call: too_far = AngleRotate(90);
+*/
 int AngleRotate(unsigned int degrees) {
     float reqd_shaft_counter = 0;
     unsigned long int reqd_shaft_counter_int = 0;
@@ -67,12 +88,42 @@ int AngleRotate(unsigned int degrees) {
     PosEncoderStop(); 
 }
 
-void MoveBotInitDevices(void) {
+/*
+ * Function Name: GetSensorsStatus
+ * Input : none
+ * Output : none
+ * Logic: this function gets the status of the black line sensors and stores them in their corresponding variables
+ * Example Call: GetSensorsStatus();
+*/
+void GetSensorsStatus() {
+    left_black_line = BlSensorAdcConversion(3);
+    center_black_line = BlSensorAdcConversion(2);    
+    right_black_line = BlSensorAdcConversion(1);
+
+}
+
+/*
+ * Function Name: MoveBotInitDevices()
+ * Input : none
+ * Output : none
+ * Logic: this function initializes the appropriate ports and variables required for the functioning of the program
+ * Example Call: MoveBotInitDevices();
+*/
+void MoveBotInitDevices() {
 	BlSensorInitDevices();
 	PosEncoderInitDevices();
 	PosEncoderTimer5Init();
 }
 
+/*
+ * Function Name: RotateBot
+ * Input : degrees
+ * Output : none
+ * Logic: this function take the degrees the bot has to be rotated, +ve if it has to be rotated left and -ve if 
+          the bot is to be rotated right. Then it rotates the bot accordingly, co-ordinating with the white line 
+          sensors and the position encoders.
+ * Example Call: RotateBot(90); rotates the bot 90 degrees to the left.
+*/
 void RotateBot(int degrees) {
     int too_far = 0;
     if(degrees > 0){
@@ -93,6 +144,17 @@ void RotateBot(int degrees) {
     }
 }
 
+static int right_turn = 0;
+static int left_turn = 0;
+
+/*
+ * Function Name: MoveBotForwardMm
+ * Input : distance_int_mm
+ * Output : none
+ * Logic: this function makes the bot go the asked amount of distance constantly coordinating with the white line
+          sensors and position encoders so that the bot doesn't go off track.
+ * Example Call: MoveBotForwardMm(100); 
+*/
 void MoveBotForwardMm(unsigned int distance_in_mm) {
     float reqd_shaft_counter = 0;
     unsigned long int reqd_shaft_counter_int = 0;
@@ -100,6 +162,8 @@ void MoveBotForwardMm(unsigned int distance_in_mm) {
     reqd_shaft_counter = distance_in_mm / 5.338; 
     reqd_shaft_counter_int = (unsigned long int) reqd_shaft_counter;
      
+    right_turn = 0;
+    left_turn = 0;
     ShaftCounterRight = 0;
     ShaftCounterLeft = 0;
     while(1)
@@ -108,11 +172,9 @@ void MoveBotForwardMm(unsigned int distance_in_mm) {
      	   break;
      }
      else {
-     		 Flag = 0;
-	   	   left_black_line = BlSensorAdcConversion(3);
-	   	   center_black_line = BlSensorAdcConversion(2);	
-	   	   right_black_line = BlSensorAdcConversion(1);	
-   
+        GetSensorsStatus();
+     		 Flag = 0;	
+
 	   if(center_black_line > 0x28) {
 	   		 Flag = 1;
 	   		 PosEncoderVelocity(high_velocity, high_velocity);
@@ -121,11 +183,25 @@ void MoveBotForwardMm(unsigned int distance_in_mm) {
 	   if((left_black_line < 0x28) && (Flag==0)) {
 	   		 Flag=1;
 	   		 PosEncoderVelocity(high_velocity, low_velocity);
+             right_turn++;
+             if(right_turn == 2) {
+                PosEncoderVelocity(low_velocity, high_velocity);
+             }
+             else if(right_turn == 3) {
+                PosEncoderVelocity(high_velocity, high_velocity);
+             }
 	   	}
    
 	   if((right_black_line < 0x28) && (Flag==0)) {
 	   		 Flag=1;
 	   		 PosEncoderVelocity(low_velocity, high_velocity);
+             left_turn++;
+             if(left_turn == 2) {
+                PosEncoderVelocity(high_velocity, low_velocity);
+             }
+             else if(left_turn == 3) {
+                PosEncoderVelocity(high_velocity, high_velocity);
+             }
 	    }
    
 	   if(center_black_line < 0x28 && left_black_line < 0x28 && right_black_line < 0x28){
