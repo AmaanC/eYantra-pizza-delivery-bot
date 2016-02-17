@@ -36,11 +36,8 @@ OrderList *our_timeline;
 // and a list of pizzas
 PizzaList *our_pizzas;
 
-// Number of pizzas found to the left of the pizza counter and to
-// the right of the pizza counter
-// We can use these values to decide which side is likelier to yield more results
-int left_pizzas = 0;
-int right_pizzas = 0;
+// Number of pizzas found so we know when to stop
+int total_pizzas = 0;
 
 // We maintain the two lists independently because, for example,
 // H2 and H8 can both have ordered small green pizzas.
@@ -552,12 +549,7 @@ void DetectPizza() {
     // TODO: Consider bad readings and rechecking?
     printf("Detected: %c and %c\n", colour, block_size);
     bot_info = GetBotInfo();
-    if (bot_info->cur_position->cur_node->x < PIZZA_COUNTER_NODE->x) {
-        left_pizzas++;
-    }
-    else {
-        right_pizzas++;
-    }
+    total_pizzas++;
     // There is no pizza block at this location
     if (block_size == 'n') {
         // In this situation, we want to CreatePizza with details that no order will have
@@ -641,8 +633,8 @@ void FindPizzas() {
     // pizzas we've found on each side
     BotInfo *bot_info;
     Graph *our_graph;
-    PathStack *path_to_counter, *path_to_pizza;
-    Node *target_pizza_node;
+    PathStack *path_to_pizza, *path_to_left_pizza, *path_to_right_pizza;
+    Node *target_pizza_node, *left_pizza_node, *right_pizza_node;
     // TODO: Discuss threshold value
     // The threshold is here because if we have only 1 second of grace time to find a pizza
     // and then get to the next regular order, I think we shouldn't risk it
@@ -652,52 +644,46 @@ void FindPizzas() {
     bot_info = GetBotInfo();
     our_graph = GetGraph();
     
-    if (left_pizzas + right_pizzas == MAX_ORDERS) {
+    if (total_pizzas == MAX_ORDERS) {
         // No more pizzas left to find, let's just get to delivering them
+        printf("All pizzas found!\n");
         SetState('b');
         return;
     }
 
-    // Get the path from the bot's current node to the pizza counter
-    path_to_counter = Dijkstra(bot_info->cur_position->cur_node, PIZZA_COUNTER_NODE, bot_info->cur_position->cur_deg, our_graph);
-    
-    // If we've found more on the left of r1 than we have on the right
-    // let's go to the right
-    // Get the cost of going to the first pizza to the right, which hasn't been detected
-    if (left_pizzas >= right_pizzas) {
-        // We go right
-        target_pizza_node = GetNodeToRight(PIZZA_COUNTER_NODE);
-        // If that one is already a known location in our list of pizzas, find the one to the right of that
-        // Basically, find the first one to the right which is unknown
-        while (IsPizzaAt(target_pizza_node) == TRUE) {
-            if (target_pizza_node == NULL) {
-                printf("No node to the right!\n");
-                return;
-            }
-            target_pizza_node = GetNodeToRight(target_pizza_node);
-        }
-        printf("First unknown one to the right is: %s\n", target_pizza_node->name);
-        path_to_pizza = Dijkstra(PIZZA_COUNTER_NODE, target_pizza_node, PIZZA_COUNTER_NODE->enter_deg, our_graph);
-    }
-    else {
+    // Now, we'll find the first node to the right and to the left
+    // of the pizza counter. Whichever is closer is where we'll go
 
-        // We go left
-        target_pizza_node = GetNodeToLeft(PIZZA_COUNTER_NODE);
-        // If that one is already a known location in our list of pizzas, find the one to the left of that
-        // Basically, find the first one to the left which is unknown
-        while (IsPizzaAt(target_pizza_node) == TRUE) {
-            if (target_pizza_node == NULL) {
-                printf("No node to the left!\n");
-                return;
-            }
-            target_pizza_node = GetNodeToLeft(target_pizza_node);
-        }
-        printf("First unknown one to the left is: %s\n", target_pizza_node->name);
-        path_to_pizza = Dijkstra(PIZZA_COUNTER_NODE, target_pizza_node, PIZZA_COUNTER_NODE->enter_deg, our_graph);
+    // We go right right right
+    right_pizza_node = GetNodeToRight(PIZZA_COUNTER_NODE);
+    // If that one is already a known location in our list of pizzas, find the one to the right of that
+    // Basically, find the first one to the right which is unknown
+    while (right_pizza_node != NULL && IsPizzaAt(right_pizza_node) == TRUE) {
+        right_pizza_node = GetNodeToRight(right_pizza_node);
+    }
+    path_to_right_pizza = Dijkstra(bot_info->cur_position->cur_node, right_pizza_node, bot_info->cur_position->cur_deg, our_graph);
+    // printf("First unknown one to right is: %s, %f\n", right_pizza_node->name, path_to_right_pizza->total_cost);
+
+    // We go left left left
+    left_pizza_node = GetNodeToLeft(PIZZA_COUNTER_NODE);
+    // If that one is already a known location in our list of pizzas, find the one to the left of that
+    // Basically, find the first one to the left which is unknown
+    while (left_pizza_node != NULL && IsPizzaAt(left_pizza_node) == TRUE) {
+        left_pizza_node = GetNodeToLeft(left_pizza_node);
+    }
+    path_to_left_pizza = Dijkstra(bot_info->cur_position->cur_node, left_pizza_node, bot_info->cur_position->cur_deg, our_graph);
+    // printf("First unknown one to left is: %s, %f\n", left_pizza_node->name, path_to_left_pizza->total_cost);
+
+    printf("aaa\n\n\n");
+    path_to_pizza = path_to_left_pizza;
+    target_pizza_node = left_pizza_node;
+    // The path to the pizza is the one which is lower
+    if (path_to_left_pizza->total_cost > path_to_right_pizza->total_cost) {
+        path_to_pizza = path_to_right_pizza;
+        target_pizza_node = right_pizza_node;
     }
 
-    cost = path_to_counter->total_cost;
-    cost += path_to_pizza->total_cost;
+    cost = path_to_pizza->total_cost;
     // We don't use Dijkstra's here because we may not have found the next regular pizza yet
     // and may have to estimate the time to finding it
     cost += EstimateNextCost(target_pizza_node, 0);
@@ -710,6 +696,7 @@ void FindPizzas() {
     else {
         // TODO:
         // MoveBotToNode(target_pizza_node);
+        printf("--- Bot is at: %s\n", target_pizza_node->name);
         GetBotInfo()->cur_position->cur_node = target_pizza_node;
         DetectPizza();
     }

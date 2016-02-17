@@ -109,7 +109,8 @@ PathStack* Dijkstra(Node *source_node, Node *target_node, float cur_deg, Graph *
     // _delay_ms(200);
     if (current_node == NULL || target_node == NULL) {
         printf("ERROR: NULL pointer for source or target\n\n\n");
-        return;
+        final_path->total_cost = INFINITY;
+        return final_path;
     }
     while (current_node != target_node) {
         // The accum_cost is the cost from the source_node to the current_node
