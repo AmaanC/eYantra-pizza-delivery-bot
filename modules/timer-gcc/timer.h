@@ -2,6 +2,6 @@
 #define TIMER_H_
 
 void TimerInit();
-uintmax_t GetTime();
+uintmax_t GetCurrentTime();
 
 #endif

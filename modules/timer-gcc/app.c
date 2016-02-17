@@ -8,7 +8,7 @@
 int main(void) {
     TimerInit();
     sleep(1.2);
-    printf("%jd seconds passed\n", GetTime());
+    printf("%jd seconds passed\n", GetCurrentTime());
 
     return 0;
 }
