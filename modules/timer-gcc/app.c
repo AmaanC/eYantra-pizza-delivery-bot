@@ -6,7 +6,7 @@
 #include "timer.h"
 
 int main(void) {
-    TimerInit();
+    InitTimer();
     sleep(1.2);
     printf("%jd seconds passed\n", GetCurrentTime());
 
