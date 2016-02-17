@@ -7,7 +7,7 @@
 
 uintmax_t start_time = 0;
 
-void TimerInit() {
+void InitTimer() {
     start_time = time(NULL);
 }
 

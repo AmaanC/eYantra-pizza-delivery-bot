@@ -1,7 +1,7 @@
 #ifndef TIMER_H_
 #define TIMER_H_
 
-void TimerInit();
+void InitTimer();
 uintmax_t GetCurrentTime();
 
 #endif
