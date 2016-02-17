@@ -72,6 +72,7 @@ typedef struct _DeliverySequence {
     Node *deliver2;
     // 0 or 1 indicating whether this delivery sequence is one that shouldn't be used
     int should_cancel;
+    float total_cost;
 } DeliverySequence;
 
 void CreateOrder(OrderList *timeline, char colour, char size, int order_time, char order_type, char *delivery_house_name);

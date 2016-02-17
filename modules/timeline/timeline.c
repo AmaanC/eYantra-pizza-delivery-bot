@@ -354,6 +354,7 @@ DeliverySequence *ConsiderCancel(Order *order1, Order *order2) {
 
         best_seq->pick1 = single_pizza->location;
         best_seq->deliver1 = single_order->delivery_house;
+        best_seq->total_cost = temp_cost;
         if (WillCostDelay(temp_cost, single_order->delivery_house)) {
             best_seq->should_cancel = TRUE;
         }
@@ -421,6 +422,7 @@ DeliverySequence *ConsiderCancel(Order *order1, Order *order2) {
     // /▌  write such terrible code again. Kthx.
     // /\
 
+    best_seq->total_cost = lowest_cost;
     if (WillCostDelay(lowest_cost, best_seq->deliver2)) {
         best_seq->should_cancel = TRUE;
     }
@@ -803,6 +805,12 @@ void FreeTimeDecision() {
 
 void DeliverPizzas(DeliverySequence *cur_sequence) {
     printf("Delivering pizzas!\n");
+    sleep(cur_sequence->total_cost);
+    GetNextOrder(our_timeline, 0)->state = 'd';
+    next_extra_order->state = 'd';
+    next_extra_order = NULL;
+    GetBotInfo()->cur_position->cur_node = cur_sequence->deliver2 == NULL ? cur_sequence->deliver1 : cur_sequence->deliver2;
+
 }
 
 void NormalOperation() {
