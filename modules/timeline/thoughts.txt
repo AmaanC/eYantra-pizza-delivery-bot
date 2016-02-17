@@ -22,6 +22,7 @@ Reg:
         if best prediction means we do it in time, do it // TODO: Best prediction or worst prediction?
     }
     else {
+        state = 'free' // So we can consider finding / picking up pizzas that are nearby
         PickPizzas(next_reg, next_extra)
         GetPizzasInArms()
         DeliverPizzas(a, b)

@@ -340,6 +340,46 @@ Order *GetNextOrder(OrderList *timeline) {
     return next_reg_order;
 }
 
+Pizza *GetPizzaForOrder(Order *order) {
+    int i = 0;
+    Pizza *current_pizza;
+    for (i = 0; i < our_pizzas->len; i++) {
+        current_pizza = our_pizzas->pizzas[i];
+        if (current_pizza->size == order->size && current_pizza->colour == order->colour) {
+            return current_pizza;
+        }
+    }
+}
+
+// Estimate the cost to delivering the next regular order when starting from the source_node
+float EstimateNextCost(Node *source_node) {
+    Order *next_order;
+    Pizza *matching_pizza;
+    // If the pizza has been found, we'll set this to the pizza's location, otherwise
+    // it'll probably be the least favourable place the pizza could be in
+    // TODO: Think about this and actually implement it
+    Node *pizza_location;
+    Graph *our_graph;
+    // Cost to finding the pizza / picking the pizza up
+    float cost_to_pizza = 0;
+    // Cost to actually delivering the pizza
+    float cost_to_delivery = 0;
+
+    our_graph = GetGraph();
+
+    next_order = GetNextOrder(our_timeline);
+    matching_pizza = GetPizzaForOrder(next_order);
+    pizza_location = matching_pizza->location;
+    if (pizza_location == NULL) {
+        // We don't know where the pizza is, so we have to estimate the time to find it
+        // TODO: Actually implement this
+        pizza_location = PIZZA_COUNTER_NODE;
+    }
+    cost_to_pizza = Dijkstra(source_node, pizza_location, source_node->enter_deg, our_graph)->total_cost;
+    cost_to_delivery = Dijkstra(pizza_location, next_order->delivery_house, pizza_location->enter_deg, our_graph)->total_cost;
+
+    return cost_to_pizza + cost_to_delivery;
+}
 
 // Get all the pizzas that I can pick up in the current_period
 // These are pizzas that we've already found, and whose start times
@@ -374,6 +414,7 @@ void DetectPizza() {
     int i = 0;
     Pizza *current_pizza;
     BotInfo *bot_info;
+    int found = FALSE;
     char block_size = 's'; // SharpGetBlockSize();
     char colour = 'r'; // ColourGet();
     
@@ -393,6 +434,15 @@ void DetectPizza() {
     else {
         right_pizzas++;
     }
+    // There is no pizza block at this location
+    if (block_size == 'n') {
+        // In this situation, we want to CreatePizza with details that no order will have
+        // so that we know that we've already checked this location, but we also
+        // never try to pick anything up from this location
+        CreatePizza('u', 'u');
+        return;
+    }
+
     for (i = 0; i < our_pizzas->len; i++) {
         current_pizza = our_pizzas->pizzas[i];
         if (
@@ -400,6 +450,7 @@ void DetectPizza() {
             current_pizza->size == block_size &&
             current_pizza->location == NULL
         ) {
+            found = TRUE;
             current_pizza->location = bot_info->cur_position->cur_node;
             // There might be multiple pizzas with the same color and size so we want to make sure
             // we're filling in for one where the location was unfilled, and fill it only for that one
@@ -407,13 +458,19 @@ void DetectPizza() {
             break;
         }
     }
+
+    // If this is an extra pizza or something, we want to add it to the list so we don't keep on
+    // redetecting it
+    if (found == FALSE) {
+        CreatePizza(colour, block_size);
+    }
 }
 
 int IsPizzaAt(Node *test_node) {
     int i = 0;
     int found = FALSE;
     for (i = 0; i < our_pizzas->len; i++) {
-        if (our_pizzas->location == test_node) {
+        if (our_pizzas->pizzas[i]->location == test_node) {
             found = TRUE;
         }
     }
@@ -445,12 +502,24 @@ void FindPizzas() {
     Graph *our_graph;
     PathStack *path_to_counter, *path_to_pizza;
     Node *target_pizza_node;
-    int cost = 0;
+    // TODO: Discuss threshold value
+    // The threshold is here because if we have only 1 second of grace time to find a pizza
+    // and then get to the next regular order, I think we shouldn't risk it
+    // So we need an appropriate threshold for that.
+    const int threshold = 5;
+    float cost = 0;
     bot_info = GetBotInfo();
     our_graph = GetGraph();
+    
+    if (left_pizzas + right_pizzas == MAX_ORDERS) {
+        // No more pizzas left to find, let's just get to delivering them
+        SetState('b');
+        return;
+    }
+
     // Get the path from the bot's current node to the pizza counter
     path_to_counter = Dijkstra(bot_info->cur_position->cur_node, PIZZA_COUNTER_NODE, bot_info->cur_position->cur_deg, our_graph);
-    cost = path_to_counter->total_cost;
+    
     // If we've found more on the left of r1 than we have on the right
     // let's go to the right
     // Get the cost of going to the first pizza to the right, which hasn't been detected
@@ -466,10 +535,29 @@ void FindPizzas() {
             }
             target_pizza_node = GetNodeToRight(target_pizza_node);
         }
+        printf("First unknown one to the right is: %s\n", target_pizza_node->name);
         path_to_pizza = Dijkstra(PIZZA_COUNTER_NODE, target_pizza_node, PIZZA_COUNTER_NODE->enter_deg, our_graph);
     }
+    else {
+
+    }
+
+    cost = path_to_counter->total_cost;
+    cost += path_to_pizza->total_cost;
+    // We don't use Dijkstra's here because we may not have found the next regular pizza yet
+    // and may have to estimate the time to finding it
+    cost += EstimateNextCost(target_pizza_node);
 
     // Now we check if current time + cost + next_order_cost >= next_order.end_time
+    if (cost + threshold > GetNextOrder(our_timeline)->delivery_period->end) {
+        SetState('b');
+        return;
+    }
+    else {
+        // TODO:
+        // MoveBotToNode(target_pizza_node);
+        // DetectPizza();
+    }
 }
 
 TimeBlock *GetTimeReqForOrders(Order *order1, Order *order2) {

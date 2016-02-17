@@ -11,8 +11,12 @@ typedef struct _TimeBlock {
 
 typedef struct _Pizza {
     // r, g, b: red, green, blue
+    // Could also be 'u' for unknown
+    // Unknown is only used in situations where there is no pizza where we expected
+    // so we're making a fake, unknown pizza, which will basically be ignored
     char colour;
     // s, m, l: small, medium, large
+    // Could also be 'u' for unknown
     char size;
     // Location of the pizza. If it hasn't been found, it'll be NULL
     Node *location;
