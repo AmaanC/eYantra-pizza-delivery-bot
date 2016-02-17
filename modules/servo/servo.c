@@ -2,6 +2,11 @@
 #include <avr/interrupt.h>
 #include <util/delay.h>
 
+unsigned char servo1_pos = 0;
+unsigned char servo2_pos = 0;
+unsigned char servo3_pos = 0;
+unsigned char servo4_pos = 0;
+
 //Configure PORTB 5 pin for Servo motor 1 operation
 void Servo1PinConfig() {
     DDRB  = DDRB | 0x20;  //making PORTB 5 pin output
@@ -118,30 +123,67 @@ unsigned char ServoConvertDeg(unsigned char degrees) {
 //Function to rotate Servo 1 by a specified angle in the multiples of 1.86 degrees
 void Servo1To(unsigned char degrees)  {
     OCR1AH = 0x00;
-    OCR1AL = (unsigned char) ServoConvertDeg(degrees);
+    servo1_pos = degrees;
+    OCR1AL = (unsigned char) ServoConvertDeg(servo1_pos);
 }
 
 
 //Function to rotate Servo 2 by a specified angle in the multiples of 1.86 degrees
 void Servo2To(unsigned char degrees) {
     OCR1BH = 0x00;
-    OCR1BL = (unsigned char) ServoConvertDeg(degrees);
+    servo2_pos = degrees;
+    OCR1BL = (unsigned char) ServoConvertDeg(servo2_pos);
 }
 
 //Function to rotate Servo 3 by a specified angle in the multiples of 1.86 degrees
 void Servo3To(unsigned char degrees) {
     OCR1CH = 0x00;
-    OCR1CL = (unsigned char) ServoConvertDeg(degrees);
+    servo3_pos = degrees;
+    OCR1CL = (unsigned char) ServoConvertDeg(servo3_pos);
 }
 
 //Function to rotate Servo 3 by a specified angle in the multiples of 1.86 degrees
 void Servo4To(unsigned char degrees) {
     OCR4BH = 0x00;
-    OCR4BL = (unsigned char) ServoConvertDeg(degrees);
+    servo4_pos = degrees;
+    OCR4BL = (unsigned char) ServoConvertDeg(servo4_pos);
 }
 
 void ServoControl(int servo_num, unsigned char degrees) {
+    int i = 0;
+    int direction = 1; // 1 if we're increasing, -1 if decreasing
+    void (*move_servo)(unsigned char);
 
+    if (degrees > 180 || degrees < 0) {
+        return;
+    }
+
+    if (servo_num == 1) {
+        i = servo1_pos;
+        move_servo = Servo1To;
+    }
+    else if (servo_num == 2) {
+        i = servo2_pos;
+        move_servo = Servo2To;
+    }
+    else if (servo_num == 3) {
+        i = servo3_pos;
+        move_servo = Servo3To;
+    }
+    else if (servo_num == 4) {
+        i = servo4_pos;
+        move_servo = Servo4To;
+    }
+    
+    if (degrees < i) {
+        direction = -1;
+    }
+
+    while (i != degrees) {
+        move_servo(i);
+        i += direction;
+        _delay_ms(10);
+    }
 }
 
 //Servo_free functions unlocks the Servo motors from the any angle 

@@ -20,4 +20,6 @@ void Servo2Free();
 void Servo3Free();
 void Servo4Free();
 
+void ServoControl(int servo_num, unsigned char degrees);
+
 #endif

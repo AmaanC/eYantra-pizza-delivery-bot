@@ -17,32 +17,48 @@ void main() {
     const int CLOSE_GRIPPER_2 = 95;
 
     while (1) {
-        Servo1To(UP_LEVER_1); // Lever up
-        Servo4To(UP_LEVER_2); // Lever up
+        ServoControl(1, UP_LEVER_1); // Lever up
+        _delay_ms(1000);
+        ServoControl(4, UP_LEVER_2); // Lever up
+        _delay_ms(1000);
 
-        Servo2To(OPEN_GRIPPER_1); // Gripper open
-        Servo3To(OPEN_GRIPPER_2); // Gripper open
-
-        _delay_ms(2000);
-
-        Servo1To(DOWN_LEVER_1); // Lever down
-        Servo4To(DOWN_LEVER_2); // Lever down
-
-        _delay_ms(2000);
-
-        Servo2To(CLOSE_GRIPPER_1); // Close grip
-        Servo3To(CLOSE_GRIPPER_2); // Close grip
+        ServoControl(2, OPEN_GRIPPER_2); // Gripper open
+        _delay_ms(1000);
+        ServoControl(3, OPEN_GRIPPER_1); // Gripper open
 
         _delay_ms(1000);
 
-        Servo1To(UP_LEVER_1); // Lever up
-        Servo4To(UP_LEVER_2); // Lever up
+        ServoControl(1, DOWN_LEVER_1); // Lever down
+        _delay_ms(1000);
+        ServoControl(4, DOWN_LEVER_2); // Lever down
 
         _delay_ms(1000);
 
-        Servo1To(DOWN_LEVER_1); // Lever down
-        Servo4To(DOWN_LEVER_2); // Lever down
+        ServoControl(3, CLOSE_GRIPPER_1); // Close grip
         
+        _delay_ms(3000);
+
+        ServoControl(2, CLOSE_GRIPPER_2); // Close grip
+
+        _delay_ms(3000);
+
+        ServoControl(1, UP_LEVER_1); // Lever up
+
+        _delay_ms(1000);
+
+        ServoControl(4, UP_LEVER_2); // Lever up
+
+        _delay_ms(5000);
+
+        ServoControl(1, DOWN_LEVER_1); // Lever down
+        _delay_ms(1000);
+        ServoControl(4, DOWN_LEVER_2); // Lever down
+        
+        _delay_ms(1000);
+        ServoControl(2, OPEN_GRIPPER_2); // Gripper open
+        _delay_ms(1000);
+        ServoControl(3, OPEN_GRIPPER_1); // Gripper open
+
         _delay_ms(5000);
     }
 }
