@@ -96,3 +96,31 @@ int SharpGetBlockSize(int distance, int default_dist) {
 
     return ret;
 }
+
+char SharpGetBlockType() {
+	int sharp = SharpAdcConversion(11);
+    int value = SharpGp2d12Estimation(sharp);
+    int block_size = SharpGetBlockSize(value, block_size); // Get block size from sharp sensor distance (in mm)
+	char type;
+	switch (block_size) {
+		case 0: {
+			type = 'n'; //no pizza at all
+			break;
+		}
+		case 6: {
+			type = 's'; //small pizza
+			break;
+		}
+		case 9: {
+			type = 'm'; //medium pizza
+			break;
+		}
+		case 12: {
+			type = 'l'; //large pizza
+			break;
+		}
+		default:
+			type = 'd'; //default value
+	}
+	return type;
+}
