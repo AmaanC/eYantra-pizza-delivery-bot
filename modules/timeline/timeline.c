@@ -902,11 +902,39 @@ void FreeTimeDecision() {
 
 // Physically go and find the pizza required for this order
 void FindSpecificPizza(Order *order) {
-    Node *left, *right;
-    left = right = PIZZA_COUNTER_NODE;
+    Node *left, *right, *target;
+    Graph *our_graph = GetGraph();
+    int left_cost, right_cost;
+    // This will become the GetNodeToLeft or GetNodeToRight function
+    Node *(*next_fn)(Node *);
 
-    left = GetNodeToLeft(left);
-    right = GetNodeToRight(right);
+    left = GetFirstPToLeft();
+    right = GetFirstPToRight();
+
+    left_cost = Dijkstra(PIZZA_COUNTER_NODE, left, 0, our_graph)->total_cost;
+    right_cost = Dijkstra(PIZZA_COUNTER_NODE, left, 0, our_graph)->total_cost;
+
+    // We go towards whichever side will have more pizzas, and keep detecting pizzas
+    // until we find the one we're looking for
+    if (left_cost < right_cost) {
+        target = left;
+        next_fn = GetNodeToLeft;
+    }
+    else {
+        target = right;
+        next_fn = GetNodeToRight;
+    }
+    while (target != NULL) {
+        MoveBotToNode(target);
+        DetectPizza();
+        // If the pizza that matches this order just got a new location
+        // that means we just found it
+        if (GetPizzaForOrder(order)->location != NULL) {
+            return;
+        }
+        target = next_fn(target);
+    }
+    printf("Pizza isn't available on the side we picked.\n");
 }
 
 void DeliverPizzas(DeliverySequence *cur_sequence) {
