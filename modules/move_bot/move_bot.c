@@ -228,7 +228,7 @@ void MoveBotBackMm(int distance) {
 	float reqd_shaft_counter = 0;
 	unsigned long int reqd_shaft_counter_int = 0;
    
-	reqd_shaft_counter = distance_in_mm / 5.338; 
+	reqd_shaft_counter = distance / 5.338; 
 	reqd_shaft_counter_int = (unsigned long int) reqd_shaft_counter;
 	 
 	right_turn = 0;
