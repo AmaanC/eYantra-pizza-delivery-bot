@@ -11,6 +11,6 @@ void InitTimer() {
     start_time = time(NULL);
 }
 
-uintmax_t GetCurrentTime() {
+int GetCurrentTime() {
     return ((uintmax_t) time(NULL) - start_time);
 }
