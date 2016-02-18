@@ -383,6 +383,7 @@ DeliverySequence *ConsiderCancel(Order *order1, Order *order2) {
         temp_cost = Dijkstra(bot_info->cur_position->cur_node, single_pizza->location, bot_info->cur_position->cur_deg, our_graph)->total_cost;
         temp_cost += Dijkstra(single_pizza->location, single_order->delivery_house, single_pizza->location->enter_deg, our_graph)->total_cost;
 
+        best_seq->order1 = single_order;
         best_seq->pick1 = single_pizza->location;
         best_seq->deliver1 = single_order->delivery_house;
         best_seq->total_cost = temp_cost;
@@ -454,6 +455,10 @@ DeliverySequence *ConsiderCancel(Order *order1, Order *order2) {
 
                             if (temp_cost < lowest_cost) {
                                 lowest_cost = temp_cost;
+                                
+                                best_seq->order1 = order_combo[a];
+                                best_seq->order2 = order_combo[b];
+
                                 best_seq->pick1 = pizza_combo[i]->location;
                                 best_seq->pick2 = pizza_combo[j]->location;
                                 best_seq->deliver1 = order_combo[a]->delivery_house;
@@ -916,11 +921,13 @@ void DeliverPizzas(DeliverySequence *cur_sequence) {
             MoveBotToNode(locations[i]);
         }
     }
-    orders_completed++;
-    GetNextOrder(our_timeline, 0)->state = 'd';
-    if (next_extra_order) {
+    if (cur_sequence->order1 != NULL) {
         orders_completed++;
-        next_extra_order->state = 'd';
+        cur_sequence->order1->state = 'd';
+    }
+    if (cur_sequence->order2 != NULL) {
+        orders_completed++;
+        cur_sequence->order2->state = 'd';
     }
 //    printf("Orders completed so far: %d\n", orders_completed);
     next_extra_order = NULL;

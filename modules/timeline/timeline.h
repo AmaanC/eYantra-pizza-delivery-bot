@@ -70,6 +70,8 @@ typedef struct _DeliverySequence {
     Node *pick2;
     Node *deliver1;
     Node *deliver2;
+    Order *order1;
+    Order *order2;
     // 0 or 1 indicating whether this delivery sequence is one that shouldn't be used
     int should_cancel;
     float total_cost;
