@@ -21,6 +21,7 @@ typedef struct _Pizza {
     // State of the pizza
     // c: considered
     // f: free
+    // d: delivered
     // The state is required for when 2 orders order the same pizza
     // If we consider order1, with pizza1, we need to make sure order2
     // has pizza2 available too. Without this state, GetPizzaForOrder
@@ -44,6 +45,10 @@ typedef struct _Order {
     char size;
     // 30, for example
     int order_time;
+    // Preorders can be picked up at any time
+    // Regular orders can only be picked up after their order time
+    // This lets us easily differentiate
+    int pickup_time;
     // r, p: regular, preorder
     char order_type;
     Pizza *pizza;
@@ -72,6 +77,8 @@ typedef struct _DeliverySequence {
     Node *deliver2;
     Order *order1;
     Order *order2;
+    int guess1;
+    int guess2;
     // 0 or 1 indicating whether this delivery sequence is one that shouldn't be used
     int should_cancel;
     float total_cost;
@@ -88,5 +95,9 @@ Pizza *GetPizzaForOrder(Order *order);
 float EstimateNextCost(Node *source_node, int pos);
 DeliverySequence *ConsiderCancel(Order *order1, Order *order2);
 PizzaList *GetPizzas();
+Node *GetPizzaCounter();
+Node *GetFurthestPizzaNode(Node *source_node);
+Node *GetNodeToRight(Node *source_node);
+Node *GetNodeToLeft(Node *source_node);
 
 #endif
