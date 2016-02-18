@@ -197,12 +197,19 @@ void InitTimeline() {
 
     // For reference:
     // CreateOrder(OrderList *timeline, char colour, char size, int order_time, char order_type, char *delivery_house_name)
-    CreateOrder(our_timeline, 'r', 'l', 30, 'r', "H12");
-    CreateOrder(our_timeline, 'g', 'l', 70, 'p', "H2");
-    CreateOrder(our_timeline, 'r', 's', 50, 'r', "H4");
-    CreateOrder(our_timeline, 'b', 'm', 89, 'r', "H4");
-    CreateOrder(our_timeline, 'b', 'l', 0, 'r', "H6");
+    // CreateOrder(our_timeline, 'r', 'l', 30, 'r', "H12");
+    // CreateOrder(our_timeline, 'g', 'l', 70, 'p', "H2");
+    // CreateOrder(our_timeline, 'r', 's', 50, 'r', "H4");
+    // CreateOrder(our_timeline, 'b', 'm', 89, 'r', "H4");
+    // CreateOrder(our_timeline, 'b', 'l', 0, 'r', "H6");
+    // CreateOrder(our_timeline, 'r', 's', 30, 'p', "H6");
+
+    CreateOrder(our_timeline, 'b', 'l', 30, 'r', "H6");
     CreateOrder(our_timeline, 'r', 's', 30, 'p', "H6");
+    CreateOrder(our_timeline, 'r', 'l', 70, 'r', "H12");
+    CreateOrder(our_timeline, 'r', 's', 110, 'r', "H4");
+    CreateOrder(our_timeline, 'g', 'l', 150, 'p', "H2");
+    CreateOrder(our_timeline, 'b', 'm', 220, 'r', "H4");
 }
 
 OrderList *GetTimeline() {
@@ -607,8 +614,9 @@ OrderList *GetAvailablePizzas(TimeBlock *current_period) {
         // it's an available pizza!
         // Canceled pizzas are always available.
         if (
-            CheckOverlap(current_period, current_order->delivery_period) ||
-            current_order->state == 'c'
+            (CheckOverlap(current_period, current_order->delivery_period) ||
+            current_order->state == 'c') &&
+            current_order->state != 'd'
         ) {
             InsertOrder(available_pizzas, current_order);
         }
@@ -659,7 +667,7 @@ void DetectPizza() {
     // decide if we want to pick it up or not
 
     // TODO: Consider bad readings and rechecking?
-// //////    printf("Detected: %c and %c\n", colour, block_size);
+    printf("Detected: %c and %c\n", colour, block_size);
     bot_info = GetBotInfo();
     total_pizzas++;
     // There is no pizza block at this location
