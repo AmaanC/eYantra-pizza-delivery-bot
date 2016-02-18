@@ -85,5 +85,6 @@ TimeBlock *GetCurrentTimeBlock();
 Pizza *GetPizzaForOrder(Order *order);
 float EstimateNextCost(Node *source_node, int pos);
 DeliverySequence *ConsiderCancel(Order *order1, Order *order2);
+PizzaList *GetPizzas();
 
 #endif
