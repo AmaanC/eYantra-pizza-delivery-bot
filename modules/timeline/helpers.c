@@ -40,6 +40,26 @@ Node *GetNodeToLeft(Node *source_node) {
     return NULL;
 }
 
+// Gets the first pizza counter node to the right
+Node *GetFirstPToRight() {
+    Node *right;
+    right = GetNodeToRight(GetPizzaCounter());
+    while (right != NULL && IsPizzaAt(right) == TRUE) {
+        right = GetNodeToRight(right);
+    }
+    return right;
+}
+
+// Gets the first pizza counter node to the left
+Node *GetFirstPToLeft() {
+    Node *left;
+    left = GetNodeToLeft(GetPizzaCounter());
+    while (left != NULL && IsPizzaAt(left) == TRUE) {
+        left = GetNodeToLeft(left);
+    }
+    return left;
+}
+
 // Get the furthest unknown pizza counter from the source_node
 Node *GetFurthestPizzaNode(Node *source_node) {
     Node *left_counter, *right_counter, *furthest_node;
@@ -49,10 +69,9 @@ Node *GetFurthestPizzaNode(Node *source_node) {
     
     left_counter = right_counter = GetPizzaCounter();
 
+    left_counter = GetNodeToLeft(left_counter);
+    right_counter = GetNodeToRight(right_counter);
     while (left_counter != NULL && right_counter != NULL) {
-        left_counter = GetNodeToLeft(left_counter);
-        right_counter = GetNodeToRight(right_counter);
-
         cost = Dijkstra(source_node, left_counter, source_node->enter_deg, our_graph)->total_cost;
         if (cost > max_cost) {
             max_cost = cost;
@@ -63,6 +82,9 @@ Node *GetFurthestPizzaNode(Node *source_node) {
             max_cost = cost;
             furthest_node = right_counter;
         }
+
+        left_counter = GetNodeToLeft(left_counter);
+        right_counter = GetNodeToRight(right_counter);
     }
     return furthest_node;
 }

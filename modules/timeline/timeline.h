@@ -100,4 +100,7 @@ Node *GetFurthestPizzaNode(Node *source_node);
 Node *GetNodeToRight(Node *source_node);
 Node *GetNodeToLeft(Node *source_node);
 
+Node *GetFirstPToRight();
+Node *GetFirstPToLeft();
+
 #endif

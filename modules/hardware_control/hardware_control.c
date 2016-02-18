@@ -70,12 +70,12 @@ void MoveBotToNode(Node *target_node) {
     for (i = final_path->top - 1; i >= 0; i--) {
         // lcd_printf("%s", final_path->path[i]->name);
         // _delay_ms(500);
-        // printf("%s, ", final_path->path[i]->name);
+        printf("%s, ", final_path->path[i]->name);
     }
     // lcd_printf("Cost: %d", (int) final_path->total_cost);
     // _delay_ms(500);
 
-    // printf("\nTotal cost: %f\n", final_path->total_cost);
+    printf("\nTotal cost: %f\n", final_path->total_cost);
     sleep(final_path->total_cost);
 
     // Now that we know the path to take, here's how we actually get there

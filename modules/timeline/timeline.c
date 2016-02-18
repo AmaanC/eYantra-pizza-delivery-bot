@@ -770,24 +770,16 @@ void FindPizzas() {
     // of the pizza counter. Whichever is closer is where we'll go
 
     // We go right right right
-    right_pizza_node = GetNodeToRight(PIZZA_COUNTER_NODE);
+    right_pizza_node = GetFirstPToRight();
     // If that one is already a known location in our list of pizzas, find the one to the right of that
     // Basically, find the first one to the right which is unknown
-    while (right_pizza_node != NULL && IsPizzaAt(right_pizza_node) == TRUE) {
-        right_pizza_node = GetNodeToRight(right_pizza_node);
-    }
     path_to_right_pizza = Dijkstra(bot_info->cur_position->cur_node, right_pizza_node, bot_info->cur_position->cur_deg, our_graph);
-// //////    printf("First unknown one to right is: %s, %f\n", right_pizza_node->name, path_to_right_pizza->total_cost);
+    // printf("First unknown one to right is: %s, %f\n", right_pizza_node->name, path_to_right_pizza->total_cost);
 
     // We go left left left
-    left_pizza_node = GetNodeToLeft(PIZZA_COUNTER_NODE);
-    // If that one is already a known location in our list of pizzas, find the one to the left of that
-    // Basically, find the first one to the left which is unknown
-    while (left_pizza_node != NULL && IsPizzaAt(left_pizza_node) == TRUE) {
-        left_pizza_node = GetNodeToLeft(left_pizza_node);
-    }
+    left_pizza_node = GetFirstPToLeft();
     path_to_left_pizza = Dijkstra(bot_info->cur_position->cur_node, left_pizza_node, bot_info->cur_position->cur_deg, our_graph);
-// //////    printf("First unknown one to left is: %s, %f\n", left_pizza_node->name, path_to_left_pizza->total_cost);
+    // printf("First unknown one to left is: %s, %f\n", left_pizza_node->name, path_to_left_pizza->total_cost);
 
     path_to_pizza = path_to_left_pizza;
     target_pizza_node = left_pizza_node;
@@ -910,7 +902,11 @@ void FreeTimeDecision() {
 
 // Physically go and find the pizza required for this order
 void FindSpecificPizza(Order *order) {
+    Node *left, *right;
+    left = right = PIZZA_COUNTER_NODE;
 
+    left = GetNodeToLeft(left);
+    right = GetNodeToRight(right);
 }
 
 void DeliverPizzas(DeliverySequence *cur_sequence) {
