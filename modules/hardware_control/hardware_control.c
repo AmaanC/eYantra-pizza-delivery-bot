@@ -50,7 +50,6 @@ void CurveTowards(Node *source_node, Node *target_node) {
         left_motor = fast_value;
     }
     printf("\tCurve %s to %s: %d, %d\n", source_node->name, target_node->name, left_motor, right_motor);
-    sleep(5);
     // Start the motors on the path for the curve
     // pos_encoder_velocity(left_motor, right_motor);
     // Let them keep going until one of the motors has spun enough
@@ -117,4 +116,5 @@ void MoveBotToNode(Node *target_node) {
         current_node = next_node;
     }
     bot_info->cur_position->cur_node = target_node;
+    printf("Reached final node.\n");
 }
