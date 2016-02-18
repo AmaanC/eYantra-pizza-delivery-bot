@@ -28,7 +28,7 @@ void CurveTowards(Node *source_node, Node *target_node) {
     float xDist = source_node->x - curve_info->curve_center->x;
     float yDist = source_node->y - curve_info->curve_center->y;
     radius = sqrt(xDist * xDist + yDist * yDist);
-    printf("%f, %f\n", source_node->x, yDist);
+    // printf("%f, %f\n", source_node->x, yDist);
 
     angular_velocity = GetAngularVelocity(source_node, target_node);
     // Linear velocity = radius * angular velocity
@@ -49,7 +49,7 @@ void CurveTowards(Node *source_node, Node *target_node) {
         right_motor = slow_value;
         left_motor = fast_value;
     }
-    printf("\tCurve %s to %s: %d, %d\n", source_node->name, target_node->name, left_motor, right_motor);
+    // printf("\tCurve %s to %s: %d, %d\n", source_node->name, target_node->name, left_motor, right_motor);
     // Start the motors on the path for the curve
     // pos_encoder_velocity(left_motor, right_motor);
     // Let them keep going until one of the motors has spun enough
@@ -70,12 +70,12 @@ void MoveBotToNode(Node *target_node) {
     for (i = final_path->top - 1; i >= 0; i--) {
         // lcd_printf("%s", final_path->path[i]->name);
         // _delay_ms(500);
-        printf("%s, ", final_path->path[i]->name);
+        // printf("%s, ", final_path->path[i]->name);
     }
     // lcd_printf("Cost: %d", (int) final_path->total_cost);
     // _delay_ms(500);
 
-    printf("\nTotal cost: %f\n", final_path->total_cost);
+    // printf("\nTotal cost: %f\n", final_path->total_cost);
     sleep(final_path->total_cost);
 
     // Now that we know the path to take, here's how we actually get there
@@ -116,5 +116,5 @@ void MoveBotToNode(Node *target_node) {
         current_node = next_node;
     }
     bot_info->cur_position->cur_node = target_node;
-    printf("Reached final node.\n");
+    printf("Reached %s node.\n", target_node->name);
 }
