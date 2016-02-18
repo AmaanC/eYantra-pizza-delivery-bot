@@ -7,5 +7,7 @@ void MoveBotForwardMm(unsigned int distance);
 void MoveBotForward(int distance);
 void GetSensorsStatus();
 int IsBlack(unsigned char sensor_vlaue);
+void MoveBotBack(int distance);
+void MoveBotBackMn(int distance);
 
 #endif
