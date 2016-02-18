@@ -4,7 +4,7 @@ Team Id : eYRC-PD#1909
 Author List : 
 Filename: move_bot
 Theme: Pizza Delivery Service -- Specific to eYRC  
-Functions: AngleRotate(unsigned int degrees), GetSensorStatus(), MoveBotInitDevices(), RotateBot(int degrees), 
+Functions: AngleRotate(unsigned int degrees), GetSensorsStatus(), MoveBotInitDevices(), RotateBot(int degrees), 
 		   MoveBotForwardMm(unsigned int distance_in_mm), MoveBotForward(). 
 
 Global Variables: ADC_value, Flag = 0, left_black_line = 0, center_black_line = 0, right_black_line = 0, 
@@ -65,12 +65,12 @@ int AngleRotate(unsigned int degrees) {
 	ShaftCounterRight = 0; 
 	ShaftCounterLeft = 0; 
 	while (1) {
-		  center_black_line = BlSensorAdcConversion(2);
+		center_black_line = BlSensorAdcConversion(2);
 		// We stop in the following conditions:
 		// - If the pos encoder says we've reached
 		// - If the bl sensor says we've reached
 		// If we rotate too far, and still don't see a black line, let's rotate back
-		 if(
+		if(
 			((ShaftCounterRight >= reqd_shaft_counter_int) | (ShaftCounterLeft >= reqd_shaft_counter_int)) ||
 			(IsBlack(center_black_line) && (ShaftCounterRight >= min_shaft_count_int || ShaftCounterLeft >= min_shaft_count_int))
 		) {
@@ -198,6 +198,7 @@ void MoveBotForwardMm(unsigned int distance_in_mm) {
 				}
 				else if(right_turn == 3) {
 					PosEncoderVelocity(high_velocity, high_velocity);
+					right_turn = 0;
 				}
 			  }
    
@@ -211,6 +212,7 @@ void MoveBotForwardMm(unsigned int distance_in_mm) {
 				}
 				else if(left_turn == 3) {
 					PosEncoderVelocity(high_velocity, high_velocity);
+					left_turn = 0;
 				}
 			  } 
    
@@ -222,7 +224,64 @@ void MoveBotForwardMm(unsigned int distance_in_mm) {
 		PosEncoderStop(); 
 }
 
+void MoveBotBackMm(int distance) {
+	float reqd_shaft_counter = 0;
+	unsigned long int reqd_shaft_counter_int = 0;
+   
+	reqd_shaft_counter = distance_in_mm / 5.338; 
+	reqd_shaft_counter_int = (unsigned long int) reqd_shaft_counter;
+	 
+	right_turn = 0;
+	left_turn = 0;
+	ShaftCounterRight = 0;
+	ShaftCounterLeft = 0;
+	while(1) {
+		if ((ShaftCounterLeft > reqd_shaft_counter_int) | (ShaftCounterRight > reqd_shaft_counter_int)) {
+			break;
+		}
+		else {
+			GetSensorsStatus();
+			Flag = 0;
+
+			if(IsBlack(center_black_line)) {
+				Flag = 1;
+				PosEncoderVelocity(high_velocity, high_velocity);
+			}
+			if(IsBlack(right_black_line) && Flag == 0) {
+				Flag = 1;
+				PosEncoderVelocity(high_velocity,low_velocity);
+				right_turn++;
+				if(right_turn == 2) {
+					PosEncoderVelocity(low_velocity,high_velocity);
+				}
+				else if(right_turn == 3) {
+					PosEncoderVelocity(high_velocity, high_velocity);
+					right_turn = 0;
+				}
+			}
+			if(IsBlack(left_black_line) && Flag == 0) {
+				Flag  = 1;
+				PosEncoderVelocity(low_velocity, high_velocity);
+				left_turn++;
+				if(left_turn == 2) {
+					PosEncoderVelocity(high_velocity, low_velocity);
+				}
+				else if(left_turn == 3) {
+					PosEncoderVelocity(high_velocity, high_velocity);
+					left_turn = 0;
+				}
+			}
+		}
+		PosEncoderStop();
+	}
+}
+
 void MoveBotForward(int distance) {
 	PosEncoderForward();
 	MoveBotForwardMm(distance);
+}
+
+void MoveBotBack(int distance) {
+	PosEncoderBack();
+	MoveBotBackMm(distance);
 }
