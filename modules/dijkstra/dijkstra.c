@@ -90,15 +90,20 @@ PathStack* Dijkstra(Node *source_node, Node *target_node, float cur_deg, Graph *
     PathStack *final_path;
     // Curve info
     CurveInfo *curve_info;
+
+    // The final_path won't always be this long, but we need enough memory in case it is, somehow
+    final_path = malloc(sizeof(PathStack));
+    final_path->top = 0;
+    if (source_node == target_node) {
+        return final_path;
+    }
+    final_path->path = malloc(our_graph->num_nodes * sizeof(Node*));
+
     curve_info = GetCurveInfo();
 
     current_node = source_node;
     DFSEval(source_node, source_node->visited, InitNodesDijkstra);
     node_costs = malloc(our_graph->num_nodes * sizeof(Node*));
-    // The final_path won't always be this long, but we need enough memory in case it is, somehow
-    final_path = malloc(sizeof(PathStack));
-    final_path->path = malloc(our_graph->num_nodes * sizeof(Node*));
-    final_path->top = 0;
 
     source_node->path_cost = 0;
     source_node->done = TRUE;
@@ -165,7 +170,7 @@ PathStack* Dijkstra(Node *source_node, Node *target_node, float cur_deg, Graph *
             break;
         }
     }
-    // printf("cur_node: %s, enter_deg: %f, total_cost: %f\n", current_node->name, current_node->enter_deg * 180 / M_PI, current_node->path_cost);
+    // printf("cur_node: %s, enter_deg: %f, total_cost: %f\n", current_node->name, current_node->enter_deg, current_node->path_cost);
     // Dijkstra's is done!
     // Now we can reverse iterate and use the prev_node pointers to find the path the bot should take
     counter_node = target_node;
