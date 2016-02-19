@@ -6,7 +6,6 @@
 #include "../pos_encoder/pos_encoder.h"
 #include "../bl_sensor/bl_sensor.h"
 #include "../lcd/lcd.h"
-#include "../hardware_control/hardware_control.h"
 
 #define LEFT 3
 #define CENTER 2

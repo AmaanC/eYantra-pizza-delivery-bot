@@ -10,7 +10,7 @@
 int main() {
 	MoveBotInitDevices();
 	PosEncoderVelocity(255, 255);
-	MoveBotForwardMm(100);
+	MoveBotForward(100);
 	_delay_ms(500);
     // Consider a rotate_towards(Node *target) function instead?
     // That can deduce whether black lines exist or not too
