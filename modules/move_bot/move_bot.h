@@ -2,12 +2,14 @@
 #define MOVE_BOT_H_
 
 void MoveBotInitDevices();
+float PidControl(float curve_value, float required_value);
 void RotateBot(int degrees);
-void MoveBotForwardMm(unsigned int distance);
 void MoveBotForward(int distance);
-void GetSensorsStatus();
+float ReadSensors();
 int IsBlack(unsigned char sensor_vlaue);
-void MoveBotBack(int distance);
-void MoveBotBackMn(int distance);
+int AngleRotate(unsigned int degrees);
+void MoveBot(int distance_in_mm);
+void MoveBotReverse(int distance);
+
 
 #endif

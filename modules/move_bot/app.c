@@ -14,6 +14,6 @@ int main() {
 	_delay_ms(500);
     // Consider a rotate_towards(Node *target) function instead?
     // That can deduce whether black lines exist or not too
-	RotateBot(90);
+	//RotateBot(90);
 	_delay_ms(500);
 }
