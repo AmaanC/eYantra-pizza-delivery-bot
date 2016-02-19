@@ -140,8 +140,12 @@ Pizza *CreatePizza(char colour, char size) {
     pizza = malloc(sizeof(Pizza));
     pizza->colour = colour;
     pizza->size = size;
+    pizza->found = FALSE;
     pizza->state = 'f';
-    pizza->location = NULL;
+    pizza->location = GetFirstPToRight();
+    if (pizza->location == NULL) {
+        pizza->location = GetFirstPToLeft();
+    }
 
     // Insert into our array of pizzas
     InsertPizza(our_pizzas, pizza);
@@ -377,7 +381,7 @@ int GetNumDelayed(Node *source_node, int start_time, int order_num) {
     // the next order doesn't try to access the same pizza
     order_pizza->state = 'c';
     // Total future orders delayed is how many orders 
-    delayed += GetNumDelayed(order_pizza->location, order_num + 1);
+    delayed += GetNumDelayed(order_pizza->location, total_cost, order_num + 1);
     order_pizza->state = 'f';
     return delayed;
 }
@@ -715,6 +719,7 @@ int fake_len = 10;
 void DetectPizza() {
     int i = 0;
     Pizza *current_pizza;
+    Pizza *conflicting_pizza;
     BotInfo *bot_info;
     int found = FALSE;
     // char block_size = 's'; // SharpGetBlockSize();
@@ -757,10 +762,22 @@ void DetectPizza() {
                 (current_pizza->colour == 'n' && current_pizza->size == 'n')
             ) &&
             current_pizza->state == 'f' && // We don't want to override a pizza which has already been delivered
-            current_pizza->location == NULL
+            current_pizza->found == FALSE
         ) {
             found = TRUE;
+            // We just found pizza C at say c1
+            // Previously, by our guesses: 
+            // C->loc = c4;
+            // F->loc = c1;
+            // So we swap the guesses so that:
+            // C->loc = c1
+            // C->found = TRUE;
+            // F->loc = c4
+            conflicting_pizza = GetPizzaAtNode(bot_info->cur_position->cur_node);
+            // current_pizza->location is our previous guess, not where it actually is
+            conflicting_pizza->location = current_pizza->location;
             current_pizza->location = bot_info->cur_position->cur_node;
+            current_pizza->found = TRUE;
             // printf("Detected at %s, %c %c\n", current_pizza->location->name, colour, block_size);
             // There might be multiple pizzas with the same color and size so we want to make sure
             // we're filling in for one where the location was unfilled, and fill it only for that one

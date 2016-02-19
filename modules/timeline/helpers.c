@@ -40,7 +40,7 @@ Node *GetNodeToLeft(Node *source_node) {
     return NULL;
 }
 
-// Gets the first pizza counter node to the right
+// Gets the first vacant pizza counter node to the right
 Node *GetFirstPToRight() {
     Node *right;
     right = GetNodeToRight(GetPizzaCounter());
@@ -50,7 +50,7 @@ Node *GetFirstPToRight() {
     return right;
 }
 
-// Gets the first pizza counter node to the left
+// Gets the first vacant pizza counter node to the left
 Node *GetFirstPToLeft() {
     Node *left;
     left = GetNodeToLeft(GetPizzaCounter());
