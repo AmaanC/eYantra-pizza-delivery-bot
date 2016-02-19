@@ -683,8 +683,13 @@ PizzaList *GetAvailablePizzas() {
     available_pizzas = malloc(sizeof(PizzaList));
     available_pizzas->pizzas = malloc(MAX_ORDERS * sizeof(Pizza));
 
+    printf("Getting available pizzas\n");
+
     for (i = 0; i < our_timeline->len; i++) {
         current_order = our_timeline->orders[i];
+        if (current_order->state == 'd') {
+            continue;
+        }
         current_pizza = GetPizzaForOrder(current_order);
         // Available pizzas is a consideration for extra pizzas, not regular ones, so we skip
         // over the one that's already on our list anyway
