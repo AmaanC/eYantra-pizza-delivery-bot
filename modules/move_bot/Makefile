@@ -12,7 +12,7 @@ DEPS=app.o ../bl_sensor/bl_sensor.o ../pos_encoder/pos_encoder.o ../custom_delay
 PROGRAMMER = avrdude
 BOARD = stk500v2
 MCU = m2560
-PORT = /dev/tty.usbmodem1421
+PORT = /dev/ttyACM0
 
 PFLAGS = -p $(MCU) -c $(BOARD) -P $(PORT)
 

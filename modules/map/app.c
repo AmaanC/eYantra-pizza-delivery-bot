@@ -21,7 +21,7 @@ int main() {
 
     // printf("Starting");
     // _delay_ms(1000);
-    
+    // THIS IS THE kindly gentle ORDER OF INITIALIZATION
     InitBotInfo();
     InitGraph();
     printf("Targ name: %s\n", GetNodeByName("r1")->name);

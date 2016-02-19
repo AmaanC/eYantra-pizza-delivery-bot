@@ -1,3 +1,7 @@
+#include <avr/io.h>
+#include <avr/interrupt.h>
+#include <util/delay.h>
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
@@ -10,12 +14,16 @@
 #include "../hardware_control/hardware_control.h"
 
 int main() {
-    InitGraph();
     InitBotInfo();
+    InitGraph();
     LcdInitDevices();
     LcdSet4Bit();
     LcdInit();
     MoveBotInitDevices();
+    LcdPrintf("Hello");
+    LcdPrintf("Before %s", GetNodeByName("r3")->name);
+
+    MoveBotToNode(GetNodeByName("r3"));
 
     return 0;
 }

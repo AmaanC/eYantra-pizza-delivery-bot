@@ -182,6 +182,7 @@ void LcdPrintf(const char *fmt, ...) {
     va_end(argp);
 
     LcdString(str);
+    _delay_ms(500);
 }
 
 
