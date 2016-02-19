@@ -348,7 +348,38 @@ Pizza *GetPizzaGuess(Node *source_node) {
 // start_time = GetCurrentTime() because we're simulating canceling
 // our current order, which means we can get to the one after immediately 
 int GetNumDelayed(Node *source_node, int start_time, int order_num) {
+    int delayed = 0;
+    float cost_to_pick = INFINITY;
+    float cost_to_deliver = INFINITY;
+    float total_cost = INFINITY;
+    Order *next_order = GetNextOrder(our_timeline, order_num);
+    Pizza *order_pizza = GetPizzaForOrder(next_order);
+    Graph *our_graph = GetGraph();
+    if (next_order == NULL) {
+        // No future orders left, so delayed = 0
+        return 0;
+    }
 
+    cost_to_pick = Dijkstra(source_node, order_pizza->location, source_node->enter_deg, our_graph)->total_cost;
+    // If we get there before we can pick it up, our cost to pick is actually higher
+    if (start_time + cost_to_pick < next_order->pickup_time) {
+        cost_to_pick = next_order->pickup_time - start_time;
+    }
+    cost_to_deliver = Dijkstra(order_pizza->location, next_order->delivery_house, order_pizza->location->enter_deg, our_graph)->total_cost;
+
+    total_cost = start_time + cost_to_pick + cost_to_deliver;
+
+    // If we reach after the delivery period ends, we've delayed this order
+    if (total_cost > next_order->delivery_period->end) {
+        delayed = 1;
+    }
+    // We set the state to "considering" so that when the function is called recursively,
+    // the next order doesn't try to access the same pizza
+    order_pizza->state = 'c';
+    // Total future orders delayed is how many orders 
+    delayed += GetNumDelayed(order_pizza->location, order_num + 1);
+    order_pizza->state = 'f';
+    return delayed;
 }
 
 // Consider canceling an order in case it'll take too long or it'll delay our next order

@@ -28,7 +28,9 @@ typedef struct _Pizza {
     // would have no way of knowing that pizza1 was for order1, and could
     // not be used for order2 as well, even though its colour and size match
     char state;
-    // Location of the pizza. If it hasn't been found, it'll be NULL
+    // Flag to determine whether we've found the pizza or not
+    int found;
+    // Location of the pizza. If the found flag is 0, the location is just a guess
     Node *location;
 } Pizza;
 
