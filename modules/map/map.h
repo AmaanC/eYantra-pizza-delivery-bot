@@ -11,7 +11,7 @@ typedef struct _Connection {
 // 1 is a pizza pick up node
 // 2 is a house door node
 // 3 is a house deposit node
-typedef struct NodeStruct Node; // Forward declaration
+struct NodeStruct; // Forward declaration
 typedef struct NodeStruct {
     // A char array for the name string. TODO: Remove for finals
     char *name;
@@ -38,7 +38,7 @@ typedef struct NodeStruct {
     // B->prev_node = A (which is the source)
     // If we use reverse iteration like this in a stack, we can pop the nodes off the stack
     // and just move the bot to each node one by one
-    Node *prev_node;
+    struct NodeStruct *prev_node;
     // The angle at which we arrive at the current node. Also used in Dijsktra's to add a rotation_cost
     float enter_deg;
 
