@@ -301,22 +301,6 @@ void FindNextDefiniteNeed(OrderList *timeline) {
     next_required_period = next_potential;
 }
 
-// Checks if a given cost will delay our next order
-int WillCostDelay(float cost, Node *source_node) {
-    Order *order_after = GetNextOrder(our_timeline, 1);
-    if (order_after == NULL) {
-        // printf("No orders left to delay\n");
-        return FALSE;
-    }
-
-    if (GetCurrentTime() + cost + EstimateNextCost(source_node, 1) > order_after->delivery_period->end) {
-        // //printf("Cost %f will delay next order\n", cost);
-        return TRUE;
-    }
-    // //printf("Won't delay\n");
-    return FALSE;
-}
-
 Pizza *GetPizzaGuess(Node *source_node) {
     Pizza *new_pizza;
     Node *real_source;
@@ -418,6 +402,10 @@ DeliverySequence *ConsiderCancel(Order *order1, Order *order2) {
     best_seq->guess1 = FALSE;
     best_seq->guess2 = FALSE;
 
+    // Number of regular orders delayed if deliver the current order vs. if we cancel it
+    int num_delayed_if_deliver = 0;
+    int num_delayed_if_cancel = 0;
+
     // printf("ConsiderCancel %d %d\n\n", order1 == NULL, order2 == NULL);
 
     float lowest_cost = INFINITY;
@@ -452,7 +440,10 @@ DeliverySequence *ConsiderCancel(Order *order1, Order *order2) {
         best_seq->pick1 = single_pizza->location;
         best_seq->deliver1 = single_order->delivery_house;
         best_seq->total_cost = temp_cost;
-        if (WillCostDelay(temp_cost, single_order->delivery_house)) {
+        num_delayed_if_deliver = GetNumDelayed(single_order->delivery_house, GetCurrentTime() + temp_cost, 1);
+        num_delayed_if_cancel = GetNumDelayed(GetCurrentNode(), GetCurrentTime(), 1);
+        // If we delay fewer pizzas later by canceling, then lets cancel
+        if (num_delayed_if_cancel < num_delayed_if_deliver) {
             best_seq->should_cancel = TRUE;
         }
         // printf("Should cancel: %d\n", best_seq->should_cancel);
@@ -564,7 +555,9 @@ DeliverySequence *ConsiderCancel(Order *order1, Order *order2) {
     // //printf("Found best_seq for multiple orders\n");
 
     best_seq->total_cost = lowest_cost;
-    if (WillCostDelay(lowest_cost, best_seq->deliver2)) {
+    num_delayed_if_cancel = GetNumDelayed(best_seq->deliver2, GetCurrentTime() + lowest_cost, 1);
+    num_delayed_if_deliver = GetNumDelayed(GetCurrentNode(), GetCurrentTime(), 1);
+    if (num_delayed_if_cancel < num_delayed_if_deliver) {
         best_seq->should_cancel = TRUE;
     }
 
@@ -623,6 +616,29 @@ Pizza *GetPizzaForOrder(Order *order) {
     return NULL;
 }
 
+Order *GetOrderForPizza(Pizza *pizza) {
+    int i = 0;
+    Order *current_order;
+    if (pizza == NULL) {
+        return NULL;
+    }
+
+    for (i = 0; i < our_timeline->len; i++) {
+        current_order = our_timeline->orders[i];
+        // If the pizza / order haven't been delivered already, and
+        // the colour & size match, they're compatible
+        if (
+            current_order->state != 'd' && pizza->state != 'd' &&
+            current_order->size == pizza->size &&
+            current_order->colour == pizza->colour
+        ) {
+            // //printf("Found pizza %c and %c\n", order->size, order->colour);
+            return current_order;
+        }
+    }
+    return NULL;
+}
+
 Pizza *GetPizzaAtNode(Node *node) {
     int i = 0;
     Pizza *current_pizza;
@@ -639,38 +655,6 @@ Pizza *GetPizzaAtNode(Node *node) {
     return NULL;
 }
 
-// Estimate the cost to delivering the next regular order when starting from the source_node
-float EstimateNextCost(Node *source_node, int pos) {
-    Order *next_order;
-    Pizza *matching_pizza;
-    // If the pizza has been found, we'll set this to the pizza's location, otherwise
-    // it'll probably be the least favourable place the pizza could be in
-    // TODO: Think about this and actually implement it
-    Node *pizza_location;
-    Graph *our_graph;
-    // Cost to finding the pizza / picking the pizza up
-    float cost_to_pizza = 0;
-    // Cost to actually delivering the pizza
-    float cost_to_delivery = 0;
-
-    our_graph = GetGraph();
-
-    next_order = GetNextOrder(our_timeline, pos);
-    matching_pizza = GetPizzaForOrder(next_order);
-    pizza_location = matching_pizza->location;
-    if (pizza_location == NULL) {
-        // We don't know where the pizza is, so we have to estimate the time to find it
-        // TODO: Actually implement this
-        pizza_location = GetPizzaGuess(NULL)->location;
-// //////        printf("Assuming pizza is at %s\n", PIZZA_COUNTER_NODE->name);
-    }
-    cost_to_pizza = Dijkstra(source_node, pizza_location, source_node->enter_deg, our_graph)->total_cost;
-    cost_to_delivery = Dijkstra(pizza_location, next_order->delivery_house, pizza_location->enter_deg, our_graph)->total_cost;
-
-// //////    // printf("%s, %f\n\n", source_node->name, cost_to_pizza + cost_to_delivery);
-    return cost_to_pizza + cost_to_delivery;
-}
-
 // Get all the pizzas that I can pick up in the current_period
 // These are pizzas whose start times are past the start time of the current_period
 // Example:
@@ -678,24 +662,44 @@ float EstimateNextCost(Node *source_node, int pos) {
 // starts at the current time + the time it'll need to go to the pizza counter
 // This function will check which pizzas are available to be picked up in that time
 // Whichever *are* available are returned in an OrderList
-OrderList *GetAvailablePizzas(TimeBlock *current_period) {
-    OrderList *available_pizzas;
+PizzaList *GetAvailablePizzas() {
+    PizzaList *available_pizzas;
     Order *current_order;
+    Pizza *current_pizza;
+    Pizza *next_pizza = GetPizzaForOrder(GetNextOrder(our_timeline, 0));
+    Node *cur_node = GetCurrentNode();
     int i = 0;
-    available_pizzas = malloc(sizeof(OrderList));
-    available_pizzas->orders = malloc(MAX_ORDERS * sizeof(Order));
+    // TODO: Discuss, experiment
+    int threshold = 5;
+    int cur_time = GetCurrentTime();
+    float cost_to_pizza = INFINITY;
+    available_pizzas = malloc(sizeof(PizzaList));
+    available_pizzas->pizzas = malloc(MAX_ORDERS * sizeof(Pizza));
 
     for (i = 0; i < our_timeline->len; i++) {
         current_order = our_timeline->orders[i];
-        // If the current order has been found and it's delivery period overlaps with the current_period
+        current_pizza = GetPizzaForOrder(current_order);
+        // Available pizzas is a consideration for extra pizzas, not regular ones, so we skip
+        // over the one that's already on our list anyway
+        if (current_pizza == next_pizza) {
+            continue;
+        }
+        current_pizza->state = 'c';
+        // If the current order has been found and it can be picked up within the time it takes us
+        // to get there + a threshold (of waiting)
         // it's an available pizza!
         // Canceled pizzas are always available.
+        cost_to_pizza = Dijkstra(cur_node, current_pizza->location, cur_node->enter_deg, GetGraph())->total_cost;
         if (
-            (CheckOverlap(current_period, current_order->delivery_period) ||
-            current_order->state == 'c') &&
-            current_order->state != 'd'
+            cur_time + cost_to_pizza + threshold >= current_order->pickup_time &&
+            current_order->state != 'd' &&
+            current_pizza->found == TRUE
         ) {
-            InsertOrder(available_pizzas, current_order);
+            InsertPizza(available_pizzas, current_pizza);
+        } else {
+            // We didn't add it to our list, so we can consider this same pizza
+            // for a different order later
+            current_pizza->state = 'f';
         }
     }
     return available_pizzas;
@@ -820,12 +824,17 @@ void FindPizzas(int consider_cost) {
     Graph *our_graph;
     PathStack *path_to_pizza, *path_to_left_pizza, *path_to_right_pizza;
     Node *target_pizza_node, *left_pizza_node, *right_pizza_node;
+    Order *next_order = GetNextOrder(our_timeline, 0);
+    Pizza *next_pizza = GetPizzaForOrder(next_order);
+    int num_delayed_if_find = 0;
+    int num_delayed_if_skip_find = 0;
     // TODO: Discuss threshold value
     // The threshold is here because if we have only 1 second of grace time to find a pizza
     // and then get to the next regular order, I think we shouldn't risk it
     // So we need an appropriate threshold for that.
     const int threshold = 5;
-    float cost = 0;
+    float cost_to_find = 0;
+    float cost_to_next_pizza = 0;
     bot_info = GetBotInfo();
     our_graph = GetGraph();
     
@@ -859,13 +868,21 @@ void FindPizzas(int consider_cost) {
         target_pizza_node = right_pizza_node;
     }
 
-    cost = path_to_pizza->total_cost;
-    // We don't use Dijkstra's here because we may not have found the next regular pizza yet
-    // and may have to estimate the time to finding it
-    cost += EstimateNextCost(target_pizza_node, 1);
+    cost_to_find = path_to_pizza->total_cost;
 
+    // How many future orders would be delayed if we went hunting for pizzas now
+    // vs. how many would be delayed if we skipped finding pizzas
+    
+    // If we just had free time, and came here, it's because we didn't have any extra orders
+    // So if finding pizzas delays us, we want to just go straight to normal operation
+    
+    // If we just had normal operation, and we didn't know where our next order was
+    // we came here to look for it, but if looking for it is delaying us for the order
+    // after that, we want to consider canceling the current one
+    num_delayed_if_find = GetNumDelayed(target_pizza_node, GetCurrentTime() + cost_to_find, 0);
+    num_delayed_if_skip_find = GetNumDelayed(GetCurrentNode(), GetCurrentTime(), 0);
     // Now we check if current time + cost + next_order_cost >= next_to_next_order.end_time
-    if (cost + threshold > GetNextOrder(our_timeline, 1)->delivery_period->end) {
+    if (num_delayed_if_skip_find < num_delayed_if_find) {
         // TODO: Consider canceling current reg
         SetState('b');
         return;
@@ -909,12 +926,13 @@ void FreeTimeDecision() {
 
     // If no pizzas are left, let's go ahead and find more pizzas *if time permits*
     // If there isn't time for that, set state to 'b'
-    OrderList *available_pizzas;
+    PizzaList *available_pizzas;
     Order *current_order, *next_order;
     // The pizzas for the corresponding orders above
     Pizza *current_pizza, *next_pizza;
     int i = 0;
-    available_pizzas = GetAvailablePizzas(GetCurrentTimeBlock());
+    // Get pizzas that I can pick up by the time I can get to them
+    available_pizzas = GetAvailablePizzas();
     next_order = GetNextOrder(our_timeline, 0);
     next_pizza = GetPizzaForOrder(next_order);
     // Every OrderList is sorted by due time already, so the first one we find that
@@ -925,25 +943,20 @@ void FreeTimeDecision() {
         // and doesn't overlap with our blocked time
         // and doesn't delay next orders
         // LET'S DO THIS!
-        current_order = available_pizzas->orders[i];
+        current_pizza = available_pizzas->pizzas[i];
+        // We've already got our list of considered pizzas, so we can mark them
+        // as free to be considered again now.
+        current_pizza->state = 'f';
 
-        // Next pizza is being considered, so if another order tries to get this pizza,
-        // we want it to skip over this pizza
-        if (next_pizza) {
-            next_pizza->state = 'c';
-            // If the pizza's location isn't known, we don't want to waste time
-            // with extra orders. We need to find this pizza!
-            if (next_pizza->location == NULL) {
-                SetState('b');
-                return;
-            }
+        // If the pizza's location isn't known, we don't want to waste time
+        // with extra orders. We need to find this pizza!
+        // TODO: Special case for canceled orders?
+        if (next_pizza && next_pizza->location == NULL) {
+            SetState('b');
+            return;
         }
-        current_pizza = GetPizzaForOrder(current_order);
-        // We want the pizza to be available to find for when we actually pick it up
-        // or simulate picking it up in ConsiderCancel
-        if (next_pizza) {
-            next_pizza->state = 'f';
-        }
+        current_order = GetOrderForPizza(current_pizza);
+
         // printf("Free time, considering combos\n");
         Display(current_order);
         // printf("Debug %d: %d %d", next_extra_order == NULL, current_pizza == NULL, ConsiderCancel(next_order, current_order)->should_cancel);
@@ -977,43 +990,6 @@ void FreeTimeDecision() {
 // ////    printf("\tFree time over\n");
 }
 
-// Physically go and find the pizza required for this order
-void FindSpecificPizza(Order *order) {
-    Node *left, *right, *target;
-    Graph *our_graph = GetGraph();
-    int left_cost, right_cost;
-    // This will become the GetNodeToLeft or GetNodeToRight function
-    Node *(*next_fn)(Node *);
-
-    left = GetFirstPToLeft();
-    right = GetFirstPToRight();
-
-    left_cost = Dijkstra(PIZZA_COUNTER_NODE, left, 0, our_graph)->total_cost;
-    right_cost = Dijkstra(PIZZA_COUNTER_NODE, left, 0, our_graph)->total_cost;
-
-    // We go towards whichever side will have more pizzas, and keep detecting pizzas
-    // until we find the one we're looking for
-    if (left_cost < right_cost) {
-        target = left;
-        next_fn = GetNodeToLeft;
-    }
-    else {
-        target = right;
-        next_fn = GetNodeToRight;
-    }
-    while (target != NULL) {
-        MoveBotToNode(target);
-        DetectPizza();
-        // If the pizza that matches this order just got a new location
-        // that means we just found it
-        if (GetPizzaForOrder(order)->location != NULL) {
-            return;
-        }
-        target = next_fn(target);
-    }
-    printf("Pizza isn't available on the side we picked.\n");
-}
-
 void DeliverPizzas(DeliverySequence *cur_sequence) {
     // sleep(cur_sequence/5.0->total_cost);
     // GetBotInfo()->cur_position->cur_node = cur_sequence->deliver2 == NULL ? cur_sequence->deliver1 : cur_sequence->deliver2;
@@ -1035,7 +1011,7 @@ void DeliverPizzas(DeliverySequence *cur_sequence) {
     // }
     printf("Delivering\n");
     if (cur_sequence->guess1 == TRUE) {
-        FindSpecificPizza(cur_sequence->order1);
+        // FindSpecificPizza(cur_sequence->order1);
     }
     if (cur_sequence->pick1 != NULL) {
         MoveBotToNode(cur_sequence->pick1);

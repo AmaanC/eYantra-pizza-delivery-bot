@@ -91,7 +91,7 @@ OrderList *GetTimeline();
 void FindNextDefiniteNeed(OrderList *timeline);
 void Display(Order *current_order);
 Order *GetNextOrder(OrderList *timeline, int pos);
-OrderList *GetAvailablePizzas(TimeBlock *current_period);
+PizzaList *GetAvailablePizzas();
 TimeBlock *GetCurrentTimeBlock();
 Pizza *GetPizzaForOrder(Order *order);
 float EstimateNextCost(Node *source_node, int pos);
@@ -104,5 +104,6 @@ Node *GetNodeToLeft(Node *source_node);
 
 Node *GetFirstPToRight();
 Node *GetFirstPToLeft();
+int GetNumDelayed(Node *source_node, int start_time, int order_num);
 
 #endif
