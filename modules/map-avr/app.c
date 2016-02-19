@@ -1,24 +1,38 @@
-#include <avr/io.h>
-#include <avr/interrupt.h>
-#include <util/delay.h>
+// #include <avr/io.h>
+// #include <avr/interrupt.h>
+// #include <util/delay.h>
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
 #include "map.h"
+#include "../dijkstra/dijkstra.h"
 #include "../pos_encoder/pos_encoder.h"
 #include "../lcd/lcd.h"
+#include "../bot_memory/bot_memory.h"
+#include "../hardware_control/hardware_control.h"
 
 int main() {
-    pos_encoder_init_devices();
-    pos_encoder_timer5_init();
-    lcd_init_devices();
-    lcd_set_4bit();
-    lcd_init();
+    // pos_encoder_init_devices();
+    // pos_encoder_timer5_init();
+    // lcd_init_devices();
+    // lcd_set_4bit();
+    // lcd_init();
 
-    lcd_printf("Starting");
-    _delay_ms(1000);
+    // printf("Starting");
+    // _delay_ms(1000);
     
+    InitBotInfo();
     InitGraph();
+    printf("Targ name: %s\n", GetNodeByName("r1")->name);
+    // printf("Targ name: %s\n", GetNodeByName("r1")->name);
+    
+    MoveBotToNode(GetNodeByName("r6"));
+    MoveBotToNode(GetNodeByName("r10"));
+    MoveBotToNode(GetNodeByName("S"));
+
+    printf("Num nodes: %d\n", GetGraph()->num_nodes);
+
     // Node *start = GetCurrentNode();
     // DFSEval(start, start->visited, InitNodesDijkstra);
     // MoveBotToNode(start->connected[0]->ptr->connected[1]->ptr);
