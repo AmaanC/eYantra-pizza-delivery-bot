@@ -11,13 +11,13 @@ typedef struct _Connection {
 // 1 is a pizza pick up node
 // 2 is a house door node
 // 3 is a house deposit node
-typedef struct NodeStruct Node; // Forward declaration
+struct NodeStruct; // Forward declaration
 typedef struct NodeStruct {
     // A char array for the name string. TODO: Remove for finals
     char *name;
     // Co-ordinates are relative to the "start" block
-    int x;
-    int y;
+    float x;
+    float y;
     // Length of the array called "connected" below
     int num_connected;
     // So we can easily "push" more nodes using the function. Just counts how many connections have been made already
@@ -38,9 +38,9 @@ typedef struct NodeStruct {
     // B->prev_node = A (which is the source)
     // If we use reverse iteration like this in a stack, we can pop the nodes off the stack
     // and just move the bot to each node one by one
-    Node *prev_node;
+    struct NodeStruct *prev_node;
     // The angle at which we arrive at the current node. Also used in Dijsktra's to add a rotation_cost
-    float enter_radians;
+    float enter_deg;
 
     // Used as a toggle / flag during DFS. Since we'll be running DFS several times, the plan is to
     // check the source node's visited value initially, and use that as the "unvisited value".
@@ -59,29 +59,24 @@ typedef struct _Graph {
     int num_nodes;
 } Graph;
 
-// A "stack" of Nodes. Len indicates the next empty element, so to use it as a stack, use
-// for (i = top-1; i >= 0; i--)
-typedef struct _PathStack {
-    Node **path;
-    int top;
-    float total_cost;
-} PathStack;
+typedef struct _CurveInfo {
+    Node *curve_center; // The center of the circle whose arc segments form the curve on the map
+    Node **curve_nodes; // Nodes that are involved in the arcs
+    int curve_nodes_len; // Number of nodes involved
+} CurveInfo;
 
-// A struct to store the position of the bot
-typedef struct _Pos {
-    Node *cur_node;
-    float cur_radians;
-} Position;
-
-Node* CreateNode(int x, int y, int num_connected, char *name);
+Node* CreateNode(float x, float y, int num_connected, char *name);
 void ConnectNodes(Node *a, Node *b, float cost);
 void InitGraph();
 Node* GetCurrentNode();
 Node* GetNodeByName(char *name);
 
 void DFSEval(Node *source_node, int unvisited_value, int fn());
-int InitNodesDijkstra(Node* current_node);
-void MoveBotToNode(Node* target_node);
-PathStack* Dijsktra(Node *source_node, Node *target_node);
+
+CurveInfo *GetCurveInfo();
+Graph *GetGraph();
+float RadToDeg(float radians);
+float GetAngularVelocity(Node *node1, Node *node2);
+int IndexOfNode(Node **node_arr, int len, Node *needle);
 
 #endif

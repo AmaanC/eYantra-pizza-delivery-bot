@@ -5,8 +5,8 @@ OBJCOPY=avr-objcopy
 CFLAGS=-g -DF_CPU=14745600 -mmcu=atmega2560
 
 # Modify these 2 for each project as needed
-FILENAME=map
-DEPS=app.o ../dijkstra/dijkstra.o ../bot_memory/bot_memory.o ../hardware_control/hardware_control.o
+FILENAME=hardware_control
+DEPS=app.o ../map/map.o ../dijkstra/dijkstra.o ../bot_memory/bot_memory.o #../pos_encoder/pos_encoder.o ../lcd/lcd.o
 
 #Info til AVRDUDE
 PROGRAMMER = avrdude
