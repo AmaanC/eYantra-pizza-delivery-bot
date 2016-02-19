@@ -1,9 +1,14 @@
+#include <avr/io.h>
+#include <avr/interrupt.h>
+#include <util/delay.h>
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
 
 #include "dijkstra.h"
 #include "../map/map.h"
+#include "../lcd/lcd.h"
 
 #define TRUE 1
 #define FALSE 0
@@ -133,6 +138,13 @@ PathStack* Dijkstra(Node *source_node, Node *target_node, float cur_deg, Graph *
                 // the angle between the current node & the counter node
                 // atan2 always returns in the range of -pi to pi, so we convert it to degrees
                 rot_deg = RadToDeg(atan2(counter_node->y - current_node->y, counter_node->x - current_node->x));
+                LcdPrintf("aaaaaaaaaaa");
+                _delay_ms(1000);
+                LcdPrintf("Deg: %d", (int)rot_deg);
+                _delay_ms(1000);
+                LcdPrintf("atan2: %d", (int)atan2(counter_node->y - current_node->y, counter_node->x - current_node->x));
+                _delay_ms(1000);
+
                 rotation_cost = GetRotationCost(temp_deg - rot_deg);
                 // If we're considering the cost of going through a curve (i.e. we're at A and considering B
                 // as the counter_node), we should not be considering any rot_cost, since no rotation is 
@@ -145,6 +157,8 @@ PathStack* Dijkstra(Node *source_node, Node *target_node, float cur_deg, Graph *
                     // rot_deg is used to set enter_deg for the counter_node, which will be +90 deg of the current
                     // one if we move anticlockwise, i.e. with the right motor faster
                     rot_deg = current_node->enter_deg + 90 * GetCurveDirection(current_node, counter_node);
+                    LcdPrintf("Deg2: %d", (int)rot_deg);
+                    _delay_ms(1000);
                 }
 
                 temp_cost = accum_cost + rotation_cost + current_node->connected[i]->cost;
@@ -154,6 +168,8 @@ PathStack* Dijkstra(Node *source_node, Node *target_node, float cur_deg, Graph *
                     counter_node->path_cost = temp_cost;
                     // Save the angle we came into the node at
                     counter_node->enter_deg = MakePositiveDeg(rot_deg);
+                    LcdPrintf("Enter %d, %d", (int) counter_node->enter_deg, rot_deg);
+                    _delay_ms(1000);
                     // We found a better way to get to counter_node, so we update its prev_node reference
                     counter_node->prev_node = current_node;
 
@@ -162,7 +178,7 @@ PathStack* Dijkstra(Node *source_node, Node *target_node, float cur_deg, Graph *
                 }
             }
         }
-        // printf("cur_node: %s, enter_deg: %f\n", current_node->name, current_node->enter_deg * 180 / M_PI);
+        // printf("cur_node: %s, enter_deg: %f\n", current_node->name, current_node->enter_deg);
         current_node = GetLowestUndone(node_costs, node_costs_len);
         loop_limiter++;
         if (loop_limiter >= MAX_ITERATIONS) {

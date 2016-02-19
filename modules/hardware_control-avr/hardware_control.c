@@ -1,3 +1,7 @@
+#include <avr/io.h>
+#include <avr/interrupt.h>
+#include <util/delay.h>
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
@@ -28,7 +32,7 @@ void CurveTowards(Node *source_node, Node *target_node) {
     float xDist = source_node->x - curve_info->curve_center->x;
     float yDist = source_node->y - curve_info->curve_center->y;
     radius = sqrt(xDist * xDist + yDist * yDist);
-    // printf("%f, %f\n", source_node->x, yDist);
+    //// printf("%f, %f\n", source_node->x, yDist);
 
     angular_velocity = GetAngularVelocity(source_node, target_node);
     // Linear velocity = radius * angular velocity
@@ -49,12 +53,12 @@ void CurveTowards(Node *source_node, Node *target_node) {
         right_motor = slow_value;
         left_motor = fast_value;
     }
-    // printf("\tCurve %s to %s: %d, %d\n", source_node->name, target_node->name, left_motor, right_motor);
+    //// printf("\tCurve %s to %s: %d, %d\n", source_node->name, target_node->name, left_motor, right_motor);
     // Start the motors on the path for the curve
-    PosEncoderVelocity(left_motor, right_motor);
+    // pos_encoder_velocity(left_motor, right_motor);
     // Let them keep going until one of the motors has spun enough
-    PosEncoderForward();
-    PosEncoderForwardMm(513);
+    // pos_encoder_forward();
+    // pos_encoder_angle_rotate(abs(angle * 180 / M_PI));
 }
 
 void MoveBotToNode(Node *target_node) {
@@ -62,20 +66,21 @@ void MoveBotToNode(Node *target_node) {
     Node *current_node, *next_node;
     int i;
     float xDist, yDist;
-    BotInfo *bot_info = GetBotInfo();
-    CurveInfo *curve_info = GetCurveInfo();
-    Graph *our_graph = GetGraph();
-
+    BotInfo *bot_info;
+    CurveInfo *curve_info;
+    Graph *our_graph;
+    bot_info = GetBotInfo();
+    curve_info = GetCurveInfo();
+    our_graph = GetGraph();
     final_path = Dijkstra(GetCurrentNode(), target_node, bot_info->cur_position->cur_deg, our_graph);
     for (i = final_path->top - 1; i >= 0; i--) {
-        // lcd_printf("%s", final_path->path[i]->name);
+        //// lcd_printf("%s", final_path->path[i]->name);
         // _delay_ms(500);
-        printf("%s, ", final_path->path[i]->name);
+        //printf("%s, ", final_path->path[i]->name);
     }
-    // lcd_printf("Cost: %d", (int) final_path->total_cost);
+    //// lcd_printf("Cost: %d", (int) final_path->total_cost);
     // _delay_ms(500);
-
-    printf("\nTotal cost: %f\n", final_path->total_cost);
+    LcdPrintf("\nTotal cost: %f\n", final_path->total_cost);
     // usleep(final_path->total_cost * 1000 * 100);
 
     // Now that we know the path to take, here's how we actually get there
@@ -97,7 +102,7 @@ void MoveBotToNode(Node *target_node) {
             IndexOfNode(curve_info->curve_nodes, curve_info->curve_nodes_len, current_node) != -1 &&
             IndexOfNode(curve_info->curve_nodes, curve_info->curve_nodes_len, next_node) != -1
         ) {
-            // lcd_printf("Curve");
+            LcdPrintf("Curve");
 
             CurveTowards(current_node, next_node);
         }
@@ -105,10 +110,14 @@ void MoveBotToNode(Node *target_node) {
 
             xDist = current_node->x - next_node->x;
             yDist = current_node->y - next_node->y;
-            // lcd_printf("Rot: %d", (int) ((next_node->enter_deg - bot_info->cur_position->cur_deg)));
-            // _delay_ms(500);
+            LcdPrintf("Rot: %d", (int) ((next_node->enter_deg - bot_info->cur_position->cur_deg)));
+
+            LcdPrintf("Stupid: %d %d", next_node->enter_deg, bot_info->cur_position->cur_deg);
+            _delay_ms(500);
+            // pos_encoder_rotate_bot((next_node->enter_deg - bot_info->cur_position->cur_deg));
             RotateBot((next_node->enter_deg - bot_info->cur_position->cur_deg));
             bot_info->cur_position->cur_deg = next_node->enter_deg;
+            // pos_encoder_forward_mm(10 * sqrt(xDist * xDist + yDist * yDist));
             MoveBotForward(10 * sqrt(xDist * xDist + yDist * yDist));
         }
 
@@ -116,5 +125,5 @@ void MoveBotToNode(Node *target_node) {
         current_node = next_node;
     }
     bot_info->cur_position->cur_node = target_node;
-    printf("Reached %s node.\n", target_node->name);
+    LcdPrintf("Reached %s node.\n", target_node->name);
 }

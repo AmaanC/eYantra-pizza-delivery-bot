@@ -25,5 +25,6 @@ int main() {
 
     MoveBotToNode(GetNodeByName("r3"));
 
+    LcdPrintf("After");
     return 0;
 }
