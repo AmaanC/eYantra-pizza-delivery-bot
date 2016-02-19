@@ -6,7 +6,7 @@ CFLAGS=-g -DF_CPU=14745600 -mmcu=atmega2560
 
 # Modify these 2 for each project as needed
 FILENAME=dijkstra
-DEPS=app.o  ../map/map.o ../bot_memory/bot_memory.o
+DEPS=app.o  ../map-avr/map.o ../bot_memory-avr/bot_memory.o
 
 #Info til AVRDUDE
 PROGRAMMER = avrdude
