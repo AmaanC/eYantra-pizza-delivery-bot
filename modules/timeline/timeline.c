@@ -364,6 +364,8 @@ int GetNumDelayed(Node *source_node, int start_time, int order_num) {
         return 0;
     }
 
+    // We don't care about using guessed pizza locations, as long as
+    // the calls compare in a similar manner.
     cost_to_pick = Dijkstra(source_node, order_pizza->location, source_node->enter_deg, our_graph)->total_cost;
     // If we get there before we can pick it up, our cost to pick is actually higher
     if (start_time + cost_to_pick < next_order->pickup_time) {
@@ -426,7 +428,7 @@ DeliverySequence *ConsiderCancel(Order *order1, Order *order2) {
     // Go pick it up, deliver it
     if (order1 == NULL || order2 == NULL) {
         if (order2 == order1) {
-// ////            printf("Both orders are NULL, doofus.\n");
+            // printf("Both orders are NULL, doofus.\n");
             return NULL;
         }
         // printf("Single order\n");
