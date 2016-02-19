@@ -8,8 +8,8 @@
 int main(void) {
     int time = 10;
     InitTimer();
-    sleep(1.2);
-    printf("%d seconds passed\n", time - GetCurrentTime());
+    usleep(1000 * 2000);
+    printf("%d seconds passed\n", GetCurrentTime());
 
     return 0;
 }

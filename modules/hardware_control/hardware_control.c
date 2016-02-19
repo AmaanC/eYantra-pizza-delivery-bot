@@ -76,7 +76,7 @@ void MoveBotToNode(Node *target_node) {
     // _delay_ms(500);
 
     printf("\nTotal cost: %f\n", final_path->total_cost);
-    sleep(final_path->total_cost);
+    usleep(final_path->total_cost * 1000 * 100);
 
     // Now that we know the path to take, here's how we actually get there
     // To go from A to D
