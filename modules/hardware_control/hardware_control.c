@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
-
+#include <unistd.h>
 #include "../map/map.h"
 #include "../dijkstra/dijkstra.h"
 #include "../pos_encoder/pos_encoder.h"
@@ -51,10 +51,10 @@ void CurveTowards(Node *source_node, Node *target_node) {
     }
     // printf("\tCurve %s to %s: %d, %d\n", source_node->name, target_node->name, left_motor, right_motor);
     // Start the motors on the path for the curve
-    PosEncoderVelocity(left_motor, right_motor);
+    // pos_encoder_velocity(left_motor, right_motor);
     // Let them keep going until one of the motors has spun enough
-    PosEncoderForward();
-    PosEncoderForwardMm(513);
+    // pos_encoder_forward();
+    // pos_encoder_angle_rotate(abs(angle * 180 / M_PI));
 }
 
 void MoveBotToNode(Node *target_node) {
@@ -76,7 +76,7 @@ void MoveBotToNode(Node *target_node) {
     // _delay_ms(500);
 
     printf("\nTotal cost: %f\n", final_path->total_cost);
-    // usleep(final_path->total_cost * 1000 * 100);
+    sleep(final_path->total_cost);
 
     // Now that we know the path to take, here's how we actually get there
     // To go from A to D
@@ -107,9 +107,9 @@ void MoveBotToNode(Node *target_node) {
             yDist = current_node->y - next_node->y;
             // lcd_printf("Rot: %d", (int) ((next_node->enter_deg - bot_info->cur_position->cur_deg)));
             // _delay_ms(500);
-            RotateBot((next_node->enter_deg - bot_info->cur_position->cur_deg));
+            // pos_encoder_rotate_bot((next_node->enter_deg - bot_info->cur_position->cur_deg));
             bot_info->cur_position->cur_deg = next_node->enter_deg;
-            MoveBotForward(10 * sqrt(xDist * xDist + yDist * yDist));
+            // pos_encoder_forward_mm(10 * sqrt(xDist * xDist + yDist * yDist));
         }
 
         bot_info->cur_position->cur_node = current_node;

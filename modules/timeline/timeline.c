@@ -1053,7 +1053,7 @@ void DeliverPizzas(DeliverySequence *cur_sequence) {
         if (cur_sequence->order1->pickup_time > GetCurrentTime()) {
             // TODO: Consider this as free time if possible?
             printf("Reached early. Waiting %d %d %d\n", cur_sequence->order1->pickup_time - GetCurrentTime(), cur_sequence->order1->pickup_time, GetCurrentTime());
-            usleep((cur_sequence->order1->pickup_time - GetCurrentTime()) * 100 * 1000);
+            sleep((cur_sequence->order1->pickup_time - GetCurrentTime()));
         }
         // PickPizza();
     }
@@ -1067,7 +1067,7 @@ void DeliverPizzas(DeliverySequence *cur_sequence) {
         if (cur_sequence->order2->pickup_time > GetCurrentTime()) {
             // TODO: Consider this as free time if possible?
             printf("Reached early. Waiting %d %d %d\n", cur_sequence->order2->pickup_time - GetCurrentTime(), cur_sequence->order2->pickup_time, GetCurrentTime());
-            usleep((cur_sequence->order2->pickup_time - GetCurrentTime()) * 100 * 1000);
+            sleep((cur_sequence->order2->pickup_time - GetCurrentTime()));
         }
         // PickPizza();
     }
