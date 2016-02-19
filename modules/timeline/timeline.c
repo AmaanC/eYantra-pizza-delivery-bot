@@ -331,6 +331,26 @@ Pizza *GetPizzaGuess(Node *source_node) {
     return new_pizza;
 }
 
+// Gets the number of orders that will be delayed if we start at source_node
+// and start_time for order_num
+// This is used to check if canceling an order will be beneficial
+// We're trying to see if our future orders will suffer
+// For example, 
+// If order A is delivered, we'll start from order A's delivery location
+// at the time when we'll be able to deliver it
+// So source_node = A.delivery_house and start_time = time when we reach the delivery house
+// order_num = 1 since we're not considering the current order, we're looking into the future
+// The function is recursive, so it keeps going and sees how many future orders will be
+// delayed if we start for the next order after delivering the current order
+
+// This is compared to canceling the current order and changing
+// source_node = bot's current location and
+// start_time = GetCurrentTime() because we're simulating canceling
+// our current order, which means we can get to the one after immediately 
+int GetNumDelayed(Node *source_node, int start_time, int order_num) {
+
+}
+
 // Consider canceling an order in case it'll take too long or it'll delay our next order
 
 // When called from FreeTime, order1 will be the next_reg_order and
@@ -743,7 +763,7 @@ int IsPizzaAt(Node *test_node) {
 // If the cost doesn't delay us for our regular order, it'll actually go search for pizzas
 // Upon finding its first unknown pizza, it'll set the state to free (from within DetectPizza)
 // If the cost does delay us, it'll set the state to 'b' so that NormalOperation can continue
-void FindPizzas() {
+void FindPizzas(int consider_cost) {
     // We need to consider the cost first, and check our memory to see how many
     // pizzas we've found on each side
     BotInfo *bot_info;
@@ -792,10 +812,11 @@ void FindPizzas() {
     cost = path_to_pizza->total_cost;
     // We don't use Dijkstra's here because we may not have found the next regular pizza yet
     // and may have to estimate the time to finding it
-    cost += EstimateNextCost(target_pizza_node, 0);
+    cost += EstimateNextCost(target_pizza_node, 1);
 
-    // Now we check if current time + cost + next_order_cost >= next_order.end_time
+    // Now we check if current time + cost + next_order_cost >= next_to_next_order.end_time
     if (cost + threshold > GetNextOrder(our_timeline, 1)->delivery_period->end) {
+        // TODO: Consider canceling current reg
         SetState('b');
         return;
     }
@@ -860,6 +881,12 @@ void FreeTimeDecision() {
         // we want it to skip over this pizza
         if (next_pizza) {
             next_pizza->state = 'c';
+            // If the pizza's location isn't known, we don't want to waste time
+            // with extra orders. We need to find this pizza!
+            if (next_pizza->location == NULL) {
+                SetState('b');
+                return;
+            }
         }
         current_pizza = GetPizzaForOrder(current_order);
         // We want the pizza to be available to find for when we actually pick it up
@@ -892,7 +919,7 @@ void FreeTimeDecision() {
         // FindPizzas takes care of considering cost and everything.
         // If it thinks it'll delay us to find more pizzas, it'll change the state to 'b'
         // printf("Finding pizzas...\n");
-        FindPizzas();
+        FindPizzas(TRUE);
     }
     else {
         SetState('b');
@@ -1035,6 +1062,7 @@ void NormalOperation() {
     */
     DeliverySequence *cur_sequence;
     Order *next_reg_order;
+    Pizza *next_reg_pizza;
 
     next_reg_order = GetNextOrder(our_timeline, 0);
     // If we've delivered all the regular orders already, we can consider the canceled pizzas
@@ -1046,6 +1074,13 @@ void NormalOperation() {
     }
     Display(next_reg_order);
     Display(next_extra_order);
+    next_reg_pizza = GetPizzaForOrder(next_reg_order);
+    // TODO: Special case for canceled orders
+    if (next_reg_pizza == NULL || next_reg_pizza->location == NULL) {
+        // If the location of our regular order is unknown, then we want to find it
+        // without considering the cost of delaying it
+        FindPizzas(FALSE);
+    }
     // next_extra_order might be NULL, but that's okay, because ConsiderCancel
     // can deal with it.
     cur_sequence = ConsiderCancel(next_reg_order, next_extra_order);
