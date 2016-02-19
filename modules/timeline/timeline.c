@@ -675,7 +675,7 @@ PizzaList *GetAvailablePizzas() {
     int cur_time = GetCurrentTime();
     float cost_to_pizza = INFINITY;
     available_pizzas = malloc(sizeof(PizzaList));
-    available_pizzas->pizzas = malloc(MAX_ORDERS * sizeof(Pizza));
+    available_pizzas->pizzas = malloc(MAX_ORDERS * sizeof(Pizza*));
 
     // printf("Getting available pizzas\n");
 
@@ -706,6 +706,7 @@ PizzaList *GetAvailablePizzas() {
             InsertPizza(available_pizzas, current_pizza);
         }
     }
+    current_pizza = available_pizzas->pizzas[0];
     return available_pizzas;
 }
 
@@ -979,6 +980,7 @@ void FreeTimeDecision() {
         // If the pizza's location isn't known, we don't want to waste time
         // with extra orders. We need to find this pizza!
         // TODO: Special case for canceled orders?
+        current_pizza = available_pizzas->pizzas[i];
         if (next_pizza != NULL && next_pizza->location == NULL) {
             SetState('b');
             return;
