@@ -57,6 +57,7 @@ typedef struct _Order {
     // Node containing the delivery location
     Node *delivery_house;
     // State of the order:
+    // n: new
     // d: delivered
     // h: holding
     // c: canceled
