@@ -258,5 +258,20 @@ void PosEncoderRotateBot(int Degrees) {
       PosEncoderStop();     
       // _delay_ms(500); 
     }
+}
 
+void ResetRightShaft() {
+    ShaftCountRight = 0;
+}
+
+void ResetLeftShaft() {
+    ShaftCountLeft = 0;
+}
+
+unsigned char GetShaftCountRight() {
+    return ShaftCountRight;
+}
+
+unsigned char GetShaftCountLeft() {
+    return ShaftCountLeft;
 }

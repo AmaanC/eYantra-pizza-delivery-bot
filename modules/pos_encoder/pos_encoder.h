@@ -32,5 +32,11 @@ void PosEncoderSoftRight2Degrees(unsigned int Degrees);
 void PosEncoderInitDevices();
 void PosEncoderRotateBot(int Degrees);
 
+void ResetRightShaft();
+void ResetLeftShaft();
+
+unsigned char GetShaftCountRight();
+unsigned char GetShaftCountLeft();
+
 
 #endif
