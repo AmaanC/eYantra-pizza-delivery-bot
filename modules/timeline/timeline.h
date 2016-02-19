@@ -102,8 +102,10 @@ Node *GetFurthestPizzaNode(Node *source_node);
 Node *GetNodeToRight(Node *source_node);
 Node *GetNodeToLeft(Node *source_node);
 
-Node *GetFirstPToRight();
-Node *GetFirstPToLeft();
+Node *GetFirstPToRight(int real_pizza);
+Node *GetFirstPToLeft(int real_pizza);
+
 int GetNumDelayed(Node *source_node, int start_time, int order_num);
+int IsPizzaAt(Node *test_node, int real_pizza);
 
 #endif

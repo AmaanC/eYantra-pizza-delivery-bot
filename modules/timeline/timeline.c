@@ -142,9 +142,9 @@ Pizza *CreatePizza(char colour, char size) {
     pizza->size = size;
     pizza->found = FALSE;
     pizza->state = 'f';
-    pizza->location = GetFirstPToRight();
+    pizza->location = GetFirstPToRight(FALSE);
     if (pizza->location == NULL) {
-        pizza->location = GetFirstPToLeft();
+        pizza->location = GetFirstPToLeft(FALSE);
     }
 
     // Insert into our array of pizzas
@@ -759,6 +759,10 @@ void DetectPizza() {
         // never try to pick anything up from this location
         CreatePizza('n', 'n');
     }
+    else {
+        // We found an actual pizza, which might be worth picking up
+        SetState('f');
+    }
 
     for (i = 0; i < our_pizzas->len; i++) {
         current_pizza = our_pizzas->pizzas[i];
@@ -779,11 +783,20 @@ void DetectPizza() {
             // C->loc = c1
             // C->found = TRUE;
             // F->loc = c4
+            printf("aa\n");
             conflicting_pizza = GetPizzaAtNode(bot_info->cur_position->cur_node);
             // current_pizza->location is our previous guess, not where it actually is
-            conflicting_pizza->location = current_pizza->location;
+            printf("aa\n");
+            // If we have less than 10 orders, and we haven't detected all the pizzas
+            // we may not have a conflicting order at all
+            if (conflicting_pizza) {
+                conflicting_pizza->location = current_pizza->location;
+            }
+            printf("aa\n");
             current_pizza->location = bot_info->cur_position->cur_node;
+            printf("aa\n");
             current_pizza->found = TRUE;
+            printf("aa\n");
             // printf("Detected at %s, %c %c\n", current_pizza->location->name, colour, block_size);
             // There might be multiple pizzas with the same color and size so we want to make sure
             // we're filling in for one where the location was unfilled, and fill it only for that one
@@ -800,11 +813,15 @@ void DetectPizza() {
     }
 }
 
-int IsPizzaAt(Node *test_node) {
+// real_pizza: whether we're checking if there's a real pizza there or if we're checking if
+// a location has been allocated
+int IsPizzaAt(Node *test_node, int real_pizza) {
     int i = 0;
     int found = FALSE;
+    Pizza *current_pizza;
     for (i = 0; i < our_pizzas->len; i++) {
-        if (our_pizzas->pizzas[i]->location == test_node) {
+        current_pizza = our_pizzas->pizzas[i];
+        if (current_pizza->location == test_node && current_pizza->found == real_pizza) {
             found = TRUE;
 // //////            printf("  Pizza at %s\n", test_node->name);
         }
@@ -817,9 +834,11 @@ int IsPizzaAt(Node *test_node) {
 // If the cost doesn't delay us for our regular order, it'll actually go search for pizzas
 // Upon finding its first unknown pizza, it'll set the state to free (from within DetectPizza)
 // If the cost does delay us, it'll set the state to 'b' so that NormalOperation can continue
-void FindPizzas(int consider_cost) {
-    // We need to consider the cost first, and check our memory to see how many
-    // pizzas we've found on each side
+// Returns whether it is finding pizzas or whether it decided to skip finding
+// because it would delay us
+// TRUE = Finding
+// FALSE = Not finding
+int FindPizzas() {
     BotInfo *bot_info;
     Graph *our_graph;
     PathStack *path_to_pizza, *path_to_left_pizza, *path_to_right_pizza;
@@ -842,21 +861,21 @@ void FindPizzas(int consider_cost) {
         // No more pizzas left to find, let's just get to delivering them
         // //printf("All pizzas found!\n");
         SetState('b');
-        return;
+        return FALSE;
     }
 
     // Now, we'll find the first node to the right and to the left
     // of the pizza counter. Whichever is closer is where we'll go
 
     // We go right right right
-    right_pizza_node = GetFirstPToRight();
+    right_pizza_node = GetFirstPToRight(TRUE);
     // If that one is already a known location in our list of pizzas, find the one to the right of that
     // Basically, find the first one to the right which is unknown
     path_to_right_pizza = Dijkstra(bot_info->cur_position->cur_node, right_pizza_node, bot_info->cur_position->cur_deg, our_graph);
     // printf("First unknown one to right is: %s, %f\n", right_pizza_node->name, path_to_right_pizza->total_cost);
 
     // We go left left left
-    left_pizza_node = GetFirstPToLeft();
+    left_pizza_node = GetFirstPToLeft(TRUE);
     path_to_left_pizza = Dijkstra(bot_info->cur_position->cur_node, left_pizza_node, bot_info->cur_position->cur_deg, our_graph);
     // printf("First unknown one to left is: %s, %f\n", left_pizza_node->name, path_to_left_pizza->total_cost);
 
@@ -882,16 +901,20 @@ void FindPizzas(int consider_cost) {
     num_delayed_if_find = GetNumDelayed(target_pizza_node, GetCurrentTime() + cost_to_find, 0);
     num_delayed_if_skip_find = GetNumDelayed(GetCurrentNode(), GetCurrentTime(), 0);
     // Now we check if current time + cost + next_order_cost >= next_to_next_order.end_time
+    // TODO: Consider effects of incorrect guesses? If we guessed that our next pizza is on the left
+    // but we're on the right and it actually is on the right, we might cancel the current order
+    // even though we don't need to.
     if (num_delayed_if_skip_find < num_delayed_if_find) {
         // TODO: Consider canceling current reg
         SetState('b');
-        return;
+        return FALSE;
     }
     else {
         // TODO:
         MoveBotToNode(target_pizza_node);
         // printf("--- Bot is at: %s\n", target_pizza_node->name);
         DetectPizza();
+        return TRUE;
     }
 }
 
@@ -982,7 +1005,7 @@ void FreeTimeDecision() {
         // FindPizzas takes care of considering cost and everything.
         // If it thinks it'll delay us to find more pizzas, it'll change the state to 'b'
         // printf("Finding pizzas...\n");
-        FindPizzas(TRUE);
+        FindPizzas();
     }
     else {
         SetState('b');
@@ -1089,6 +1112,7 @@ void NormalOperation() {
     DeliverySequence *cur_sequence;
     Order *next_reg_order;
     Pizza *next_reg_pizza;
+    int no_time_to_find = FALSE;
 
     next_reg_order = GetNextOrder(our_timeline, 0);
     // If we've delivered all the regular orders already, we can consider the canceled pizzas
@@ -1105,7 +1129,17 @@ void NormalOperation() {
     if (next_reg_pizza == NULL || next_reg_pizza->location == NULL) {
         // If the location of our regular order is unknown, then we want to find it
         // without considering the cost of delaying it
-        FindPizzas(FALSE);
+        // TODO: If FindPizzas thinks we should cancel, cancel?
+        no_time_to_find = FindPizzas();
+        if (no_time_to_find) {
+            // Finding the current pizza seems like it'll delay us,
+            // so lets skip this order
+            next_reg_order->state = 'c';
+            // Now that we've canceled it, maybe we have extra time to find pizzas or pick up
+            // extra pizzas, so we consider it free time
+            SetState('f');
+            return;
+        }
     }
     // next_extra_order might be NULL, but that's okay, because ConsiderCancel
     // can deal with it.
@@ -1148,6 +1182,7 @@ void TimelineControl() {
         // or when it's canceled a delivery
         printf("\t\tTotal time: %d\n", GetCurrentTime());
         printf("\t\tTotal orders: %d\n", orders_completed);
+        printf("\t\tTotal pizzas: %d\n", total_pizzas);
         if (orders_completed == total_orders) {
             printf("All done!\n\n\n");
             return;

@@ -41,20 +41,20 @@ Node *GetNodeToLeft(Node *source_node) {
 }
 
 // Gets the first vacant pizza counter node to the right
-Node *GetFirstPToRight() {
+Node *GetFirstPToRight(int real_pizza) {
     Node *right;
     right = GetNodeToRight(GetPizzaCounter());
-    while (right != NULL && IsPizzaAt(right) == TRUE) {
+    while (right != NULL && IsPizzaAt(right, real_pizza) == TRUE) {
         right = GetNodeToRight(right);
     }
     return right;
 }
 
 // Gets the first vacant pizza counter node to the left
-Node *GetFirstPToLeft() {
+Node *GetFirstPToLeft(int real_pizza) {
     Node *left;
     left = GetNodeToLeft(GetPizzaCounter());
-    while (left != NULL && IsPizzaAt(left) == TRUE) {
+    while (left != NULL && IsPizzaAt(left, real_pizza) == TRUE) {
         left = GetNodeToLeft(left);
     }
     return left;

@@ -124,3 +124,5 @@ Cancel things only if makes things *worse* than they already are
 
 Free time -> find pizzas -> free time when you find one -> consider delivering -> regular operation ->
 deliver pizzas -> free time
+
+In all situations, detect as many fucking pizzas as you can ASAP. Our guesses could screw us up a lot if they're on different sides.
