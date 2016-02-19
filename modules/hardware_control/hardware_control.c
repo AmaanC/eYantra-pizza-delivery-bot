@@ -18,7 +18,7 @@ void CurveTowards(Node *source_node, Node *target_node) {
     unsigned char slow_value = 0;
     unsigned char left_motor, right_motor;
     unsigned char max_speed = 0xFF; // The max speed either motor can turn at
-    const wheel_dist = 7.5; // According to measurement
+    const float wheel_dist = 7.5; // According to measurement
     float ratio = 1;
     float angular_velocity = 0;
     CurveInfo *curve_info = GetCurveInfo();
