@@ -327,10 +327,10 @@ int GetNumDelayed(Node *source_node, int start_time, int order_num) {
     Graph *our_graph = GetGraph();
     if (next_order == NULL) {
         // No future orders left, so delayed = 0
-        printf("NULL next\n");
+        // printf("NULL next\n");
         return 0;
     }
-    Display(next_order);
+    // Display(next_order);
     // printf("Num delayed %d %d\n", order_pizza == NULL, source_node == NULL);
     // printf("%d\n", order_pizza->location == NULL);
 
@@ -437,9 +437,9 @@ DeliverySequence *ConsiderCancel(Order *order1, Order *order2) {
     }
 
 
-    printf("Getting pizzas for orders\n");
-    Display(order1);
-    Display(order2);
+    // printf("Getting pizzas for orders\n");
+    // Display(order1);
+    // Display(order2);
     pizza_combo[0] = GetPizzaForOrder(order1);
     pizza_combo[1] = GetPizzaForOrder(order2);
 
@@ -493,7 +493,7 @@ DeliverySequence *ConsiderCancel(Order *order1, Order *order2) {
                             // If we get there before we can pick it up, we have to wait until
                             // it's time to pick them up
                             cost_to_pick2 = Dijkstra(pizza_combo[i]->location, pizza_combo[j]->location, pizza_combo[i]->location->enter_deg, our_graph)->total_cost;
-                            if (cost_to_pick1 + cost_to_pick2 < order_combo[j]->pickup_time) {
+                            if (GetCurrentTime() + cost_to_pick1 + cost_to_pick2 < order_combo[j]->pickup_time) {
                                 cost_to_pick2 = GetCurrentTime() - order_combo[j]->pickup_time;
                             }
                             temp_cost += cost_to_pick2;
@@ -1063,7 +1063,7 @@ void DeliverPizzas(DeliverySequence *cur_sequence) {
 
     if (cur_sequence->pick2 != NULL) {
         MoveBotToNode(cur_sequence->pick2);
-        delivered_pizza = GetPizzaAtNode(cur_sequence->pick1);
+        delivered_pizza = GetPizzaAtNode(cur_sequence->pick2);
         delivered_pizza->state = 'd';
         delivered_pizza->location = NULL;
         printf("\t\tP-loc null: %c %c\n\n", delivered_pizza->colour, delivered_pizza->size);
