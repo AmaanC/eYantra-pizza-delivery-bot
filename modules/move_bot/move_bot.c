@@ -117,24 +117,36 @@ void MoveBot(unsigned char left_velocity, unsigned char right_velocity, int dist
             break;
         }
 
-        if (IsBlack(CENTER)) {
-            left_corrected += correction_val;
-            right_corrected += correction_val;
-        }
+        // if (IsBlack(CENTER)) {
+        left_corrected = left_velocity;
+        right_corrected = right_velocity;
+        // }
         if (IsBlack(LEFT) || last_left) {
-            right_corrected += correction_val;
+            if (0xFF - correction_val < right_corrected) {
+                left_corrected -= correction_val;
+            }
+            else {
+                right_corrected += correction_val;
+            }
         }
         else if (IsBlack(RIGHT) || last_right) {
             // PosEncoderVelocity(high_velocity, low_velocity);
-            left_corrected += correction_val;
+            // Left velocity would overflow if we added to it
+            // So we subtract from right
+            if (0xFF - correction_val < left_velocity) {
+                right_corrected -= correction_val;
+            }
+            else {
+                left_corrected += correction_val;
+            }
         }
         else if (
             (IsBlack(LEFT) && IsBlack(RIGHT)) ||
             (last_left && last_right)
         ) {
             // PosEncoderVelocity(high_velocity, high_velocity);
-            left_corrected += correction_val;
-            right_corrected += correction_val;
+            left_corrected = left_velocity;
+            right_corrected = right_velocity;
         }
         last_left = IsBlack(LEFT);
         last_right = IsBlack(RIGHT);
