@@ -246,7 +246,7 @@ void InitGraph() {
 }
 
 Node *GetCurrentNode() {
-    printf("Current node");
+    // printf("Current node");
     return bot_info->cur_position->cur_node;
 }
 
@@ -332,7 +332,7 @@ Graph *GetGraph() {
 float GetRotationCost(float deg) {
     // TODO: Use actual measured value
     // printf("Cost of %d", (int) (0.1 * fabs(deg)));
-    return 0.1 * fabs(deg);
+    return 0.01 * fabs(deg);
 }
 
 float RadToDeg(float radians) {

@@ -5,7 +5,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
-// #include <unistd.h>
+#include <unistd.h>
 #include "../map/map.h"
 #include "../dijkstra/dijkstra.h"
 #include "../pos_encoder/pos_encoder.h"
@@ -81,8 +81,8 @@ void MoveBotToNode(Node *target_node) {
     // _delay_ms(500);
 
     printf("\nTotal cost: %f\n", final_path->total_cost);
-    // sleep(final_path->total_cost);
-    CustomDelay(final_path->total_cost);
+    sleep(final_path->total_cost);
+    // CustomDelay(final_path->total_cost);
 
     // Now that we know the path to take, here's how we actually get there
     // To go from A to D
