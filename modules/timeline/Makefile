@@ -7,7 +7,7 @@ $(FILENAME) : $(objects)
 	cc -Wall -o $(FILENAME).out $(objects) -lm
 
 clean:
-	rm -f *.o *.out *.map *.hex
+	find .. -type f -name '*.o' -exec rm {} +
 
 run: $(FILENAME)
 	./app.out
