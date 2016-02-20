@@ -18,6 +18,7 @@ int main() {
     // lcd_init_devices();
     // lcd_set_4bit();
     // lcd_init();
+    LcdInit();
 
     // printf("Starting");
     // _delay_ms(1000);
@@ -27,9 +28,9 @@ int main() {
     printf("Targ name: %s\n", GetNodeByName("r1")->name);
     // printf("Targ name: %s\n", GetNodeByName("r1")->name);
     
-    MoveBotToNode(GetNodeByName("r6"));
-    MoveBotToNode(GetNodeByName("r10"));
-    MoveBotToNode(GetNodeByName("S"));
+    // MoveBotToNode(GetNodeByName("r6"));
+    // MoveBotToNode(GetNodeByName("r10"));
+    // MoveBotToNode(GetNodeByName("S"));
 
     printf("Num nodes: %d\n", GetGraph()->num_nodes);
 
