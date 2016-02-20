@@ -1,0 +1,128 @@
+TimelineControl:
+    state = 'free'
+    while(1) {
+        // both functions below will be blocking
+        // this means that they will not return until they've completed their task
+        // free will return only when it's picked up the extra pizza or called find_pizzas
+        // or it has set the state to busy
+        // reg will only return when it has delivered the pizzas the bot is carrying
+        if (state == 'free') {
+            free() // this will set the state to busy if it didn't find any pizzas to deliver
+        }
+        else {
+            reg() // the will set the state to free when the delivery is done
+        }
+    }
+
+
+Reg:
+    if we're in a blocked_time {
+        predict time to find both pizzas
+        predict time to deliver both
+        if best prediction means we do it in time, do it // TODO: Best prediction or worst prediction?
+    }
+    else {
+        state = 'free' // So we can consider finding / picking up pizzas that are nearby
+        PickPizzas(next_reg, next_extra)
+        GetPizzasInArms()
+        DeliverPizzas(a, b)
+    }
+
+FindPizza:
+    Go to r1
+    Pick side we haven't visited before
+    Detect pizza
+    state = 'free'
+
+Free:
+    GetAvailablePizzas(TimeBlock) // gets all pizzas we've found that we can pick up in a certain period
+    Eliminate pizzas which:
+     - Overlap with blocked time
+     - Delay our next scheduled order
+     - Are already our next scheduled order
+
+    If pizzas left on list, get one due earliest
+    next_extra_pizza = earliest_due_pizza
+    state = 'reg'
+
+PickPizzas(a, b):
+    If locations aren't known, and EstimateFindPizza says it could still deliver in time, then it'll
+    call FindPizza
+    Else, it'll call ConsiderCancel
+    Picks up 2 pizzas in the optimal way (a, b or b, a)
+    Sets state to regular
+
+DeliverPizzas(a, b):
+    a and b can be null
+    Deliver in the optimal order (i.e. a, b or b, a)
+    When done delivering, state = 'free'
+
+
+The only times the state changes are:
+- Found new pizza (to free)
+- Delivered pizza (to free)
+- Picked up pizza (to reg)
+- No time to do anything (to reg)
+
+Hardware Control
+
+- FindPizza // Figures out where pizzas are likelier to be found and goes there and calls DetectPizza
+- PickPizza // Uses arm code to actually pick a pizza up in the correct arm
+- DeliverPizza (cost of a + b vs. b + a) // delivers all pizzas in arms right now
+- MoveBotToNode // Moves bot from A to B
+- DetectPizza // Detects pizza based on color and size
+
+
+Bot Memory
+
+- Sensor location // So we don't have to hardcode its turns within the pizza counter
+- Bot position // So all other modules can use it
+- Arm location & status (whether carrying a pizza or not)
+
+Canceling has 2 flavours:
+- Cancel a regular order
+    You only do this when canceling it actually changes our future delays
+- Cancel considering the extra order
+    You cancel considering, when it delays any of our future orders
+
+Not knowing the location of an ordered pizza:
+- Regular order:
+    Start looking! If you seem to run out of time, then cancel the current one, and move on
+- Extra order:
+    Don't consider extra ones if you don't know where they are
+
+Free time:
+    When waiting to pick pizzas, you can consider finding more pizzas
+    If there's a lot of time left to the next order, we may want to deliver a canceled order
+    along with the next order
+    If there's only canceled orders left, find 2 and deliver them
+    When you find a pizza, consider it free time and think about delivering the extra pizza (canceled or preorder
+    or whatever)
+
+Finding pizzas:
+    Consider not finding pizzas if it changes things. If it does change things, then just return and let whoever called
+    you make the decision.
+    If free time called you, it might just go back to regular operation and not consider delivering the extra.
+    If free time called for canceled orders, then we wouldn't have detected it "changing" anything.
+    If regular op called, we might decide to cancel the order because we couldn't find the pizza, and finding it
+    will delay us for our later ones.
+
+GetNumDelayed(cost_to_deliver_current + CurrentTime(), 1) vs GetNumDelayed(CurrentTime(), 1)
+
+GetNumDelayed(Start_time, next_order_num):
+    Get cost to pizza counter (for next_order_num)
+    If cost to counter > pickup_time, use that, else use pickup_time
+    + Cost to delivery
+    delayed = 0;
+    if (total_cost > next_order_num.delivery_period.end) {
+        delayed = 1;
+    }
+    delayed += GetNumDelayed(total_cost + start_time, next_order_num + 1)
+    return delayed
+
+Cancel things only if makes things *worse* than they already are
+
+Free time -> find pizzas -> free time when you find one -> consider delivering -> regular operation ->
+deliver pizzas -> free time
+
+In all situations, detect as many fucking pizzas as you can ASAP. Our guesses could screw us up a lot if they're on different sides.

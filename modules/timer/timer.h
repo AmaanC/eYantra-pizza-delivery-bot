@@ -1,8 +1,9 @@
 #ifndef TIMER_H_
 #define TIMER_H_
 
-void TimerTimer4Init();
-void TimerInitDevices();
-void Timer1sMagic();
+void Timer4Init();
+int GetCurrentTime();
+int ResetTime();
+void InitTimer();
 
 #endif
