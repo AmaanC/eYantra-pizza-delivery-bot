@@ -19,8 +19,8 @@ unsigned char ADC_value;
 unsigned char left_black_line = 0;
 unsigned char center_black_line = 0;
 unsigned char right_black_line = 0;
-unsigned char high_velocity = 255;
-unsigned char low_velocity = 230;
+
+unsigned char correction_val = 15;
 unsigned int degrees; //to accept angle in degrees for turning
 
 int last_left = 0;
@@ -47,7 +47,7 @@ int AngleRotate(unsigned int degrees) {
     unsigned long int reqd_shaft_counter_int = 0;
     float min_shaft_count = 0;
     unsigned long int min_shaft_count_int = 0;
-    reqd_shaft_counter = (float) (degrees + rotation_threshold) / 4.090;
+    reqd_shaft_counter = (float) (degrees + 2 * rotation_threshold) / 4.090;
     reqd_shaft_counter_int = (unsigned int) reqd_shaft_counter;
   
     min_shaft_count = (float) (degrees - rotation_threshold) / 4.090;
@@ -98,11 +98,15 @@ void RotateBot(int degrees) {
     PosEncoderStop();
 }
 
-void MoveBot(int distance_in_mm) {
+void MoveBot(unsigned char left_velocity, unsigned char right_velocity, int distance_in_mm) {
     float reqd_shaft_counter = 0;
     unsigned long int reqd_shaft_counter_int = 0;
     reqd_shaft_counter = distance_in_mm / 5.338; 
     reqd_shaft_counter_int = (unsigned long int) reqd_shaft_counter;
+    
+    int left_corrected = left_velocity;
+    int right_corrected = right_velocity;
+
     ResetRightShaft();
     ResetLeftShaft();
 
@@ -114,33 +118,47 @@ void MoveBot(int distance_in_mm) {
         }
 
         if (IsBlack(CENTER)) {
-            PosEncoderVelocity(high_velocity, high_velocity);
+            left_corrected += correction_val;
+            right_corrected += correction_val;
         }
         if (IsBlack(LEFT) || last_left) {
-            PosEncoderVelocity(low_velocity, high_velocity);
+            right_corrected += correction_val;
         }
         else if (IsBlack(RIGHT) || last_right) {
-            PosEncoderVelocity(high_velocity, low_velocity);
+            // PosEncoderVelocity(high_velocity, low_velocity);
+            left_corrected += correction_val;
         }
         else if (
             (IsBlack(LEFT) && IsBlack(RIGHT)) ||
             (last_left && last_right)
         ) {
-            PosEncoderVelocity(high_velocity, high_velocity);
+            // PosEncoderVelocity(high_velocity, high_velocity);
+            left_corrected += correction_val;
+            right_corrected += correction_val;
         }
         last_left = IsBlack(LEFT);
         last_right = IsBlack(RIGHT);
 
+        if (right_corrected > 0xFF) {
+            right_corrected = 0xFF;
+        }
+        if (left_corrected > 0xFF) {
+            left_corrected = 0xFF;
+        }
+
+        // TODO: Think about how overflows and underflows screw up our corrections
+
+        PosEncoderVelocity(left_corrected, right_corrected);
     }
     PosEncoderStop();
 }
 
-void MoveBotForward(int distance) {
+void MoveBotForward(unsigned char left_velocity, unsigned char right_velocity, int distance) {
     PosEncoderForward();
-    MoveBot(distance);
+    MoveBot(left_velocity, right_velocity, distance);
 }
 
 void MoveBotReverse(int distance) {
     PosEncoderBack();
-    MoveBot(distance);
+    // MoveBot(distance);
 }

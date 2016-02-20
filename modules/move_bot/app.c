@@ -11,7 +11,7 @@ int main() {
     MoveBotInitDevices();
     // LcdInit();
     while (1) {
-        MoveBotForward(300);
+        MoveBotForward(210, 210, 300);
         _delay_ms(1000);
         // RotateBot(90);
         // _delay_ms(1000);
