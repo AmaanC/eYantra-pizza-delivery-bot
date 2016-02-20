@@ -1054,6 +1054,7 @@ void DeliverPizzas(DeliverySequence *cur_sequence) {
         // printf("\t\tP-loc null: %c %c\n\n", delivered_pizza->colour, delivered_pizza->size);
         if (cur_sequence->order1->pickup_time > GetCurrentTime()) {
             // TODO: Consider this as free time if possible?
+            
             printf("Reached early. Waiting %d %d %d\n", cur_sequence->order1->pickup_time - GetCurrentTime(), cur_sequence->order1->pickup_time, GetCurrentTime());
             sleep((cur_sequence->order1->pickup_time - GetCurrentTime()));
         }
@@ -1068,6 +1069,7 @@ void DeliverPizzas(DeliverySequence *cur_sequence) {
         // printf("\t\tP-loc null: %c %c\n\n", delivered_pizza->colour, delivered_pizza->size);
         if (cur_sequence->order2->pickup_time > GetCurrentTime()) {
             // TODO: Consider this as free time if possible?
+            
             printf("Reached early. Waiting %d %d %d\n", cur_sequence->order2->pickup_time - GetCurrentTime(), cur_sequence->order2->pickup_time, GetCurrentTime());
             sleep((cur_sequence->order2->pickup_time - GetCurrentTime()));
         }

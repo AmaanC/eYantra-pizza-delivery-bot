@@ -1,6 +1,7 @@
 #include <avr/io.h>
 #include <avr/interrupt.h>
 #include <util/delay.h>
+
 #include <math.h> 
 #include "move_bot.h"
 #include "../pos_encoder/pos_encoder.h"
@@ -138,15 +139,15 @@ void RotateBot(int degrees) {
     int too_far = 0;
     if(degrees > 0){
         PosEncoderLeft();
-        too_far = AngleRotate(degrees);
+        too_far = AngleRotate(abs(degrees));
         if (too_far == 1) {
             PosEncoderRight();
             PosEncoderAngleRotate(rotation_threshold);
         }
     }
-    else if (degrees < 0 ){
-            PosEncoderRight();
-        too_far = AngleRotate(degrees);
+    else if (degrees < 0){
+        PosEncoderRight();
+        too_far = AngleRotate(abs(degrees));
         if (too_far == 1) {
             PosEncoderLeft();
             PosEncoderAngleRotate(rotation_threshold);
@@ -165,7 +166,9 @@ void MoveBot(int distance_in_mm) {
 
     while(1)
     {
+        LcdPrintf("Right %d %d", (int) GetShaftCountRight(), (int) distance_in_mm);
         if((GetShaftCountRight() > reqd_shaft_counter_int) | (GetShaftCountLeft() > reqd_shaft_counter_int)) {
+            LcdPrintf("Break!");
             break;
         }
 
@@ -221,6 +224,8 @@ void MoveBot(int distance_in_mm) {
 
 void MoveBotForward(int distance) {
     PosEncoderForward();
+    LcdPrintf("Passing %d", distance);
+    _delay_ms(1000);
     MoveBot(distance);
 }
 
