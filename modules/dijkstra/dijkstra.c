@@ -148,12 +148,13 @@ PathStack* Dijkstra(Node *source_node, Node *target_node, float cur_deg, Graph *
                 }
 
                 temp_cost = accum_cost + rotation_cost + current_node->connected[i]->cost;
-                // printf("Pos: %d,%d\ntemp_deg: %f\n%s: %f\n\n\n", counter_node->x, counter_node->y, temp_deg, counter_node->name, rot_deg);
+                // printf("Pos: %f,%f\ntemp_deg: %f\n%s: %f\n\n\n", counter_node->x, counter_node->y, temp_deg, counter_node->name, MakePositiveDeg(rot_deg));
                 if (temp_cost < counter_node->path_cost) {
                     // printf("Updated: %s, %f, %f\n", counter_node->name, temp_cost, rotation_cost);
                     counter_node->path_cost = temp_cost;
                     // Save the angle we came into the node at
                     counter_node->enter_deg = MakePositiveDeg(rot_deg);
+                    // printf("Enter: %f\n", counter_node->enter_deg);
                     // We found a better way to get to counter_node, so we update its prev_node reference
                     counter_node->prev_node = current_node;
 

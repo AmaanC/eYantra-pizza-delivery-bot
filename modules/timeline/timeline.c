@@ -214,11 +214,18 @@ void InitTimeline() {
     // CreateOrder(our_timeline, 'b', 'l', 0, 'r', "H6");
     // CreateOrder(our_timeline, 'r', 's', 30, 'p', "H6");
 
-    CreateOrder(our_timeline, 'b', 'l', 30, 'r', "H6");
+    // CreateOrder(our_timeline, 'b', 'l', 30, 'r', "H6");
+    // CreateOrder(our_timeline, 'r', 's', 30, 'p', "H6");
+    // CreateOrder(our_timeline, 'r', 'l', 70, 'r', "H12");
+    // CreateOrder(our_timeline, 'r', 's', 110, 'r', "H4");
+    // CreateOrder(our_timeline, 'g', 'l', 150, 'p', "H2");
+    // CreateOrder(our_timeline, 'b', 'm', 220, 'r', "H4");
+    
     CreateOrder(our_timeline, 'r', 's', 30, 'p', "H6");
     CreateOrder(our_timeline, 'r', 'l', 70, 'r', "H12");
-    CreateOrder(our_timeline, 'r', 's', 110, 'r', "H4");
+    CreateOrder(our_timeline, 'r', 's', 110, 'p', "H4");
     CreateOrder(our_timeline, 'g', 'l', 150, 'p', "H2");
+    CreateOrder(our_timeline, 'b', 'l', 180, 'r', "H6");
     CreateOrder(our_timeline, 'b', 'm', 220, 'r', "H4");
 }
 
