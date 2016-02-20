@@ -21,7 +21,7 @@ typedef struct _Arm {
     int lever_servo;
 
     // The order it is carrying (can be NULL)
-    Order *carrying;
+    Pizza *carrying;
 } Arm;
 
 // The bot should have the following info
@@ -35,6 +35,9 @@ typedef struct _BotInfo {
     Arm *arm1;
     Arm *arm2;
 } BotInfo;
+
+Arm *CreateArm();
+Arm *InitArm();
 
 void InitBotInfo();
 BotInfo *GetBotInfo();
