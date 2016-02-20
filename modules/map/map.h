@@ -79,5 +79,6 @@ float RadToDeg(float radians);
 float MakePositiveDeg(float angle);
 float GetAngularVelocity(Node *node1, Node *node2);
 int IndexOfNode(Node **node_arr, int len, Node *needle);
+float GetRotationCost(float deg);
 
 #endif
