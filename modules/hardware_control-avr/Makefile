@@ -12,7 +12,7 @@ DEPS=app.o ../map/map.o ../move_bot/move_bot.o ../bl_sensor/bl_sensor.o ../dijks
 PROGRAMMER = avrdude
 BOARD = stk500v2
 MCU = m2560
-PORT = /dev/ttyACM0
+PORT = /dev/tty.usbmodem1421
 
 PFLAGS = -p $(MCU) -c $(BOARD) -P $(PORT)
 

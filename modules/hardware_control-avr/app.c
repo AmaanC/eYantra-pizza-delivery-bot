@@ -17,19 +17,17 @@
 int main() {
     InitBotInfo();
     InitGraph();
-    LcdInitDevices();
-    LcdSet4Bit();
     LcdInit();
     MoveBotInitDevices();
 
     printf("Hello world");
     _delay_ms(1000);
-    LcdPrintf("Before %s", GetNodeByName("r3")->name);
+    // LcdPrintf("Before %s", GetNodeByName("r3")->name);
 
-    MoveBotToNode(GetNodeByName("r3"));
+    MoveBotToNode(GetNodeByName("H4"));
+    MoveBotToNode(GetNodeByName("H10"));
     MoveBotToNode(GetNodeByName("S"));
-    MoveBotToNode(GetNodeByName("r12"));
-    MoveBotToNode(GetNodeByName("S"));
+    MoveBotToNode(GetNodeByName("P1"));
 
     LcdPrintf("After");
     return 0;
