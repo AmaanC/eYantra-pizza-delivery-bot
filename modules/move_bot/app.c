@@ -11,10 +11,10 @@ int main() {
     MoveBotInitDevices();
     // LcdInit();
     while (1) {
-        RotateBot(90);
+        MoveBotForward(300);
         _delay_ms(1000);
-        RotateBot(-90);
-        _delay_ms(1000);
+        // RotateBot(90);
+        // _delay_ms(1000);
     }
     // PosEncoderVelocity(255, 255);
     // MoveBotForward(100);

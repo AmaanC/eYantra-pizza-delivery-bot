@@ -23,7 +23,11 @@ unsigned char high_velocity = 255;
 unsigned char low_velocity = 230;
 unsigned int degrees; //to accept angle in degrees for turning
 
-const int rotation_threshold = 20; // in degrees
+int last_left = 0;
+int last_center = 0;
+int last_right = 0;
+
+const int rotation_threshold = 45; // in degrees
 
 void MoveBotInitDevices() {
     BlSensorInitDevices();
@@ -43,7 +47,7 @@ int AngleRotate(unsigned int degrees) {
     unsigned long int reqd_shaft_counter_int = 0;
     float min_shaft_count = 0;
     unsigned long int min_shaft_count_int = 0;
-    reqd_shaft_counter = (float) (degrees) / 4.090;
+    reqd_shaft_counter = (float) (degrees + rotation_threshold) / 4.090;
     reqd_shaft_counter_int = (unsigned int) reqd_shaft_counter;
   
     min_shaft_count = (float) (degrees - rotation_threshold) / 4.090;
@@ -94,8 +98,6 @@ void RotateBot(int degrees) {
     PosEncoderStop();
 }
 
-/*
-
 void MoveBot(int distance_in_mm) {
     float reqd_shaft_counter = 0;
     unsigned long int reqd_shaft_counter_int = 0;
@@ -104,68 +106,37 @@ void MoveBot(int distance_in_mm) {
     ResetRightShaft();
     ResetLeftShaft();
 
-    while(1)
-    {
+    while (1) {
         // LcdPrintf("Right %d %d", (int) GetShaftCountRight(), (int) distance_in_mm);
         if((GetShaftCountRight() > reqd_shaft_counter_int) | (GetShaftCountLeft() > reqd_shaft_counter_int)) {
             // LcdPrintf("Break!");
             break;
         }
 
-        else {
-            //Take current sensor reading
-            //return value is between 0 to 5
-            //When the line is towards right of center then value tends to 5
-            //When the line is towards left of center then value tends to 1
-            //When line is in the exact center the the value is 3
-            sensor = ReadSensors();
-    
-            //If line is not found beneath any sensor, use last sensor value. 
-            if(sensor == 0xFF)
-            {
-               sensor = prev_sensor;
-            }    
-    
-            //PID Algorithm generates a control variable from the current value
-            //and the required value. Since the aim is to keep the line always
-            //beneath the center sensor so the required value is 2 (second parameter)
-            //The first argument is the current sensor reading.
-            //The more the difference between the two greater is the control variable.
-            //This control variable is used to produce turning in the robot.
-            //When current value is close to required value is close to 0.
-    
-            control = PidControl(sensor,2.0);    
-            //Limit the control
-            if(control > 510)
-                control = 510;
-            if(control < -510)
-                control = -510;    
-            if(control < 0.0)//the left sensor sees the line so we must turn right
-            {
-               if(control > 255)
-                  PosEncoderVelocity(255, control-255);
-               else
-                  PosEncoderVelocity(255, 255-control);    
-            }
-            if(control >= 0.0)//the right sensor sees the line so we must turn left
-            {
-               if(control < -255)
-                  PosEncoderVelocity(-(control + 255), 255);
-               else
-                  PosEncoderVelocity(255 + control, 255);    
-            }    
-            //Delay     
-            _delay_ms(10);    
-            prev_sensor = sensor;
+        if (IsBlack(CENTER)) {
+            PosEncoderVelocity(high_velocity, high_velocity);
         }
+        if (IsBlack(LEFT) || last_left) {
+            PosEncoderVelocity(low_velocity, high_velocity);
+        }
+        else if (IsBlack(RIGHT) || last_right) {
+            PosEncoderVelocity(high_velocity, low_velocity);
+        }
+        else if (
+            (IsBlack(LEFT) && IsBlack(RIGHT)) ||
+            (last_left && last_right)
+        ) {
+            PosEncoderVelocity(high_velocity, high_velocity);
+        }
+        last_left = IsBlack(LEFT);
+        last_right = IsBlack(RIGHT);
+
     }
     PosEncoderStop();
 }
 
 void MoveBotForward(int distance) {
     PosEncoderForward();
-    // LcdPrintf("Passing %d", distance);
-    _delay_ms(1000);
     MoveBot(distance);
 }
 
@@ -173,4 +144,3 @@ void MoveBotReverse(int distance) {
     PosEncoderBack();
     MoveBot(distance);
 }
-*/
