@@ -95,6 +95,7 @@ PathStack* Dijkstra(Node *source_node, Node *target_node, float cur_deg, Graph *
     final_path = malloc(sizeof(PathStack));
     final_path->top = 0;
     if (source_node == target_node) {
+        final_path->total_cost = 0;
         return final_path;
     }
     final_path->path = malloc(our_graph->num_nodes * sizeof(Node*));
@@ -127,13 +128,17 @@ PathStack* Dijkstra(Node *source_node, Node *target_node, float cur_deg, Graph *
         for (i = 0; i < current_node->counter; i++) {
             counter_node = current_node->connected[i]->ptr;
             accum_cost = current_node->path_cost;
+            // printf("accum: %d", (int)accum_cost);
 
             if (counter_node->done != TRUE) {
                 temp_deg = current_node->enter_deg;
                 // the angle between the current node & the counter node
                 // atan2 always returns in the range of -pi to pi, so we convert it to degrees
                 rot_deg = RadToDeg(atan2(counter_node->y - current_node->y, counter_node->x - current_node->x));
-                rotation_cost = GetRotationCost(temp_deg - rot_deg);
+                // printf("Temp deg %d", (int) temp_deg);
+                // printf("Rot deg %d", (int) rot_deg);
+                rotation_cost = GetRotationCost((float) (temp_deg - rot_deg));
+                // printf("Rot cost %d", (int) rotation_cost);
                 // If we're considering the cost of going through a curve (i.e. we're at A and considering B
                 // as the counter_node), we should not be considering any rot_cost, since no rotation is 
                 // required before movement
@@ -151,6 +156,7 @@ PathStack* Dijkstra(Node *source_node, Node *target_node, float cur_deg, Graph *
                 // printf("Pos: %f,%f\ntemp_deg: %f\n%s: %f\n\n\n", counter_node->x, counter_node->y, temp_deg, counter_node->name, MakePositiveDeg(rot_deg));
                 if (temp_cost < counter_node->path_cost) {
                     // printf("Updated: %s, %f, %f\n", counter_node->name, temp_cost, rotation_cost);
+                    // printf("New temp: %d", (int)temp_cost);
                     counter_node->path_cost = temp_cost;
                     // Save the angle we came into the node at
                     counter_node->enter_deg = MakePositiveDeg(rot_deg);
@@ -186,6 +192,6 @@ PathStack* Dijkstra(Node *source_node, Node *target_node, float cur_deg, Graph *
         final_path->top++;
     }
     while (counter_node != source_node);
-    // printf("%d", final_path->top);
+    // printf("Cost: %d", (int) final_path->total_cost);
     return final_path;
 }

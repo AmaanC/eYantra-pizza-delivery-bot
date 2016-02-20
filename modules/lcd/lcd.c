@@ -106,6 +106,9 @@ void LcdSet4Bit() {
 
 //Function to Initialize LCD
 void LcdInit() {
+	LcdInitDevices();
+    LcdSet4Bit();
+    
 	_delay_ms(1);
 
 	LcdWrCommand(0x28);			//LCD 4-bit mode and 2 lines.
@@ -113,7 +116,7 @@ void LcdInit() {
 	LcdWrCommand(0x06);
 	LcdWrCommand(0x0E);
 	LcdWrCommand(0x80);
-		
+
 }
 
 	 

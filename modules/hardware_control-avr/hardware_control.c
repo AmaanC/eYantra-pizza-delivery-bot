@@ -55,10 +55,10 @@ void CurveTowards(Node *source_node, Node *target_node) {
     }
     //// printf("\tCurve %s to %s: %d, %d\n", source_node->name, target_node->name, left_motor, right_motor);
     // Start the motors on the path for the curve
-    // pos_encoder_velocity(left_motor, right_motor);
+    PosEncoderVelocity(left_motor, right_motor);
     // Let them keep going until one of the motors has spun enough
-    // pos_encoder_forward();
-    // pos_encoder_angle_rotate(abs(angle * 180 / M_PI));
+    PosEncoderForward();
+    PosEncoderLinearDistanceMm(513);
 }
 
 void MoveBotToNode(Node *target_node) {
@@ -80,7 +80,7 @@ void MoveBotToNode(Node *target_node) {
     }
     //// lcd_printf("Cost: %d", (int) final_path->total_cost);
     // _delay_ms(500);
-    LcdPrintf("\nTotal cost: %d %d\n", (int) final_path->total_cost, (int) bot_info->cur_position->cur_deg);
+    // LcdPrintf("\nTotal cost: %d %d\n", (int) final_path->total_cost, (int) bot_info->cur_position->cur_deg);
     // usleep(final_path->total_cost * 1000 * 100);
 
     // Now that we know the path to take, here's how we actually get there
@@ -116,6 +116,7 @@ void MoveBotToNode(Node *target_node) {
             // LcdPrintf("Stupid: %d %d", (int)next_node->enter_deg, (int)bot_info->cur_position->cur_deg);
             // _delay_ms(500);
             // pos_encoder_rotate_bot((next_node->enter_deg - bot_info->cur_position->cur_deg));
+            LcdPrintf("Rotating: %d", (int) (next_node->enter_deg - bot_info->cur_position->cur_deg));
             RotateBot((int) (next_node->enter_deg - bot_info->cur_position->cur_deg));
             bot_info->cur_position->cur_deg = next_node->enter_deg;
             // pos_encoder_forward_mm(10 * sqrt(xDist * xDist + yDist * yDist));

@@ -166,9 +166,9 @@ void MoveBot(int distance_in_mm) {
 
     while(1)
     {
-        LcdPrintf("Right %d %d", (int) GetShaftCountRight(), (int) distance_in_mm);
+        // LcdPrintf("Right %d %d", (int) GetShaftCountRight(), (int) distance_in_mm);
         if((GetShaftCountRight() > reqd_shaft_counter_int) | (GetShaftCountLeft() > reqd_shaft_counter_int)) {
-            LcdPrintf("Break!");
+            // LcdPrintf("Break!");
             break;
         }
 
@@ -224,7 +224,7 @@ void MoveBot(int distance_in_mm) {
 
 void MoveBotForward(int distance) {
     PosEncoderForward();
-    LcdPrintf("Passing %d", distance);
+    // LcdPrintf("Passing %d", distance);
     _delay_ms(1000);
     MoveBot(distance);
 }

@@ -27,6 +27,9 @@ int main() {
     LcdPrintf("Before %s", GetNodeByName("r3")->name);
 
     MoveBotToNode(GetNodeByName("r3"));
+    MoveBotToNode(GetNodeByName("S"));
+    MoveBotToNode(GetNodeByName("r12"));
+    MoveBotToNode(GetNodeByName("S"));
 
     LcdPrintf("After");
     return 0;

@@ -1,3 +1,7 @@
+#include <avr/io.h>
+#include <avr/interrupt.h>
+#include <util/delay.h>
+
 #include <stdint.h>
 
 #include <stdio.h>
@@ -11,14 +15,18 @@
 #include "../hardware_control/hardware_control.h"
 
 int main() {
-    OrderList *timeline, *available;
-    Order *order;
-    int i;
+    // OrderList *timeline, *available;
+    // Order *order;
+    // int i;
 
     // sharp_init_devices();
     InitTimer();
     InitBotInfo();
     InitGraph();
+    LcdInitDevices();
+    LcdSet4Bit();
+    LcdInit();
+    MoveBotInitDevices();
     InitTimeline();
     // PizzaList *our_pizzas = GetPizzas();
     // for (i = 0; i < our_pizzas->len; i++) {
@@ -73,6 +81,8 @@ int main() {
     // for (i = 0; i < available->len; i++) {
     //     Display(available->orders[i]);
     // }
+    printf("Hello world");
+    _delay_ms(1000);
     TimelineControl();
     return 0;
 }

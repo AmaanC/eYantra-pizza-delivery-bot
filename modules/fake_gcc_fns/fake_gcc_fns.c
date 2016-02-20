@@ -18,7 +18,7 @@ void printf(const char *fmt, ...) {
     va_end(argp);
 
     LcdString(str);
-    _delay_ms(500);
+    _delay_ms(1000);
 }
 
 void sleep(int ms) {

@@ -246,6 +246,7 @@ void InitGraph() {
 }
 
 Node *GetCurrentNode() {
+    printf("Current node");
     return bot_info->cur_position->cur_node;
 }
 
@@ -330,6 +331,7 @@ Graph *GetGraph() {
 // Time taken for the bot to turn X deg. Needs to factor into Dijkstra's
 float GetRotationCost(float deg) {
     // TODO: Use actual measured value
+    // printf("Cost of %d", (int) (0.1 * fabs(deg)));
     return 0.1 * fabs(deg);
 }
 
