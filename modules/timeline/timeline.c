@@ -390,8 +390,6 @@ DeliverySequence *ConsiderCancel(Order *order1, Order *order2) {
     DeliverySequence *best_seq;
     best_seq = malloc(sizeof(DeliverySequence));
     best_seq->should_cancel = FALSE;
-    best_seq->guess1 = FALSE;
-    best_seq->guess2 = FALSE;
 
     // Number of regular orders delayed if deliver the current order vs. if we cancel it
     int num_delayed_if_deliver = 0;
@@ -1048,9 +1046,6 @@ void DeliverPizzas(DeliverySequence *cur_sequence) {
     //     }
     // }
     printf("Delivering\n");
-    if (cur_sequence->guess1 == TRUE) {
-        // FindSpecificPizza(cur_sequence->order1);
-    }
     if (cur_sequence->pick1 != NULL) {
         MoveBotToNode(cur_sequence->pick1);
         delivered_pizza = GetPizzaAtNode(cur_sequence->pick1);
