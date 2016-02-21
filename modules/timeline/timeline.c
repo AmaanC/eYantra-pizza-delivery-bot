@@ -249,77 +249,6 @@ void MissingOrderBeep() {
     printf("Order missing!\n");
 }
 
-// Find the time block where we'll definitely need 2 arms
-// Note that this function *does not* set the end time of the block time
-// Since our algorithm doesn't look ahead into the future for delivery permutations
-// we leave it to the arm lower function to set the end time
-void FindNextDefiniteNeed(OrderList *timeline) {
-    int i, j;
-    Order *order1, *order2;
-    float start_time = INFINITY; // The potential start time of the next_required_period
-    float lowest_start_time = INFINITY; // The lowest required period we've found so far
-    TimeBlock *next_potential; // Potentially the next_required_period
-
-    // If there's a required_period going on right now, there's no point to checking for the next one
-    // until this one ends
-    if (CheckOverlap(GetCurrentTimeBlock(), next_required_period)) {
-        return;
-    }
-
-    next_potential = malloc(sizeof(TimeBlock));
-    next_potential->start = INFINITY;
-    next_potential->end = INFINITY;
-
-    // We'll look at every combination of the orders we've got and see if any of them have an overlapping period
-    // and are going to the same house.
-    // This is the only situation we see where we *definitely* need to use our 2 arms
-    // If the orders go to different houses, we might spend more time and might get delayed for
-    // our other orders, so this isn't a *definite* thing, it's something to consider, which
-    // will be done by our algorithm in its "free time" state.
-    // Note, though, that we can only consider finding our next definite need if our current one
-    // is over
-    // This function needs to find the *next* required period, not *a* required period.
-    // So we need the one with the timeframe being as soon as possible compared to right now.
-    for (i = 0; i < timeline->len; i++) {
-        for (j = 0; j < timeline->len; j++) {
-            if (i == j) {
-                continue;
-            }
-            order1 = timeline->orders[i];
-            order2 = timeline->orders[j];
-
-            // The start time is set to when we pick up the order from second block,
-            // since that's when we start using 2 arms
-            // The end time will be changed dynamically as soon as we deliver the order,
-            // since that's when we stop using 2 arms
-            if (order1->delivery_period->start > order2->delivery_period->start) {
-                start_time = order1->delivery_period->start;
-            }
-            else {
-                start_time = order2->delivery_period->start;
-            }
-
-            // If it's the lowest one we've found
-            // and going to the same house
-            // and their timings overlap
-            if (
-                start_time < lowest_start_time &&
-                order1->delivery_house == order2->delivery_house &&
-                CheckOverlap(order1->delivery_period, order2->delivery_period) == TRUE
-            ) {
-                lowest_start_time = start_time;
-                next_potential->start = start_time;
-// //////                printf("Overlap between %s, %f and %f\n", order1->delivery_house->name, order1->delivery_period->start, order2->delivery_period->start);
-            }
-            
-        }
-    }
-// //////    printf("Next period: %f to %f\n", next_potential->start, next_potential->end);
-    // Out of all the required periods available, the one with the lowest time
-    // is set to next_potential, so we set that to the next_required_period
-    next_required_period = next_potential;
-}
-
 // Gets the number of orders that will be delayed if we start at source_node
 // and start_time for order_num
 // This is used to check if canceling an order will be beneficial
@@ -1063,8 +992,6 @@ int FindPizzas() {
         DetectPizza();
         return TRUE;
     }
-    free(path_to_left_pizza->path);
-    free(path_to_right_pizza->path);
 }
 
 TimeBlock *GetTimeReqForOrders(Order *order1, Order *order2) {
@@ -1290,6 +1217,8 @@ void DeliverPizzas(DeliverySequence *cur_sequence) {
 
     next_extra_order = NULL;
     SetState('f');
+    free(cur_sequence->order_combo);
+    free(cur_sequence->pizza_combo);
 }
 
 void NormalOperation() {
