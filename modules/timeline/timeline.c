@@ -146,6 +146,7 @@ Pizza *CreatePizza(char colour, char size) {
     if (pizza->location == NULL) {
         pizza->location = GetFirstPToLeft(FALSE);
     }
+    // printf("Created pizza %c %c\n", colour, size);
 
     // Insert into our array of pizzas
     InsertPizza(our_pizzas, pizza);
@@ -391,15 +392,22 @@ DeliverySequence *ConsiderCancel(Order *order1, Order *order2) {
     int b = 0;
     const int num_combos = 2;
     // An array of order pointers
-    Order *order_combo[] = {order1, order2};
+    Order **order_combo;
+    Pizza **pizza_combo;
     Order *single_order;
-    Pizza *pizza_combo[2];
     Pizza *single_pizza;
+    Node *second_delivery_loc;
+    order_combo = malloc(2 * sizeof(Order *));
+    order_combo[0] = order1;
+    order_combo[1] = order2;
+    pizza_combo = malloc(2 * sizeof(Pizza *));
 
     BotInfo *bot_info = GetBotInfo();
     Graph *our_graph = GetGraph();
     DeliverySequence *best_seq;
     best_seq = malloc(sizeof(DeliverySequence));
+    best_seq->order_combo = order_combo;
+    best_seq->pizza_combo = pizza_combo;
     best_seq->should_cancel = FALSE;
 
     // Number of regular orders delayed if deliver the current order vs. if we cancel it
@@ -435,9 +443,17 @@ DeliverySequence *ConsiderCancel(Order *order1, Order *order2) {
         // Plus cost of delivering pizza
         temp_cost = cost_to_pick1 + Dijkstra(single_pizza->location, single_order->delivery_house, single_pizza->location->enter_deg, our_graph)->total_cost;
 
-        best_seq->order1 = single_order;
-        best_seq->pick1 = single_pizza->location;
-        best_seq->deliver1 = single_order->delivery_house;
+        best_seq->order_combo[0] = single_order;
+        best_seq->pizza_combo[0] = single_pizza;
+        best_seq->order_combo[1] = NULL;
+        best_seq->pizza_combo[1] = NULL;
+        
+        best_seq->pick1 = 0;
+        best_seq->deliver1 = 0;
+        best_seq->pick2 = 1;
+        best_seq->deliver2 = 1;
+        // best_seq->pick1 = single_pizza->location;
+        // best_seq->deliver1 = single_order->delivery_house;
         best_seq->total_cost = temp_cost;
 
         // printf("House null: %d\n", single_order->delivery_house == NULL);
@@ -516,34 +532,43 @@ DeliverySequence *ConsiderCancel(Order *order1, Order *order2) {
 
                             // To deliver a
                             cost_to_deliver1 = Dijkstra(pizza_combo[j]->location, order_combo[a]->delivery_house, pizza_combo[j]->location->enter_deg, our_graph)->total_cost;
-                            temp_cost += cost_to_deliver1;
+
                             // If the time taken to deliver the first one allows us to deliver it
                             // before its delivery period starts, we don't want this one.
-                            if (GetCurrentTime() + temp_cost < order_combo[a]->delivery_period->start) {
-                                // printf("Break 1: %f %f\n", temp_cost, order_combo[a]->delivery_period->start);
-                                break;
+                            if (GetCurrentTime() + temp_cost + cost_to_deliver1 < order_combo[a]->delivery_period->start) {
+                                cost_to_deliver1 = order_combo[a]->delivery_period->start - GetCurrentTime() - temp_cost;
+                                // printf("Cd1 %f\n", cost_to_deliver1);
+                                // break;
                             }
+                            temp_cost += cost_to_deliver1;
+
                             // To deliver b
                             cost_to_deliver2 = Dijkstra(order_combo[a]->delivery_house, order_combo[b]->delivery_house, order_combo[a]->delivery_house->enter_deg, our_graph)->total_cost;
-                            temp_cost += cost_to_deliver2;
 
-                            if (GetCurrentTime() + temp_cost < order_combo[b]->delivery_period->start) {
-                                // printf("Break 2: %f %f\n", temp_cost, order_combo[b]->delivery_period->start);
-                                break;
+                            if (GetCurrentTime() + temp_cost + cost_to_deliver2 < order_combo[b]->delivery_period->start) {
+                                cost_to_deliver2 = order_combo[b]->delivery_period->start - GetCurrentTime() - temp_cost;
+                                // printf("Cd2 %f\n", cost_to_deliver2);
+                                // break;
                             }
+                            temp_cost += cost_to_deliver2;
 
                             if (temp_cost < lowest_cost) {
                                 best_seq->should_cancel = FALSE;
                                 lowest_cost = temp_cost;
                                 
-                                // Order 1 is the one we *pick* first
-                                best_seq->order1 = order_combo[i];
-                                best_seq->order2 = order_combo[j];
+                                best_seq->pick1 = i;
+                                best_seq->pick2 = j;
+                                best_seq->deliver1 = a;
+                                best_seq->deliver2 = b;
 
-                                best_seq->pick1 = pizza_combo[i]->location;
-                                best_seq->pick2 = pizza_combo[j]->location;
-                                best_seq->deliver1 = order_combo[a]->delivery_house;
-                                best_seq->deliver2 = order_combo[b]->delivery_house;
+                                // Order 1 is the one we *pick* first
+                                // best_seq->order1 = order_combo[i];
+                                // best_seq->order2 = order_combo[j];
+
+                                // best_seq->pick1 = pizza_combo[i]->location;
+                                // best_seq->pick2 = pizza_combo[j]->location;
+                                // best_seq->deliver1 = order_combo[a]->delivery_house;
+                                // best_seq->deliver2 = order_combo[b]->delivery_house;
                             }
                             // And we go down the ugly slide now!
                         } // /
@@ -571,8 +596,10 @@ DeliverySequence *ConsiderCancel(Order *order1, Order *order2) {
     // the delivery period.
     // Let's check if the combo delays our future orders
     best_seq->total_cost = lowest_cost;
-    num_delayed_if_cancel = GetNumDelayed(best_seq->deliver2, GetCurrentTime() + lowest_cost, 1);
-    num_delayed_if_deliver = GetNumDelayed(GetCurrentNode(), GetCurrentTime(), 1);
+    second_delivery_loc = best_seq->order_combo[best_seq->deliver2]->delivery_house;
+    num_delayed_if_deliver = GetNumDelayed(second_delivery_loc, GetCurrentTime() + lowest_cost, 1);
+    num_delayed_if_cancel = GetNumDelayed(GetCurrentNode(), GetCurrentTime(), 1);
+    printf("Num del: %d %d\n", num_delayed_if_cancel, num_delayed_if_deliver);
     if (num_delayed_if_cancel < num_delayed_if_deliver) {
         best_seq->should_cancel = TRUE;
     }
@@ -705,6 +732,7 @@ PizzaList *GetAvailablePizzas() {
         // Available pizzas is a consideration for extra pizzas, not regular ones, so we skip
         // over the one that's already on our list anyway
         if (current_pizza == next_pizza) {
+            printf("Skipped same\n");
             continue;
         }
         // If the current order has been found and it can be picked up within the time it takes us
@@ -770,6 +798,8 @@ void DetectPizza() {
     // decide if we want to pick it up or not
 
     // TODO: Consider bad readings and rechecking?
+    // usleep(100 * 1000);
+    sleep(1);
     printf("Detected: %c and %c\n", colour, block_size);
     bot_info = GetBotInfo();
     total_pizzas++;
@@ -935,6 +965,7 @@ int FindPizzas() {
     // even though we don't need to.
     if (num_delayed_if_skip_find < num_delayed_if_find) {
         // TODO: Consider canceling current reg
+        printf("Skipping find\n");
         SetState('b');
         return FALSE;
     }
@@ -984,9 +1015,14 @@ void FreeTimeDecision() {
     Pizza *current_pizza, *next_pizza;
     int i = 0;
     // Get pizzas that I can pick up by the time I can get to them
-    available_pizzas = GetAvailablePizzas();
     next_order = GetNextOrder(our_timeline, 0);
     next_pizza = GetPizzaForOrder(next_order);
+    if (next_pizza->found == FALSE) {
+        printf("Next not found, going to normal\n");
+        SetState('b');
+        return;
+    }
+    available_pizzas = GetAvailablePizzas();
     // Every OrderList is sorted by due time already, so the first one we find that
     // ConsiderCancel thinks won't delay orders is the one we consider delivering
     for (i = 0; i < available_pizzas->len; i++) {
@@ -1014,7 +1050,7 @@ void FreeTimeDecision() {
         current_order = GetOrderForPizza(current_pizza);
 
         printf("Free time, considering combos\n");
-        // Display(current_order);
+        Display(current_order);
         // printf("Debug %d: %d %d", next_extra_order == NULL, current_pizza == NULL, ConsiderCancel(next_order, current_order)->should_cancel);
         if (current_pizza != NULL) {
             // printf(" %d", current_pizza->location == NULL);
@@ -1052,6 +1088,8 @@ void DeliverPizzas(DeliverySequence *cur_sequence) {
     // GetBotInfo()->cur_position->cur_node = cur_sequence->deliver2 == NULL ? cur_sequence->deliver1 : cur_sequence->deliver2;
     int i = 0;
     Pizza *delivered_pizza;
+    Order *current_order;
+    Node *cur_node;
 
     // Node *locations[] = {cur_sequence->pick1, cur_sequence->pick2, cur_sequence->deliver1, cur_sequence->deliver2};
     // // printf("Starting delivery\n");
@@ -1067,56 +1105,93 @@ void DeliverPizzas(DeliverySequence *cur_sequence) {
     //     }
     // }
     printf("Delivering\n");
-    if (cur_sequence->pick1 != NULL) {
-        MoveBotToNode(cur_sequence->pick1);
-        delivered_pizza = GetPizzaAtNode(cur_sequence->pick1);
+
+    int pick1 = cur_sequence->pick1;
+    int pick2 = cur_sequence->pick2;
+    int deliver1 = cur_sequence->deliver1;
+    int deliver2 = cur_sequence->deliver2;
+
+    delivered_pizza = cur_sequence->pizza_combo[pick1];
+    cur_node = delivered_pizza->location;
+    if (cur_node != NULL) {
+        printf("Picking 1\n");
+        MoveBotToNode(cur_node);
         delivered_pizza->state = 'd';
-        delivered_pizza->location = NULL;
+        // delivered_pizza->location = NULL;
+        // TODO!!!!!! SET THE DEPOSITION ZONE LOCATION HERE
+        delivered_pizza->dep_loc = NULL;
         // printf("\t\tP-loc null: %c %c\n\n", delivered_pizza->colour, delivered_pizza->size);
-        if (cur_sequence->order1->pickup_time > GetCurrentTime()) {
+        if (cur_sequence->order_combo[pick1]->pickup_time > GetCurrentTime()) {
             // TODO: Consider this as free time if possible?
             
-            printf("Reached early. Waiting %d %d %d\n", cur_sequence->order1->pickup_time - GetCurrentTime(), cur_sequence->order1->pickup_time, GetCurrentTime());
-            sleep((cur_sequence->order1->pickup_time - GetCurrentTime()));
+            printf("Reached early. Waiting %d %d %d\n", cur_sequence->order_combo[pick1]->pickup_time - GetCurrentTime(), cur_sequence->order_combo[pick1]->pickup_time, GetCurrentTime());
+            // usleep((cur_sequence->order_combo[pick1]->pickup_time - GetCurrentTime()) * 100 * 1000);
+            sleep((cur_sequence->order_combo[pick1]->pickup_time - GetCurrentTime()));
         }
         // PickPizza();
     }
 
-    if (cur_sequence->pick2 != NULL) {
-        MoveBotToNode(cur_sequence->pick2);
-        delivered_pizza = GetPizzaAtNode(cur_sequence->pick2);
+    cur_node = NULL;
+    delivered_pizza = cur_sequence->pizza_combo[pick2];
+    if (delivered_pizza) {
+        cur_node = delivered_pizza->location;
+    }
+    if (cur_node != NULL) {
+        printf("Picking 2\n");
+        MoveBotToNode(cur_node);
         delivered_pizza->state = 'd';
-        delivered_pizza->location = NULL;
+        // delivered_pizza->location = NULL;
+        // TODO!!!!!! SET THE DEPOSITION ZONE LOCATION HERE
+        delivered_pizza->dep_loc = NULL;
         // printf("\t\tP-loc null: %c %c\n\n", delivered_pizza->colour, delivered_pizza->size);
-        if (cur_sequence->order2->pickup_time > GetCurrentTime()) {
+        if (cur_sequence->order_combo[pick2]->pickup_time > GetCurrentTime()) {
             // TODO: Consider this as free time if possible?
             
-            printf("Reached early. Waiting %d %d %d\n", cur_sequence->order2->pickup_time - GetCurrentTime(), cur_sequence->order2->pickup_time, GetCurrentTime());
-            sleep((cur_sequence->order2->pickup_time - GetCurrentTime()));
+            printf("Reached early. Waiting %d %d %d\n", cur_sequence->order_combo[pick2]->pickup_time - GetCurrentTime(), cur_sequence->order_combo[pick2]->pickup_time, GetCurrentTime());
+            // usleep((cur_sequence->order_combo[pick2]->pickup_time - GetCurrentTime()) * 100 * 1000);
+            sleep((cur_sequence->order_combo[pick2]->pickup_time - GetCurrentTime()));
         }
         // PickPizza();
     }
 
-    if (cur_sequence->deliver1 != NULL) {
-        MoveBotToNode(cur_sequence->deliver1);
+    current_order = cur_sequence->order_combo[deliver1];
+    cur_node = current_order->delivery_house;
+    if (cur_node != NULL) {
+        MoveBotToNode(cur_node);
+        if (GetCurrentTime() < current_order->delivery_period->start) {
+            printf("Early delivery. Waiting %f\n", (current_order->delivery_period->start - GetCurrentTime()));
+            // usleep((current_order->delivery_period->start - GetCurrentTime()) * 100 * 1000);
+            sleep((current_order->delivery_period->start - GetCurrentTime()));
+        }
+        printf(" by %d\n", GetCurrentTime());
+        orders_completed++;
+        current_order->state = 'd';
         // DropPizza();
     }
 
-    if (cur_sequence->deliver2 != NULL) {
-        MoveBotToNode(cur_sequence->deliver2);
+    cur_node = NULL;
+    current_order = cur_sequence->order_combo[deliver2];
+    if (current_order) {
+        cur_node = current_order->delivery_house;
+    }
+    if (cur_node != NULL) {
+        MoveBotToNode(cur_node);
+        if (GetCurrentTime() < current_order->delivery_period->start) {
+            printf("Early delivery. Waiting %f\n", (current_order->delivery_period->start - GetCurrentTime()));
+            // usleep((current_order->delivery_period->start - GetCurrentTime()) * 100 * 1000);
+            sleep((current_order->delivery_period->start - GetCurrentTime()));
+        }
+        printf(" by %d\n", GetCurrentTime());
+        orders_completed++;
+        current_order->state = 'd';
         // DropPizza();
     }
-
     printf("*** Delivered pizzas! ");
-    if (cur_sequence->order1 != NULL) {
-        printf("%s at %d, ", cur_sequence->order1->delivery_house->name, cur_sequence->order1->order_time);
-        orders_completed++;
-        cur_sequence->order1->state = 'd';
+    if (cur_sequence->order_combo[deliver1] != NULL) {
+        printf("%s, %d\n", cur_sequence->order_combo[deliver1]->delivery_house->name, cur_sequence->order_combo[deliver1]->order_time);
     }
-    if (cur_sequence->order2 != NULL) {
-        printf("%s at %d, ", cur_sequence->order2->delivery_house->name, cur_sequence->order2->order_time);
-        orders_completed++;
-        cur_sequence->order2->state = 'd';
+    if (cur_sequence->order_combo[deliver2] != NULL) {
+        printf("%s, %d ", cur_sequence->order_combo[deliver2]->delivery_house->name, cur_sequence->order_combo[deliver2]->order_time);
     }
     printf("\n");
 
@@ -1147,7 +1222,7 @@ void NormalOperation() {
     DeliverySequence *cur_sequence;
     Order *next_reg_order;
     Pizza *next_reg_pizza;
-    int no_time_to_find = FALSE;
+    int time_to_find = TRUE;
 
     next_reg_order = GetNextOrder(our_timeline, 0);
     // If we've delivered all the regular orders already, we can consider the canceled pizzas
@@ -1175,21 +1250,27 @@ void NormalOperation() {
             MissingOrderBeep();
             next_reg_pizza->state = 'd';
             next_reg_order->state = 'd';
+            orders_completed++;
             SetState('f');
             return;
         }
         // If the location of our regular order is unknown, then we want to find it
         // But we want to cancel it if finding it will delay our future orders
-        no_time_to_find = FindPizzas();
-        if (no_time_to_find) {
+        time_to_find = FindPizzas();
+        if (time_to_find == FALSE) {
             // Finding the current pizza seems like it'll delay us,
             // so lets skip this order
+            printf("Canceling order to (404 pizza) %s at %d %c\n", next_reg_order->delivery_house->name, next_reg_order->order_time, next_reg_order->order_type);
             next_reg_order->state = 'c';
             // Now that we've canceled it, maybe we have extra time to find pizzas or pick up
             // extra pizzas, so we consider it free time
             SetState('f');
             return;
         }
+    }
+    if (next_reg_pizza->found == FALSE) {
+        // If we still haven't found it, we can't consider delivering it
+        return;
     }
     // next_extra_order might be NULL, but that's okay, because ConsiderCancel
     // can deal with it.

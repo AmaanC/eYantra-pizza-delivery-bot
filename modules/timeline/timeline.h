@@ -32,6 +32,7 @@ typedef struct _Pizza {
     int found;
     // Location of the pizza. If the found flag is 0, the location is just a guess
     Node *location;
+    Node *dep_loc;
 } Pizza;
 
 typedef struct _PizzaList {
@@ -74,37 +75,50 @@ typedef struct _OrderList {
 
 typedef struct _DeliverySequence {
     // When there are 2 orders, this structure allows us to figure out what the sequence of actions should be
-    Node *pick1;
-    Node *pick2;
-    Node *deliver1;
-    Node *deliver2;
-    Order *order1;
-    Order *order2;
+    int pick1; // If it's 1, we pick order 1 first, if it's 2 we pick order2 first
+    int pick2; // TODO
+    int deliver1;
+    int deliver2;
+    Order **order_combo;
+    Pizza **pizza_combo;
     // 0 or 1 indicating whether this delivery sequence is one that shouldn't be used
     int should_cancel;
     float total_cost;
 } DeliverySequence;
 
-void CreateOrder(OrderList *timeline, char colour, char size, int order_time, char order_type, char *delivery_house_name);
-OrderList *GetTimeline();
-void FindNextDefiniteNeed(OrderList *timeline);
-void Display(Order *current_order);
-Order *GetNextOrder(OrderList *timeline, int pos);
-PizzaList *GetAvailablePizzas();
-TimeBlock *GetCurrentTimeBlock();
-Pizza *GetPizzaForOrder(Order *order);
-float EstimateNextCost(Node *source_node, int pos);
-DeliverySequence *ConsiderCancel(Order *order1, Order *order2);
-PizzaList *GetPizzas();
-Node *GetPizzaCounter();
-Node *GetFurthestPizzaNode(Node *source_node);
 Node *GetNodeToRight(Node *source_node);
 Node *GetNodeToLeft(Node *source_node);
-
 Node *GetFirstPToRight(int real_pizza);
 Node *GetFirstPToLeft(int real_pizza);
-
+Node *GetFurthestPizzaNode(Node *source_node);
+int CheckOverlap(TimeBlock *a, TimeBlock *b;
+TimeBlock *GetCurrentTimeBlock();
+char GetState();
+void SetState(char new_state);
+Node *GetPizzaCounter();
+void InsertOrder(OrderList *timeline, Order *new_order);
+void InsertPizza(PizzaList *pizza_list, Pizza *new_pizza);
+Pizza *CreatePizza(char colour, char size);
+void InitTimeline();
+OrderList *GetTimeline();
+PizzaList *GetPizzas();
+void MissingOrderBeep();
+void FindNextDefiniteNeed(OrderList *timeline);
 int GetNumDelayed(Node *source_node, int start_time, int order_num);
+DeliverySequence *ConsiderCancel(Order *order1, Order *order2);
+Order *GetNextOrder(OrderList *timeline, int pos);
+Pizza *GetPizzaForOrder(Order *order);
+Order *GetOrderForPizza(Pizza *pizza);
+Pizza *GetPizzaAtNode(Node *node);
+PizzaList *GetAvailablePizzas();
+void DetectPizza();
 int IsPizzaAt(Node *test_node, int real_pizza);
+int FindPizzas();
+TimeBlock *GetTimeReqForOrders(Order *order1, Order *order2);
+void FreeTimeDecision();
+void DeliverPizzas(DeliverySequence *cur_sequence);
+void NormalOperation();
+void TimelineControl();
+void Display(Order *current_order);
 
 #endif

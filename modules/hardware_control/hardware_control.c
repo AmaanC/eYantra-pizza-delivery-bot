@@ -70,7 +70,7 @@ void MoveBotToNode(Node *target_node) {
     BotInfo *bot_info = GetBotInfo();
     CurveInfo *curve_info = GetCurveInfo();
     Graph *our_graph = GetGraph();
-
+    // printf("Moving\n");
     final_path = Dijkstra(GetCurrentNode(), target_node, bot_info->cur_position->cur_deg, our_graph);
     for (i = final_path->top - 1; i >= 0; i--) {
         // lcd_printf("%s", final_path->path[i]->name);
@@ -81,6 +81,7 @@ void MoveBotToNode(Node *target_node) {
     // _delay_ms(500);
 
     printf("\nTotal cost: %f\n", final_path->total_cost);
+    // usleep(final_path->total_cost * 100 * 1000);
     sleep(final_path->total_cost);
     // CustomDelay(final_path->total_cost);
 
