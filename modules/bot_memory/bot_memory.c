@@ -22,7 +22,6 @@ void InitBotInfo() {
     our_bot->arm2->gripper_servo = 1;
     our_bot->arm1->lever_servo = 0;
     our_bot->arm2->lever_servo = 1;
-
 }
 
 BotInfo *GetBotInfo() {

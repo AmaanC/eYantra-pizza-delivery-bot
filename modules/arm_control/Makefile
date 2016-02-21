@@ -6,7 +6,7 @@ CFLAGS=-g -DF_CPU=14745600 -mmcu=atmega2560
 
 # Modify these 2 for each project as needed
 FILENAME=arm_control
-DEPS=app.o  ../servo/servo.o
+DEPS=app.o  ../servo/servo.o ../bot_info/bot_info.h ../map/map.h ../timeline/timeline.h ../
 
 #Info til AVRDUDE
 PROGRAMMER = avrdude

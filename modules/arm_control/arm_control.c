@@ -4,8 +4,8 @@
 #include "../servo/servo.h"
 //#include "../buzzer/buzzer.h"
 #include "arm_control.h"
-#include "../bot_info_memory/bot_info_memory.h"
-#include "../move_bot_info/move_bot_info.h"
+#include "../bot_memory/bot_memory.h"
+#include "../move_bot/move_bot.h"
 #include "../timeline/timeline.h"
 #include <string.h>
 #include "../map/map.h"
@@ -34,98 +34,81 @@ bot_info = GetBotInfo();
 // 1: the whole arm on the right including the gripper mechanism.
 // 2: the whole arm on the left including the gripper mechanism.
 
-void ArmDown(int arm_num) {
-    if(arm_num == 0) {
-        arm_position[0] = 1;
+void ArmDown(Arm *arm) {
+    if(arm == bot_info->arm1) {
         ServoControl(1, LEVER_1_DOWN); // Lever down
         _delay_ms(1000);
     }
 
     else {
-        arm_position[1] = 1;
         ServoControl(4, LEVER_2_DOWN); // Lever down
         _delay_ms(1000);
     }
 }
 
-void ArmUp(int arm_num) {
-    if(arm_num == 0) {
-        arm_position[0] = 0;
+void ArmUp(Arm *arm) {
+    if(arm == bot_info->arm1) {
         ServoControl(1, LEVER_1_UP); // Lever up
         _delay_ms(1000);
     }
 
     else {
-        arm_position[1] = 0;
         ServoControl(4, LEVER_2_UP); // Lever up
         _delay_ms(1000);
     }
 }
 
-void OpenGripper(int gripper_num) {
-    if(gripper_num == 0) {
-        gripper_position[0] = 0;
+void OpenGripper(Arm *arm) {
+    if(arm == bot_info->arm1) {
         ServoControl(2, GRIPPER_1_OPEN); // Gripper open
         _delay_ms(1000);
     }
     else {
-        gripper_position[1] = 0;
         ServoControl(3, GRIPPER_2_OPEN); // Gripper open
         _delay_ms(1000);
     }
 }
 
-void CloseGripper(int gripper_num) {
-    if(gripper_num == 0) {
-        gripper_position[0] = 1;
+void CloseGripper(Arm *arm) {
+    if(arm == bot_info->arm1) {
         ServoControl(2, GRIPPER_1_CLOSE); // Gripper close
         _delay_ms(3000);
     }
     else {
-        gripper_position[1] = 1;
         ServoControl(3, GRIPPER_2_CLOSE); // Gripper close
         _delay_ms(3000);
     }
 }
 
-int GetArmStatus(int pos) {
-    return arm_position[pos];
+void LiftPizza(Arm *arm) {
+    ArmDown(arm);
+    CloseGripper(arm);
+    ArmUp(arm);
 }
 
-int GetGripperStatus(int pos) {
-    return gripper_position[pos];
-}
-
-void LiftPizza(int arm_num) {
-    ArmDown(arm_num);
-    CloseGripper(arm_num);
-    ArmUp(arm_num);
-}
-
-void DropPizza(int arm_num) {
-    ArmDown(arm_num);
-    OpenGripper(arm_num);
-    ArmUp(arm_num);
+void DropPizza(Arm *arm) {
+    ArmDown(arm);
+    OpenGripper(arm);
+    ArmUp(arm);
 }
 
 //TODO: if pizza is already at H2DA, turn around and deposite it at H2DB
 void PickPizzaUp(Pizza *pizza) {
-    bot_info = GetBotInfo();
-    if(GetGripperStatus(arm1->gripper_servo)) {
+    if(bot_info->arm1->carrying == pizza) {
         RotateBot(180);
         _delay_ms(500);
-        LiftPizza(arm2->gripper_servo);
+        LiftPizza(bot_info->arm2);
         bot_info->arm2->carrying = pizza;
     }
     else {
-        LiftPizza(arm1->gripper_servo);
+        LiftPizza(bot_info->arm1);
         bot_info->arm1->carrying = pizza;
     }
 }
 
 Node *GetDepForHouse(Node *house) {
     if(house->name[0] == "H") {
-        if(IsPizzaAt(GetNodeByName(strcat(house->name,"DA"))){
+        if(IsPizzaAt(GetNodeByName(strcat(house->name,"DA"))) {
             if(IsPizzaAt(GetNodeByName(strcat(house->name,"DB"))) {
                 return NULL;
             }
@@ -142,7 +125,7 @@ Node *GetDepForHouse(Node *house) {
     }
 }
 
-void DepositPizza(Pizza *pizza) {
+/*void DepositPizza(Pizza *pizza) {
     Node *deposition_zone, *current_node;
     float deg_to_dep = 0;
     float current_arm_deg = 0;
@@ -166,6 +149,6 @@ void DepositPizza(Pizza *pizza) {
     // if(bot_info->arm2->carrying == pizza) {
     //     DropPizza(bot_info->arm2->lever_servo);
     // }
-}
+}*/
 
 
