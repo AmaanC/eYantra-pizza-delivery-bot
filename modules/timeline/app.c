@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include "timeline.h"
 #include "../map/map.h"
+#include "../bot_memory/bot_memory.h"
+#include "../timer-gcc/timer.h"
 
 int main() {
     OrderList *timeline, *available;

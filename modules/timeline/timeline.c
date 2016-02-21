@@ -580,7 +580,7 @@ DeliverySequence *ConsiderCancel(Order *order1, Order *order2) {
 
     // ☻/  Phew. Didn't think I'd survive that huge a slide. Please don't let the bad man
     // /▌  write such terrible code again. Kthx.
-    // /\                                         
+    // /|                                         
     // 
     // 
 

@@ -108,4 +108,5 @@ TimeBlock *GetCurrentTimeBlock() {
     // current->start = TimerGetTime();
     current->start = GetCurrentTime();
     current->end = current->start + 5;
+    return current;
 }
