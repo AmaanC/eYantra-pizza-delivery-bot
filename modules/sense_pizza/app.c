@@ -11,6 +11,8 @@ int main() {
     InitSenses();
     char pizza_color, pizza_size;
     while(1) {
+        LcdPrintf("Place Pizza!");
+        _delay_ms(1500);
         pizza_size = SharpGetBlockType();
         pizza_color = GetPizzaColor();
         LcdPrintf("color:%c, size:%c", pizza_color, pizza_size);
