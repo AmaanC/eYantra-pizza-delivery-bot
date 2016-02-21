@@ -6,9 +6,9 @@
 #include "../timer-gcc/timer.h"
 
 int main() {
-    OrderList *timeline, *available;
-    Order *order;
-    int i;
+    // OrderList *timeline, *available;
+    // Order *order;
+    // int i;
 
     // sharp_init_devices();
     InitTimer();

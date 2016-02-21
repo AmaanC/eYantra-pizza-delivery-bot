@@ -66,6 +66,7 @@ Node *GetFurthestPizzaNode(Node *source_node) {
     Graph *our_graph = GetGraph();
     float cost = INFINITY;
     float max_cost = 0;
+    furthest_node = NULL;
     
     left_counter = right_counter = GetPizzaCounter();
 

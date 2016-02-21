@@ -164,7 +164,6 @@ void CreateOrder(
     ) {
 
     Order *new_order;
-    int i = 0;
 
     CreatePizza(colour, size);
     new_order = malloc(sizeof(Order));
@@ -902,16 +901,9 @@ int FindPizzas() {
     PathStack *path_to_pizza, *path_to_left_pizza, *path_to_right_pizza;
     Node *target_pizza_node, *left_pizza_node, *right_pizza_node;
     Order *next_order = GetNextOrder(our_timeline, 0);
-    Pizza *next_pizza = GetPizzaForOrder(next_order);
     int num_delayed_if_find = 0;
     int num_delayed_if_skip_find = 0;
-    // TODO: Discuss threshold value
-    // The threshold is here because if we have only 1 second of grace time to find a pizza
-    // and then get to the next regular order, I think we shouldn't risk it
-    // So we need an appropriate threshold for that.
-    const int threshold = 5;
     float cost_to_find = 0;
-    float cost_to_next_pizza = 0;
     bot_info = GetBotInfo();
     our_graph = GetGraph();
     
@@ -1086,7 +1078,6 @@ void FreeTimeDecision() {
 void DeliverPizzas(DeliverySequence *cur_sequence) {
     // sleep(cur_sequence/5.0->total_cost);
     // GetBotInfo()->cur_position->cur_node = cur_sequence->deliver2 == NULL ? cur_sequence->deliver1 : cur_sequence->deliver2;
-    int i = 0;
     Pizza *delivered_pizza;
     Order *current_order;
     Node *cur_node;
