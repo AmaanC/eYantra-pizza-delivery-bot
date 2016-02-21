@@ -77,6 +77,7 @@ char color_get() {
     char ret = 'u';
     int red, green, blue;
     int red_count, green_count, blue_count;
+    red_count = green_count = blue_count = 0;
     int final_count = 0;
     int i = 0;
     while(i<5) {
