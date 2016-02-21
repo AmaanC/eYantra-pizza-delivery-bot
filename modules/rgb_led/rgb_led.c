@@ -3,32 +3,36 @@
 #include <util/delay.h>
 #include "rgb_led.h"
 
-// Red   - D1 - Pin 19
-// Green - D2 - Pin 38
-// Blue  - D3 - Pin 37
+// Red   - D1 - Pin 42 PL7
+// Green - D2 - Pin 41 PL6
+// Blue  - D3 - Pin 44 PD1
 // Vcc        - Pin 21
 
 void RgbLedInit() {
-    DDRD = DDRD | 0x0E; // Set Port D's 1, 2, 3 as output
+    DDRL = DDRL | 0xC0; // Set Port L's 7,6 as output
+    DDRD = DDRD | 0x01; // Set Port D's 1 as output
 }
 
 void RgbLedOff() {
-    PORTD = PORTD & 0xF1; // Reset D1, 2, 3
+    PORTL = PORTL | 0xC0; // Reset L 7, 6
+    PORTD = PORTD | 0x01;
 }
 
 void RgbLedGlow(char color) {
-    int val = 0xF1; // Off by default
-    switch(color) {
-        case 'r':
-            val = 0xFD; // 1101
-            break;
-        case 'g':
-            val = 0xFB; // 1011
-            break;
-        case 'b':
-            val = 0xF7; // 0111
-            break;
+    unsigned char val;
+    if(color == 'r') {
+            val = 0x7F; // 01111111
+            PORTL = PORTL & val;
+        }
+    if(color == 'g') {
+            val = 0xBF; 
+            PORTL = PORTL & val;
+        }
+    if(color == 'b') {
+            val = 0x01; // 11111110
+            PORTD = PORTD & val;
     }
+    _delay_ms(1000);
     RgbLedOff();
-    PORTD = PORTD & val;
+    _delay_ms(1000);
 }

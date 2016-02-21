@@ -2,7 +2,7 @@ CC=avr-gcc
 
 OBJCOPY=avr-objcopy
 
-CFLAGS=-g -DF_CPU=14745600 -mmcu=atmega2560
+CFLAGS=-g -Wall -DF_CPU=14745600 -mmcu=atmega2560
 
 # Modify these 2 for each project as needed
 FILENAME=rgb_led

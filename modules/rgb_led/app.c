@@ -4,15 +4,12 @@
 #include "rgb_led.h"
 
 int main() {
+    RgbLedInit();
+
     while(1) {
         RgbLedGlow('r');
-        _delay_ms(1000);
-        
-        RgbLedGlow('g');
-        _delay_ms(1000);
-        
         RgbLedGlow('b');
-        _delay_ms(1000);
+        RgbLedGlow('g');
     }
     return 0;
 }

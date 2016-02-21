@@ -32,7 +32,7 @@
 
 
 Free ports:
-PL7,6,0,1
+PL7,6,0,1,2
 PG0,1
 PD0
 
