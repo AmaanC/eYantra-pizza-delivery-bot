@@ -197,8 +197,13 @@ void InitTimeline() {
     our_timeline->orders = malloc(MAX_ORDERS * sizeof(Order));
     our_timeline->len = 0;
 
+    // Pizza list is twice as long for the worst case situation:
+    // All ordered pizzas are missing
+    // Then our_pizzas will be filled with 10 pizzas according to our
+    // orders
+    // And 10 "empty pizzas" which it'll detect
     our_pizzas = malloc(sizeof(PizzaList));
-    our_pizzas->pizzas = malloc(MAX_ORDERS * sizeof(Pizza));
+    our_pizzas->pizzas = malloc(2 * MAX_ORDERS * sizeof(Pizza));
 
     PIZZA_COUNTER_NODE = GetNodeByName("r1"); // r1 is always going to be our "pizza counter"
 
@@ -221,12 +226,13 @@ void InitTimeline() {
     // CreateOrder(our_timeline, 'g', 'l', 150, 'p', "H2");
     // CreateOrder(our_timeline, 'b', 'm', 220, 'r', "H4");
     
-    CreateOrder(our_timeline, 'r', 's', 30, 'p', "H6");
-    CreateOrder(our_timeline, 'r', 'l', 70, 'r', "H12");
-    CreateOrder(our_timeline, 'r', 's', 110, 'p', "H4");
-    CreateOrder(our_timeline, 'g', 'l', 150, 'p', "H2");
-    CreateOrder(our_timeline, 'b', 'l', 180, 'r', "H6");
-    CreateOrder(our_timeline, 'b', 'm', 220, 'r', "H4");
+    CreateOrder(our_timeline, 'r', 'l', 40, 'r', "H1");
+    CreateOrder(our_timeline, 'b', 's', 100, 'r', "H8");
+    CreateOrder(our_timeline, 'g', 'm', 115, 'p', "H2");
+    CreateOrder(our_timeline, 'r', 's', 200, 'p', "H11");
+    CreateOrder(our_timeline, 'r', 'l', 250, 'r', "H12");
+    CreateOrder(our_timeline, 'g', 's', 350, 'p', "H5");
+    CreateOrder(our_timeline, 'b', 'm', 350, 'p', "H5");
 }
 
 OrderList *GetTimeline() {
@@ -235,6 +241,11 @@ OrderList *GetTimeline() {
 
 PizzaList *GetPizzas() {
     return our_pizzas;
+}
+
+void MissingOrderBeep() {
+    // Beep the buzzer indicating a missing pizza
+    printf("Order missing!\n");
 }
 
 // Find the time block where we'll definitely need 2 arms
@@ -716,8 +727,8 @@ PizzaList *GetAvailablePizzas() {
 }
 
 //                              -------                           ---------
-char fake_block_sizes[] = {'l', 'n', 'n', 'l', 's', 'm', 'l', 's', 'n', 'n'};
-char fake_colours[]     = {'r', 'r', 'r', 'g', 'r', 'b', 'b', 'r', 'r', 'r'};
+char fake_colours[]     = {'g', 'b', 'g', 'r', 'b', 'n', 'r', 'r', 'n', 'g'};
+char fake_block_sizes[] = {'m', 'm', 's', 'm', 's', 'n', 'l', 's', 'n', 'l'};
 int fake_i = 0;
 int fake_len = 10;
 
@@ -799,9 +810,9 @@ void DetectPizza() {
             // we may not have a conflicting order at all
             if (conflicting_pizza) {
                 conflicting_pizza->location = current_pizza->location;
-                if (current_pizza->location == NULL) {
-                    printf("AAAAAAAAAAAAAAAAAAA NULL NULL\n\n\n\n\n");
-                }
+                // if (current_pizza->location == NULL) {
+                //     printf("AAAAAAAAAAAAAAAAAAA NULL NULL\n\n\n\n\n");
+                // }
             }
             current_pizza->location = bot_info->cur_position->cur_node;
             current_pizza->found = TRUE;
@@ -816,8 +827,17 @@ void DetectPizza() {
     // If this is an extra pizza or something, we want to add it to the list so we don't keep on
     // redetecting it
     if (found == FALSE) {
-        CreatePizza(colour, block_size);
-// //////        printf("Created: %c and %c\n", colour, block_size);
+        // Create the pizza and mark it as found
+        current_pizza = CreatePizza(colour, block_size);
+        conflicting_pizza = GetPizzaAtNode(bot_info->cur_position->cur_node);
+        if (conflicting_pizza) {
+            conflicting_pizza->location = current_pizza->location;
+            // if (current_pizza->location == NULL) {
+            //     printf("AAAAAAAAAAAAAAAAAAA NULL NULL\n\n\n\n\n");
+            // }
+        }
+        current_pizza->location = bot_info->cur_position->cur_node;
+        current_pizza->found = TRUE;
     }
 }
 
@@ -896,6 +916,7 @@ int FindPizzas() {
     }
 
     cost_to_find = path_to_pizza->total_cost;
+    printf("Targ pizza node: %s %d\n", target_pizza_node->name, 1);//GetPizzaAtNode(target_pizza_node)->found);
 
     // How many future orders would be delayed if we went hunting for pizzas now
     // vs. how many would be delayed if we skipped finding pizzas
@@ -993,7 +1014,7 @@ void FreeTimeDecision() {
         current_order = GetOrderForPizza(current_pizza);
 
         printf("Free time, considering combos\n");
-        Display(current_order);
+        // Display(current_order);
         // printf("Debug %d: %d %d", next_extra_order == NULL, current_pizza == NULL, ConsiderCancel(next_order, current_order)->should_cancel);
         if (current_pizza != NULL) {
             // printf(" %d", current_pizza->location == NULL);
@@ -1015,7 +1036,7 @@ void FreeTimeDecision() {
     // If no pizzas were found that satisfied the conditions above, we should consider looking for
     // more pizzas
     if (next_extra_order == NULL) {
-        // FindPizzas takes care of considering cost and everything.
+        // fs takes care of considering cost and everything.
         // If it thinks it'll delay us to find more pizzas, it'll change the state to 'b'
         // printf("Finding pizzas...\n");
         FindPizzas();
@@ -1142,11 +1163,23 @@ void NormalOperation() {
     Display(next_extra_order);
     printf("\n");
     next_reg_pizza = GetPizzaForOrder(next_reg_order);
+    if (next_reg_pizza == NULL) {
+        printf("NEXT_REG IS NULL!\n");
+    }
     // TODO: Special case for canceled orders
-    if (next_reg_pizza == NULL || next_reg_pizza->location == NULL) {
+    if (next_reg_pizza->found == FALSE) {
+        if (total_pizzas == MAX_ORDERS) {
+            // This means that the pizza we want is missing, because we've found as many
+            // pizzas as there are orders (including fake pizzas) and the one we want
+            // isn't in that list
+            MissingOrderBeep();
+            next_reg_pizza->state = 'd';
+            next_reg_order->state = 'd';
+            SetState('f');
+            return;
+        }
         // If the location of our regular order is unknown, then we want to find it
-        // without considering the cost of delaying it
-        // TODO: If FindPizzas thinks we should cancel, cancel?
+        // But we want to cancel it if finding it will delay our future orders
         no_time_to_find = FindPizzas();
         if (no_time_to_find) {
             // Finding the current pizza seems like it'll delay us,
