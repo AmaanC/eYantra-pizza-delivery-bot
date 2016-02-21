@@ -4,7 +4,9 @@
 #include <avr/io.h>
 #include <avr/interrupt.h>
 #include <util/delay.h>
+#include "../lcd/lcd.h"
 #include "SharpSensor.h"
+#define MAX(a,b,c,d) (a>b && a>c && a>d ) ? a: ((b>c && b>d) ? b : ((c>d)?c : d))
 
 //ADC pin configuration
 void SharpAdcPinConfig() {
@@ -98,29 +100,31 @@ int SharpGetBlockSize(int distance, int default_dist) {
 }
 
 char SharpGetBlockType() {
-	int sharp = SharpAdcConversion(11);
-    int value = SharpGp2d12Estimation(sharp);
-    int block_size = SharpGetBlockSize(value, block_size); // Get block size from sharp sensor distance (in mm)
-	char type;
-	switch (block_size) {
-		case 0: {
-			type = 'n'; //no pizza at all
-			break;
-		}
-		case 6: {
-			type = 's'; //small pizza
-			break;
-		}
-		case 9: {
-			type = 'm'; //medium pizza
-			break;
-		}
-		case 12: {
-			type = 'l'; //large pizza
-			break;
-		}
-		default:
-			type = 'd'; //default value
-	}
-	return type;
+    int i = 0;
+    int size_count;
+    int small, medium, large, null;
+    small = medium = large = null = 0;
+    while(i<7) {
+        int sharp = SharpAdcConversion(11);
+        int value = SharpGp2d12Estimation(sharp);
+        int block_size = SharpGetBlockSize(value, block_size); // Get block size from sharp sensor distance (in mm)
+        if(block_size == 0)
+            ++null;
+        if(block_size == 6)
+            ++small;
+        if(block_size == 9)
+            ++medium;
+        if(block_size == 12)
+            ++large;
+        i++;
+    }
+    size_count = MAX(null, small, medium, large);
+    if(size_count == null)
+        return 'n';
+    if(size_count == small)
+        return 's';
+    if(size_count == medium)
+        return 'm';
+    if(size_count == large)
+        return 'l';
 }
