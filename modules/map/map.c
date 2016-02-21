@@ -309,7 +309,6 @@ int IndexOfNode(Node **node_arr, int len, Node *needle) {
 // If a node isn't already in the array, add it. Else, ignore the call
 void UpdateNodeInArray(Node **node_costs, int *len, Node *new_node) {
     int index;
-    Node *current_node;
     index = IndexOfNode(node_costs, *len, new_node);
     // If it is in the array already, ignore the call
     if (index != -1) {

@@ -22,6 +22,7 @@ Node *GetLowestUndone(Node **node_costs, int len) {
     int i;
     float lowest_cost = INFINITY;
     Node *lowest, *current_node;
+    lowest = NULL;
     for (i = 0; i < len; i++) {
         current_node = node_costs[i];
         if (current_node->done == FALSE) {

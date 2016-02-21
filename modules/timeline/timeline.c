@@ -900,7 +900,6 @@ int FindPizzas() {
     Graph *our_graph;
     PathStack *path_to_pizza, *path_to_left_pizza, *path_to_right_pizza;
     Node *target_pizza_node, *left_pizza_node, *right_pizza_node;
-    Order *next_order = GetNextOrder(our_timeline, 0);
     int num_delayed_if_find = 0;
     int num_delayed_if_skip_find = 0;
     float cost_to_find = 0;
