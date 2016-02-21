@@ -390,26 +390,37 @@ DeliverySequence *ConsiderCancel(Order *order1, Order *order2) {
     float cost_to_pick2 = INFINITY;
     float cost_to_deliver1 = INFINITY;
     float cost_to_deliver2 = INFINITY;
+    PathStack *path_to_pick1;
+    PathStack *path_to_pick2;
+    PathStack *path_to_deliver1;
+    PathStack *path_to_deliver2;
+    path_to_pick1 = NULL;
+    path_to_pick2 = NULL;
+    path_to_deliver1 = NULL;
+    path_to_deliver2 = NULL;
 
     // If either order is null, then there's only one way to deliver the remaining order
     // Go pick it up, deliver it
     if (order1 == NULL || order2 == NULL) {
         if (order2 == order1) {
-            // printf("Both orders are NULL, doofus.");
+            // printf("Both orders are NULL, doofus.\n");
             return NULL;
         }
-        // printf("Single order");
+        // printf("Single order\n");
         single_order = (order1 == NULL) ? order2 : order1;
         single_pizza = GetPizzaForOrder(single_order);
         // Cost to go pick the pizza up
-        cost_to_pick1 = Dijkstra(bot_info->cur_position->cur_node, single_pizza->location, bot_info->cur_position->cur_deg, our_graph)->total_cost;
+        path_to_pick1 = Dijkstra(bot_info->cur_position->cur_node, single_pizza->location, bot_info->cur_position->cur_deg, our_graph);
+        cost_to_pick1 = path_to_pick1->total_cost;
         // If we get there before we're allowed to pick the pizza up
         // then we want to consider the waiting time as well
         if (GetCurrentTime() + cost_to_pick1 < single_order->pickup_time) {
             cost_to_pick1 = single_order->pickup_time - GetCurrentTime();
         }
         // Plus cost of delivering pizza
-        temp_cost = cost_to_pick1 + Dijkstra(single_pizza->location, single_order->delivery_house, single_pizza->location->enter_deg, our_graph)->total_cost;
+        path_to_deliver1 = Dijkstra(single_pizza->location, single_order->delivery_house, single_pizza->location->enter_deg, our_graph);
+        cost_to_deliver1 = path_to_deliver1->total_cost;
+        temp_cost = cost_to_pick1 + cost_to_deliver1;
 
         best_seq->order_combo[0] = single_order;
         best_seq->pizza_combo[0] = single_pizza;
@@ -424,19 +435,20 @@ DeliverySequence *ConsiderCancel(Order *order1, Order *order2) {
         // best_seq->deliver1 = single_order->delivery_house;
         best_seq->total_cost = temp_cost;
 
-        // printf("House null: %d", single_order->delivery_house == NULL);
+        // printf("House null: %d\n", single_order->delivery_house == NULL);
         num_delayed_if_deliver = GetNumDelayed(single_order->delivery_house, GetCurrentTime() + temp_cost, 1);
         num_delayed_if_cancel = GetNumDelayed(GetCurrentNode(), GetCurrentTime(), 1);
         // If we delay fewer pizzas later by canceling, then lets cancel
-        // printf("Delayed: %d %d", num_delayed_if_cancel, num_delayed_if_deliver);
+        // printf("Delayed: %d %d\n", num_delayed_if_cancel, num_delayed_if_deliver);
         if (num_delayed_if_cancel < num_delayed_if_deliver) {
             best_seq->should_cancel = TRUE;
-            printf("Should cancel because future delays");
+            printf("Should cancel because future delays\n");
         }
         free(path_to_pick1);
         free(path_to_deliver1);
         return best_seq;
     }
+
 
 
     // printf("Getting pizzas for orders");
@@ -683,6 +695,7 @@ Pizza *GetPizzaAtNode(Node *node) {
 // Whichever *are* available are returned in an OrderList
 PizzaList *GetAvailablePizzas() {
     PizzaList *available_pizzas;
+    PathStack *path_to_pizza;
     Order *current_order;
     Pizza *current_pizza;
     Pizza *next_pizza = GetPizzaForOrder(GetNextOrder(our_timeline, 0));
