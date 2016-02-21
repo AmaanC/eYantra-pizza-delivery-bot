@@ -94,12 +94,12 @@ PathStack* Dijkstra(Node *source_node, Node *target_node, float cur_deg, Graph *
 
     // The final_path won't always be this long, but we need enough memory in case it is, somehow
     final_path = malloc(sizeof(PathStack));
+    final_path->path = malloc(our_graph->num_nodes * sizeof(Node*));
     final_path->top = 0;
     if (source_node == target_node) {
         final_path->total_cost = 0;
         return final_path;
     }
-    final_path->path = malloc(our_graph->num_nodes * sizeof(Node*));
 
     curve_info = GetCurveInfo();
 
