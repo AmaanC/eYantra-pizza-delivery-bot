@@ -32,6 +32,7 @@ typedef struct _Pizza {
     int found;
     // Location of the pizza. If the found flag is 0, the location is just a guess
     Node *location;
+    Node *dep_loc;
 } Pizza;
 
 typedef struct _PizzaList {
@@ -74,12 +75,12 @@ typedef struct _OrderList {
 
 typedef struct _DeliverySequence {
     // When there are 2 orders, this structure allows us to figure out what the sequence of actions should be
-    Node *pick1;
-    Node *pick2;
-    Node *deliver1;
-    Node *deliver2;
-    Order *order1;
-    Order *order2;
+    int pick1; // If it's 1, we pick order 1 first, if it's 2 we pick order2 first
+    int pick2; // TODO
+    int deliver1;
+    int deliver2;
+    Order **order_combo;
+    Pizza **pizza_combo;
     // 0 or 1 indicating whether this delivery sequence is one that shouldn't be used
     int should_cancel;
     float total_cost;
