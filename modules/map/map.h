@@ -69,7 +69,7 @@ Node *CreateNode(float x, float y, int num_connected, char *name);
 void ConnectNodes(Node *a, Node *b, float cost);
 void InitGraph();
 Node *GetCurrentNode();
-void DFSEval(Node *source_node, int unvisited_value, int fn());
+void DFSEval(Node *source_node, int unvisited_value, int (*fn)(Node *));
 int CheckNodeName(Node *current_node);
 Node *GetNodeByName(char *name);
 int IndexOfNode(Node **node_arr, int len, Node *needle);
