@@ -1,33 +1,20 @@
-#include <avr/io.h>
-#include <avr/interrupt.h>
-#include <util/delay.h>
-
-#include <stdint.h>
-
 #include <stdio.h>
 #include <stdlib.h>
-#include <math.h>
 #include "timeline.h"
 #include "../map/map.h"
-#include "../dijkstra/dijkstra.h"
 #include "../bot_memory/bot_memory.h"
 #include "../timer/timer.h"
-#include "../hardware_control/hardware_control.h"
+#include "../lcd/lcd.h"
+#include "../move_bot/move_bot.h"
 
 int main() {
-    // OrderList *timeline, *available;
-    // Order *order;
-    // int i;
-
     // sharp_init_devices();
     InitTimer();
     InitBotInfo();
     InitGraph();
-    LcdInitDevices();
-    LcdSet4Bit();
+    InitTimeline();
     LcdInit();
     MoveBotInitDevices();
-    InitTimeline();
     // PizzaList *our_pizzas = GetPizzas();
     // for (i = 0; i < our_pizzas->len; i++) {
     //     printf("C: %c, S: %c\n", our_pizzas->pizzas[i]->colour, our_pizzas->pizzas[i]->size);
@@ -82,7 +69,6 @@ int main() {
     //     Display(available->orders[i]);
     // }
     printf("Hello world");
-    _delay_ms(1000);
     TimelineControl();
     return 0;
 }
