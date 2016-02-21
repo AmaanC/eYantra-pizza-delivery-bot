@@ -1156,9 +1156,9 @@ void DeliverPizzas(DeliverySequence *cur_sequence) {
     if (cur_node != NULL) {
         MoveBotToNode(cur_node);
         if (GetCurrentTime() < current_order->delivery_period->start) {
-            printf("Early delivery. Waiting %d", (current_order->delivery_period->start - GetCurrentTime()));
+            printf("Early delivery. Waiting %d", (int) (current_order->delivery_period->start - GetCurrentTime()));
             // usleep((current_order->delivery_period->start - GetCurrentTime()) * 100 * 1000);
-            CustomDelay((current_order->delivery_period->start - GetCurrentTime()) * 1000);
+            CustomDelay((int) ((current_order->delivery_period->start - GetCurrentTime()) * 1000));
         }
         printf(" by %d", GetCurrentTime());
         orders_completed++;
@@ -1174,9 +1174,9 @@ void DeliverPizzas(DeliverySequence *cur_sequence) {
     if (cur_node != NULL) {
         MoveBotToNode(cur_node);
         if (GetCurrentTime() < current_order->delivery_period->start) {
-            printf("Early delivery. Waiting %d", (current_order->delivery_period->start - GetCurrentTime()));
+            printf("Early delivery. Waiting %d", (int) (current_order->delivery_period->start - GetCurrentTime()));
             // usleep((current_order->delivery_period->start - GetCurrentTime()) * 100 * 1000);
-            CustomDelay((current_order->delivery_period->start - GetCurrentTime()) * 1000);
+            CustomDelay((int) ((current_order->delivery_period->start - GetCurrentTime()) * 1000));
         }
         printf(" by %d", GetCurrentTime());
         orders_completed++;

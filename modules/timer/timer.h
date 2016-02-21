@@ -3,7 +3,7 @@
 
 void Timer4Init();
 int GetCurrentTime();
-int ResetTime();
+void ResetTime();
 void InitTimer();
 
 #endif

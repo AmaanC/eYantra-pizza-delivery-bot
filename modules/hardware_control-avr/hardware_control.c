@@ -11,6 +11,7 @@
 #include "../pos_encoder/pos_encoder.h"
 #include "../bot_memory/bot_memory.h"
 #include "../lcd/lcd.h"
+#include "../move_bot/move_bot.h"
 #include "../hardware_control/hardware_control.h"
 
 

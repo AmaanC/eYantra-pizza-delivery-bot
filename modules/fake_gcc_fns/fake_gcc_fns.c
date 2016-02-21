@@ -6,8 +6,9 @@
 #include "../lcd/lcd.h"
 
 #include <stdarg.h>
+#include <stdio.h>
 
-void printf(const char *fmt, ...) {
+extern int printf(const char *fmt, ...) {
     va_list argp;
     const int LCDLEN = 16;
     char str[LCDLEN];
@@ -19,6 +20,7 @@ void printf(const char *fmt, ...) {
 
     LcdString(str);
     _delay_ms(1000);
+    return 0;
 }
 
 void sleep(int ms) {

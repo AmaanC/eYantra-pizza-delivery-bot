@@ -39,7 +39,7 @@ int GetCurrentTime() {
     return time_count;
 }
 
-int ResetTime() {
+void ResetTime() {
     time_count = 0;
 }
 

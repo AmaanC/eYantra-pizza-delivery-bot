@@ -30,6 +30,7 @@
 #include "lcd.h"
 
 #include <stdarg.h>
+#include <stdio.h>
 
 #define RS 0
 #define RW 1

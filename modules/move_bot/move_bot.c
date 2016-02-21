@@ -2,7 +2,8 @@
 #include <avr/interrupt.h>
 #include <util/delay.h>
 
-#include <math.h> 
+#include <math.h>
+#include <stdlib.h>
 #include "move_bot.h"
 #include "../pos_encoder/pos_encoder.h"
 #include "../bl_sensor/bl_sensor.h"
