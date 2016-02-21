@@ -278,40 +278,53 @@ void MissingOrderBeep() {
 // our current order, which means we can get to the one after immediately 
 int GetNumDelayed(Node *source_node, int start_time, int order_num) {
     int delayed = 0;
-    // float cost_to_pick = INFINITY;
-    // float cost_to_deliver = INFINITY;
-    // float total_cost = INFINITY;
-    // Order *next_order = GetNextOrder(our_timeline, order_num);
-    // Pizza *order_pizza = GetPizzaForOrder(next_order);
-    // Graph *our_graph = GetGraph();
-    // if (next_order == NULL) {
-    //     // No future orders left, so delayed = 0
-    //     // printf("NULL next");
-    //     return 0;
-    // }
-    // // Display(next_order);
-    // // printf("Num delayed %d %d", order_pizza == NULL, source_node == NULL);
-    // // printf("%d", order_pizza->location == NULL);
+    float cost_to_pick = INFINITY;
+    float cost_to_deliver = INFINITY;
+    float total_cost = INFINITY;
+    int cur_order_num = order_num;
+    Graph *our_graph = GetGraph();
+    Order *next_order;
+    Pizza *order_pizza;
+    PizzaList *used_pizzas;
+    int i = 0;
+    used_pizzas = malloc(sizeof(PizzaList));
+    used_pizzas->pizzas = malloc(sizeof(Pizza *));
+    used_pizzas->len = 0;
 
-    // // We don't care about using guessed pizza locations, as long as
-    // // the calls compare in a similar manner.
-    // cost_to_pick = Dijkstra(source_node, order_pizza->location, source_node->enter_deg, our_graph)->total_cost;
-    // // If we get there before we can pick it up, our cost to pick is actually higher
-    // if (start_time + cost_to_pick < next_order->pickup_time) {
-    //     cost_to_pick = next_order->pickup_time - start_time;
-    // }
-    // cost_to_deliver = Dijkstra(order_pizza->location, next_order->delivery_house, order_pizza->location->enter_deg, our_graph)->total_cost;
-    // total_cost = start_time + cost_to_pick + cost_to_deliver;
-    // // If we reach after the delivery period ends, we've delayed this order
-    // if (total_cost > next_order->delivery_period->end) {
-    //     delayed = 1;
-    // }
-    // // We set the state to "considering" so that when the function is called recursively,
-    // // the next order doesn't try to access the same pizza
-    // order_pizza->state = 'c';
-    // // Total future orders delayed is how many orders 
-    // delayed += GetNumDelayed(order_pizza->location, (int) total_cost, order_num + 1);
-    // order_pizza->state = 'f';
+    next_order = GetNextOrder(our_timeline, cur_order_num);
+    order_pizza = GetPizzaForOrder(next_order);
+
+    while (next_order != NULL) {
+        // We set the state to "considering" so that when the function is called recursively,
+        // the next order doesn't try to access the same pizza
+        order_pizza->state = 'c';
+
+        InsertPizza(used_pizzas, order_pizza);
+
+        // We don't care about using guessed pizza locations, as long as
+        // the calls compare in a similar manner.
+        cost_to_pick = Dijkstra(source_node, order_pizza->location, source_node->enter_deg, our_graph)->total_cost;
+        // If we get there before we can pick it up, our cost to pick is actually higher
+        if (start_time + cost_to_pick < next_order->pickup_time) {
+            cost_to_pick = next_order->pickup_time - start_time;
+        }
+        cost_to_deliver = Dijkstra(order_pizza->location, next_order->delivery_house, order_pizza->location->enter_deg, our_graph)->total_cost;
+        total_cost = start_time + cost_to_pick + cost_to_deliver;
+        // If we reach after the delivery period ends, we've delayed this order
+        if (total_cost > next_order->delivery_period->end) {
+            delayed += 1;
+        }
+        start_time = total_cost;
+        source_node = order_pizza->location;
+        cur_order_num++;
+
+        next_order = GetNextOrder(our_timeline, cur_order_num);
+        order_pizza = GetPizzaForOrder(next_order);
+    }
+
+    for (i = 0; i < used_pizzas->len; i++) {
+        used_pizzas->pizzas[i]->state = 'f';
+    }
     return delayed;
 }
 
