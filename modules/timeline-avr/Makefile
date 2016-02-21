@@ -14,7 +14,7 @@ DEPS=app.o helpers.o ../map/map.o ../hardware_control-avr/hardware_control.o ../
 PROGRAMMER = avrdude
 BOARD = stk500v2
 MCU = m2560
-PORT = /dev/ttyACM0
+PORT = /dev/tty.usbmodem1421
 
 PFLAGS = -p $(MCU) -c $(BOARD) -P $(PORT)
 
@@ -25,7 +25,7 @@ app.out : $(FILENAME).o $(DEPS)
 	$(CC) $(CFLAGS) -o app.out -Wl,-Map,$(FILENAME).map $(FILENAME).o $(DEPS) -lm
 
 %.o : %.c
-	$(CC) $(CFLAGS) -Os -c $< -o $(patsubst %.c,%.o,$<)
+	$(CC) $(CFLAGS) -O3 -c $< -o $(patsubst %.c,%.o,$<)
 
 # rm -f *.o *.out *.map *.hex
 clean:

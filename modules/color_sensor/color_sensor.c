@@ -65,7 +65,7 @@ void ColorInitDevices() {
     ColorSensorScaling();
 }
 
-char color_get() {
+char GetPizzaColor() {
     // It will return the following characters:
     // u for unknown, by default (if something went wrong)
     // r for red
@@ -80,7 +80,7 @@ char color_get() {
     red_count = green_count = blue_count = 0;
     int final_count = 0;
     int i = 0;
-    while(i<5) {
+    while(i<10) {
         red = ColorGetRed();
         green = ColorGetGreen();
         blue = ColorGetBlue();
@@ -94,7 +94,7 @@ char color_get() {
             ++blue_count;
         }
         ++i;
-        _delay_ms(100);
+        _delay_ms(50);
     }
     final_count = MAX(red_count, green_count, blue_count);
     if(final_count == red_count)
