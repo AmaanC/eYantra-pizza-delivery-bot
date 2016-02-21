@@ -104,7 +104,7 @@ char SharpGetBlockType() {
     int size_count;
     int small, medium, large, null;
     small = medium = large = null = 0;
-    while(i<7) {
+    while(i<5) {
         int sharp = SharpAdcConversion(11);
         int value = SharpGp2d12Estimation(sharp);
         int block_size = SharpGetBlockSize(value, block_size); // Get block size from sharp sensor distance (in mm)

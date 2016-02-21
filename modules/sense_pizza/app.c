@@ -9,15 +9,10 @@
 
 int main() {
     InitSenses();
-    char pizza_size, pizza_color;
+    int sharp;
     while(1) {
-        pizza_color = color_get();
-        pizza_size = SharpGetBlockType();
-
-        LcdPrintf("color: %c", pizza_color);
-        _delay_ms(1000);
-        LcdPrintf("size: %c", pizza_size);
-        _delay_ms(1000);
+        sharp = SharpAdcConversion(11);
+        LcdPrintf("value: %d", sharp);
     }
 }
     
