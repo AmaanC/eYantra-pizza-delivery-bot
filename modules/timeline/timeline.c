@@ -778,6 +778,7 @@ void DetectPizza() {
 
     // TODO: Consider bad readings and rechecking?
     usleep(100 * 1000);
+    // sleep(1);
     printf("Detected: %c and %c\n", colour, block_size);
     bot_info = GetBotInfo();
     total_pizzas++;
@@ -1091,8 +1092,8 @@ void DeliverPizzas(DeliverySequence *cur_sequence) {
             // TODO: Consider this as free time if possible?
             
             printf("Reached early. Waiting %d %d %d\n", cur_sequence->order1->pickup_time - GetCurrentTime(), cur_sequence->order1->pickup_time, GetCurrentTime());
-            // sleep((cur_sequence->order1->pickup_time - GetCurrentTime()));
             usleep((cur_sequence->order1->pickup_time - GetCurrentTime()) * 100 * 1000);
+            // sleep((cur_sequence->order1->pickup_time - GetCurrentTime()));
         }
         // PickPizza();
     }
@@ -1107,27 +1108,35 @@ void DeliverPizzas(DeliverySequence *cur_sequence) {
             // TODO: Consider this as free time if possible?
             
             printf("Reached early. Waiting %d %d %d\n", cur_sequence->order2->pickup_time - GetCurrentTime(), cur_sequence->order2->pickup_time, GetCurrentTime());
-            // sleep((cur_sequence->order2->pickup_time - GetCurrentTime()));
             usleep((cur_sequence->order2->pickup_time - GetCurrentTime()) * 100 * 1000);
+            // sleep((cur_sequence->order2->pickup_time - GetCurrentTime()));
         }
         // PickPizza();
     }
 
-    printf("*** Delivered pizzas! ");
     if (cur_sequence->deliver1 != NULL) {
         MoveBotToNode(cur_sequence->deliver1);
-        printf("%s, %d by %d ", cur_sequence->order1->delivery_house->name, cur_sequence->order1->order_time, GetCurrentTime());
+        printf(" by %d\n", GetCurrentTime());
         orders_completed++;
         cur_sequence->order1->state = 'd';
+        printf("Early delivery. Waiting %d\n", );
         // DropPizza();
     }
 
     if (cur_sequence->deliver2 != NULL) {
         MoveBotToNode(cur_sequence->deliver2);
-        printf("%s, %d by %d, ", cur_sequence->order2->delivery_house->name, cur_sequence->order2->order_time, GetCurrentTime());
+        printf(" by %d\n", GetCurrentTime());
         orders_completed++;
         cur_sequence->order2->state = 'd';
+        printf("Early delivery. Waiting %d\n", );
         // DropPizza();
+    }
+    printf("*** Delivered pizzas! ");
+    if (cur_sequence->order1 != NULL) {
+        printf("%s, %d", cur_sequence->order1->delivery_house->name, cur_sequence->order1->order_time);
+    }
+    if (cur_sequence->order2 != NULL) {
+        printf("%s, %d ", cur_sequence->order2->delivery_house->name, cur_sequence->order2->order_time);
     }
     printf("\n");
 
@@ -1203,6 +1212,10 @@ void NormalOperation() {
             SetState('f');
             return;
         }
+    }
+    if (next_reg_pizza->found == FALSE) {
+        // If we still haven't found it, we can't consider delivering it
+        return;
     }
     // next_extra_order might be NULL, but that's okay, because ConsiderCancel
     // can deal with it.
