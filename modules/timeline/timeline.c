@@ -798,8 +798,8 @@ void DetectPizza() {
     // decide if we want to pick it up or not
 
     // TODO: Consider bad readings and rechecking?
-    usleep(100 * 1000);
-    // sleep(1);
+    // usleep(100 * 1000);
+    sleep(1);
     printf("Detected: %c and %c\n", colour, block_size);
     bot_info = GetBotInfo();
     total_pizzas++;
@@ -1125,8 +1125,8 @@ void DeliverPizzas(DeliverySequence *cur_sequence) {
             // TODO: Consider this as free time if possible?
             
             printf("Reached early. Waiting %d %d %d\n", cur_sequence->order_combo[pick1]->pickup_time - GetCurrentTime(), cur_sequence->order_combo[pick1]->pickup_time, GetCurrentTime());
-            usleep((cur_sequence->order_combo[pick1]->pickup_time - GetCurrentTime()) * 100 * 1000);
-            // sleep((cur_sequence->order1->pickup_time - GetCurrentTime()));
+            // usleep((cur_sequence->order_combo[pick1]->pickup_time - GetCurrentTime()) * 100 * 1000);
+            sleep((cur_sequence->order_combo[pick1]->pickup_time - GetCurrentTime()));
         }
         // PickPizza();
     }
@@ -1148,8 +1148,8 @@ void DeliverPizzas(DeliverySequence *cur_sequence) {
             // TODO: Consider this as free time if possible?
             
             printf("Reached early. Waiting %d %d %d\n", cur_sequence->order_combo[pick2]->pickup_time - GetCurrentTime(), cur_sequence->order_combo[pick2]->pickup_time, GetCurrentTime());
-            usleep((cur_sequence->order_combo[pick2]->pickup_time - GetCurrentTime()) * 100 * 1000);
-            // sleep((cur_sequence->order2->pickup_time - GetCurrentTime()));
+            // usleep((cur_sequence->order_combo[pick2]->pickup_time - GetCurrentTime()) * 100 * 1000);
+            sleep((cur_sequence->order_combo[pick2]->pickup_time - GetCurrentTime()));
         }
         // PickPizza();
     }
@@ -1159,9 +1159,9 @@ void DeliverPizzas(DeliverySequence *cur_sequence) {
     if (cur_node != NULL) {
         MoveBotToNode(cur_node);
         if (GetCurrentTime() < current_order->delivery_period->start) {
-            printf("Early delivery. Waiting %d\n", (current_order->delivery_period->start - GetCurrentTime()));
-            usleep((current_order->delivery_period->start - GetCurrentTime()) * 100 * 1000);
-            // sleep((current_order->delivery_period->start - GetCurrentTime()));
+            printf("Early delivery. Waiting %f\n", (current_order->delivery_period->start - GetCurrentTime()));
+            // usleep((current_order->delivery_period->start - GetCurrentTime()) * 100 * 1000);
+            sleep((current_order->delivery_period->start - GetCurrentTime()));
         }
         printf(" by %d\n", GetCurrentTime());
         orders_completed++;
@@ -1177,9 +1177,9 @@ void DeliverPizzas(DeliverySequence *cur_sequence) {
     if (cur_node != NULL) {
         MoveBotToNode(cur_node);
         if (GetCurrentTime() < current_order->delivery_period->start) {
-            printf("Early delivery. Waiting %d\n", (current_order->delivery_period->start - GetCurrentTime()));
-            usleep((current_order->delivery_period->start - GetCurrentTime()) * 100 * 1000);
-            // sleep((current_order->delivery_period->start - GetCurrentTime()));
+            printf("Early delivery. Waiting %f\n", (current_order->delivery_period->start - GetCurrentTime()));
+            // usleep((current_order->delivery_period->start - GetCurrentTime()) * 100 * 1000);
+            sleep((current_order->delivery_period->start - GetCurrentTime()));
         }
         printf(" by %d\n", GetCurrentTime());
         orders_completed++;
