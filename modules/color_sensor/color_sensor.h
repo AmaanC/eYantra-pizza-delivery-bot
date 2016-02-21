@@ -9,6 +9,6 @@ int ColorGetGreen();
 int ColorGetBlue();
 void ColorSensorScaling();
 void ColorInitDevices();
-char ColorGet();
+char GetPizzaColor();
 
 #endif

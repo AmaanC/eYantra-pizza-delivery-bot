@@ -9,11 +9,11 @@
 
 int main() {
     InitSenses();
-    int sharp, value;
+    char pizza_color, pizza_size;
     while(1) {
-        sharp = SharpAdcConversion(11);
-        value = SharpGp2d12Estimation(sharp);
-        LcdPrintf("value: %d", value);
+        pizza_size = SharpGetBlockType();
+        pizza_color = GetPizzaColor();
+        LcdPrintf("color:%c, size:%c", pizza_color, pizza_size);
     }
 }
     

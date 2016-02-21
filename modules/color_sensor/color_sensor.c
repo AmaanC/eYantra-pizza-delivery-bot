@@ -65,7 +65,7 @@ void ColorInitDevices() {
     ColorSensorScaling();
 }
 
-char color_get() {
+char GetPizzaColor() {
     // It will return the following characters:
     // u for unknown, by default (if something went wrong)
     // r for red
