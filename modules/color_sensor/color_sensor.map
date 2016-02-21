@@ -1,36 +1,36 @@
 Archive member included because of file (symbol)
 
-/usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_exit.o)
-                              /usr/lib/gcc/avr/4.8.2/../../../avr/lib/avr6/crtm2560.o (exit)
-/usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_copy_data.o)
+/usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr6/libgcc.a(_exit.o)
+                              /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/../../../../avr/lib/avr6/crtm2560.o (exit)
+/usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr6/libgcc.a(_copy_data.o)
                               color_sensor.o (__do_copy_data)
-/usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_clear_bss.o)
+/usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr6/libgcc.a(_clear_bss.o)
                               color_sensor.o (__do_clear_bss)
 
 Memory Configuration
 
 Name             Origin             Length             Attributes
-text             0x0000000000000000 0x0000000000100000 xr
-data             0x0000000000800200 0x000000000000fe00 rw !x
-eeprom           0x0000000000810000 0x0000000000010000 rw !x
-fuse             0x0000000000820000 0x0000000000000400 rw !x
-lock             0x0000000000830000 0x0000000000000400 rw !x
-signature        0x0000000000840000 0x0000000000000400 rw !x
-user_signatures  0x0000000000850000 0x0000000000000400 rw !x
-*default*        0x0000000000000000 0xffffffffffffffff
+text             0x00000000         0x00100000         xr
+data             0x00800200         0x0000fe00         rw !x
+eeprom           0x00810000         0x00010000         rw !x
+fuse             0x00820000         0x00000400         rw !x
+lock             0x00830000         0x00000400         rw !x
+signature        0x00840000         0x00000400         rw !x
+user_signatures  0x00850000         0x00000400         rw !x
+*default*        0x00000000         0xffffffff
 
 Linker script and memory map
 
 Address of section .data set to 0x800200
-LOAD /usr/lib/gcc/avr/4.8.2/../../../avr/lib/avr6/crtm2560.o
+LOAD /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/../../../../avr/lib/avr6/crtm2560.o
 LOAD color_sensor.o
 LOAD app.o
 LOAD ../buzzer/buzzer.o
 LOAD ../custom_delay/custom_delay.o
 START GROUP
-LOAD /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a
-LOAD /usr/lib/gcc/avr/4.8.2/../../../avr/lib/avr6/libm.a
-LOAD /usr/lib/gcc/avr/4.8.2/../../../avr/lib/avr6/libc.a
+LOAD /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr6/libgcc.a
+LOAD /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/../../../../avr/lib/avr6/libm.a
+LOAD /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/../../../../avr/lib/avr6/libc.a
 END GROUP
 
 .hash
@@ -123,48 +123,49 @@ END GROUP
 .rela.plt
  *(.rela.plt)
 
-.text           0x0000000000000000      0x33e
+.text           0x00000000      0x3bc
  *(.vectors)
- .vectors       0x0000000000000000       0xe4 /usr/lib/gcc/avr/4.8.2/../../../avr/lib/avr6/crtm2560.o
-                0x0000000000000000                __vectors
-                0x0000000000000000                __vector_default
+ .vectors       0x00000000       0xe4 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/../../../../avr/lib/avr6/crtm2560.o
+                0x00000000                __vectors
+                0x00000000                __vector_default
  *(.vectors)
  *(.progmem.gcc*)
- *(.progmem*)
-                0x00000000000000e4                . = ALIGN (0x2)
-                0x00000000000000e4                __trampolines_start = .
+                0x000000e4                . = ALIGN (0x2)
+                0x000000e4                __trampolines_start = .
  *(.trampolines)
- .trampolines   0x00000000000000e4        0x0 linker stubs
+ .trampolines   0x000000e4        0x0 linker stubs
  *(.trampolines*)
-                0x00000000000000e4                __trampolines_end = .
+                0x000000e4                __trampolines_end = .
+ *(.progmem*)
+                0x000000e4                . = ALIGN (0x2)
  *(.jumptables)
  *(.jumptables*)
  *(.lowtext)
  *(.lowtext*)
-                0x00000000000000e4                __ctors_start = .
+                0x000000e4                __ctors_start = .
  *(.ctors)
-                0x00000000000000e4                __ctors_end = .
-                0x00000000000000e4                __dtors_start = .
+                0x000000e4                __ctors_end = .
+                0x000000e4                __dtors_start = .
  *(.dtors)
-                0x00000000000000e4                __dtors_end = .
+                0x000000e4                __dtors_end = .
  SORT(*)(.ctors)
  SORT(*)(.dtors)
  *(.init0)
- .init0         0x00000000000000e4        0x0 /usr/lib/gcc/avr/4.8.2/../../../avr/lib/avr6/crtm2560.o
-                0x00000000000000e4                __init
+ .init0         0x000000e4        0x0 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/../../../../avr/lib/avr6/crtm2560.o
+                0x000000e4                __init
  *(.init0)
  *(.init1)
  *(.init1)
  *(.init2)
- .init2         0x00000000000000e4       0x10 /usr/lib/gcc/avr/4.8.2/../../../avr/lib/avr6/crtm2560.o
+ .init2         0x000000e4       0x10 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/../../../../avr/lib/avr6/crtm2560.o
  *(.init2)
  *(.init3)
  *(.init3)
  *(.init4)
- .init4         0x00000000000000f4       0x1a /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_copy_data.o)
-                0x00000000000000f4                __do_copy_data
- .init4         0x000000000000010e       0x10 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_clear_bss.o)
-                0x000000000000010e                __do_clear_bss
+ .init4         0x000000f4       0x1a /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr6/libgcc.a(_copy_data.o)
+                0x000000f4                __do_copy_data
+ .init4         0x0000010e       0x10 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr6/libgcc.a(_clear_bss.o)
+                0x0000010e                __do_clear_bss
  *(.init4)
  *(.init5)
  *(.init5)
@@ -175,138 +176,138 @@ END GROUP
  *(.init8)
  *(.init8)
  *(.init9)
- .init9         0x000000000000011e        0x8 /usr/lib/gcc/avr/4.8.2/../../../avr/lib/avr6/crtm2560.o
+ .init9         0x0000011e        0x8 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/../../../../avr/lib/avr6/crtm2560.o
  *(.init9)
  *(.text)
- .text          0x0000000000000126        0x4 /usr/lib/gcc/avr/4.8.2/../../../avr/lib/avr6/crtm2560.o
-                0x0000000000000126                __vector_38
-                0x0000000000000126                __vector_22
-                0x0000000000000126                __vector_28
-                0x0000000000000126                __vector_32
-                0x0000000000000126                __vector_34
-                0x0000000000000126                __vector_24
-                0x0000000000000126                __vector_12
-                0x0000000000000126                __vector_55
-                0x0000000000000126                __vector_46
-                0x0000000000000126                __bad_interrupt
-                0x0000000000000126                __vector_6
-                0x0000000000000126                __vector_31
-                0x0000000000000126                __vector_35
-                0x0000000000000126                __vector_39
-                0x0000000000000126                __vector_3
-                0x0000000000000126                __vector_23
-                0x0000000000000126                __vector_30
-                0x0000000000000126                __vector_45
-                0x0000000000000126                __vector_25
-                0x0000000000000126                __vector_11
-                0x0000000000000126                __vector_54
-                0x0000000000000126                __vector_13
-                0x0000000000000126                __vector_17
-                0x0000000000000126                __vector_19
-                0x0000000000000126                __vector_56
-                0x0000000000000126                __vector_7
-                0x0000000000000126                __vector_49
-                0x0000000000000126                __vector_41
-                0x0000000000000126                __vector_43
-                0x0000000000000126                __vector_27
-                0x0000000000000126                __vector_5
-                0x0000000000000126                __vector_33
-                0x0000000000000126                __vector_47
-                0x0000000000000126                __vector_52
-                0x0000000000000126                __vector_37
-                0x0000000000000126                __vector_4
-                0x0000000000000126                __vector_44
-                0x0000000000000126                __vector_51
-                0x0000000000000126                __vector_9
-                0x0000000000000126                __vector_2
-                0x0000000000000126                __vector_21
-                0x0000000000000126                __vector_15
-                0x0000000000000126                __vector_36
-                0x0000000000000126                __vector_29
-                0x0000000000000126                __vector_40
-                0x0000000000000126                __vector_8
-                0x0000000000000126                __vector_26
-                0x0000000000000126                __vector_48
-                0x0000000000000126                __vector_14
-                0x0000000000000126                __vector_53
-                0x0000000000000126                __vector_10
-                0x0000000000000126                __vector_50
-                0x0000000000000126                __vector_16
-                0x0000000000000126                __vector_18
-                0x0000000000000126                __vector_20
-                0x0000000000000126                __vector_42
- .text          0x000000000000012a      0x15c color_sensor.o
-                0x000000000000012a                ColorPinConfig
-                0x0000000000000142                ColorInterruptInit
-                0x0000000000000154                __vector_1
-                0x000000000000019e                ColorCollectPulses
-                0x00000000000001d2                ColorGetRed
-                0x00000000000001e6                ColorGetGreen
-                0x00000000000001fa                ColorGetBlue
-                0x000000000000020e                ColorSensorScaling
-                0x0000000000000224                ColorInitDevices
-                0x0000000000000230                color_get
- .text          0x0000000000000286        0x0 app.o
- .text          0x0000000000000286       0x42 ../buzzer/buzzer.o
-                0x0000000000000286                BuzzerPinConfig
-                0x000000000000028c                BuzzerPortInit
-                0x0000000000000290                BuzzerOn
-                0x0000000000000298                BuzzerOff
-                0x00000000000002a0                BuzzerBeep
-                0x00000000000002be                BuzzerInitDevices
- .text          0x00000000000002c8       0x16 ../custom_delay/custom_delay.o
-                0x00000000000002c8                CustomDelay
- .text          0x00000000000002de        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_exit.o)
- .text          0x00000000000002de        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_copy_data.o)
- .text          0x00000000000002de        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_clear_bss.o)
-                0x00000000000002de                . = ALIGN (0x2)
+ .text          0x00000126        0x4 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/../../../../avr/lib/avr6/crtm2560.o
+                0x00000126                __vector_42
+                0x00000126                __vector_22
+                0x00000126                __vector_28
+                0x00000126                __vector_32
+                0x00000126                __vector_34
+                0x00000126                __vector_24
+                0x00000126                __vector_12
+                0x00000126                __vector_55
+                0x00000126                __vector_46
+                0x00000126                __bad_interrupt
+                0x00000126                __vector_6
+                0x00000126                __vector_31
+                0x00000126                __vector_35
+                0x00000126                __vector_39
+                0x00000126                __vector_3
+                0x00000126                __vector_23
+                0x00000126                __vector_30
+                0x00000126                __vector_45
+                0x00000126                __vector_25
+                0x00000126                __vector_11
+                0x00000126                __vector_54
+                0x00000126                __vector_13
+                0x00000126                __vector_17
+                0x00000126                __vector_19
+                0x00000126                __vector_56
+                0x00000126                __vector_7
+                0x00000126                __vector_49
+                0x00000126                __vector_41
+                0x00000126                __vector_43
+                0x00000126                __vector_27
+                0x00000126                __vector_5
+                0x00000126                __vector_33
+                0x00000126                __vector_47
+                0x00000126                __vector_52
+                0x00000126                __vector_37
+                0x00000126                __vector_4
+                0x00000126                __vector_44
+                0x00000126                __vector_51
+                0x00000126                __vector_9
+                0x00000126                __vector_2
+                0x00000126                __vector_21
+                0x00000126                __vector_15
+                0x00000126                __vector_36
+                0x00000126                __vector_29
+                0x00000126                __vector_40
+                0x00000126                __vector_8
+                0x00000126                __vector_26
+                0x00000126                __vector_48
+                0x00000126                __vector_14
+                0x00000126                __vector_53
+                0x00000126                __vector_10
+                0x00000126                __vector_50
+                0x00000126                __vector_16
+                0x00000126                __vector_18
+                0x00000126                __vector_20
+                0x00000126                __vector_38
+ .text          0x0000012a      0x1da color_sensor.o
+                0x0000012a                ColorPinConfig
+                0x00000142                ColorInterruptInit
+                0x00000154                __vector_1
+                0x0000019e                ColorCollectPulses
+                0x000001d2                ColorGetRed
+                0x000001e6                ColorGetGreen
+                0x000001fa                ColorGetBlue
+                0x0000020e                ColorSensorScaling
+                0x00000224                ColorInitDevices
+                0x00000230                color_get
+ .text          0x00000304        0x0 app.o
+ .text          0x00000304       0x42 ../buzzer/buzzer.o
+                0x00000304                BuzzerPinConfig
+                0x0000030a                BuzzerPortInit
+                0x0000030e                BuzzerOn
+                0x00000316                BuzzerOff
+                0x0000031e                BuzzerBeep
+                0x0000033c                BuzzerInitDevices
+ .text          0x00000346       0x16 ../custom_delay/custom_delay.o
+                0x00000346                CustomDelay
+ .text          0x0000035c        0x0 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr6/libgcc.a(_exit.o)
+ .text          0x0000035c        0x0 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr6/libgcc.a(_copy_data.o)
+ .text          0x0000035c        0x0 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr6/libgcc.a(_clear_bss.o)
+                0x0000035c                . = ALIGN (0x2)
  *(.text.*)
- .text.startup  0x00000000000002de       0x5c app.o
-                0x00000000000002de                main
+ .text.startup  0x0000035c       0x5c app.o
+                0x0000035c                main
  .text.libgcc.mul
-                0x000000000000033a        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_exit.o)
+                0x000003b8        0x0 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr6/libgcc.a(_exit.o)
  .text.libgcc.div
-                0x000000000000033a        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_exit.o)
- .text.libgcc   0x000000000000033a        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_exit.o)
+                0x000003b8        0x0 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr6/libgcc.a(_exit.o)
+ .text.libgcc   0x000003b8        0x0 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr6/libgcc.a(_exit.o)
  .text.libgcc.prologue
-                0x000000000000033a        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_exit.o)
+                0x000003b8        0x0 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr6/libgcc.a(_exit.o)
  .text.libgcc.builtins
-                0x000000000000033a        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_exit.o)
+                0x000003b8        0x0 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr6/libgcc.a(_exit.o)
  .text.libgcc.fmul
-                0x000000000000033a        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_exit.o)
+                0x000003b8        0x0 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr6/libgcc.a(_exit.o)
  .text.libgcc.fixed
-                0x000000000000033a        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_exit.o)
+                0x000003b8        0x0 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr6/libgcc.a(_exit.o)
  .text.libgcc.mul
-                0x000000000000033a        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_copy_data.o)
+                0x000003b8        0x0 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr6/libgcc.a(_copy_data.o)
  .text.libgcc.div
-                0x000000000000033a        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_copy_data.o)
- .text.libgcc   0x000000000000033a        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_copy_data.o)
+                0x000003b8        0x0 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr6/libgcc.a(_copy_data.o)
+ .text.libgcc   0x000003b8        0x0 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr6/libgcc.a(_copy_data.o)
  .text.libgcc.prologue
-                0x000000000000033a        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_copy_data.o)
+                0x000003b8        0x0 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr6/libgcc.a(_copy_data.o)
  .text.libgcc.builtins
-                0x000000000000033a        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_copy_data.o)
+                0x000003b8        0x0 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr6/libgcc.a(_copy_data.o)
  .text.libgcc.fmul
-                0x000000000000033a        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_copy_data.o)
+                0x000003b8        0x0 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr6/libgcc.a(_copy_data.o)
  .text.libgcc.fixed
-                0x000000000000033a        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_copy_data.o)
+                0x000003b8        0x0 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr6/libgcc.a(_copy_data.o)
  .text.libgcc.mul
-                0x000000000000033a        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_clear_bss.o)
+                0x000003b8        0x0 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr6/libgcc.a(_clear_bss.o)
  .text.libgcc.div
-                0x000000000000033a        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_clear_bss.o)
- .text.libgcc   0x000000000000033a        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_clear_bss.o)
+                0x000003b8        0x0 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr6/libgcc.a(_clear_bss.o)
+ .text.libgcc   0x000003b8        0x0 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr6/libgcc.a(_clear_bss.o)
  .text.libgcc.prologue
-                0x000000000000033a        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_clear_bss.o)
+                0x000003b8        0x0 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr6/libgcc.a(_clear_bss.o)
  .text.libgcc.builtins
-                0x000000000000033a        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_clear_bss.o)
+                0x000003b8        0x0 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr6/libgcc.a(_clear_bss.o)
  .text.libgcc.fmul
-                0x000000000000033a        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_clear_bss.o)
+                0x000003b8        0x0 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr6/libgcc.a(_clear_bss.o)
  .text.libgcc.fixed
-                0x000000000000033a        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_clear_bss.o)
-                0x000000000000033a                . = ALIGN (0x2)
+                0x000003b8        0x0 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr6/libgcc.a(_clear_bss.o)
+                0x000003b8                . = ALIGN (0x2)
  *(.fini9)
- .fini9         0x000000000000033a        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_exit.o)
-                0x000000000000033a                exit
-                0x000000000000033a                _exit
+ .fini9         0x000003b8        0x0 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr6/libgcc.a(_exit.o)
+                0x000003b8                exit
+                0x000003b8                _exit
  *(.fini9)
  *(.fini8)
  *(.fini8)
@@ -325,59 +326,59 @@ END GROUP
  *(.fini1)
  *(.fini1)
  *(.fini0)
- .fini0         0x000000000000033a        0x4 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_exit.o)
+ .fini0         0x000003b8        0x4 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr6/libgcc.a(_exit.o)
  *(.fini0)
-                0x000000000000033e                _etext = .
+                0x000003bc                _etext = .
 
-.data           0x0000000000800200        0x2 load address 0x000000000000033e
-                0x0000000000800200                PROVIDE (__data_start, .)
+.data           0x00800200        0x2 load address 0x000003bc
+                0x00800200                PROVIDE (__data_start, .)
  *(.data)
- .data          0x0000000000800200        0x0 /usr/lib/gcc/avr/4.8.2/../../../avr/lib/avr6/crtm2560.o
- .data          0x0000000000800200        0x0 color_sensor.o
- .data          0x0000000000800200        0x0 app.o
- .data          0x0000000000800200        0x0 ../buzzer/buzzer.o
- .data          0x0000000000800200        0x0 ../custom_delay/custom_delay.o
- .data          0x0000000000800200        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_exit.o)
- .data          0x0000000000800200        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_copy_data.o)
- .data          0x0000000000800200        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_clear_bss.o)
+ .data          0x00800200        0x0 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/../../../../avr/lib/avr6/crtm2560.o
+ .data          0x00800200        0x0 color_sensor.o
+ .data          0x00800200        0x0 app.o
+ .data          0x00800200        0x0 ../buzzer/buzzer.o
+ .data          0x00800200        0x0 ../custom_delay/custom_delay.o
+ .data          0x00800200        0x0 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr6/libgcc.a(_exit.o)
+ .data          0x00800200        0x0 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr6/libgcc.a(_copy_data.o)
+ .data          0x00800200        0x0 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr6/libgcc.a(_clear_bss.o)
  *(.data*)
  *(.rodata)
- .rodata        0x0000000000800200        0x2 color_sensor.o
-                0x0000000000800200                color_data_time
+ .rodata        0x00800200        0x2 color_sensor.o
+                0x00800200                color_data_time
  *(.rodata*)
  *(.gnu.linkonce.d*)
-                0x0000000000800202                . = ALIGN (0x2)
-                0x0000000000800202                _edata = .
-                0x0000000000800202                PROVIDE (__data_end, .)
+                0x00800202                . = ALIGN (0x2)
+                0x00800202                _edata = .
+                0x00800202                PROVIDE (__data_end, .)
 
-.bss            0x0000000000800202        0x4
-                0x0000000000800202                PROVIDE (__bss_start, .)
+.bss            0x00800202        0x4
+                0x00800202                PROVIDE (__bss_start, .)
  *(.bss)
- .bss           0x0000000000800202        0x0 /usr/lib/gcc/avr/4.8.2/../../../avr/lib/avr6/crtm2560.o
- .bss           0x0000000000800202        0x4 color_sensor.o
-                0x0000000000800202                color_pulse
- .bss           0x0000000000800206        0x0 app.o
- .bss           0x0000000000800206        0x0 ../buzzer/buzzer.o
- .bss           0x0000000000800206        0x0 ../custom_delay/custom_delay.o
- .bss           0x0000000000800206        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_exit.o)
- .bss           0x0000000000800206        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_copy_data.o)
- .bss           0x0000000000800206        0x0 /usr/lib/gcc/avr/4.8.2/avr6/libgcc.a(_clear_bss.o)
+ .bss           0x00800202        0x0 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/../../../../avr/lib/avr6/crtm2560.o
+ .bss           0x00800202        0x4 color_sensor.o
+                0x00800202                color_pulse
+ .bss           0x00800206        0x0 app.o
+ .bss           0x00800206        0x0 ../buzzer/buzzer.o
+ .bss           0x00800206        0x0 ../custom_delay/custom_delay.o
+ .bss           0x00800206        0x0 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr6/libgcc.a(_exit.o)
+ .bss           0x00800206        0x0 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr6/libgcc.a(_copy_data.o)
+ .bss           0x00800206        0x0 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr6/libgcc.a(_clear_bss.o)
  *(.bss*)
  *(COMMON)
-                0x0000000000800206                PROVIDE (__bss_end, .)
-                0x000000000000033e                __data_load_start = LOADADDR (.data)
-                0x0000000000000340                __data_load_end = (__data_load_start + SIZEOF (.data))
+                0x00800206                PROVIDE (__bss_end, .)
+                0x000003bc                __data_load_start = LOADADDR (.data)
+                0x000003be                __data_load_end = (__data_load_start + SIZEOF (.data))
 
-.noinit         0x0000000000800206        0x0
-                0x0000000000800206                PROVIDE (__noinit_start, .)
+.noinit         0x00800206        0x0
+                0x00800206                PROVIDE (__noinit_start, .)
  *(.noinit*)
-                0x0000000000800206                PROVIDE (__noinit_end, .)
-                0x0000000000800206                _end = .
-                0x0000000000800206                PROVIDE (__heap_start, .)
+                0x00800206                PROVIDE (__noinit_end, .)
+                0x00800206                _end = .
+                0x00800206                PROVIDE (__heap_start, .)
 
-.eeprom         0x0000000000810000        0x0
+.eeprom         0x00810000        0x0
  *(.eeprom*)
-                0x0000000000810000                __eeprom_end = .
+                0x00810000                __eeprom_end = .
 
 .fuse
  *(.fuse)
@@ -394,21 +395,11 @@ END GROUP
 .user_signatures
  *(.user_signatures*)
 
-.stab           0x0000000000000000     0x1bb4
+.stab
  *(.stab)
- .stab          0x0000000000000000      0x6e4 /usr/lib/gcc/avr/4.8.2/../../../avr/lib/avr6/crtm2560.o
- .stab          0x00000000000006e4      0x924 color_sensor.o
-                                        0x930 (size before relaxing)
- .stab          0x0000000000001008      0x378 app.o
-                                        0x540 (size before relaxing)
- .stab          0x0000000000001380      0x4f8 ../buzzer/buzzer.o
-                                        0x6c0 (size before relaxing)
- .stab          0x0000000000001878      0x33c ../custom_delay/custom_delay.o
-                                        0x504 (size before relaxing)
 
-.stabstr        0x0000000000000000      0xed5
+.stabstr
  *(.stabstr)
- .stabstr       0x0000000000000000      0xed5 /usr/lib/gcc/avr/4.8.2/../../../avr/lib/avr6/crtm2560.o
 
 .stab.excl
  *(.stab.excl)
@@ -422,13 +413,13 @@ END GROUP
 .stab.indexstr
  *(.stab.indexstr)
 
-.comment        0x0000000000000000       0x11
+.comment        0x00000000       0x11
  *(.comment)
- .comment       0x0000000000000000       0x11 color_sensor.o
-                                         0x12 (size before relaxing)
- .comment       0x0000000000000000       0x12 app.o
- .comment       0x0000000000000000       0x12 ../buzzer/buzzer.o
- .comment       0x0000000000000000       0x12 ../custom_delay/custom_delay.o
+ .comment       0x00000000       0x11 color_sensor.o
+                                 0x12 (size before relaxing)
+ .comment       0x00000000       0x12 app.o
+ .comment       0x00000000       0x12 ../buzzer/buzzer.o
+ .comment       0x00000000       0x12 ../custom_delay/custom_delay.o
 
 .debug
  *(.debug)
@@ -442,30 +433,81 @@ END GROUP
 .debug_sfnames
  *(.debug_sfnames)
 
-.debug_aranges
+.debug_aranges  0x00000000       0xe0
  *(.debug_aranges)
+ .debug_aranges
+                0x00000000       0x20 color_sensor.o
+ .debug_aranges
+                0x00000020       0x20 app.o
+ .debug_aranges
+                0x00000040       0x20 ../buzzer/buzzer.o
+ .debug_aranges
+                0x00000060       0x20 ../custom_delay/custom_delay.o
+ .debug_aranges
+                0x00000080       0x20 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr6/libgcc.a(_exit.o)
+ .debug_aranges
+                0x000000a0       0x20 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr6/libgcc.a(_copy_data.o)
+ .debug_aranges
+                0x000000c0       0x20 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr6/libgcc.a(_clear_bss.o)
 
 .debug_pubnames
  *(.debug_pubnames)
 
-.debug_info
+.debug_info     0x00000000      0x9fb
  *(.debug_info)
+ .debug_info    0x00000000      0x337 color_sensor.o
+ .debug_info    0x00000337      0x1df app.o
+ .debug_info    0x00000516      0x1a8 ../buzzer/buzzer.o
+ .debug_info    0x000006be      0x103 ../custom_delay/custom_delay.o
+ .debug_info    0x000007c1       0xbe /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr6/libgcc.a(_exit.o)
+ .debug_info    0x0000087f       0xbe /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr6/libgcc.a(_copy_data.o)
+ .debug_info    0x0000093d       0xbe /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr6/libgcc.a(_clear_bss.o)
  *(.gnu.linkonce.wi.*)
 
-.debug_abbrev
+.debug_abbrev   0x00000000      0x4fe
  *(.debug_abbrev)
+ .debug_abbrev  0x00000000      0x196 color_sensor.o
+ .debug_abbrev  0x00000196      0x143 app.o
+ .debug_abbrev  0x000002d9      0x125 ../buzzer/buzzer.o
+ .debug_abbrev  0x000003fe       0xc4 ../custom_delay/custom_delay.o
+ .debug_abbrev  0x000004c2       0x14 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr6/libgcc.a(_exit.o)
+ .debug_abbrev  0x000004d6       0x14 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr6/libgcc.a(_copy_data.o)
+ .debug_abbrev  0x000004ea       0x14 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr6/libgcc.a(_clear_bss.o)
 
-.debug_line
+.debug_line     0x00000000      0x496
  *(.debug_line)
+ .debug_line    0x00000000      0x12a color_sensor.o
+ .debug_line    0x0000012a       0xe4 app.o
+ .debug_line    0x0000020e       0xac ../buzzer/buzzer.o
+ .debug_line    0x000002ba       0xc3 ../custom_delay/custom_delay.o
+ .debug_line    0x0000037d       0x58 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr6/libgcc.a(_exit.o)
+ .debug_line    0x000003d5       0x63 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr6/libgcc.a(_copy_data.o)
+ .debug_line    0x00000438       0x5e /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr6/libgcc.a(_clear_bss.o)
 
-.debug_frame
+.debug_frame    0x00000000      0x1d8
  *(.debug_frame)
+ .debug_frame   0x00000000      0x110 color_sensor.o
+ .debug_frame   0x00000110       0x24 app.o
+ .debug_frame   0x00000134       0x80 ../buzzer/buzzer.o
+ .debug_frame   0x000001b4       0x24 ../custom_delay/custom_delay.o
 
-.debug_str
+.debug_str      0x00000000      0x2bd
  *(.debug_str)
+ .debug_str     0x00000000      0x1d2 color_sensor.o
+                                0x20b (size before relaxing)
+ .debug_str     0x000001d2       0x1c app.o
+                                0x142 (size before relaxing)
+ .debug_str     0x000001ee       0x90 ../buzzer/buzzer.o
+                                0x12e (size before relaxing)
+ .debug_str     0x0000027e       0x3f ../custom_delay/custom_delay.o
+                                0x121 (size before relaxing)
 
-.debug_loc
+.debug_loc      0x00000000      0x383
  *(.debug_loc)
+ .debug_loc     0x00000000      0x239 color_sensor.o
+ .debug_loc     0x00000239       0x29 app.o
+ .debug_loc     0x00000262       0xb3 ../buzzer/buzzer.o
+ .debug_loc     0x00000315       0x6e ../custom_delay/custom_delay.o
 
 .debug_macinfo
  *(.debug_macinfo)
@@ -473,8 +515,9 @@ END GROUP
 .debug_pubtypes
  *(.debug_pubtypes)
 
-.debug_ranges
+.debug_ranges   0x00000000       0x10
  *(.debug_ranges)
+ .debug_ranges  0x00000000       0x10 app.o
 
 .debug_macro
  *(.debug_macro)

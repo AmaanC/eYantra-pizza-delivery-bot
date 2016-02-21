@@ -3,6 +3,9 @@
 #include <util/delay.h>
 #include "color_sensor.h"
 #include "../custom_delay/custom_delay.h"
+#include "../buzzer/buzzer.h"
+
+#define MAX(a,b,c)  a > b ? (a > c ? a : c) : (b > c ? b : c)
 
 
 volatile unsigned long int color_pulse = 0;
@@ -73,18 +76,33 @@ char color_get() {
     
     char ret = 'u';
     int red, green, blue;
-    red = ColorGetRed();
-    green = ColorGetGreen();
-    blue = ColorGetBlue();
-    if (red > green && red > blue) {
-        ret = 'r';
+    int red_count, green_count, blue_count;
+    int final_count = 0;
+    int i = 0;
+    while(i<5) {
+        red = ColorGetRed();
+        green = ColorGetGreen();
+        blue = ColorGetBlue();
+        if (red > green && red > blue) {
+            ++red_count;
+        }
+        else if (green > red && green > blue) {
+            ++green_count;
+        }
+        else if (blue > green && blue > red) {
+            ++blue_count;
+        }
+        ++i;
+        _delay_ms(100);
     }
-    else if (green > red && green > blue) {
-        ret = 'g';
-    }
-    else if (blue > green && blue > red) {
-        ret = 'b';
-    }
+    final_count = MAX(red_count, green_count, blue_count);
+    if(final_count == red_count)
+        return 'r';
+    if(final_count == green_count)
+        return 'g';
+    if(final_count == blue_count)
+        return 'b';
+    else
+        return ret;
 
-    return ret;
 }
