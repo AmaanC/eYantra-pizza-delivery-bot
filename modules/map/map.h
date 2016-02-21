@@ -65,22 +65,22 @@ typedef struct _CurveInfo {
     int curve_nodes_len; // Number of nodes involved
 } CurveInfo;
 
-Node* CreateNode(float x, float y, int num_connected, char *name);
+Node *CreateNode(float x, float y, int num_connected, char *name);
 void ConnectNodes(Node *a, Node *b, float cost);
 void InitGraph();
-Node* GetCurrentNode();
-Node* GetNodeByName(char *name);
-
+Node *GetCurrentNode();
 void DFSEval(Node *source_node, int unvisited_value, int fn());
-
+int CheckNodeName(Node *current_node);
+Node *GetNodeByName(char *name);
+int IndexOfNode(Node **node_arr, int len, Node *needle);
+void UpdateNodeInArray(Node **node_costs, int *len, Node *new_node);
 CurveInfo *GetCurveInfo();
 Graph *GetGraph();
+float GetRotationCost(float deg);
 float RadToDeg(float radians);
 float MakePositiveDeg(float angle);
+float MakePositiveRad(float angle);
 float GetAngularVelocity(Node *node1, Node *node2);
-int IndexOfNode(Node **node_arr, int len, Node *needle);
-float GetRotationCost(float deg);
-void UpdateNodeInArray(Node **node_costs, int *len, Node *new_node);
 int GetCurveDirection(Node *source_node, Node *target_node);
 
 #endif
