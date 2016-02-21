@@ -1267,9 +1267,14 @@ void NormalOperation() {
             SetState('f');
             return;
         }
-    }
-    if (next_reg_pizza->found == FALSE) {
-        // If we still haven't found it, we can't consider delivering it
+
+        // If our call to FindPizzas did find it, we want to consider free time now, else,
+        // we want to come right back here and consider searching more or canceling
+        if (next_reg_pizza->found == TRUE) {
+            SetState('f');
+        }
+        // We can't consider delivering the pizza if we haven't found it
+        // If we have found it, we want to consider it free time first!
         return;
     }
     // next_extra_order might be NULL, but that's okay, because ConsiderCancel

@@ -54,7 +54,6 @@ typedef struct _Order {
     int pickup_time;
     // r, p: regular, preorder
     char order_type;
-    Pizza *pizza;
     // Node containing the delivery location
     Node *delivery_house;
     // State of the order:
@@ -91,7 +90,7 @@ Node *GetNodeToLeft(Node *source_node);
 Node *GetFirstPToRight(int real_pizza);
 Node *GetFirstPToLeft(int real_pizza);
 Node *GetFurthestPizzaNode(Node *source_node);
-int CheckOverlap(TimeBlock *a, TimeBlock *b;
+int CheckOverlap(TimeBlock *a, TimeBlock *b);
 TimeBlock *GetCurrentTimeBlock();
 char GetState();
 void SetState(char new_state);
