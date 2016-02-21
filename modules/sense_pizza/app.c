@@ -9,10 +9,11 @@
 
 int main() {
     InitSenses();
-    int sharp;
+    int sharp, value;
     while(1) {
         sharp = SharpAdcConversion(11);
-        LcdPrintf("value: %d", sharp);
+        value = SharpGp2d12Estimation(sharp);
+        LcdPrintf("value: %d", value);
     }
 }
     

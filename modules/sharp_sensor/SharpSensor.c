@@ -70,13 +70,13 @@ unsigned int SharpGp2d12Estimation(unsigned char adc_reading) {
 // default_dist is used when we can't tell what block we're detecting 
 // because it is between two threshold values (small+threshold and medium-threshold)
 int SharpGetBlockSize(int distance, int default_dist) {
-    int threshold = 13;
-	int no_block_threshold = 16;
+    int threshold = 14;
+	int no_block_threshold = 12;
 	// All experimental averages
     int no_block_height = 320;
-    int small_height = 262;
-    int medium_height = 234;
-    int large_height = 204;
+    int small_height = 257;
+    int medium_height = 218;
+    int large_height = 191;
 
     int ret = 0;
 
@@ -104,7 +104,7 @@ char SharpGetBlockType() {
     int size_count;
     int small, medium, large, null;
     small = medium = large = null = 0;
-    while(i<5) {
+    while(i<10) {
         int sharp = SharpAdcConversion(11);
         int value = SharpGp2d12Estimation(sharp);
         int block_size = SharpGetBlockSize(value, block_size); // Get block size from sharp sensor distance (in mm)
@@ -117,7 +117,7 @@ char SharpGetBlockType() {
         if(block_size == 12)
             ++large;
         i++;
-        _delay_ms(100);
+        _delay_ms(50);
     }
     size_count = MAX(null, small, medium, large);
     if(size_count == small)

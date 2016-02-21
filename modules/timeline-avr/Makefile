@@ -25,7 +25,7 @@ app.out : $(FILENAME).o $(DEPS)
 	$(CC) $(CFLAGS) -o app.out -Wl,-Map,$(FILENAME).map $(FILENAME).o $(DEPS) -lm
 
 %.o : %.c
-	$(CC) $(CFLAGS) -Os -c $< -o $(patsubst %.c,%.o,$<)
+	$(CC) $(CFLAGS) -O3 -c $< -o $(patsubst %.c,%.o,$<)
 
 # rm -f *.o *.out *.map *.hex
 clean:
