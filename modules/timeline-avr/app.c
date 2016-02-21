@@ -8,6 +8,7 @@
 #include "../move_bot/move_bot.h"
 
 int main() {
+    int i = 0;
     // sharp_init_devices();
     InitTimer();
     InitBotInfo();
@@ -15,10 +16,10 @@ int main() {
     InitTimeline();
     LcdInit();
     MoveBotInitDevices();
-    // PizzaList *our_pizzas = GetPizzas();
-    // for (i = 0; i < our_pizzas->len; i++) {
-    //     printf("C: %c, S: %c\n", our_pizzas->pizzas[i]->colour, our_pizzas->pizzas[i]->size);
-    // }
+    PizzaList *our_pizzas = GetPizzas();
+    for (i = 0; i < our_pizzas->len; i++) {
+        printf("C: %c, S: %c\n", our_pizzas->pizzas[i]->colour, our_pizzas->pizzas[i]->size);
+    }
 
     // timeline = GetTimeline();
     // printf("Num orders: %d\n", timeline->len);
@@ -68,7 +69,7 @@ int main() {
     // for (i = 0; i < available->len; i++) {
     //     Display(available->orders[i]);
     // }
-    printf("Hello world");
-    TimelineControl();
+    // printf("Hello world");
+    // TimelineControl();
     return 0;
 }
