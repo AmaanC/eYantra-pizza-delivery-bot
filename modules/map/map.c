@@ -252,7 +252,7 @@ Node *GetCurrentNode() {
 
 // Call it like this:
 // DFSEval(GetCurrentNode(), GetCurrentNode()->visited, update_dist)
-void DFSEval(Node *source_node, int unvisited_value, int fn()) {
+void DFSEval(Node *source_node, int unvisited_value, int (*fn)(Node *)) {
     int i;
     // printf("DFS: %s\n", source_node->name);
     source_node->visited = !unvisited_value;
