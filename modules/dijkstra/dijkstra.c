@@ -178,6 +178,7 @@ PathStack* Dijkstra(Node *source_node, Node *target_node, float cur_deg, Graph *
             break;
         }
     }
+    free(node_costs);
     // printf("cur_node: %s, enter_deg: %f, total_cost: %f\n", current_node->name, current_node->enter_deg, current_node->path_cost);
     // Dijkstra's is done!
     // Now we can reverse iterate and use the prev_node pointers to find the path the bot should take
