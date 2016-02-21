@@ -70,6 +70,8 @@ int main() {
     //     Display(available->orders[i]);
     // }
     // printf("Hello world");
-    TimelineControl();
+    while (1) {
+        TimelineControl();
+    }
     return 0;
 }
