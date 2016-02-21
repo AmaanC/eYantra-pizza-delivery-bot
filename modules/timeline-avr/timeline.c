@@ -325,18 +325,15 @@ int GetNumDelayed(Node *source_node, int start_time, int order_num) {
 
         next_order = GetNextOrder(our_timeline, cur_order_num);
         order_pizza = GetPizzaForOrder(next_order);
+        free(path_to_pick->path);
+        free(path_to_deliver->path);
     }
 
     for (i = 0; i < used_pizzas->len; i++) {
         used_pizzas->pizzas[i]->state = 'f';
     }
     
-    free(used_pizzas->pizzas);
     free(used_pizzas);
-    free(path_to_pick->path);
-    free(path_to_pick);
-    free(path_to_deliver->path);
-    free(path_to_deliver);
 
     return delayed;
 }
@@ -436,6 +433,8 @@ DeliverySequence *ConsiderCancel(Order *order1, Order *order2) {
             best_seq->should_cancel = TRUE;
             printf("Should cancel because future delays");
         }
+        free(path_to_pick1);
+        free(path_to_deliver1);
         return best_seq;
     }
 
@@ -555,6 +554,11 @@ DeliverySequence *ConsiderCancel(Order *order1, Order *order2) {
     // 
     // 
 
+    free(path_to_pick1->path);
+    free(path_to_pick2->path);
+    free(path_to_deliver1->path);
+    free(path_to_deliver2->path);
+    
     // printf("Found best_seq for multiple orders");
 
     // We didn't find any combinations where we satisfied orders within their delivery
@@ -721,6 +725,7 @@ PizzaList *GetAvailablePizzas() {
             // printf("Set state: %c %c", current_pizza->colour, current_pizza->size);
             InsertPizza(available_pizzas, current_pizza);
         }
+        free(path_to_pizza);
     }
     current_pizza = available_pizzas->pizzas[0];
     return available_pizzas;
