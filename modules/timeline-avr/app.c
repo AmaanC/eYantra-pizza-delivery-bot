@@ -18,7 +18,7 @@ int main() {
     MoveBotInitDevices();
     PizzaList *our_pizzas = GetPizzas();
     for (i = 0; i < our_pizzas->len; i++) {
-        printf("C: %c, S: %c\n", our_pizzas->pizzas[i]->colour, our_pizzas->pizzas[i]->size);
+        printf("C: %c, S: %c", our_pizzas->pizzas[i]->colour, our_pizzas->pizzas[i]->size);
     }
 
     // timeline = GetTimeline();
@@ -70,6 +70,6 @@ int main() {
     //     Display(available->orders[i]);
     // }
     // printf("Hello world");
-    // TimelineControl();
+    TimelineControl();
     return 0;
 }
