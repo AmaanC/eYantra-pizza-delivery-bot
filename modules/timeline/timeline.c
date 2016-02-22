@@ -154,7 +154,7 @@ void CreateOrder(
         OrderList *timeline,
         char colour,
         char size,
-        char order_time, // A byte-long int
+        short int order_time, // A byte-long int
         char order_type,
         char *delivery_house_name
     ) {
@@ -310,8 +310,8 @@ char GetNumDelayed(Node *source_node, char start_time, char order_num) {
     Pizza *order_pizza;
     PizzaList *used_pizzas;
     unsigned char i = 0;
-    used_pizzas = malloc(sizeof(PizzaList));
-    used_pizzas->pizzas = malloc(sizeof(Pizza *));
+    used_pizzas = malloc(sizeof(*used_pizzas));
+    used_pizzas->pizzas = malloc(MAX_ORDERS * sizeof(Pizza *));
     used_pizzas->len = 0;
     path_to_pick = path_to_deliver = NULL;
 
@@ -321,20 +321,28 @@ char GetNumDelayed(Node *source_node, char start_time, char order_num) {
     while (next_order != NULL) {
         // We set the state to "considering" so that when the function is called recursively,
         // the next order doesn't try to access the same pizza
-        order_pizza->state = 'c';
+        order_pizza = GetPizzaForOrder(next_order);
+        if (order_pizza != NULL) {
+            order_pizza->state = 'c';
+            InsertPizza(used_pizzas, order_pizza);
+        }
+        else {
+            printf("OrderPizza NULL! %c %c\n\n", next_order->colour, next_order->size);
+        }
 
-        InsertPizza(used_pizzas, order_pizza);
-
+        printf("Dijkstra\n");
         // We don't care about using guessed pizza locations, as long as
         // the calls compare in a similar manner.
         path_to_pick = Dijkstra(source_node, order_pizza->location, source_node->enter_deg, our_graph);
         cost_to_pick = path_to_pick->total_cost;
+
         // If we get there before we can pick it up, our cost to pick is actually higher
         if (start_time + cost_to_pick < next_order->pickup_time) {
             cost_to_pick = next_order->pickup_time - start_time;
         }
         path_to_deliver = Dijkstra(order_pizza->location, next_order->delivery_house, order_pizza->location->enter_deg, our_graph);
         cost_to_deliver = path_to_deliver->total_cost;
+
         total_cost = start_time + cost_to_pick + cost_to_deliver;
         // If we reach after the delivery period ends, we've delayed this order
         if (total_cost > next_order->delivery_period->end) {
@@ -345,18 +353,22 @@ char GetNumDelayed(Node *source_node, char start_time, char order_num) {
         cur_order_num++;
 
         next_order = GetNextOrder(our_timeline, cur_order_num);
-        order_pizza = GetPizzaForOrder(next_order);
-        free(path_to_pick->path);
-        free(path_to_deliver->path);
+        DijkstraFree(path_to_pick);
+        DijkstraFree(path_to_deliver);
+        printf("bb %d\n\n", cur_order_num);
     }
+    printf("Loop over\n\n");
 
     for (i = 0; i < used_pizzas->len; i++) {
+        printf("Set state %d %d %d\n\n", i, used_pizzas->len, used_pizzas->pizzas[i] == NULL);
+        printf("State %c\n\n", used_pizzas->pizzas[i]->state);
         used_pizzas->pizzas[i]->state = 'f';
     }
     
+    printf("%d %d\n\n", i, used_pizzas->len);
+
+    free(used_pizzas->pizzas);
     free(used_pizzas);
-    free(path_to_pick->path);
-    free(path_to_deliver->path);
 
     return delayed;
 }
@@ -422,6 +434,9 @@ DeliverySequence *ConsiderCancel(Order *order1, Order *order2) {
     if (order1 == NULL || order2 == NULL) {
         if (order2 == order1) {
             // printf("Both orders are NULL, doofus.\n");
+            free(order_combo);
+            free(pizza_combo);
+            free(best_seq);
             return NULL;
         }
         // printf("Single order\n");
@@ -462,10 +477,8 @@ DeliverySequence *ConsiderCancel(Order *order1, Order *order2) {
             best_seq->should_cancel = TRUE;
             printf("Should cancel because future delays\n");
         }
-        free(path_to_pick1->path);
-        free(path_to_pick1);
-        free(path_to_deliver1->path);
-        free(path_to_deliver1);
+        DijkstraFree(path_to_pick1);
+        DijkstraFree(path_to_deliver1);
         return best_seq;
     }
 
@@ -550,14 +563,10 @@ DeliverySequence *ConsiderCancel(Order *order1, Order *order2) {
                             path_to_deliver2 = Dijkstra(order_combo[a]->delivery_house, order_combo[b]->delivery_house, order_combo[a]->delivery_house->enter_deg, our_graph);
                             cost_to_deliver2 = path_to_deliver2->total_cost;
 
-                            free(path_to_pick1->path);
-                            free(path_to_pick1);
-                            free(path_to_pick2->path);
-                            free(path_to_pick2);
-                            free(path_to_deliver1->path);
-                            free(path_to_deliver1);
-                            free(path_to_deliver2->path);
-                            free(path_to_deliver2);
+                            DijkstraFree(path_to_pick1);
+                            DijkstraFree(path_to_pick2);
+                            DijkstraFree(path_to_deliver1);
+                            DijkstraFree(path_to_deliver2);
                             if (GetCurrentTime() + temp_cost + cost_to_deliver2 < order_combo[b]->delivery_period->start) {
                                 cost_to_deliver2 = order_combo[b]->delivery_period->start - GetCurrentTime() - temp_cost;
                                 // printf("Cd2 %f\n", cost_to_deliver2);
@@ -661,7 +670,7 @@ Pizza *GetPizzaForOrder(Order *order) {
 
     for (i = 0; i < our_pizzas->len; i++) {
         current_pizza = our_pizzas->pizzas[i];
-        // printf("Checking %c %c %c\n", current_pizza->colour, current_pizza->size, current_pizza->state);
+        printf("Checking %c %c %c\n", current_pizza->colour, current_pizza->size, current_pizza->state);
         if (
             current_pizza->state != 'c' && current_pizza->state != 'd' &&
             current_pizza->size == order->size &&
@@ -773,8 +782,7 @@ PizzaList *GetAvailablePizzas() {
             // printf("\tSet state: %c %c\n", current_pizza->colour, current_pizza->size);
             InsertPizza(available_pizzas, current_pizza);
         }
-        free(path_to_pizza->path);
-        free(path_to_pizza);
+        DijkstraFree(path_to_pizza);
     }
     return available_pizzas;
 }
@@ -965,10 +973,8 @@ char FindPizzas() {
     cost_to_find = path_to_pizza->total_cost;
     printf("Targ pizza node: %s %d\n", target_pizza_node->name, 1);//GetPizzaAtNode(target_pizza_node)->found);
 
-    free(path_to_right_pizza->path);
-    free(path_to_right_pizza);
-    free(path_to_left_pizza->path);
-    free(path_to_left_pizza);
+    DijkstraFree(path_to_right_pizza);
+    DijkstraFree(path_to_left_pizza);
     // How many future orders would be delayed if we went hunting for pizzas now
     // vs. how many would be delayed if we skipped finding pizzas
     
