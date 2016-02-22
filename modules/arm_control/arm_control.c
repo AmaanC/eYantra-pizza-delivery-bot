@@ -12,6 +12,7 @@
 #include <string.h>
 #include "../map/map.h"
 #include <math.h>
+#include "../timer-gcc/timer.h"
 
 #define TRUE 1
 #define FALSE 0
@@ -98,7 +99,7 @@ void DropPizza(Arm *arm) {
 
 //TODO: if pizza is already at H2DA, turn around and deposite it at H2DB
 void PickPizzaUp(Pizza *pizza) {
-    if(bot_info->arm1->carrying == pizza) {
+    if(bot_info->arm1->carrying != NULL) {
         RotateBot(180);
         _delay_ms(500);
         LiftPizza(bot_info->arm2);
@@ -129,7 +130,7 @@ Node *GetDepForHouse(Node *house) {
     }
 }
 
-/*void DepositPizza(Pizza *pizza) {
+void DepositPizza(Pizza *pizza) {
     Node *deposition_zone, *current_node;
     float deg_to_dep = 0;
     float current_arm_deg = 0;
@@ -153,6 +154,6 @@ Node *GetDepForHouse(Node *house) {
     // if(bot_info->arm2->carrying == pizza) {
     //     DropPizza(bot_info->arm2->lever_servo);
     // }
-}*/
+}
 
 

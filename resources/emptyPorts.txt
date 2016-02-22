@@ -32,7 +32,7 @@
 
 
 Free ports:
-PL7,6,0,1,2
+PL 0,2
 PG0,1
 PD0
 
@@ -40,7 +40,7 @@ Servo:
 PH4 (PWM output)
 
 RGB LED:
-PD1,2,3
+PL 1,6,7
 
 Color sensor:
 PD0 (Sensor output as interrupt)

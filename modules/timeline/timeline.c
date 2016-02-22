@@ -100,24 +100,6 @@ Node *GetPizzaCounter() {
     return PIZZA_COUNTER_NODE;
 }
 
-// real_pizza: whether we're checking if there's a real pizza there or if we're checking if
-// a location has been allocated
-int IsPizzaAt(Node *test_node, int real_pizza) {
-    int i = 0;
-    int found = FALSE;
-    Pizza *current_pizza;
-    for (i = 0; i < our_pizzas->len; i++) {
-        current_pizza = our_pizzas->pizzas[i];
-        if (current_pizza->location == test_node && current_pizza->found == real_pizza) {
-            found = TRUE;
-// //////            printf("  Pizza at %s\n", test_node->name);
-        }
-    }
-    return found;
-}
-
-/*
-
 void InsertOrder(OrderList *timeline, Order *new_order) {
     int i = 0;
     i = timeline->len;
@@ -913,6 +895,22 @@ void DetectPizza() {
     }
 }
 
+// real_pizza: whether we're checking if there's a real pizza there or if we're checking if
+// a location has been allocated
+int IsPizzaAt(Node *test_node, int real_pizza) {
+    int i = 0;
+    int found = FALSE;
+    Pizza *current_pizza;
+    for (i = 0; i < our_pizzas->len; i++) {
+        current_pizza = our_pizzas->pizzas[i];
+        if (current_pizza->location == test_node && current_pizza->found == real_pizza) {
+            found = TRUE;
+// //////            printf("  Pizza at %s\n", test_node->name);
+        }
+    }
+    return found;
+}
+
 // Consider looking for more pizzas
 // This function will consider the cost of finding pizzas
 // If the cost doesn't delay us for our regular order, it'll actually go search for pizzas
@@ -1231,17 +1229,17 @@ void NormalOperation() {
     // When both arms are empty, state will be set to free
     // And so the cycle continues
 
+    /*
     Bored? Here's a song to sing:
     It's the Circle of Life
     And it moves us all
     Through despair and hope
     Through faith and love
-
     Till we find our place
     On the path unwinding
     In the Circle
     The Circle of Life
-
+    */
     DeliverySequence *cur_sequence;
     Order *next_reg_order;
     Pizza *next_reg_pizza;
@@ -1370,5 +1368,3 @@ void Display(Order *current_order) {
     printf("house: %s\n", current_order->delivery_house->name);
    // //// printf("pickup point: %s\n", current_order->pickup_point);
 }
-
-*/

@@ -3,8 +3,6 @@
 
 void RgbLedInit();
 void RgbLedOff();
-void RgbLedRed();
-void RgbLedGreen();
-void RgbLedBlue();
+void RgbLedGlow(char color);
 
 #endif
