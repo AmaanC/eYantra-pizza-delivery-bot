@@ -2,6 +2,6 @@
 #define TIMER_H_
 
 void InitTimer();
-int GetCurrentTime();
+short int GetCurrentTime();
 
 #endif
