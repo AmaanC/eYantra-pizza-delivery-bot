@@ -43,46 +43,46 @@ void InitialiseBotInfo() {
 
 void ArmDown(Arm *arm) {
     if(arm == bot_info->arm1) {
-        ServoControl(1, LEVER_1_DOWN); // Lever down
+        ServoControl(bot_info->arm1->lever_servo, LEVER_1_DOWN); // Lever down
         _delay_ms(1000);
     }
 
     else {
-        ServoControl(4, LEVER_2_DOWN); // Lever down
+        ServoControl(bot_info->arm2->lever_servo, LEVER_2_DOWN); // Lever down
         _delay_ms(1000);
     }
 }
 
 void ArmUp(Arm *arm) {
     if(arm == bot_info->arm1) {
-        ServoControl(1, LEVER_1_UP); // Lever up
+        ServoControl(bot_info->arm1->lever_servo, LEVER_1_UP); // Lever up
         _delay_ms(1000);
     }
 
     else {
-        ServoControl(4, LEVER_2_UP); // Lever up
+        ServoControl(bot_info->arm2->lever_servo, LEVER_2_UP); // Lever up
         _delay_ms(1000);
     }
 }
 
 void OpenGripper(Arm *arm) {
     if(arm == bot_info->arm1) {
-        ServoControl(2, GRIPPER_1_OPEN); // Gripper open
+        ServoControl(bot_info->arm1->gripper_servo, GRIPPER_1_OPEN); // Gripper open
         _delay_ms(1000);
     }
     else {
-        ServoControl(3, GRIPPER_2_OPEN); // Gripper open
+        ServoControl(bot_info->arm2->gripper_servo, GRIPPER_2_OPEN); // Gripper open
         _delay_ms(1000);
     }
 }
 
 void CloseGripper(Arm *arm) {
     if(arm == bot_info->arm1) {
-        ServoControl(2, GRIPPER_1_CLOSE); // Gripper close
+        ServoControl(bot_info->arm1->gripper_servo, GRIPPER_1_CLOSE); // Gripper close
         _delay_ms(3000);
     }
     else {
-        ServoControl(3, GRIPPER_2_CLOSE); // Gripper close
+        ServoControl(bot_info->arm2->gripper_servo, GRIPPER_2_CLOSE); // Gripper close
         _delay_ms(3000);
     }
 }
@@ -146,7 +146,6 @@ void DepositPizza(Pizza *pizza) {
     else {
         correct_arm = bot_info->arm2;
     }
-
     // The current arm angle in absolute terms
     current_arm_deg = bot_info->cur_position->cur_deg + correct_arm->angle;
 
@@ -155,6 +154,7 @@ void DepositPizza(Pizza *pizza) {
     DropPizza(correct_arm);
 }
 
+// remove this
 // real_pizza: whether we're checking if there's a real pizza there or if we're checking if
 // a location has been allocated
 char IsPizzaAt(Node *test_node, char real_pizza) {

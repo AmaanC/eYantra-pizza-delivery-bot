@@ -18,10 +18,10 @@ void InitBotInfo() {
     our_bot->arm2->carrying = NULL;
     our_bot->arm1->angle = -90;
     our_bot->arm2->angle = 90;
-    our_bot->arm1->gripper_servo = 0;
-    our_bot->arm2->gripper_servo = 1;
-    our_bot->arm1->lever_servo = 0;
-    our_bot->arm2->lever_servo = 1;
+    our_bot->arm1->gripper_servo = 2;
+    our_bot->arm2->gripper_servo = 3;
+    our_bot->arm1->lever_servo = 1;
+    our_bot->arm2->lever_servo = 4;
 }
 
 BotInfo *GetBotInfo() {

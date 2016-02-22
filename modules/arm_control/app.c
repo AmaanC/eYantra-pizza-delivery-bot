@@ -10,16 +10,22 @@
 #include <string.h>
 #include "../map/map.h"
 #include <math.h>
+#include <stdlib.h>
 
 int main() {
-	while(1) {
-		ServoInitDevices();
-		//PickPizzaUp(1);
-		//PickPizzaUp(2);
-		_delay_ms(5000);
-		//DepositPizza(1);
-		//DepositPizza(2);
-		_delay_ms(5000);
-	}
-
+	ServoInitDevices();
+    InitialiseBotInfo();
+    Pizza *pizza1, *pizza2;
+    pizza1 = malloc(sizeof(Pizza));
+    pizza2 = malloc(sizeof(Pizza));
+    pizza1->colour = 'r';
+    pizza2->colour = 'b';
+    pizza2->size = 'l';
+    pizza1->size = 'm';  
+    PickPizzaUp(pizza1);
+    PickPizzaUp(pizza2);
+    DepositPizza(pizza1);
+    free(pizza1);
+    free(pizza2);
+    return 0;
 }
