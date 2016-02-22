@@ -330,7 +330,6 @@ char GetNumDelayed(Node *source_node, char start_time, char order_num) {
             printf("OrderPizza NULL! %c %c\n\n", next_order->colour, next_order->size);
         }
 
-        printf("Dijkstra\n");
         // We don't care about using guessed pizza locations, as long as
         // the calls compare in a similar manner.
         path_to_pick = Dijkstra(source_node, order_pizza->location, source_node->enter_deg, our_graph);
@@ -355,17 +354,11 @@ char GetNumDelayed(Node *source_node, char start_time, char order_num) {
         next_order = GetNextOrder(our_timeline, cur_order_num);
         DijkstraFree(path_to_pick);
         DijkstraFree(path_to_deliver);
-        printf("bb %d\n\n", cur_order_num);
     }
-    printf("Loop over\n\n");
 
     for (i = 0; i < used_pizzas->len; i++) {
-        printf("Set state %d %d %d\n\n", i, used_pizzas->len, used_pizzas->pizzas[i] == NULL);
-        printf("State %c\n\n", used_pizzas->pizzas[i]->state);
         used_pizzas->pizzas[i]->state = 'f';
     }
-    
-    printf("%d %d\n\n", i, used_pizzas->len);
 
     free(used_pizzas->pizzas);
     free(used_pizzas);
@@ -670,7 +663,7 @@ Pizza *GetPizzaForOrder(Order *order) {
 
     for (i = 0; i < our_pizzas->len; i++) {
         current_pizza = our_pizzas->pizzas[i];
-        printf("Checking %c %c %c\n", current_pizza->colour, current_pizza->size, current_pizza->state);
+        // printf("Checking %c %c %c\n", current_pizza->colour, current_pizza->size, current_pizza->state);
         if (
             current_pizza->state != 'c' && current_pizza->state != 'd' &&
             current_pizza->size == order->size &&
