@@ -6,9 +6,9 @@
 #include "../timer-gcc/timer.h"
 
 int main() {
-    OrderList *timeline, *available;
+    // OrderList *timeline, *available;
     // Order *order;
-    int i;
+    // int i;
 
     // sharp_init_devices();
     InitTimer();
@@ -20,13 +20,13 @@ int main() {
     //     printf("C: %c, S: %c\n", our_pizzas->pizzas[i]->colour, our_pizzas->pizzas[i]->size);
     // }
 
-    timeline = GetTimeline();
+    // timeline = GetTimeline();
     // printf("Num orders: %d\n", timeline->len);
     // printf("Order 2 start: %f\n", timeline->orders[2]->delivery_period->start);
     
-    for (i = 0; i < timeline->len; i++) {
-        Display(timeline->orders[i]);
-    }
+    // for (i = 0; i < timeline->len; i++) {
+    //     Display(timeline->orders[i]);
+    // }
     // printf("Estimated cost of delivery 0: %f\n", EstimateNextCost(GetCurrentNode(), 0));
     // printf("Order 0 and 2 at the same time: %d\n", ConsiderCancel(timeline->orders[1], timeline->orders[2])->should_cancel);
 
