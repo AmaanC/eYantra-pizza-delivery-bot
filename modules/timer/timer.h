@@ -2,7 +2,7 @@
 #define TIMER_H_
 
 void Timer4Init();
-int GetCurrentTime();
+short int GetCurrentTime();
 void ResetTime();
 void InitTimer();
 
