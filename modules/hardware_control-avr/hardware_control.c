@@ -125,7 +125,7 @@ void MoveBotToNode(Node *target_node) {
                 IndexOfNode(curve_info->curve_nodes, curve_info->curve_nodes_len, next_node) == -1
             ) {
                 LcdPrintf("Fixing");
-                PosEncoderLinearDistanceMm(50);
+                PosEncoderForwardMm(50);
                 _delay_ms(1000);
             }
             RotateBot((int) (next_node->enter_deg - bot_info->cur_position->cur_deg));
