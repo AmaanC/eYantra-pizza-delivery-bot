@@ -28,8 +28,10 @@ int arm_position[2];
 int gripper_position[2];
 
 BotInfo *bot_info;
-bot_info = GetBotInfo();
 
+void InitialiseBotInfo() {
+    bot_info = GetBotInfo();
+}
 
 // 1: the whole arm on the right including the gripper mechanism.
 // 2: the whole arm on the left including the gripper mechanism.
@@ -107,9 +109,9 @@ void PickPizzaUp(Pizza *pizza) {
 }
 
 Node *GetDepForHouse(Node *house) {
-    if(house->name[0] == "H") {
-        if(IsPizzaAt(GetNodeByName(strcat(house->name,"DA"))) {
-            if(IsPizzaAt(GetNodeByName(strcat(house->name,"DB"))) {
+    if(house->name[0] == 'H') {
+        if(IsPizzaAt(GetNodeByName(strcat(house->name,"DA")), TRUE)) {
+            if(IsPizzaAt(GetNodeByName(strcat(house->name,"DB")), TRUE)) {
                 return NULL;
             }
             else {
