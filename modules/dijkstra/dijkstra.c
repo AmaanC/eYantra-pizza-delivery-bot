@@ -153,6 +153,8 @@ PathStack* Dijkstra(Node *source_node, Node *target_node, float cur_deg, Graph *
                     // rot_deg is used to set enter_deg for the counter_node, which will be +90 deg of the current
                     // one if we move anticlockwise, i.e. with the right motor faster
                     rot_deg = current_node->enter_deg + 90 * GetCurveDirection(current_node, counter_node);
+                    // printf("%s to %s: %f, %f\n", current_node->name, counter_node->name, current_node->enter_deg, rot_deg);
+                    // printf("Curve: %d\n", GetCurveDirection(current_node, counter_node));
                 }
 
                 temp_cost = accum_cost + rotation_cost + current_node->connected[i]->cost;

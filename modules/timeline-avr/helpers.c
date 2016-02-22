@@ -7,7 +7,7 @@
 #include "../map/map.h"
 #include "../dijkstra/dijkstra.h"
 #include "../bot_memory/bot_memory.h"
-#include "../timer/timer.h"
+#include "../timer-gcc/timer.h"
 #include "../hardware_control/hardware_control.h"
 
 #define TRUE 1
@@ -16,7 +16,7 @@
 // Returns a node which is to the right (where x co-ordinate is higher) of the source_node
 // It only looks through the source_nodes connections, not through all the nodes on the map
 Node *GetNodeToRight(Node *source_node) {
-    int i;
+    unsigned char i;
     Node *counter_node;
     for (i = 0; i < source_node->counter; i++) {
         counter_node = source_node->connected[i]->ptr;
@@ -28,7 +28,7 @@ Node *GetNodeToRight(Node *source_node) {
 }
 
 Node *GetNodeToLeft(Node *source_node) {
-    int i;
+    unsigned char i;
     Node *counter_node;
     for (i = 0; i < source_node->counter; i++) {
         counter_node = source_node->connected[i]->ptr;
@@ -40,7 +40,7 @@ Node *GetNodeToLeft(Node *source_node) {
 }
 
 // Gets the first vacant pizza counter node to the right
-Node *GetFirstPToRight(int real_pizza) {
+Node *GetFirstPToRight(char real_pizza) {
     Node *right;
     right = GetNodeToRight(GetPizzaCounter());
     while (right != NULL && IsPizzaAt(right, real_pizza) == TRUE) {
@@ -50,7 +50,7 @@ Node *GetFirstPToRight(int real_pizza) {
 }
 
 // Gets the first vacant pizza counter node to the left
-Node *GetFirstPToLeft(int real_pizza) {
+Node *GetFirstPToLeft(char real_pizza) {
     Node *left;
     left = GetNodeToLeft(GetPizzaCounter());
     while (left != NULL && IsPizzaAt(left, real_pizza) == TRUE) {
@@ -90,7 +90,7 @@ Node *GetFurthestPizzaNode(Node *source_node) {
 }
 
 // TODO: Consider adding a threshold. An overlap of 1s means very little
-int CheckOverlap(TimeBlock *a, TimeBlock *b){
+char CheckOverlap(TimeBlock *a, TimeBlock *b){
     // An overlap occurs if A starts before B ends *and* B starts before A ends.
     if (
         a->start < b->end &&

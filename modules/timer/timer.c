@@ -35,7 +35,7 @@ ISR(TIMER4_OVF_vect) {
     time_count++;
 }
 
-int GetCurrentTime() {
+short int GetCurrentTime() {
     return time_count;
 }
 

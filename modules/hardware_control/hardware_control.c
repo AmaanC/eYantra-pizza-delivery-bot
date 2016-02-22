@@ -115,15 +115,14 @@ void MoveBotToNode(Node *target_node) {
             // lcd_printf("Rot: %d", (int) ((next_node->enter_deg - bot_info->cur_position->cur_deg)));
             // _delay_ms(500);
             // pos_encoder_rotate_bot((next_node->enter_deg - bot_info->cur_position->cur_deg));
-            bot_info->cur_position->cur_deg = next_node->enter_deg;
             // pos_encoder_forward_mm(10 * sqrt(xDist * xDist + yDist * yDist));
         }
+        bot_info->cur_position->cur_deg = next_node->enter_deg;
 
         bot_info->cur_position->cur_node = current_node;
         current_node = next_node;
     }
     bot_info->cur_position->cur_node = target_node;
     printf("Reached %s node.\n", target_node->name);
-    free(final_path->path);
-    free(final_path);
+    DijkstraFree(final_path);
 }

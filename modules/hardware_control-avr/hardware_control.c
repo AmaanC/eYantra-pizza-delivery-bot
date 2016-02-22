@@ -75,11 +75,11 @@ void MoveBotToNode(Node *target_node) {
     curve_info = GetCurveInfo();
     our_graph = GetGraph();
     final_path = Dijkstra(GetCurrentNode(), target_node, bot_info->cur_position->cur_deg, our_graph);
-    for (i = final_path->top - 1; i >= 0; i--) {
+    // for (i = final_path->top - 1; i >= 0; i--) {
         //// lcd_printf("%s", final_path->path[i]->name);
         // _delay_ms(500);
         //printf("%s, ", final_path->path[i]->name);
-    }
+    // }
     //// lcd_printf("Cost: %d", (int) final_path->total_cost);
     // _delay_ms(500);
     //// LcdPrintf("\nTotal cost: %d %d\n", (int) final_path->total_cost, (int) bot_info->cur_position->cur_deg);
@@ -120,16 +120,17 @@ void MoveBotToNode(Node *target_node) {
             // pos_encoder_rotate_bot((next_node->enter_deg - bot_info->cur_position->cur_deg));
 //            LcdPrintf("Rotating: %d", (int) (next_node->enter_deg - bot_info->cur_position->cur_deg));
             RotateBot((int) (next_node->enter_deg - bot_info->cur_position->cur_deg));
-            bot_info->cur_position->cur_deg = next_node->enter_deg;
             // pos_encoder_forward_mm(10 * sqrt(xDist * xDist + yDist * yDist));
 //            LcdPrintf("Forward %d", (int) (10 * sqrt(xDist * xDist + yDist * yDist)));
             MoveBotForward(230, 230, (int) (10 * sqrt(xDist * xDist + yDist * yDist)));
         }
+        bot_info->cur_position->cur_deg = next_node->enter_deg;
 
         bot_info->cur_position->cur_node = current_node;
         current_node = next_node;
         _delay_ms(1000);
     }
     bot_info->cur_position->cur_node = target_node;
+    DijkstraFree(final_path);
 //    LcdPrintf("Reached %s node.\n", target_node->name);
 }

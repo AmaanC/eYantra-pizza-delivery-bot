@@ -17,7 +17,7 @@ int main() {
     // printf("S == current: %d\n", GetCurrentNode() == GetNodeByName("S"));
     // printf("Targ name: %s\n", GetNodeByName("r1")->name);
 
-    final_path = Dijkstra(GetNodeByName("S"), GetNodeByName("H12"), 90.00, GetGraph());
+    final_path = Dijkstra(GetNodeByName("S"), GetNodeByName("r8"), 90.00, GetGraph());
 
     for (i = final_path->top - 1; i >= 0; i--) {
         printf("%s, ", final_path->path[i]->name);
