@@ -21,14 +21,16 @@ unsigned char left_black_line = 0;
 unsigned char center_black_line = 0;
 unsigned char right_black_line = 0;
 
-unsigned char correction_val = 15;
+unsigned char correction_val = 80;
 unsigned int degrees; //to accept angle in degrees for turning
 
 int last_left = 0;
 int last_center = 0;
 int last_right = 0;
 
-const int rotation_threshold = 45; // in degrees
+const int rotation_threshold = 30; // in degrees
+const int dist_threshold = 30;
+const int distance_to_fix = 80;
 
 void MoveBotInitDevices() {
     BlSensorInitDevices();
@@ -37,10 +39,12 @@ void MoveBotInitDevices() {
 }
 
 int IsBlack(int sensor_num) {
-    if (BlSensorAdcConversion(sensor_num) > 0x28) 
+    if (BlSensorAdcConversion(sensor_num) > 0x28) {
         return TRUE;
-    else 
+    }
+    else {
         return FALSE;
+    }
  }
 
 int AngleRotate(unsigned int degrees) {
@@ -48,52 +52,58 @@ int AngleRotate(unsigned int degrees) {
     unsigned long int reqd_shaft_counter_int = 0;
     float min_shaft_count = 0;
     unsigned long int min_shaft_count_int = 0;
-    reqd_shaft_counter = (float) (degrees + 2 * rotation_threshold) / 4.090;
+    reqd_shaft_counter = (float) (degrees + rotation_threshold) / 4.090;
     reqd_shaft_counter_int = (unsigned int) reqd_shaft_counter;
+    char reached_black = FALSE;
   
     min_shaft_count = (float) (degrees - rotation_threshold) / 4.090;
     min_shaft_count_int = (unsigned int) min_shaft_count;
     ResetLeftShaft(); 
     ResetRightShaft(); 
+    // 2 situations
+    // We've gone too far ahead
+    // We've stopped too short
+    // In the first, we want to try rotating extra to find the black line
+    // In the second, we want to move the bot a little ahead, and try the same thing
     while (1) {
-        // We stop in the following conditions:
-        // - If the pos encoder says we've reached
-        // - If the bl sensor says we've reached
-        // If we rotate too far, and still don't see a black line, let's rotate back
-        if(
-            ((GetShaftCountRight() >= reqd_shaft_counter_int) | (GetShaftCountLeft() >= reqd_shaft_counter_int)) ||
-            (IsBlack(CENTER) && (GetShaftCountRight() >= min_shaft_count_int || GetShaftCountLeft() >= min_shaft_count_int))
+        if (
+            (IsBlack(LEFT) || IsBlack(CENTER) || IsBlack(RIGHT)) &&
+            (GetShaftCountLeft() > min_shaft_count_int | GetShaftCountRight() > min_shaft_count_int)
         ) {
+            reached_black = TRUE;
+            break;
+        }
+
+        // We haven't seen a black line yet, so we want to turn 
+        if ((GetShaftCountLeft() > reqd_shaft_counter_int) | (GetShaftCountRight() > reqd_shaft_counter_int)) {
+            reached_black = FALSE;
             break;
         }
     }
-    PosEncoderStop(); 
-    // If we see a black line, then this is the correct place to have stopped
-    // Else, we've probably gone too far, and should return back to exactly the degrees that were passed in
-    if (IsBlack(CENTER)) {
-        return FALSE;
-    }
-    else {
-        return TRUE;
-    }
+    PosEncoderStop();
+    return reached_black;
 }
 
 void RotateBot(int degrees) {
-    int too_far = 0;
+    int reached_black = FALSE;
     if(degrees > 0){
         PosEncoderLeft();
-        too_far = AngleRotate(abs(degrees));
-        if (too_far == 1) {
-            PosEncoderRight();
-            PosEncoderAngleRotate(rotation_threshold);
+        reached_black = AngleRotate(abs(degrees));
+        while (reached_black != TRUE) {
+            PosEncoderRotateBot(-degrees - rotation_threshold);
+            MoveBotForward(0xFF, 0xFF, distance_to_fix);
+            PosEncoderLeft();
+            reached_black = AngleRotate(abs(degrees));
         }
     }
     else if (degrees < 0){
         PosEncoderRight();
-        too_far = AngleRotate(abs(degrees));
-        if (too_far == 1) {
-            PosEncoderLeft();
-            PosEncoderAngleRotate(rotation_threshold);
+        reached_black = AngleRotate(abs(degrees));
+        while (reached_black != TRUE) {
+            PosEncoderRotateBot(degrees + rotation_threshold);
+            MoveBotForward(0xFF, 0xFF, distance_to_fix);
+            PosEncoderRight();
+            reached_black = AngleRotate(abs(degrees));
         }
     }
     PosEncoderStop();
@@ -101,9 +111,13 @@ void RotateBot(int degrees) {
 
 void MoveBot(unsigned char left_velocity, unsigned char right_velocity, int distance_in_mm) {
     float reqd_shaft_counter = 0;
+    float min_shaft_counter = 0;
     unsigned long int reqd_shaft_counter_int = 0;
+    unsigned long int min_shaft_counter_int = 0;
     reqd_shaft_counter = distance_in_mm / 5.338; 
+    min_shaft_counter = (distance_in_mm - dist_threshold) / 5.338; 
     reqd_shaft_counter_int = (unsigned long int) reqd_shaft_counter;
+    min_shaft_counter_int = (unsigned long int) min_shaft_counter;
     
     int left_corrected = left_velocity;
     int right_corrected = right_velocity;
@@ -115,6 +129,14 @@ void MoveBot(unsigned char left_velocity, unsigned char right_velocity, int dist
         // LcdPrintf("Right %d %d", (int) GetShaftCountRight(), (int) distance_in_mm);
         if((GetShaftCountRight() > reqd_shaft_counter_int) | (GetShaftCountLeft() > reqd_shaft_counter_int)) {
             // LcdPrintf("Break!");
+            break;
+        }
+
+        if (
+            IsBlack(CENTER) &&
+            (IsBlack(LEFT) || IsBlack(RIGHT)) &&
+            ((GetShaftCountRight() > min_shaft_counter_int) | (GetShaftCountLeft() > min_shaft_counter_int))
+        ) {
             break;
         }
 
