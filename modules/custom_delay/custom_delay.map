@@ -118,7 +118,7 @@ END GROUP
 .rela.plt
  *(.rela.plt)
 
-.text           0x00000000      0x176
+.text           0x00000000      0x178
  *(.vectors)
  .vectors       0x00000000       0xe4 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/../../../../avr/lib/avr6/crtm2560.o
                 0x00000000                __vectors
@@ -228,39 +228,39 @@ END GROUP
                 0x000000fc                __vector_18
                 0x000000fc                __vector_20
                 0x000000fc                __vector_38
- .text          0x00000100       0x16 custom_delay.o
+ .text          0x00000100       0x18 custom_delay.o
                 0x00000100                CustomDelay
- .text          0x00000116        0x0 app.o
- .text          0x00000116       0x42 ../buzzer/buzzer.o
-                0x00000116                BuzzerPinConfig
-                0x0000011c                BuzzerPortInit
-                0x00000120                BuzzerOn
-                0x00000128                BuzzerOff
-                0x00000130                BuzzerBeep
-                0x0000014e                BuzzerInitDevices
- .text          0x00000158        0x0 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr6/libgcc.a(_exit.o)
-                0x00000158                . = ALIGN (0x2)
+ .text          0x00000118        0x0 app.o
+ .text          0x00000118       0x42 ../buzzer/buzzer.o
+                0x00000118                BuzzerPinConfig
+                0x0000011e                BuzzerPortInit
+                0x00000122                BuzzerOn
+                0x0000012a                BuzzerOff
+                0x00000132                BuzzerBeep
+                0x00000150                BuzzerInitDevices
+ .text          0x0000015a        0x0 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr6/libgcc.a(_exit.o)
+                0x0000015a                . = ALIGN (0x2)
  *(.text.*)
- .text.startup  0x00000158       0x1a app.o
-                0x00000158                main
+ .text.startup  0x0000015a       0x1a app.o
+                0x0000015a                main
  .text.libgcc.mul
-                0x00000172        0x0 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr6/libgcc.a(_exit.o)
+                0x00000174        0x0 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr6/libgcc.a(_exit.o)
  .text.libgcc.div
-                0x00000172        0x0 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr6/libgcc.a(_exit.o)
- .text.libgcc   0x00000172        0x0 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr6/libgcc.a(_exit.o)
+                0x00000174        0x0 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr6/libgcc.a(_exit.o)
+ .text.libgcc   0x00000174        0x0 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr6/libgcc.a(_exit.o)
  .text.libgcc.prologue
-                0x00000172        0x0 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr6/libgcc.a(_exit.o)
+                0x00000174        0x0 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr6/libgcc.a(_exit.o)
  .text.libgcc.builtins
-                0x00000172        0x0 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr6/libgcc.a(_exit.o)
+                0x00000174        0x0 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr6/libgcc.a(_exit.o)
  .text.libgcc.fmul
-                0x00000172        0x0 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr6/libgcc.a(_exit.o)
+                0x00000174        0x0 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr6/libgcc.a(_exit.o)
  .text.libgcc.fixed
-                0x00000172        0x0 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr6/libgcc.a(_exit.o)
-                0x00000172                . = ALIGN (0x2)
+                0x00000174        0x0 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr6/libgcc.a(_exit.o)
+                0x00000174                . = ALIGN (0x2)
  *(.fini9)
- .fini9         0x00000172        0x0 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr6/libgcc.a(_exit.o)
-                0x00000172                exit
-                0x00000172                _exit
+ .fini9         0x00000174        0x0 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr6/libgcc.a(_exit.o)
+                0x00000174                exit
+                0x00000174                _exit
  *(.fini9)
  *(.fini8)
  *(.fini8)
@@ -279,11 +279,11 @@ END GROUP
  *(.fini1)
  *(.fini1)
  *(.fini0)
- .fini0         0x00000172        0x4 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr6/libgcc.a(_exit.o)
+ .fini0         0x00000174        0x4 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr6/libgcc.a(_exit.o)
  *(.fini0)
-                0x00000176                _etext = .
+                0x00000178                _etext = .
 
-.data           0x00800200        0x0 load address 0x00000176
+.data           0x00800200        0x0 load address 0x00000178
                 0x00800200                PROVIDE (__data_start, .)
  *(.data)
  .data          0x00800200        0x0 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/../../../../avr/lib/avr6/crtm2560.o
@@ -310,8 +310,8 @@ END GROUP
  *(.bss*)
  *(COMMON)
                 0x00800200                PROVIDE (__bss_end, .)
-                0x00000176                __data_load_start = LOADADDR (.data)
-                0x00000176                __data_load_end = (__data_load_start + SIZEOF (.data))
+                0x00000178                __data_load_start = LOADADDR (.data)
+                0x00000178                __data_load_end = (__data_load_start + SIZEOF (.data))
 
 .noinit         0x00800200        0x0
                 0x00800200                PROVIDE (__noinit_start, .)
@@ -405,12 +405,12 @@ END GROUP
  .debug_abbrev  0x00000178      0x125 ../buzzer/buzzer.o
  .debug_abbrev  0x0000029d       0x14 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr6/libgcc.a(_exit.o)
 
-.debug_line     0x00000000      0x233
+.debug_line     0x00000000      0x253
  *(.debug_line)
- .debug_line    0x00000000       0xc3 custom_delay.o
- .debug_line    0x000000c3       0x6c app.o
- .debug_line    0x0000012f       0xac ../buzzer/buzzer.o
- .debug_line    0x000001db       0x58 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr6/libgcc.a(_exit.o)
+ .debug_line    0x00000000       0xcf custom_delay.o
+ .debug_line    0x000000cf       0x6c app.o
+ .debug_line    0x0000013b       0xc0 ../buzzer/buzzer.o
+ .debug_line    0x000001fb       0x58 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr6/libgcc.a(_exit.o)
 
 .debug_frame    0x00000000       0xc8
  *(.debug_frame)
@@ -418,14 +418,14 @@ END GROUP
  .debug_frame   0x00000024       0x24 app.o
  .debug_frame   0x00000048       0x80 ../buzzer/buzzer.o
 
-.debug_str      0x00000000      0x18f
+.debug_str      0x00000000      0x1fc
  *(.debug_str)
- .debug_str     0x00000000       0xed custom_delay.o
-                                0x121 (size before relaxing)
- .debug_str     0x000000ed       0x1e app.o
+ .debug_str     0x00000000       0xfd custom_delay.o
+                                0x131 (size before relaxing)
+ .debug_str     0x000000fd       0x72 app.o
                                  0xe5 (size before relaxing)
- .debug_str     0x0000010b       0x84 ../buzzer/buzzer.o
-                                0x12e (size before relaxing)
+ .debug_str     0x0000016f       0x8d ../buzzer/buzzer.o
+                                0x137 (size before relaxing)
 
 .debug_loc      0x00000000      0x121
  *(.debug_loc)

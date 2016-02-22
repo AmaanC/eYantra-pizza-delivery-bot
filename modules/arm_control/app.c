@@ -14,8 +14,8 @@
 int main() {
 	while(1) {
 		ServoInitDevices();
-		PickPizzaUp(1);
-		PickPizzaUp(2);
+		//PickPizzaUp(1);
+		//PickPizzaUp(2);
 		_delay_ms(5000);
 		//DepositPizza(1);
 		//DepositPizza(2);

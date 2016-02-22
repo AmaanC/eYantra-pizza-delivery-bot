@@ -7,6 +7,8 @@
 #include "../bot_memory/bot_memory.h"
 #include "../move_bot/move_bot.h"
 #include "../timeline/timeline.h"
+#include "../pos_encoder/pos_encoder.h"
+#include "../bl_sensor/bl_sensor.h"
 #include <string.h>
 #include "../map/map.h"
 #include <math.h>

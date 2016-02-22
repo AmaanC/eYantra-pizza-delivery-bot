@@ -1,4 +1,4 @@
-#include <unistd.h>
+//#include <unistd.h>
 #include <stdint.h>
 
 #include <stdio.h>
@@ -99,6 +99,24 @@ void SetState(char new_state) {
 Node *GetPizzaCounter() {
     return PIZZA_COUNTER_NODE;
 }
+
+// real_pizza: whether we're checking if there's a real pizza there or if we're checking if
+// a location has been allocated
+int IsPizzaAt(Node *test_node, int real_pizza) {
+    int i = 0;
+    int found = FALSE;
+    Pizza *current_pizza;
+    for (i = 0; i < our_pizzas->len; i++) {
+        current_pizza = our_pizzas->pizzas[i];
+        if (current_pizza->location == test_node && current_pizza->found == real_pizza) {
+            found = TRUE;
+// //////            printf("  Pizza at %s\n", test_node->name);
+        }
+    }
+    return found;
+}
+
+/*
 
 void InsertOrder(OrderList *timeline, Order *new_order) {
     int i = 0;
@@ -822,8 +840,8 @@ void DetectPizza() {
     // decide if we want to pick it up or not
 
     // TODO: Consider bad readings and rechecking?
-    usleep(100 * 1000);
-    // sleep(1);
+    //usleep(100 * 1000);
+    //// sleep(1);
     printf("Detected: %c and %c\n", colour, block_size);
     bot_info = GetBotInfo();
     total_pizzas++;
@@ -893,22 +911,6 @@ void DetectPizza() {
         current_pizza->location = bot_info->cur_position->cur_node;
         current_pizza->found = TRUE;
     }
-}
-
-// real_pizza: whether we're checking if there's a real pizza there or if we're checking if
-// a location has been allocated
-int IsPizzaAt(Node *test_node, int real_pizza) {
-    int i = 0;
-    int found = FALSE;
-    Pizza *current_pizza;
-    for (i = 0; i < our_pizzas->len; i++) {
-        current_pizza = our_pizzas->pizzas[i];
-        if (current_pizza->location == test_node && current_pizza->found == real_pizza) {
-            found = TRUE;
-// //////            printf("  Pizza at %s\n", test_node->name);
-        }
-    }
-    return found;
 }
 
 // Consider looking for more pizzas
@@ -1105,7 +1107,7 @@ void FreeTimeDecision() {
 }
 
 void DeliverPizzas(DeliverySequence *cur_sequence) {
-    // sleep(cur_sequence/5.0->total_cost);
+    //// sleep(cur_sequence/5.0->total_cost);
     // GetBotInfo()->cur_position->cur_node = cur_sequence->deliver2 == NULL ? cur_sequence->deliver1 : cur_sequence->deliver2;
     Pizza *delivered_pizza;
     Order *current_order;
@@ -1145,8 +1147,8 @@ void DeliverPizzas(DeliverySequence *cur_sequence) {
             // TODO: Consider this as free time if possible?
             
             printf("Reached early. Waiting %d %d %d\n", cur_sequence->order_combo[pick1]->pickup_time - GetCurrentTime(), cur_sequence->order_combo[pick1]->pickup_time, GetCurrentTime());
-            usleep((cur_sequence->order_combo[pick1]->pickup_time - GetCurrentTime()) * 100 * 1000);
-            // sleep((cur_sequence->order_combo[pick1]->pickup_time - GetCurrentTime()));
+            //usleep((cur_sequence->order_combo[pick1]->pickup_time - GetCurrentTime()) * 100 * 1000);
+            //// sleep((cur_sequence->order_combo[pick1]->pickup_time - GetCurrentTime()));
         }
         // PickPizza();
     }
@@ -1168,8 +1170,8 @@ void DeliverPizzas(DeliverySequence *cur_sequence) {
             // TODO: Consider this as free time if possible?
             
             printf("Reached early. Waiting %d %d %d\n", cur_sequence->order_combo[pick2]->pickup_time - GetCurrentTime(), cur_sequence->order_combo[pick2]->pickup_time, GetCurrentTime());
-            usleep((cur_sequence->order_combo[pick2]->pickup_time - GetCurrentTime()) * 100 * 1000);
-            // sleep((cur_sequence->order_combo[pick2]->pickup_time - GetCurrentTime()));
+            //usleep((cur_sequence->order_combo[pick2]->pickup_time - GetCurrentTime()) * 100 * 1000);
+            //// sleep((cur_sequence->order_combo[pick2]->pickup_time - GetCurrentTime()));
         }
         // PickPizza();
     }
@@ -1180,8 +1182,8 @@ void DeliverPizzas(DeliverySequence *cur_sequence) {
         MoveBotToNode(cur_node);
         if (GetCurrentTime() < current_order->delivery_period->start) {
             printf("Early delivery. Waiting %f\n", (current_order->delivery_period->start - GetCurrentTime()));
-            usleep((current_order->delivery_period->start - GetCurrentTime()) * 100 * 1000);
-            // sleep((current_order->delivery_period->start - GetCurrentTime()));
+            //usleep((current_order->delivery_period->start - GetCurrentTime()) * 100 * 1000);
+            //// sleep((current_order->delivery_period->start - GetCurrentTime()));
         }
         printf(" by %d\n", GetCurrentTime());
         orders_completed++;
@@ -1198,8 +1200,8 @@ void DeliverPizzas(DeliverySequence *cur_sequence) {
         MoveBotToNode(cur_node);
         if (GetCurrentTime() < current_order->delivery_period->start) {
             printf("Early delivery. Waiting %f\n", (current_order->delivery_period->start - GetCurrentTime()));
-            usleep((current_order->delivery_period->start - GetCurrentTime()) * 100 * 1000);
-            // sleep((current_order->delivery_period->start - GetCurrentTime()));
+            //usleep((current_order->delivery_period->start - GetCurrentTime()) * 100 * 1000);
+            //// sleep((current_order->delivery_period->start - GetCurrentTime()));
         }
         printf(" by %d\n", GetCurrentTime());
         orders_completed++;
@@ -1229,7 +1231,6 @@ void NormalOperation() {
     // When both arms are empty, state will be set to free
     // And so the cycle continues
 
-    /*
     Bored? Here's a song to sing:
     It's the Circle of Life
     And it moves us all
@@ -1240,7 +1241,7 @@ void NormalOperation() {
     On the path unwinding
     In the Circle
     The Circle of Life
-    */
+
     DeliverySequence *cur_sequence;
     Order *next_reg_order;
     Pizza *next_reg_pizza;
@@ -1353,7 +1354,7 @@ void TimelineControl() {
             printf("\tNormal operation!\n");
             NormalOperation(); // this will set the state to free when the delivery is done
         }
-        sleep(1/5.0);
+       // sleep(1/5.0);
     }
 }
 
@@ -1369,3 +1370,5 @@ void Display(Order *current_order) {
     printf("house: %s\n", current_order->delivery_house->name);
    // //// printf("pickup point: %s\n", current_order->pickup_point);
 }
+
+*/

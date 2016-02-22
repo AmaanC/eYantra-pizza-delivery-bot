@@ -1,16 +1,34 @@
-CC=gcc
-FILENAME=app
+CC=avr-gcc
 
-objects := $(patsubst %.c,%.o,$(wildcard *.c)) ../map/map.o ../dijkstra/dijkstra.o ../bot_memory/bot_memory.o ../timer-gcc/timer.o ../hardware_control/hardware_control.o
+OBJCOPY=avr-objcopy
 
-$(FILENAME) : $(objects)
-	cc -o $(FILENAME).out $(objects) -lm
+CFLAGS=-g -DF_CPU=14745600 -mmcu=atmega2560
+
+# Modify these 2 for each project as needed
+FILENAME=timeline
+DEPS=app.o ../map/map.o ../dijkstra/dijkstra.o ../bot_memory/bot_memory.o ../timer-gcc/timer.o ../hardware_control-avr/hardware_control.o
+
+#Info til AVRDUDE
+PROGRAMMER = avrdude
+BOARD = stk500v2
+MCU = m2560
+PORT = /dev/tty.usbmodem1421
+
+PFLAGS = -p $(MCU) -c $(BOARD) -P $(PORT)
+
+rom.hex : app.out
+	$(OBJCOPY) -j .text -j .data -O ihex app.out rom.hex
+
+app.out : $(FILENAME).o $(DEPS)
+	$(CC) $(CFLAGS) -o app.out -Wl,-Map,$(FILENAME).map $(FILENAME).o $(DEPS) -lm
 
 %.o : %.c
-	$(CC) -Wall -Os -c $< -o $(patsubst %.c,%.o,$<)
+	$(CC) $(CFLAGS) -Os -c $< -o $(patsubst %.c,%.o,$<)
 
+# rm -f *.o *.out *.map *.hex
 clean:
 	find .. -type f -name '*.o' -exec rm {} +
 
-run: $(FILENAME)
-	./app.out
+program:
+	$(PROGRAMMER) $(PFLAGS) -e
+	$(PROGRAMMER) $(PFLAGS) -U flash:w:rom.hex

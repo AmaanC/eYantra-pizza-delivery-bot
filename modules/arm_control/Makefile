@@ -6,7 +6,7 @@ CFLAGS=-g -DF_CPU=14745600 -mmcu=atmega2560
 
 # Modify these 2 for each project as needed
 FILENAME=arm_control
-DEPS=app.o ../map/map.o ../bot_memory/bot_memory.o ../servo/servo.o ../timeline/timeline.o 
+DEPS=app.o ../map/map.o ../bot_memory/bot_memory.o ../servo/servo.o ../timeline/timeline.o ../move_bot/move_bot.o ../pos_encoder/pos_encoder.o ../bl_sensor/bl_sensor.o
 
 #Info til AVRDUDE
 PROGRAMMER = avrdude
@@ -31,3 +31,4 @@ clean:
 
 program:
 	$(PROGRAMMER) $(PFLAGS) -e
+	$(PROGRAMMER) $(PFLAGS) -U flash:w:rom.hex

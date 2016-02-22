@@ -23,10 +23,11 @@ app.out : $(FILENAME).o $(DEPS)
 	$(CC) $(CFLAGS) -o app.out -Wl,-Map,$(FILENAME).map $(FILENAME).o $(DEPS)
 
 %.o : %.c
-	$(CC) $(CFLAGS) -Os -c $<
+	$(CC) $(CFLAGS) -Os -c $< -o $(patsubst %.c,%.o,$<)
 
+# rm -f *.o *.out *.map *.hex
 clean:
-	rm -f *.o *.out *.map *.hex
+	find .. -type f -name '*.o' -exec rm {} +
 
 program:
 	$(PROGRAMMER) $(PFLAGS) -e
