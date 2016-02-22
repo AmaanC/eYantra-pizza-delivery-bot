@@ -28,6 +28,8 @@ int main() {
     MoveBotToNode(GetNodeByName("H10"));
     MoveBotToNode(GetNodeByName("S"));
     MoveBotToNode(GetNodeByName("P1"));
+    // RotateBot(90);
+    // CurveTowards(GetNodeByName("r6"), GetNodeByName("r7"));
 
     LcdPrintf("After");
     return 0;
