@@ -12,7 +12,7 @@ int main() {
     InitBotInfo();
     InitGraph();
 
-    LcdInit();
+    // LcdInit();
     // printf("Num nodes: %d\n", GetGraph()->num_nodes);
     // printf("S == current: %d\n", GetCurrentNode() == GetNodeByName("S"));
     // printf("Targ name: %s\n", GetNodeByName("r1")->name);
@@ -23,6 +23,7 @@ int main() {
         printf("%s, ", final_path->path[i]->name);
     }
 
-    printf("Total: %d", (int) final_path->total_cost);
+    printf("Total: %d\n", (int) final_path->total_cost);
+    DijkstraFree(final_path);
     return 0;
 }

@@ -2,6 +2,7 @@ CC=avr-gcc
 
 OBJCOPY=avr-objcopy
 
+<<<<<<< HEAD
 CFLAGS=-g -DF_CPU=14745600 -mmcu=atmega2560
 
 # Modify these 2 for each project as needed
@@ -24,6 +25,13 @@ app.out : $(FILENAME).o $(DEPS)
 
 %.o : %.c
 	$(CC) $(CFLAGS) -Os -c $< -o $(patsubst %.c,%.o,$<)
+=======
+$(FILENAME) : $(objects)
+	cc -g3 -o $(FILENAME).out $(objects) -lm
+
+%.o : %.c
+	$(CC) -g3 -Wall -Os -c $< -o $(patsubst %.c,%.o,$<)
+>>>>>>> e25ff6c4da9f111d9dcb06c1d3d72c60dee0b858
 
 # rm -f *.o *.out *.map *.hex
 clean:

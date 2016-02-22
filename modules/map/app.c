@@ -18,7 +18,7 @@ int main() {
     // lcd_init_devices();
     // lcd_set_4bit();
     // lcd_init();
-    LcdInit();
+    // LcdInit();
 
     // printf("Starting");
     // _delay_ms(1000);

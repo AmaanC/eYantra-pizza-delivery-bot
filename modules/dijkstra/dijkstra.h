@@ -11,8 +11,9 @@ typedef struct _PathStack {
     float total_cost;
 } PathStack;
 
-int InitNodesDijkstra(Node* current_node);
+char InitNodesDijkstra(Node* current_node);
 Node *GetLowestUndone(Node **node_costs, int len);
 PathStack* Dijkstra(Node *source_node, Node *target_node, float cur_deg, Graph *our_graph);
+void DijkstraFree(PathStack *final_path);
 
 #endif

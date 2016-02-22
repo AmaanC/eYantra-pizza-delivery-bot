@@ -11,7 +11,7 @@
 // The things you need to do to initialize all the nodes for Dijkstra's algorithm
 // Namely, set the path_cost to infinite
 // And set the done flag to FALSE
-int InitNodesDijkstra(Node *current_node) {
+char InitNodesDijkstra(Node *current_node) {
     current_node->path_cost = INFINITY; // INFINITY is a macro from math.h
     current_node->done = FALSE;
     return FALSE;
@@ -86,12 +86,13 @@ PathStack* Dijkstra(Node *source_node, Node *target_node, float cur_deg, Graph *
     // This is an array of Node pointers
     Node **node_costs;
     // Length of the array above
-    int node_costs_len = 0;
+    unsigned char node_costs_len = 0;
     // Records the actual final path to be taken from source to dest
     PathStack *final_path;
     // Curve info
     CurveInfo *curve_info;
 
+    // printf("95 %s\n", target_node->name);
     // The final_path won't always be this long, but we need enough memory in case it is, somehow
     final_path = malloc(sizeof(PathStack));
     final_path->path = malloc(our_graph->num_nodes * sizeof(Node*));
@@ -114,9 +115,10 @@ PathStack* Dijkstra(Node *source_node, Node *target_node, float cur_deg, Graph *
 
     // lcd_printf("Targ: %s", target_node->name);
     // _delay_ms(200);
-    if (current_node == NULL || target_node == NULL) {
+    if (current_node == NULL || target_node == NULL || our_graph == NULL) {
         printf("ERROR: NULL pointer for source or target - dijkstra.c\n\n\n");
         final_path->total_cost = INFINITY;
+        free(node_costs);
         return final_path;
     }
     while (current_node != target_node) {
@@ -195,5 +197,11 @@ PathStack* Dijkstra(Node *source_node, Node *target_node, float cur_deg, Graph *
     }
     while (counter_node != source_node);
     // printf("Cost: %d", (int) final_path->total_cost);
+    // printf("Path top: %d\n", final_path->top);
     return final_path;
+}
+
+void DijkstraFree(PathStack *final_path) {
+    free(final_path->path);
+    free(final_path);
 }
