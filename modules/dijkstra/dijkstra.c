@@ -95,7 +95,6 @@ PathStack* Dijkstra(Node *source_node, Node *target_node, float cur_deg, Graph *
     // printf("95 %s\n", target_node->name);
     // The final_path won't always be this long, but we need enough memory in case it is, somehow
     final_path = malloc(sizeof(PathStack));
-    printf("98\n");
     final_path->path = malloc(our_graph->num_nodes * sizeof(Node*));
     final_path->top = 0;
     if (source_node == target_node) {
@@ -107,7 +106,6 @@ PathStack* Dijkstra(Node *source_node, Node *target_node, float cur_deg, Graph *
 
     current_node = source_node;
     DFSEval(source_node, source_node->visited, InitNodesDijkstra);
-    printf("110\n");
     node_costs = malloc(our_graph->num_nodes * sizeof(Node*));
 
     source_node->path_cost = 0;
@@ -199,7 +197,7 @@ PathStack* Dijkstra(Node *source_node, Node *target_node, float cur_deg, Graph *
     }
     while (counter_node != source_node);
     // printf("Cost: %d", (int) final_path->total_cost);
-    printf("Path top: %d\n", final_path->top);
+    // printf("Path top: %d\n", final_path->top);
     return final_path;
 }
 
