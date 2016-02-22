@@ -9,7 +9,7 @@ int IsBlack(int sensor_num);
 int AngleRotate(unsigned int degrees);
 void MoveBot(unsigned char left_velocity, unsigned char right_velocity, int distance_in_mm);
 void MoveBotForward(unsigned char left_velocity, unsigned char right_velocity, int distance);
-void MoveBotReverse(int distance);
+void MoveBotReverse(unsigned char left_velocity, unsigned char right_velocity, int distance);
 
 
 #endif

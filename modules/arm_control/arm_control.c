@@ -31,13 +31,15 @@ int arm_position[2];
 int gripper_position[2];
 
 BotInfo *bot_info;
+PizzaList *our_pizzas;
+Graph *our_graph;
+Node *found_node; 
+char *current_search_name; 
 
 void InitialiseBotInfo() {
     bot_info = GetBotInfo();
+    our_graph = GetGraph();
 }
-
-// 1: the whole arm on the right including the gripper mechanism.
-// 2: the whole arm on the left including the gripper mechanism.
 
 void ArmDown(Arm *arm) {
     if(arm == bot_info->arm1) {
@@ -149,11 +151,22 @@ void DepositPizza(Pizza *pizza) {
     current_arm_deg = bot_info->cur_position->cur_deg + correct_arm->angle;
 
     RotateBot((int) (deg_to_dep - current_arm_deg));
-    // DropPizza();
-    
-    // if(bot_info->arm2->carrying == pizza) {
-    //     DropPizza(bot_info->arm2->lever_servo);
-    // }
+
+    DropPizza(correct_arm);
 }
 
-
+// real_pizza: whether we're checking if there's a real pizza there or if we're checking if
+// a location has been allocated
+char IsPizzaAt(Node *test_node, char real_pizza) {
+    unsigned char i = 0;
+    char found = FALSE;
+    Pizza *current_pizza;
+    for (i = 0; i < our_pizzas->len; i++) {
+        current_pizza = our_pizzas->pizzas[i];
+        if (current_pizza->location == test_node && current_pizza->found == real_pizza) {
+            found = TRUE;
+// //////            printf("  Pizza at %s\n", test_node->name);
+        }
+    }
+    return found;
+}
