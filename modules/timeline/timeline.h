@@ -29,7 +29,7 @@ typedef struct _Pizza {
     // not be used for order2 as well, even though its colour and size match
     char state;
     // Flag to determine whether we've found the pizza or not
-    int found;
+    unsigned char found;
     // Location of the pizza. If the found flag is 0, the location is just a guess
     Node *location;
     Node *dep_loc;
@@ -38,7 +38,8 @@ typedef struct _Pizza {
 typedef struct _PizzaList {
     // An array of pizzas
     Pizza **pizzas;
-    int len;
+    // We won't be making lists with a length of 255, so an char is okay
+    unsigned char len;
 } PizzaList;
 
 typedef struct _Order {
@@ -47,11 +48,12 @@ typedef struct _Order {
     // s, m, l: small, medium, large
     char size;
     // 30, for example
-    int order_time;
+    // Max order time is 600, so an unsigned char won't do, but a short will
+    short int order_time;
     // Preorders can be picked up at any time
     // Regular orders can only be picked up after their order time
     // This lets us easily differentiate
-    int pickup_time;
+    short pickup_time;
     // r, p: regular, preorder
     char order_type;
     // Node containing the delivery location
@@ -69,29 +71,27 @@ typedef struct _Order {
 // A timeline is just an array of orders
 typedef struct _OrderList {
     Order **orders;
-    int len;
+    unsigned char len;
 } OrderList;
 
 typedef struct _DeliverySequence {
     // When there are 2 orders, this structure allows us to figure out what the sequence of actions should be
-    int pick1; // If it's 1, we pick order 1 first, if it's 2 we pick order2 first
-    int pick2; // TODO
-    int deliver1;
-    int deliver2;
+    unsigned char pick1; // If it's 1, we pick order 1 first, if it's 2 we pick order2 first
+    unsigned char pick2; // TODO
+    unsigned char deliver1;
+    unsigned char deliver2;
     Order **order_combo;
     Pizza **pizza_combo;
     // 0 or 1 indicating whether this delivery sequence is one that shouldn't be used
-    int should_cancel;
+    char should_cancel;
     float total_cost;
 } DeliverySequence;
 
 Node *GetNodeToRight(Node *source_node);
 Node *GetNodeToLeft(Node *source_node);
-Node *GetFirstPToRight(int real_pizza);
-Node *GetFirstPToLeft(int real_pizza);
+Node *GetFirstPToRight(char real_pizza);
+Node *GetFirstPToLeft(char real_pizza);
 Node *GetFurthestPizzaNode(Node *source_node);
-int CheckOverlap(TimeBlock *a, TimeBlock *b);
-TimeBlock *GetCurrentTimeBlock();
 char GetState();
 void SetState(char new_state);
 Node *GetPizzaCounter();
@@ -103,16 +103,16 @@ OrderList *GetTimeline();
 PizzaList *GetPizzas();
 void MissingOrderBeep();
 void FindNextDefiniteNeed(OrderList *timeline);
-int GetNumDelayed(Node *source_node, int start_time, int order_num);
+char GetNumDelayed(Node *source_node, char start_time, char order_num);
 DeliverySequence *ConsiderCancel(Order *order1, Order *order2);
-Order *GetNextOrder(OrderList *timeline, int pos);
+Order *GetNextOrder(OrderList *timeline, char pos);
 Pizza *GetPizzaForOrder(Order *order);
 Order *GetOrderForPizza(Pizza *pizza);
 Pizza *GetPizzaAtNode(Node *node);
 PizzaList *GetAvailablePizzas();
 void DetectPizza();
-int IsPizzaAt(Node *test_node, int real_pizza);
-int FindPizzas();
+char IsPizzaAt(Node *test_node, char real_pizza);
+char FindPizzas();
 TimeBlock *GetTimeReqForOrders(Order *order1, Order *order2);
 void FreeTimeDecision();
 void DeliverPizzas(DeliverySequence *cur_sequence);

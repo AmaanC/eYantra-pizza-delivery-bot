@@ -1,0 +1,1004 @@
+desc: (none)
+cmd: ./app.out
+time_unit: i
+#-----------
+snapshot=0
+#-----------
+time=0
+mem_heap_B=0
+mem_heap_extra_B=0
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=1
+#-----------
+time=134949
+mem_heap_B=32
+mem_heap_extra_B=8
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=2
+#-----------
+time=135116
+mem_heap_B=120
+mem_heap_extra_B=64
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=3
+#-----------
+time=135279
+mem_heap_B=261
+mem_heap_extra_B=115
+mem_stacks_B=0
+heap_tree=detailed
+n9: 261 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 64 0x400A0E: InitGraph (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+  n0: 64 0x4007B3: main (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+ n1: 56 0x40081D: CreateNode (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+  n1: 56 0x400A4D: InitGraph (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+   n0: 56 0x4007B3: main (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+ n1: 32 0x40245A: InitBotInfo (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+  n0: 32 0x4007A9: main (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+ n1: 24 0x40247C: InitBotInfo (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+  n0: 24 0x4007A9: main (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+ n1: 24 0x40248D: InitBotInfo (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+  n0: 24 0x4007A9: main (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+ n1: 24 0x4009DA: InitGraph (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+  n0: 24 0x4007B3: main (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+ n1: 16 0x400A1C: InitGraph (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+  n0: 16 0x4007B3: main (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+ n1: 16 0x40246E: InitBotInfo (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+  n0: 16 0x4007A9: main (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+ n1: 5 0x40082B: CreateNode (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+  n1: 5 0x400A4D: InitGraph (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+   n0: 5 0x4007B3: main (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+#-----------
+snapshot=4
+#-----------
+time=135544
+mem_heap_B=354
+mem_heap_extra_B=190
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=5
+#-----------
+time=135750
+mem_heap_B=439
+mem_heap_extra_B=249
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=6
+#-----------
+time=135956
+mem_heap_B=524
+mem_heap_extra_B=308
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=7
+#-----------
+time=136162
+mem_heap_B=609
+mem_heap_extra_B=367
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=8
+#-----------
+time=136368
+mem_heap_B=694
+mem_heap_extra_B=426
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=9
+#-----------
+time=136574
+mem_heap_B=779
+mem_heap_extra_B=485
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=10
+#-----------
+time=136780
+mem_heap_B=864
+mem_heap_extra_B=544
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=11
+#-----------
+time=136986
+mem_heap_B=949
+mem_heap_extra_B=603
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=12
+#-----------
+time=137192
+mem_heap_B=1034
+mem_heap_extra_B=662
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=13
+#-----------
+time=137398
+mem_heap_B=1127
+mem_heap_extra_B=713
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=14
+#-----------
+time=137556
+mem_heap_B=1215
+mem_heap_extra_B=745
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=15
+#-----------
+time=137789
+mem_heap_B=1292
+mem_heap_extra_B=804
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=16
+#-----------
+time=138087
+mem_heap_B=1425
+mem_heap_extra_B=879
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=17
+#-----------
+time=138385
+mem_heap_B=1558
+mem_heap_extra_B=954
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=18
+#-----------
+time=138683
+mem_heap_B=1691
+mem_heap_extra_B=1029
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=19
+#-----------
+time=138981
+mem_heap_B=1824
+mem_heap_extra_B=1104
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=20
+#-----------
+time=139279
+mem_heap_B=1957
+mem_heap_extra_B=1179
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=21
+#-----------
+time=139577
+mem_heap_B=2090
+mem_heap_extra_B=1254
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=22
+#-----------
+time=139736
+mem_heap_B=2175
+mem_heap_extra_B=1305
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=23
+#-----------
+time=139940
+mem_heap_B=2279
+mem_heap_extra_B=1345
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=24
+#-----------
+time=140192
+mem_heap_B=2388
+mem_heap_extra_B=1404
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=25
+#-----------
+time=140398
+mem_heap_B=2473
+mem_heap_extra_B=1463
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=26
+#-----------
+time=140585
+mem_heap_B=2542
+mem_heap_extra_B=1506
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=27
+#-----------
+time=140742
+mem_heap_B=2630
+mem_heap_extra_B=1538
+mem_stacks_B=0
+heap_tree=detailed
+n6: 2630 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n23: 1288 0x40081D: CreateNode (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+  n1: 56 0x400A4D: InitGraph (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+   n0: 56 0x4007B3: main (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+  n1: 56 0x400A73: InitGraph (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+   n0: 56 0x4007B3: main (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+  n1: 56 0x400A99: InitGraph (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+   n0: 56 0x4007B3: main (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+  n1: 56 0x400ABF: InitGraph (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+   n0: 56 0x4007B3: main (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+  n1: 56 0x400AE5: InitGraph (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+   n0: 56 0x4007B3: main (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+  n1: 56 0x400B0B: InitGraph (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+   n0: 56 0x4007B3: main (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+  n1: 56 0x400B31: InitGraph (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+   n0: 56 0x4007B3: main (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+  n1: 56 0x400B57: InitGraph (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+   n0: 56 0x4007B3: main (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+  n1: 56 0x400B7D: InitGraph (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+   n0: 56 0x4007B3: main (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+  n1: 56 0x400BA3: InitGraph (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+   n0: 56 0x4007B3: main (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+  n1: 56 0x400BC9: InitGraph (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+   n0: 56 0x4007B3: main (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+  n1: 56 0x400BEF: InitGraph (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+   n0: 56 0x4007B3: main (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+  n1: 56 0x400C15: InitGraph (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+   n0: 56 0x4007B3: main (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+  n1: 56 0x400C3B: InitGraph (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+   n0: 56 0x4007B3: main (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+  n1: 56 0x400C61: InitGraph (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+   n0: 56 0x4007B3: main (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+  n1: 56 0x400C87: InitGraph (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+   n0: 56 0x4007B3: main (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+  n1: 56 0x400CAD: InitGraph (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+   n0: 56 0x4007B3: main (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+  n1: 56 0x400CD3: InitGraph (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+   n0: 56 0x4007B3: main (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+  n1: 56 0x400CF9: InitGraph (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+   n0: 56 0x4007B3: main (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+  n1: 56 0x400D1F: InitGraph (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+   n0: 56 0x4007B3: main (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+  n1: 56 0x400D3B: InitGraph (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+   n0: 56 0x4007B3: main (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+  n1: 56 0x400D5C: InitGraph (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+   n0: 56 0x4007B3: main (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+  n1: 56 0x400D7D: InitGraph (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+   n0: 56 0x4007B3: main (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+ n10: 688 0x4008BF: CreateNode (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+  n0: 240 in 13 places, all below massif's threshold (01.00%)
+  n1: 64 0x400D5C: InitGraph (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+   n0: 64 0x4007B3: main (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+  n1: 48 0x400C3B: InitGraph (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+   n0: 48 0x4007B3: main (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+  n1: 48 0x400C61: InitGraph (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+   n0: 48 0x4007B3: main (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+  n1: 48 0x400C87: InitGraph (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+   n0: 48 0x4007B3: main (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+  n1: 48 0x400CAD: InitGraph (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+   n0: 48 0x4007B3: main (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+  n1: 48 0x400CD3: InitGraph (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+   n0: 48 0x4007B3: main (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+  n1: 48 0x400CF9: InitGraph (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+   n0: 48 0x4007B3: main (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+  n1: 48 0x400BEF: InitGraph (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+   n0: 48 0x4007B3: main (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+  n1: 48 0x400C15: InitGraph (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+   n0: 48 0x4007B3: main (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+ n1: 344 0x40088F: CreateNode (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+  n0: 344 in 22 places, all below massif's threshold (01.00%)
+ n0: 136 in 6 places, all below massif's threshold (01.00%)
+ n1: 110 0x40082B: CreateNode (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+  n0: 110 in 22 places, all below massif's threshold (01.00%)
+ n1: 64 0x400A0E: InitGraph (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+  n0: 64 0x4007B3: main (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+#-----------
+snapshot=28
+#-----------
+time=140929
+mem_heap_B=2699
+mem_heap_extra_B=1581
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=29
+#-----------
+time=141086
+mem_heap_B=2787
+mem_heap_extra_B=1613
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=30
+#-----------
+time=141384
+mem_heap_B=2920
+mem_heap_extra_B=1688
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=31
+#-----------
+time=141682
+mem_heap_B=3053
+mem_heap_extra_B=1763
+mem_stacks_B=0
+heap_tree=detailed
+n6: 3053 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n26: 1456 0x40081D: CreateNode (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+  n1: 56 0x400A4D: InitGraph (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+   n0: 56 0x4007B3: main (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+  n1: 56 0x400A73: InitGraph (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+   n0: 56 0x4007B3: main (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+  n1: 56 0x400A99: InitGraph (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+   n0: 56 0x4007B3: main (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+  n1: 56 0x400ABF: InitGraph (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+   n0: 56 0x4007B3: main (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+  n1: 56 0x400AE5: InitGraph (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+   n0: 56 0x4007B3: main (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+  n1: 56 0x400B0B: InitGraph (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+   n0: 56 0x4007B3: main (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+  n1: 56 0x400B31: InitGraph (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+   n0: 56 0x4007B3: main (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+  n1: 56 0x400B57: InitGraph (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+   n0: 56 0x4007B3: main (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+  n1: 56 0x400B7D: InitGraph (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+   n0: 56 0x4007B3: main (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+  n1: 56 0x400BA3: InitGraph (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+   n0: 56 0x4007B3: main (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+  n1: 56 0x400BC9: InitGraph (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+   n0: 56 0x4007B3: main (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+  n1: 56 0x400BEF: InitGraph (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+   n0: 56 0x4007B3: main (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+  n1: 56 0x400C15: InitGraph (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+   n0: 56 0x4007B3: main (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+  n1: 56 0x400C3B: InitGraph (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+   n0: 56 0x4007B3: main (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+  n1: 56 0x400C61: InitGraph (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+   n0: 56 0x4007B3: main (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+  n1: 56 0x400C87: InitGraph (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+   n0: 56 0x4007B3: main (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+  n1: 56 0x400CAD: InitGraph (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+   n0: 56 0x4007B3: main (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+  n1: 56 0x400CD3: InitGraph (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+   n0: 56 0x4007B3: main (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+  n1: 56 0x400CF9: InitGraph (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+   n0: 56 0x4007B3: main (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+  n1: 56 0x400D1F: InitGraph (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+   n0: 56 0x4007B3: main (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+  n1: 56 0x400D3B: InitGraph (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+   n0: 56 0x4007B3: main (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+  n1: 56 0x400D5C: InitGraph (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+   n0: 56 0x4007B3: main (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+  n1: 56 0x400D7D: InitGraph (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+   n0: 56 0x4007B3: main (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+  n1: 56 0x400DA3: InitGraph (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+   n0: 56 0x4007B3: main (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+  n1: 56 0x400DC9: InitGraph (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+   n0: 56 0x4007B3: main (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+  n1: 56 0x400DEF: InitGraph (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+   n0: 56 0x4007B3: main (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+ n13: 848 0x4008BF: CreateNode (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+  n0: 240 in 13 places, all below massif's threshold (01.00%)
+  n1: 64 0x400D5C: InitGraph (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+   n0: 64 0x4007B3: main (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+  n1: 64 0x400D7D: InitGraph (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+   n0: 64 0x4007B3: main (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+  n1: 48 0x400C61: InitGraph (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+   n0: 48 0x4007B3: main (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+  n1: 48 0x400C87: InitGraph (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+   n0: 48 0x4007B3: main (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+  n1: 48 0x400CAD: InitGraph (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+   n0: 48 0x4007B3: main (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+  n1: 48 0x400CD3: InitGraph (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+   n0: 48 0x4007B3: main (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+  n1: 48 0x400CF9: InitGraph (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+   n0: 48 0x4007B3: main (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+  n1: 48 0x400DA3: InitGraph (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+   n0: 48 0x4007B3: main (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+  n1: 48 0x400DC9: InitGraph (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+   n0: 48 0x4007B3: main (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+  n1: 48 0x400BEF: InitGraph (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+   n0: 48 0x4007B3: main (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+  n1: 48 0x400C15: InitGraph (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+   n0: 48 0x4007B3: main (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+  n1: 48 0x400C3B: InitGraph (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+   n0: 48 0x4007B3: main (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+ n1: 424 0x40088F: CreateNode (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+  n0: 424 in 25 places, all below massif's threshold (01.00%)
+ n0: 136 in 6 places, all below massif's threshold (01.00%)
+ n1: 125 0x40082B: CreateNode (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+  n0: 125 in 25 places, all below massif's threshold (01.00%)
+ n1: 64 0x400A0E: InitGraph (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+  n0: 64 0x4007B3: main (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+#-----------
+snapshot=32
+#-----------
+time=141980
+mem_heap_B=3186
+mem_heap_extra_B=1838
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=33
+#-----------
+time=142278
+mem_heap_B=3319
+mem_heap_extra_B=1913
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=34
+#-----------
+time=142465
+mem_heap_B=3380
+mem_heap_extra_B=1964
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=35
+#-----------
+time=142576
+mem_heap_B=3452
+mem_heap_extra_B=1988
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=36
+#-----------
+time=142763
+mem_heap_B=3513
+mem_heap_extra_B=2039
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=37
+#-----------
+time=142874
+mem_heap_B=3585
+mem_heap_extra_B=2063
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=38
+#-----------
+time=143061
+mem_heap_B=3646
+mem_heap_extra_B=2114
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=39
+#-----------
+time=143172
+mem_heap_B=3718
+mem_heap_extra_B=2138
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=40
+#-----------
+time=143359
+mem_heap_B=3779
+mem_heap_extra_B=2189
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=41
+#-----------
+time=143470
+mem_heap_B=3851
+mem_heap_extra_B=2213
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=42
+#-----------
+time=143657
+mem_heap_B=3912
+mem_heap_extra_B=2264
+mem_stacks_B=0
+heap_tree=detailed
+n6: 3912 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 1792 0x40081D: CreateNode (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+  n0: 1792 in 32 places, all below massif's threshold (01.00%)
+ n3: 1168 0x4008BF: CreateNode (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+  n0: 1040 in 30 places, all below massif's threshold (01.00%)
+  n1: 64 0x400D5C: InitGraph (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+   n0: 64 0x4007B3: main (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+  n1: 64 0x400D7D: InitGraph (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+   n0: 64 0x4007B3: main (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+ n1: 592 0x40088F: CreateNode (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+  n0: 592 in 32 places, all below massif's threshold (01.00%)
+ n1: 160 0x40082B: CreateNode (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+  n0: 160 in 32 places, all below massif's threshold (01.00%)
+ n0: 136 in 6 places, all below massif's threshold (01.00%)
+ n1: 64 0x400A0E: InitGraph (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+  n0: 64 0x4007B3: main (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+#-----------
+snapshot=43
+#-----------
+time=143768
+mem_heap_B=3984
+mem_heap_extra_B=2288
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=44
+#-----------
+time=143955
+mem_heap_B=4045
+mem_heap_extra_B=2339
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=45
+#-----------
+time=144066
+mem_heap_B=4117
+mem_heap_extra_B=2363
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=46
+#-----------
+time=144253
+mem_heap_B=4178
+mem_heap_extra_B=2414
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=47
+#-----------
+time=144364
+mem_heap_B=4250
+mem_heap_extra_B=2438
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=48
+#-----------
+time=144551
+mem_heap_B=4311
+mem_heap_extra_B=2489
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=49
+#-----------
+time=144662
+mem_heap_B=4383
+mem_heap_extra_B=2513
+mem_stacks_B=0
+heap_tree=detailed
+n5: 4383 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 2016 0x40081D: CreateNode (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+  n0: 2016 in 36 places, all below massif's threshold (01.00%)
+ n1: 1328 0x4008BF: CreateNode (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+  n0: 1328 in 35 places, all below massif's threshold (01.00%)
+ n1: 664 0x40088F: CreateNode (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+  n0: 664 in 35 places, all below massif's threshold (01.00%)
+ n0: 200 in 7 places, all below massif's threshold (01.00%)
+ n1: 175 0x40082B: CreateNode (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+  n0: 175 in 35 places, all below massif's threshold (01.00%)
+#-----------
+snapshot=50
+#-----------
+time=144803
+mem_heap_B=4428
+mem_heap_extra_B=2556
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=51
+#-----------
+time=144960
+mem_heap_B=4516
+mem_heap_extra_B=2588
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=52
+#-----------
+time=145101
+mem_heap_B=4561
+mem_heap_extra_B=2631
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=53
+#-----------
+time=145258
+mem_heap_B=4649
+mem_heap_extra_B=2663
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=54
+#-----------
+time=145399
+mem_heap_B=4694
+mem_heap_extra_B=2706
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=55
+#-----------
+time=145556
+mem_heap_B=4782
+mem_heap_extra_B=2738
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=56
+#-----------
+time=145697
+mem_heap_B=4835
+mem_heap_extra_B=2773
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=57
+#-----------
+time=145835
+mem_heap_B=4883
+mem_heap_extra_B=2797
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=58
+#-----------
+time=145994
+mem_heap_B=4944
+mem_heap_extra_B=2840
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=59
+#-----------
+time=146154
+mem_heap_B=5005
+mem_heap_extra_B=2883
+mem_stacks_B=0
+heap_tree=detailed
+n5: 5005 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 2296 0x40081D: CreateNode (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+  n0: 2296 in 41 places, all below massif's threshold (01.00%)
+ n1: 1536 0x4008BF: CreateNode (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+  n0: 1536 in 39 places, all below massif's threshold (01.00%)
+ n1: 768 0x40088F: CreateNode (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+  n0: 768 in 41 places, all below massif's threshold (01.00%)
+ n1: 205 0x40082B: CreateNode (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+  n0: 205 in 41 places, all below massif's threshold (01.00%)
+ n0: 200 in 7 places, all below massif's threshold (01.00%)
+#-----------
+snapshot=60
+#-----------
+time=146314
+mem_heap_B=5066
+mem_heap_extra_B=2926
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=61
+#-----------
+time=146474
+mem_heap_B=5127
+mem_heap_extra_B=2969
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=62
+#-----------
+time=146634
+mem_heap_B=5188
+mem_heap_extra_B=3012
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=63
+#-----------
+time=146794
+mem_heap_B=5249
+mem_heap_extra_B=3055
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=64
+#-----------
+time=146954
+mem_heap_B=5310
+mem_heap_extra_B=3098
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=65
+#-----------
+time=147114
+mem_heap_B=5371
+mem_heap_extra_B=3141
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=66
+#-----------
+time=147274
+mem_heap_B=5432
+mem_heap_extra_B=3184
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=67
+#-----------
+time=147434
+mem_heap_B=5493
+mem_heap_extra_B=3227
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=68
+#-----------
+time=147594
+mem_heap_B=5554
+mem_heap_extra_B=3270
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=69
+#-----------
+time=147754
+mem_heap_B=5615
+mem_heap_extra_B=3313
+mem_stacks_B=0
+heap_tree=detailed
+n5: 5615 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 2856 0x40081D: CreateNode (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+  n0: 2856 in 51 places, all below massif's threshold (01.00%)
+ n1: 1536 0x4008BF: CreateNode (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+  n0: 1536 in 39 places, all below massif's threshold (01.00%)
+ n1: 768 0x40088F: CreateNode (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+  n0: 768 in 51 places, all below massif's threshold (01.00%)
+ n1: 255 0x40082B: CreateNode (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+  n0: 255 in 51 places, all below massif's threshold (01.00%)
+ n0: 200 in 7 places, all below massif's threshold (01.00%)
+#-----------
+snapshot=70
+#-----------
+time=147914
+mem_heap_B=5676
+mem_heap_extra_B=3356
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=71
+#-----------
+time=148074
+mem_heap_B=5737
+mem_heap_extra_B=3399
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=72
+#-----------
+time=148234
+mem_heap_B=5798
+mem_heap_extra_B=3442
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=73
+#-----------
+time=148394
+mem_heap_B=5859
+mem_heap_extra_B=3485
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=74
+#-----------
+time=148554
+mem_heap_B=5928
+mem_heap_extra_B=3536
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=75
+#-----------
+time=148666
+mem_heap_B=6000
+mem_heap_extra_B=3560
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=76
+#-----------
+time=148807
+mem_heap_B=6029
+mem_heap_extra_B=3603
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=77
+#-----------
+time=148966
+mem_heap_B=6098
+mem_heap_extra_B=3654
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=78
+#-----------
+time=149078
+mem_heap_B=6170
+mem_heap_extra_B=3678
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=79
+#-----------
+time=149219
+mem_heap_B=6199
+mem_heap_extra_B=3721
+mem_stacks_B=0
+heap_tree=detailed
+n5: 6199 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 3304 0x40081D: CreateNode (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+  n0: 3304 in 59 places, all below massif's threshold (01.00%)
+ n1: 1600 0x4008BF: CreateNode (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+  n0: 1600 in 43 places, all below massif's threshold (01.00%)
+ n1: 800 0x40088F: CreateNode (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+  n0: 800 in 59 places, all below massif's threshold (01.00%)
+ n1: 295 0x40082B: CreateNode (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+  n0: 295 in 59 places, all below massif's threshold (01.00%)
+ n0: 200 in 7 places, all below massif's threshold (01.00%)
+#-----------
+snapshot=80
+#-----------
+time=149378
+mem_heap_B=6268
+mem_heap_extra_B=3772
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=81
+#-----------
+time=149490
+mem_heap_B=6340
+mem_heap_extra_B=3796
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=82
+#-----------
+time=149631
+mem_heap_B=6369
+mem_heap_extra_B=3839
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=83
+#-----------
+time=149790
+mem_heap_B=6438
+mem_heap_extra_B=3890
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=84
+#-----------
+time=149902
+mem_heap_B=6510
+mem_heap_extra_B=3914
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=85
+#-----------
+time=150043
+mem_heap_B=6539
+mem_heap_extra_B=3957
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=86
+#-----------
+time=150202
+mem_heap_B=6624
+mem_heap_extra_B=4008
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=87
+#-----------
+time=150341
+mem_heap_B=6672
+mem_heap_extra_B=4032
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=88
+#-----------
+time=150500
+mem_heap_B=6757
+mem_heap_extra_B=4083
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=89
+#-----------
+time=150639
+mem_heap_B=6805
+mem_heap_extra_B=4107
+mem_stacks_B=0
+heap_tree=detailed
+n5: 6805 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 3640 0x40081D: CreateNode (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+  n0: 3640 in 65 places, all below massif's threshold (01.00%)
+ n1: 1760 0x4008BF: CreateNode (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+  n0: 1760 in 49 places, all below massif's threshold (01.00%)
+ n1: 880 0x40088F: CreateNode (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+  n0: 880 in 65 places, all below massif's threshold (01.00%)
+ n1: 325 0x40082B: CreateNode (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/map/app.out)
+  n0: 325 in 65 places, all below massif's threshold (01.00%)
+ n0: 200 in 7 places, all below massif's threshold (01.00%)
+#-----------
+snapshot=90
+#-----------
+time=150798
+mem_heap_B=6890
+mem_heap_extra_B=4158
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=91
+#-----------
+time=150937
+mem_heap_B=6938
+mem_heap_extra_B=4182
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=92
+#-----------
+time=151096
+mem_heap_B=7023
+mem_heap_extra_B=4233
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=93
+#-----------
+time=151235
+mem_heap_B=7071
+mem_heap_extra_B=4257
+mem_stacks_B=0
+heap_tree=empty

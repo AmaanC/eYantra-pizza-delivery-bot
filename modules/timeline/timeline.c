@@ -41,10 +41,10 @@ OrderList *our_timeline;
 PizzaList *our_pizzas;
 
 // Number of pizzas found so we know when to stop
-int total_pizzas = 0;
+char total_pizzas = 0;
 
-int total_orders = 0;
-int orders_completed = 0;
+char total_orders = 0;
+char orders_completed = 0;
 
 // We maintain the two lists independently because, for example,
 // H2 and H8 can both have ordered small green pizzas.
@@ -75,8 +75,8 @@ Order *next_extra_order;
 
 // We only have 10 pizza pick up points, and since the rules state that no pizzas will be added
 // or removed *during* a run, we can assume that the max orders we'll get is 10
-const int MAX_ORDERS = 10;
-const int GUARANTEED_PERIOD = 50;
+const char MAX_ORDERS = 10;
+const char GUARANTEED_PERIOD = 50;
 
 char GetState() {
     return cur_state;
@@ -96,7 +96,7 @@ Node *GetPizzaCounter() {
 }
 
 void InsertOrder(OrderList *timeline, Order *new_order) {
-    int i = 0;
+    unsigned char i = 0;
     i = timeline->len;
     // Here, we want to insert the new_order into the array and keep the
     // array sorted by their delivery period's end time in ascending order
@@ -154,7 +154,7 @@ void CreateOrder(
         OrderList *timeline,
         char colour,
         char size,
-        int order_time,
+        char order_time, // A byte-long int
         char order_type,
         char *delivery_house_name
     ) {
@@ -297,66 +297,66 @@ void MissingOrderBeep() {
 //     return delayed;
 // }
 
-int GetNumDelayed(Node *source_node, int start_time, int order_num) {
-    int delayed = 0;
-    // PathStack *path_to_pick;
-    // PathStack *path_to_deliver;
-    // float cost_to_pick = INFINITY;
-    // float cost_to_deliver = INFINITY;
-    // float total_cost = INFINITY;
-    // int cur_order_num = order_num;
-    // Graph *our_graph = GetGraph();
-    // Order *next_order;
-    // Pizza *order_pizza;
-    // PizzaList *used_pizzas;
-    // int i = 0;
-    // used_pizzas = malloc(sizeof(PizzaList));
-    // used_pizzas->pizzas = malloc(sizeof(Pizza *));
-    // used_pizzas->len = 0;
-    // path_to_pick = path_to_deliver = NULL;
+char GetNumDelayed(Node *source_node, char start_time, char order_num) {
+    char delayed = 0;
+    PathStack *path_to_pick;
+    PathStack *path_to_deliver;
+    float cost_to_pick = INFINITY;
+    float cost_to_deliver = INFINITY;
+    float total_cost = INFINITY;
+    char cur_order_num = order_num;
+    Graph *our_graph = GetGraph();
+    Order *next_order;
+    Pizza *order_pizza;
+    PizzaList *used_pizzas;
+    unsigned char i = 0;
+    used_pizzas = malloc(sizeof(PizzaList));
+    used_pizzas->pizzas = malloc(sizeof(Pizza *));
+    used_pizzas->len = 0;
+    path_to_pick = path_to_deliver = NULL;
 
-    // next_order = GetNextOrder(our_timeline, cur_order_num);
-    // order_pizza = GetPizzaForOrder(next_order);
+    next_order = GetNextOrder(our_timeline, cur_order_num);
+    order_pizza = GetPizzaForOrder(next_order);
 
-    // while (next_order != NULL) {
-    //     // We set the state to "considering" so that when the function is called recursively,
-    //     // the next order doesn't try to access the same pizza
-    //     order_pizza->state = 'c';
+    while (next_order != NULL) {
+        // We set the state to "considering" so that when the function is called recursively,
+        // the next order doesn't try to access the same pizza
+        order_pizza->state = 'c';
 
-    //     InsertPizza(used_pizzas, order_pizza);
+        InsertPizza(used_pizzas, order_pizza);
 
-    //     // We don't care about using guessed pizza locations, as long as
-    //     // the calls compare in a similar manner.
-    //     path_to_pick = Dijkstra(source_node, order_pizza->location, source_node->enter_deg, our_graph);
-    //     cost_to_pick = path_to_pick->total_cost;
-    //     // If we get there before we can pick it up, our cost to pick is actually higher
-    //     if (start_time + cost_to_pick < next_order->pickup_time) {
-    //         cost_to_pick = next_order->pickup_time - start_time;
-    //     }
-    //     path_to_deliver = Dijkstra(order_pizza->location, next_order->delivery_house, order_pizza->location->enter_deg, our_graph);
-    //     cost_to_deliver = path_to_deliver->total_cost;
-    //     total_cost = start_time + cost_to_pick + cost_to_deliver;
-    //     // If we reach after the delivery period ends, we've delayed this order
-    //     if (total_cost > next_order->delivery_period->end) {
-    //         delayed += 1;
-    //     }
-    //     start_time = total_cost;
-    //     source_node = order_pizza->location;
-    //     cur_order_num++;
+        // We don't care about using guessed pizza locations, as long as
+        // the calls compare in a similar manner.
+        path_to_pick = Dijkstra(source_node, order_pizza->location, source_node->enter_deg, our_graph);
+        cost_to_pick = path_to_pick->total_cost;
+        // If we get there before we can pick it up, our cost to pick is actually higher
+        if (start_time + cost_to_pick < next_order->pickup_time) {
+            cost_to_pick = next_order->pickup_time - start_time;
+        }
+        path_to_deliver = Dijkstra(order_pizza->location, next_order->delivery_house, order_pizza->location->enter_deg, our_graph);
+        cost_to_deliver = path_to_deliver->total_cost;
+        total_cost = start_time + cost_to_pick + cost_to_deliver;
+        // If we reach after the delivery period ends, we've delayed this order
+        if (total_cost > next_order->delivery_period->end) {
+            delayed += 1;
+        }
+        start_time = total_cost;
+        source_node = order_pizza->location;
+        cur_order_num++;
 
-    //     next_order = GetNextOrder(our_timeline, cur_order_num);
-    //     order_pizza = GetPizzaForOrder(next_order);
-    //     free(path_to_pick->path);
-    //     free(path_to_deliver->path);
-    // }
+        next_order = GetNextOrder(our_timeline, cur_order_num);
+        order_pizza = GetPizzaForOrder(next_order);
+        free(path_to_pick->path);
+        free(path_to_deliver->path);
+    }
 
-    // for (i = 0; i < used_pizzas->len; i++) {
-    //     used_pizzas->pizzas[i]->state = 'f';
-    // }
+    for (i = 0; i < used_pizzas->len; i++) {
+        used_pizzas->pizzas[i]->state = 'f';
+    }
     
-    // free(used_pizzas);
-    // free(path_to_pick->path);
-    // free(path_to_deliver->path);
+    free(used_pizzas);
+    free(path_to_pick->path);
+    free(path_to_deliver->path);
 
     return delayed;
 }
@@ -372,11 +372,11 @@ int GetNumDelayed(Node *source_node, int start_time, int order_num) {
 // order2 will be NULL. It'll calculate the cost of delivering order1
 // and if it doesn't delay our next orders, we'll return 0.
 DeliverySequence *ConsiderCancel(Order *order1, Order *order2) {
-    int i = 0;
-    int j = 0;
-    int a = 0;
-    int b = 0;
-    const int num_combos = 2;
+    unsigned char i = 0;
+    unsigned char j = 0;
+    unsigned char a = 0;
+    unsigned char b = 0;
+    const char num_combos = 2;
     // An array of order pointers
     Order **order_combo;
     Pizza **pizza_combo;
@@ -397,8 +397,8 @@ DeliverySequence *ConsiderCancel(Order *order1, Order *order2) {
     best_seq->should_cancel = FALSE;
 
     // Number of regular orders delayed if deliver the current order vs. if we cancel it
-    int num_delayed_if_deliver = 0;
-    int num_delayed_if_cancel = 0;
+    char num_delayed_if_deliver = 0;
+    char num_delayed_if_cancel = 0;
 
     // printf("ConsiderCancel %d %d\n\n", order1 == NULL, order2 == NULL);
 
@@ -625,9 +625,9 @@ DeliverySequence *ConsiderCancel(Order *order1, Order *order2) {
 // If pos is 0, it finds the order that is immediately due
 // If pos is 1, it finds the order due after that one
 // And so on
-Order *GetNextOrder(OrderList *timeline, int pos) {
-    int i = 0;
-    int num_found = 0;
+Order *GetNextOrder(OrderList *timeline, char pos) {
+    unsigned char i = 0;
+    char num_found = 0;
     Order *current_order, *next_reg_order;
     next_reg_order = NULL;
     // //printf("Getting order %d\n", pos);
@@ -653,7 +653,7 @@ Order *GetNextOrder(OrderList *timeline, int pos) {
 }
 
 Pizza *GetPizzaForOrder(Order *order) {
-    int i = 0;
+    unsigned char i = 0;
     Pizza *current_pizza;
     if (order == NULL) {
         return NULL;
@@ -675,7 +675,7 @@ Pizza *GetPizzaForOrder(Order *order) {
 }
 
 Order *GetOrderForPizza(Pizza *pizza) {
-    int i = 0;
+    unsigned char i = 0;
     Order *current_order;
     if (pizza == NULL) {
         return NULL;
@@ -698,7 +698,7 @@ Order *GetOrderForPizza(Pizza *pizza) {
 }
 
 Pizza *GetPizzaAtNode(Node *node) {
-    int i = 0;
+    unsigned char i = 0;
     Pizza *current_pizza;
     if (node == NULL) {
         return NULL;
@@ -727,10 +727,10 @@ PizzaList *GetAvailablePizzas() {
     Pizza *current_pizza;
     Pizza *next_pizza = GetPizzaForOrder(GetNextOrder(our_timeline, 0));
     Node *cur_node = GetCurrentNode();
-    int i = 0;
+    unsigned char i = 0;
     // TODO: Discuss, experiment
-    int threshold = 5;
-    int cur_time = GetCurrentTime();
+    char threshold = 5;
+    char cur_time = GetCurrentTime();
     float cost_to_pizza = INFINITY;
     available_pizzas = malloc(sizeof(PizzaList));
     available_pizzas->pizzas = malloc(MAX_ORDERS * sizeof(Pizza*));
@@ -782,8 +782,8 @@ PizzaList *GetAvailablePizzas() {
 //                              -------                           ---------
 char fake_colours[]     = {'g', 'b', 'g', 'r', 'b', 'n', 'r', 'r', 'n', 'g'};
 char fake_block_sizes[] = {'m', 'm', 's', 'm', 's', 'n', 'l', 's', 'n', 'l'};
-int fake_i = 0;
-int fake_len = 10;
+unsigned char fake_i = 0;
+unsigned char fake_len = 10;
 
 // Our orders are:
 // CreateOrder(our_timeline, 'r', 'l', 30, 'r', "H12");
@@ -797,11 +797,11 @@ int fake_len = 10;
 // to detect the pizza and save its details in our Order struct
 // The state will change to 'f' to indicate that its been found
 void DetectPizza() {
-    int i = 0;
+    unsigned char i = 0;
     Pizza *current_pizza;
     Pizza *conflicting_pizza;
     BotInfo *bot_info;
-    int found = FALSE;
+    char found = FALSE;
     // char block_size = 's'; // SharpGetBlockSize();
     // char colour = 'r'; // ColourGet();
     char block_size;
@@ -898,9 +898,9 @@ void DetectPizza() {
 
 // real_pizza: whether we're checking if there's a real pizza there or if we're checking if
 // a location has been allocated
-int IsPizzaAt(Node *test_node, int real_pizza) {
-    int i = 0;
-    int found = FALSE;
+char IsPizzaAt(Node *test_node, char real_pizza) {
+    unsigned char i = 0;
+    char found = FALSE;
     Pizza *current_pizza;
     for (i = 0; i < our_pizzas->len; i++) {
         current_pizza = our_pizzas->pizzas[i];
@@ -921,13 +921,13 @@ int IsPizzaAt(Node *test_node, int real_pizza) {
 // because it would delay us
 // TRUE = Finding
 // FALSE = Not finding
-int FindPizzas() {
+char FindPizzas() {
     BotInfo *bot_info;
     Graph *our_graph;
     PathStack *path_to_pizza, *path_to_left_pizza, *path_to_right_pizza;
     Node *target_pizza_node, *left_pizza_node, *right_pizza_node;
-    int num_delayed_if_find = 0;
-    int num_delayed_if_skip_find = 0;
+    char num_delayed_if_find = 0;
+    char num_delayed_if_skip_find = 0;
     float cost_to_find = 0;
     bot_info = GetBotInfo();
     our_graph = GetGraph();
@@ -999,16 +999,6 @@ int FindPizzas() {
     }
 }
 
-TimeBlock *GetTimeReqForOrders(Order *order1, Order *order2) {
-    TimeBlock *time_req;
-    time_req = malloc(sizeof(TimeBlock));
-
-    time_req->start = 0;
-    time_req->end = 0;
-
-    return time_req;
-}
-
 // This is called when we've got some free time, and want to consider doing the following:
 // Finding more pizzas
 // Picking an extra pizza up with the second arm (regular or preorder, doesn't matter)
@@ -1035,7 +1025,7 @@ void FreeTimeDecision() {
     DeliverySequence *best_seq;
     // The pizzas for the corresponding orders above
     Pizza *current_pizza, *next_pizza;
-    int i = 0;
+    unsigned char i = 0;
     // Get pizzas that I can pick up by the time I can get to them
     next_order = GetNextOrder(our_timeline, 0);
     next_pizza = GetPizzaForOrder(next_order);
@@ -1133,10 +1123,10 @@ void DeliverPizzas(DeliverySequence *cur_sequence) {
     // }
     printf("Delivering\n");
 
-    int pick1 = cur_sequence->pick1;
-    int pick2 = cur_sequence->pick2;
-    int deliver1 = cur_sequence->deliver1;
-    int deliver2 = cur_sequence->deliver2;
+    unsigned char pick1 = cur_sequence->pick1;
+    unsigned char pick2 = cur_sequence->pick2;
+    unsigned char deliver1 = cur_sequence->deliver1;
+    unsigned char deliver2 = cur_sequence->deliver2;
 
     delivered_pizza = cur_sequence->pizza_combo[pick1];
     cur_node = delivered_pizza->location;
@@ -1252,7 +1242,7 @@ void NormalOperation() {
     DeliverySequence *cur_sequence;
     Order *next_reg_order;
     Pizza *next_reg_pizza;
-    int time_to_find = TRUE;
+    char time_to_find = TRUE;
 
     next_reg_order = GetNextOrder(our_timeline, 0);
     // If we've delivered all the regular orders already, we can consider the canceled pizzas
@@ -1329,6 +1319,9 @@ void NormalOperation() {
     if (cur_sequence->should_cancel == TRUE) {
         printf("Canceling order to %s at %d %c\n", next_reg_order->delivery_house->name, next_reg_order->order_time, next_reg_order->order_type);
         next_reg_order->state = 'c';
+        free(cur_sequence->order_combo);
+        free(cur_sequence->pizza_combo);
+        free(cur_sequence);
         return;
     }
     // ConsiderCancel thinks we can deliver it in time, so lets do it!

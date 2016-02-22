@@ -31,8 +31,8 @@ CurveInfo *curve_info;
 BotInfo *bot_info;
 
 // Returns a pointer to a node
-Node *CreateNode(float x, float y, int num_connected, char *name) {
-    int i;
+Node *CreateNode(float x, float y, char num_connected, char *name) {
+    unsigned char i;
     Node *new_node;
     new_node = malloc(sizeof(Node));
     new_node->name = malloc(5); // 5 char array for the name
@@ -58,8 +58,8 @@ Node *CreateNode(float x, float y, int num_connected, char *name) {
 
 // Note that this function connects "a" to "b" *and* "b" to "a". They don't need to be connected individually
 void ConnectNodes(Node *a, Node *b, float cost) {
-    int a_count = a->counter;
-    int b_count = b->counter;
+    unsigned char a_count = a->counter;
+    unsigned char b_count = b->counter;
 
     a->connected[a_count]->ptr = b; // a ---> b
     b->connected[b_count]->ptr = a; // a <--> b
@@ -252,8 +252,8 @@ Node *GetCurrentNode() {
 
 // Call it like this:
 // DFSEval(GetCurrentNode(), GetCurrentNode()->visited, update_dist)
-void DFSEval(Node *source_node, int unvisited_value, int (*fn)(Node *)) {
-    int i;
+void DFSEval(Node *source_node, char unvisited_value, char (*fn)(Node *)) {
+    unsigned char i;
     // printf("DFS: %s\n", source_node->name);
     source_node->visited = !unvisited_value;
 
@@ -271,7 +271,7 @@ void DFSEval(Node *source_node, int unvisited_value, int (*fn)(Node *)) {
 // I realize that this is terrible, but I picked this method over
 // having N different functions, all of which used DFS for different logic
 // So you've been warned, this function has side effects
-int CheckNodeName(Node *current_node) {
+char CheckNodeName(Node *current_node) {
     // printf("Checking %s vs. %s\n", current_node->name, current_search_name);
     if (strcmp(current_node->name, current_search_name) == 0) {
         found_node = current_node;
@@ -294,9 +294,9 @@ Node *GetNodeByName(char *name) {
     return found_node;
 }
 
-int IndexOfNode(Node **node_arr, int len, Node *needle) {
-    int index = -1;
-    int i;
+char IndexOfNode(Node **node_arr, unsigned char len, Node *needle) {
+    char index = -1;
+    unsigned char i;
     for (i = 0; i < len; i++) {
         if (node_arr[i] == needle) {
             index = i;
@@ -307,8 +307,8 @@ int IndexOfNode(Node **node_arr, int len, Node *needle) {
 }
 
 // If a node isn't already in the array, add it. Else, ignore the call
-void UpdateNodeInArray(Node **node_costs, int *len, Node *new_node) {
-    int index;
+void UpdateNodeInArray(Node **node_costs, unsigned char *len, Node *new_node) {
+    char index;
     index = IndexOfNode(node_costs, *len, new_node);
     // If it is in the array already, ignore the call
     if (index != -1) {
@@ -373,7 +373,7 @@ float GetAngularVelocity(Node *node1, Node *node2) {
 
 // Returns 1 if the right motor should be the faster one
 // -1 if the left should be faster
-int GetCurveDirection(Node *source_node, Node *target_node) {
+char GetCurveDirection(Node *source_node, Node *target_node) {
     float angular_velocity = GetAngularVelocity(source_node, target_node);
     // We calculate the angular velocity by seeing the angle between the target_node from the center
     // and the source_node from the center. If this angle is positive, we're moving in the anticlockwise

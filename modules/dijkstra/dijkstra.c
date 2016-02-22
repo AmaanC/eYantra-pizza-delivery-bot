@@ -11,7 +11,7 @@
 // The things you need to do to initialize all the nodes for Dijkstra's algorithm
 // Namely, set the path_cost to infinite
 // And set the done flag to FALSE
-int InitNodesDijkstra(Node *current_node) {
+char InitNodesDijkstra(Node *current_node) {
     current_node->path_cost = INFINITY; // INFINITY is a macro from math.h
     current_node->done = FALSE;
     return FALSE;
@@ -86,7 +86,7 @@ PathStack* Dijkstra(Node *source_node, Node *target_node, float cur_deg, Graph *
     // This is an array of Node pointers
     Node **node_costs;
     // Length of the array above
-    int node_costs_len = 0;
+    unsigned char node_costs_len = 0;
     // Records the actual final path to be taken from source to dest
     PathStack *final_path;
     // Curve info
