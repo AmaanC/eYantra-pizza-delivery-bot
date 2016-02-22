@@ -1,0 +1,338 @@
+cc -g3 -o app.out app.o helpers.o timeline.o ../map/map.o ../dijkstra/dijkstra.o ../bot_memory/bot_memory.o ../timer-gcc/timer.o ../hardware_control/hardware_control.o -lm
+./app.out
+		Total time: 0
+		Total orders: 0
+		Total pizzas: 0
+	Free time!
+Next not found, going to normal
+		Total time: 0
+		Total orders: 0
+		Total pizzas: 0
+	Normal operation!
+Reg: colour: r, size: l, time: 40, ptime: 40, type: r, state: n, house: H1
+Extra: 
+Targ pizza node: c5 1
+S, r1, c5, 
+Total cost: 3.640000
+Reached c5 node.
+Detected: g and m
+		Total time: 4
+		Total orders: 0
+		Total pizzas: 1
+	Free time!
+Next not found, going to normal
+		Total time: 4
+		Total orders: 0
+		Total pizzas: 1
+	Normal operation!
+Reg: colour: r, size: l, time: 40, ptime: 40, type: r, state: n, house: H1
+Extra: 
+Targ pizza node: c4 1
+c5, c4, 
+Total cost: 1.150000
+Reached c4 node.
+Detected: b and m
+		Total time: 6
+		Total orders: 0
+		Total pizzas: 2
+	Free time!
+Next not found, going to normal
+		Total time: 6
+		Total orders: 0
+		Total pizzas: 2
+	Normal operation!
+Reg: colour: r, size: l, time: 40, ptime: 40, type: r, state: n, house: H1
+Extra: 
+Targ pizza node: c3 1
+c4, c3, 
+Total cost: 1.150000
+Reached c3 node.
+Detected: g and s
+		Total time: 8
+		Total orders: 0
+		Total pizzas: 3
+	Free time!
+Next not found, going to normal
+		Total time: 8
+		Total orders: 0
+		Total pizzas: 3
+	Normal operation!
+Reg: colour: r, size: l, time: 40, ptime: 40, type: r, state: n, house: H1
+Extra: 
+Targ pizza node: c2 1
+c3, c2, 
+Total cost: 1.150000
+Reached c2 node.
+Detected: r and m
+		Total time: 10
+		Total orders: 0
+		Total pizzas: 4
+	Free time!
+Next not found, going to normal
+		Total time: 10
+		Total orders: 0
+		Total pizzas: 4
+	Normal operation!
+Reg: colour: r, size: l, time: 40, ptime: 40, type: r, state: n, house: H1
+Extra: 
+Targ pizza node: c1 1
+c2, c1, 
+Total cost: 1.150000
+Reached c1 node.
+Detected: b and s
+		Total time: 12
+		Total orders: 0
+		Total pizzas: 5
+	Free time!
+Next not found, going to normal
+		Total time: 12
+		Total orders: 0
+		Total pizzas: 5
+	Normal operation!
+Reg: colour: r, size: l, time: 40, ptime: 40, type: r, state: n, house: H1
+Extra: 
+ERROR: NULL pointer for source or target - dijkstra.c
+
+
+Targ pizza node: c6 1
+c1, c2, c3, c4, c5, r1, c6, 
+Total cost: 8.700000
+Reached c6 node.
+Detected: n and n
+		Total time: 21
+		Total orders: 0
+		Total pizzas: 6
+	Normal operation!
+Reg: colour: r, size: l, time: 40, ptime: 40, type: r, state: n, house: H1
+Extra: 
+ERROR: NULL pointer for source or target - dijkstra.c
+
+
+Targ pizza node: c7 1
+c6, c7, 
+Total cost: 1.150000
+Reached c7 node.
+Detected: r and l
+		Total time: 23
+		Total orders: 0
+		Total pizzas: 7
+	Free time!
+colour: r, size: l, time: 40, ptime: 40, type: r, state: n, house: H1
+Skipped same
+colour: b, size: s, time: 100, ptime: 100, type: r, state: n, house: H8
+37.849998 100 1
+colour: g, size: m, time: 115, ptime: 0, type: p, state: n, house: H2
+33.250000 0 1
+colour: r, size: s, time: 200, ptime: 0, type: p, state: n, house: H11
+30.299999 0 0
+colour: r, size: l, time: 250, ptime: 250, type: r, state: n, house: H12
+Skipped same
+colour: g, size: s, time: 350, ptime: 0, type: p, state: n, house: H5
+35.549999 0 1
+colour: b, size: m, time: 350, ptime: 0, type: p, state: n, house: H5
+34.400002 0 1
+Free time, considering combos
+colour: g, size: m, time: 115, ptime: 0, type: p, state: n, house: H2
+Extra order: H2 at 115, found 1		Total time: 23
+		Total orders: 0
+		Total pizzas: 7
+	Normal operation!
+Reg: colour: r, size: l, time: 40, ptime: 40, type: r, state: n, house: H1
+Extra: colour: g, size: m, time: 115, ptime: 0, type: p, state: n, house: H2
+
+Delivering
+Picking 1
+
+Total cost: 0.000000
+Reached c7 node.
+Reached early. Waiting 17 40 23
+Picking 2
+c7, c6, r1, c5, 
+Total cost: 5.250000
+Reached c5 node.
+c5, r1, r2, r3, H1, 
+Total cost: 13.500000
+Reached H1 node.
+ by 58
+H1, r3, r4, H2, 
+Total cost: 9.920000
+Reached H2 node.
+ by 67
+*** Delivered pizzas! H1, 40
+H2, 115 
+		Total time: 67
+		Total orders: 2
+		Total pizzas: 7
+	Free time!
+colour: r, size: l, time: 40, ptime: 40, type: r, state: d, house: H1
+Skipping delivered order
+colour: b, size: s, time: 100, ptime: 100, type: r, state: n, house: H8
+Skipped same
+colour: g, size: m, time: 115, ptime: 0, type: p, state: d, house: H2
+Skipping delivered order
+colour: r, size: s, time: 200, ptime: 0, type: p, state: n, house: H11
+92.729996 0 0
+colour: r, size: l, time: 250, ptime: 250, type: r, state: n, house: H12
+93.879997 250 0
+colour: g, size: s, time: 350, ptime: 0, type: p, state: n, house: H5
+89.779999 0 1
+colour: b, size: m, time: 350, ptime: 0, type: p, state: n, house: H5
+88.629997 0 1
+Free time, considering combos
+colour: g, size: s, time: 350, ptime: 0, type: p, state: n, house: H5
+Free time, considering combos
+colour: b, size: m, time: 350, ptime: 0, type: p, state: n, house: H5
+ERROR: NULL pointer for source or target - dijkstra.c
+
+
+Targ pizza node: c8 1
+H2, r4, r3, r2, r1, c6, c7, c8, 
+Total cost: 19.579998
+Reached c8 node.
+Detected: r and s
+		Total time: 87
+		Total orders: 2
+		Total pizzas: 8
+	Free time!
+colour: r, size: l, time: 40, ptime: 40, type: r, state: d, house: H1
+Skipping delivered order
+colour: b, size: s, time: 100, ptime: 100, type: r, state: n, house: H8
+Skipped same
+colour: g, size: m, time: 115, ptime: 0, type: p, state: d, house: H2
+Skipping delivered order
+colour: r, size: s, time: 200, ptime: 0, type: p, state: n, house: H11
+92.000000 0 1
+colour: r, size: l, time: 250, ptime: 250, type: r, state: n, house: H12
+94.300003 250 0
+colour: g, size: s, time: 350, ptime: 0, type: p, state: n, house: H5
+100.699997 0 1
+colour: b, size: m, time: 350, ptime: 0, type: p, state: n, house: H5
+99.550003 0 1
+Free time, considering combos
+colour: r, size: s, time: 200, ptime: 0, type: p, state: n, house: H11
+Extra order: H11 at 200, found 1		Total time: 87
+		Total orders: 2
+		Total pizzas: 8
+	Normal operation!
+Reg: colour: b, size: s, time: 100, ptime: 100, type: r, state: n, house: H8
+Extra: colour: r, size: s, time: 200, ptime: 0, type: p, state: n, house: H11
+
+Delivering
+Picking 1
+c8, c7, c6, r1, c5, c4, c3, c2, c1, 
+Total cost: 10.999999
+Reached c1 node.
+Reached early. Waiting 3 100 97
+Picking 2
+c1, c2, c3, c4, c5, r1, c6, c7, c8, 
+Total cost: 10.999999
+Reached c8 node.
+c8, c7, c6, r1, r2, r13, H8, 
+Total cost: 14.000000
+Reached H8 node.
+ by 124
+H8, r13, r12, r11, r17, H11, 
+Total cost: 16.080000
+Reached H11 node.
+Early delivery. Waiting 10.000000
+ by 150
+*** Delivered pizzas! H8, 100
+H11, 200 
+		Total time: 150
+		Total orders: 4
+		Total pizzas: 8
+	Free time!
+Next not found, going to normal
+		Total time: 150
+		Total orders: 4
+		Total pizzas: 8
+	Normal operation!
+Reg: colour: r, size: l, time: 250, ptime: 250, type: r, state: n, house: H12
+Extra: 
+ERROR: NULL pointer for source or target - dijkstra.c
+
+
+Targ pizza node: c9 1
+H11, r17, H12, r14, r2, r1, c6, c7, c8, c9, 
+Total cost: 30.569998
+Reached c9 node.
+Detected: n and n
+		Total time: 181
+		Total orders: 4
+		Total pizzas: 9
+	Normal operation!
+Reg: colour: r, size: l, time: 250, ptime: 250, type: r, state: n, house: H12
+Extra: 
+ERROR: NULL pointer for source or target - dijkstra.c
+
+
+Targ pizza node: c10 1
+c9, c10, 
+Total cost: 1.150000
+Reached c10 node.
+Detected: g and l
+		Total time: 183
+		Total orders: 4
+		Total pizzas: 10
+	Free time!
+Next not found, going to normal
+		Total time: 183
+		Total orders: 4
+		Total pizzas: 10
+	Normal operation!
+Reg: colour: r, size: l, time: 250, ptime: 250, type: r, state: n, house: H12
+Extra: 
+Order missing!
+		Total time: 183
+		Total orders: 5
+		Total pizzas: 10
+	Free time!
+colour: r, size: l, time: 40, ptime: 40, type: r, state: d, house: H1
+Skipping delivered order
+colour: b, size: s, time: 100, ptime: 100, type: r, state: d, house: H8
+Skipping delivered order
+colour: g, size: m, time: 115, ptime: 0, type: p, state: d, house: H2
+Skipping delivered order
+colour: r, size: s, time: 200, ptime: 0, type: p, state: d, house: H11
+Skipping delivered order
+colour: r, size: l, time: 250, ptime: 250, type: r, state: d, house: H12
+Skipping delivered order
+colour: g, size: s, time: 350, ptime: 0, type: p, state: n, house: H5
+Skipped same
+colour: b, size: m, time: 350, ptime: 0, type: p, state: n, house: H5
+197.850006 0 1
+Free time, considering combos
+colour: b, size: m, time: 350, ptime: 0, type: p, state: n, house: H5
+Extra order: H5 at 350, found 1		Total time: 183
+		Total orders: 5
+		Total pizzas: 10
+	Normal operation!
+Reg: colour: g, size: s, time: 350, ptime: 0, type: p, state: n, house: H5
+Extra: colour: b, size: m, time: 350, ptime: 0, type: p, state: n, house: H5
+
+Delivering
+Picking 1
+c10, c9, c8, c7, c6, r1, c5, c4, c3, 
+Total cost: 10.999999
+Reached c3 node.
+Picking 2
+c3, c4, 
+Total cost: 2.950000
+Reached c4 node.
+c4, c5, r1, r2, r13, r12, r11, r10, r9, H5, 
+Total cost: 23.070000
+Reached H5 node.
+Early delivery. Waiting 82.000000
+ by 300
+
+Total cost: 0.000000
+Reached H5 node.
+ by 300
+*** Delivered pizzas! H5, 350
+H5, 350 
+		Total time: 300
+		Total orders: 7
+		Total pizzas: 10
+All done!
+
+
