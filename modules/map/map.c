@@ -334,6 +334,18 @@ float GetRotationCost(float deg) {
     return 0.01 * fabs(deg);
 }
 
+int GetShortestDeg(int deg) {
+    if (deg > 180) {
+        return GetShortestDeg(deg - 360);
+    }
+    else if (deg < -180) {
+        return GetShortestDeg(deg + 360);
+    }
+    else {
+        return deg;
+    }
+};
+
 float RadToDeg(float radians) {
     return radians * 180 / M_PI;
 }

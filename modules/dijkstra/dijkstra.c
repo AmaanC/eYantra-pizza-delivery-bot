@@ -157,6 +157,12 @@ PathStack* Dijkstra(Node *source_node, Node *target_node, float cur_deg, Graph *
                     // printf("Curve: %d\n", GetCurveDirection(current_node, counter_node));
                 }
 
+                // At the counter
+                if (counter_node->name[0] == 'c') {
+                    rot_deg = 0;
+                    rotation_cost = 0;
+                }
+
                 temp_cost = accum_cost + rotation_cost + current_node->connected[i]->cost;
                 // printf("Pos: %f,%f\ntemp_deg: %f\n%s: %f\n\n\n", counter_node->x, counter_node->y, temp_deg, counter_node->name, MakePositiveDeg(rot_deg));
                 if (temp_cost < counter_node->path_cost) {
