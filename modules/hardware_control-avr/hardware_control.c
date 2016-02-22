@@ -120,11 +120,11 @@ void MoveBotToNode(Node *target_node) {
             // pos_encoder_rotate_bot((next_node->enter_deg - bot_info->cur_position->cur_deg));
 //            LcdPrintf("Rotating: %d", (int) (next_node->enter_deg - bot_info->cur_position->cur_deg));
             RotateBot((int) (next_node->enter_deg - bot_info->cur_position->cur_deg));
-            bot_info->cur_position->cur_deg = next_node->enter_deg;
             // pos_encoder_forward_mm(10 * sqrt(xDist * xDist + yDist * yDist));
 //            LcdPrintf("Forward %d", (int) (10 * sqrt(xDist * xDist + yDist * yDist)));
             MoveBotForward(230, 230, (int) (10 * sqrt(xDist * xDist + yDist * yDist)));
         }
+        bot_info->cur_position->cur_deg = next_node->enter_deg;
 
         bot_info->cur_position->cur_node = current_node;
         current_node = next_node;
