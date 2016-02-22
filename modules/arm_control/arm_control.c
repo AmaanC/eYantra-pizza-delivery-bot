@@ -3,15 +3,16 @@
 #include <util/delay.h>
 #include "../servo/servo.h"
 //#include "../buzzer/buzzer.h"
+#include <stdio.h>
+#include <string.h>
+#include <math.h>
 #include "arm_control.h"
 #include "../bot_memory/bot_memory.h"
 #include "../move_bot/move_bot.h"
 #include "../timeline/timeline.h"
 #include "../pos_encoder/pos_encoder.h"
 #include "../bl_sensor/bl_sensor.h"
-#include <string.h>
 #include "../map/map.h"
-#include <math.h>
 #include "../timer-gcc/timer.h"
 
 #define TRUE 1
@@ -117,6 +118,7 @@ Node *GetDepForHouse(Node *house) {
     if(house->name[0] == 'H') {
         if(IsPizzaAt(GetNodeByName(strcat(house->name,"DA")), TRUE)) {
             if(IsPizzaAt(GetNodeByName(strcat(house->name,"DB")), TRUE)) {
+                printf("Too much pizza is bad for you");
                 return NULL;
             }
             else {
@@ -132,12 +134,13 @@ Node *GetDepForHouse(Node *house) {
     }
 }
 
-void DepositPizza(Pizza *pizza) {
+void DepositPizza(Pizza *pizza, Order *order) {
     Node *deposition_zone, *current_node;
     float deg_to_dep = 0;
     float current_arm_deg = 0;
-    current_node = GetCurrentNode();
     Arm *correct_arm;
+    current_node = GetCurrentNode();
+    deposition_zone = GetDepForHouse(order->delivery_house);
 
     deg_to_dep = RadToDeg(atan2(deposition_zone->y - current_node->y, deposition_zone->x - current_node->x));
     if(bot_info->arm1->carrying == pizza) {
@@ -149,24 +152,9 @@ void DepositPizza(Pizza *pizza) {
     // The current arm angle in absolute terms
     current_arm_deg = bot_info->cur_position->cur_deg + correct_arm->angle;
 
-    RotateBot((int) (deg_to_dep - current_arm_deg));
+    RotateBot((int) GetShortestDeg(deg_to_dep - current_arm_deg));
 
     DropPizza(correct_arm);
-}
-
-// remove this
-// real_pizza: whether we're checking if there's a real pizza there or if we're checking if
-// a location has been allocated
-char IsPizzaAt(Node *test_node, char real_pizza) {
-    unsigned char i = 0;
-    char found = FALSE;
-    Pizza *current_pizza;
-    for (i = 0; i < our_pizzas->len; i++) {
-        current_pizza = our_pizzas->pizzas[i];
-        if (current_pizza->location == test_node && current_pizza->found == real_pizza) {
-            found = TRUE;
-// //////            printf("  Pizza at %s\n", test_node->name);
-        }
-    }
-    return found;
+    pizza->dep_loc = deposition_zone;
+    correct_arm->carrying = NULL;
 }

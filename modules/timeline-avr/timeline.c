@@ -908,9 +908,12 @@ char IsPizzaAt(Node *test_node, char real_pizza) {
     Pizza *current_pizza;
     for (i = 0; i < our_pizzas->len; i++) {
         current_pizza = our_pizzas->pizzas[i];
-        if (current_pizza->location == test_node && current_pizza->found == real_pizza) {
+        if (
+            (current_pizza->location == test_node || current_pizza->dep_loc == test_node) &&
+            current_pizza->found == real_pizza
+        ) {
             found = TRUE;
-// //////            printf("  Pizza at %s", test_node->name);
+            // printf("  Pizza at %s", test_node->name);
         }
     }
     return found;

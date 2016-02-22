@@ -68,7 +68,7 @@ int AngleRotate(unsigned int degrees) {
     while (1) {
         if (
             (IsBlack(LEFT) || IsBlack(CENTER) || IsBlack(RIGHT)) &&
-            (GetShaftCountLeft() > min_shaft_count_int | GetShaftCountRight() > min_shaft_count_int)
+            ((GetShaftCountLeft() > min_shaft_count_int) | (GetShaftCountRight() > min_shaft_count_int))
         ) {
             reached_black = TRUE;
             break;
