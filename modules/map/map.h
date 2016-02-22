@@ -82,5 +82,6 @@ float MakePositiveDeg(float angle);
 float MakePositiveRad(float angle);
 float GetAngularVelocity(Node *node1, Node *node2);
 char GetCurveDirection(Node *source_node, Node *target_node);
+int GetShortestDeg(int deg);
 
 #endif
