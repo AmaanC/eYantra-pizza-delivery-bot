@@ -103,7 +103,7 @@ OrderList *GetTimeline();
 PizzaList *GetPizzas();
 void MissingOrderBeep();
 void FindNextDefiniteNeed(OrderList *timeline);
-char GetNumDelayed(Node *source_node, char start_time, char order_num);
+char GetNumDelayed(Node *source_node, short int start_time, char order_num);
 DeliverySequence *ConsiderCancel(Order *order1, Order *order2);
 Order *GetNextOrder(OrderList *timeline, char pos);
 Pizza *GetPizzaForOrder(Order *order);
