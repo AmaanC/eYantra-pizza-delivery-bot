@@ -124,6 +124,5 @@ void MoveBotToNode(Node *target_node) {
     }
     bot_info->cur_position->cur_node = target_node;
     printf("Reached %s node.\n", target_node->name);
-    free(final_path->path);
-    free(final_path);
+    DijkstraFree(final_path);
 }
