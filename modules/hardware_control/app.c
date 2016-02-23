@@ -17,8 +17,10 @@ int main() {
     // LcdInit();
     // MoveBotInitDevices();
 
+    MoveBotToNode(GetNodeByName("H5"));
     MoveBotToNode(GetNodeByName("r12"));
     MoveBotToNode(GetNodeByName("r13"));
+    MoveBotToNode(GetNodeByName("r12"));
 
     return 0;
 }

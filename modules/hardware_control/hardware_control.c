@@ -5,15 +5,20 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
-#include <unistd.h>
+
 #include "../map/map.h"
 #include "../dijkstra/dijkstra.h"
 #include "../pos_encoder/pos_encoder.h"
 #include "../bot_memory/bot_memory.h"
 #include "../lcd/lcd.h"
-#include "../custom_delay/custom_delay.h"
+#include "../move_bot/move_bot.h"
 #include "../hardware_control/hardware_control.h"
 
+#define TRUE 1
+#define FALSE 0
+
+// For curves, we need to stop a little before
+const int curve_offset = 15;
 
 void CurveTowards(Node *source_node, Node *target_node) {
     // We can use the center of the circle and a curve node to find the radius
@@ -33,7 +38,7 @@ void CurveTowards(Node *source_node, Node *target_node) {
     float xDist = source_node->x - curve_info->curve_center->x;
     float yDist = source_node->y - curve_info->curve_center->y;
     radius = sqrt(xDist * xDist + yDist * yDist);
-    // printf("%f, %f\n", source_node->x, yDist);
+    //// printf("%f, %f\n", source_node->x, yDist);
 
     angular_velocity = GetAngularVelocity(source_node, target_node);
     // Linear velocity = radius * angular velocity
@@ -54,36 +59,41 @@ void CurveTowards(Node *source_node, Node *target_node) {
         right_motor = slow_value;
         left_motor = fast_value;
     }
-    // printf("\tCurve %s to %s: %d, %d\n", source_node->name, target_node->name, left_motor, right_motor);
+    //// printf("\tCurve %s to %s: %d, %d\n", source_node->name, target_node->name, left_motor, right_motor);
     // Start the motors on the path for the curve
-    // pos_encoder_velocity(left_motor, right_motor);
+    // PosEncoderVelocity(left_motor, right_motor);
     // Let them keep going until one of the motors has spun enough
-    // pos_encoder_forward();
-    // pos_encoder_angle_rotate(abs(angle * 180 / M_PI));
+    // PosEncoderForward();
+    // PosEncoderLinearDistanceMm(513);
+    // TODO: CALCULATE ARC LENGTH
+    // MoveBotForward(left_motor, right_motor, 513);
+    // PosEncoderVelocity(left_motor, right_motor);
+    // PosEncoderForwardMm(curve_offset);
 }
 
 void MoveBotToNode(Node *target_node) {
     PathStack *final_path;
-    Node *current_node, *next_node;
+    Node *current_node, *next_node, *PIZZA_COUNTER_NODE;
+    char at_counter = FALSE;
     int i;
     float xDist, yDist;
-    BotInfo *bot_info = GetBotInfo();
-    CurveInfo *curve_info = GetCurveInfo();
-    Graph *our_graph = GetGraph();
-    // printf("Moving\n");
+    BotInfo *bot_info;
+    CurveInfo *curve_info;
+    Graph *our_graph;
+    bot_info = GetBotInfo();
+    curve_info = GetCurveInfo();
+    our_graph = GetGraph();
     final_path = Dijkstra(GetCurrentNode(), target_node, bot_info->cur_position->cur_deg, our_graph);
+    PIZZA_COUNTER_NODE = GetNodeByName("r1");
     for (i = final_path->top - 1; i >= 0; i--) {
         // lcd_printf("%s", final_path->path[i]->name);
         // _delay_ms(500);
         printf("%s, ", final_path->path[i]->name);
     }
-    // lcd_printf("Cost: %d", (int) final_path->total_cost);
+    //// lcd_printf("Cost: %d", (int) final_path->total_cost);
     // _delay_ms(500);
-
-    printf("\nTotal cost: %f\n", final_path->total_cost);
-    // usleep(final_path->total_cost * 100 * 1000);
-    sleep(final_path->total_cost);
-    // CustomDelay(final_path->total_cost);
+    //// printf("\nTotal cost: %d %d\n", (int) final_path->total_cost, (int) bot_info->cur_position->cur_deg);
+    // usleep(final_path->total_cost * 1000 * 100);
 
     // Now that we know the path to take, here's how we actually get there
     // To go from A to D
@@ -100,12 +110,15 @@ void MoveBotToNode(Node *target_node) {
         next_node = final_path->path[i];
         // If both the current and next nodes are part of our "curve_nodes", use
         // our curve function
+        at_counter = next_node->name[0] == 'c';
         printf("Rot: %d, %d\n", (int) bot_info->cur_position->cur_deg, (int) next_node->enter_deg);
+        // _delay_ms(1000);
+        // RotateBot((int) GetShortestDeg(next_node->enter_deg - bot_info->cur_position->cur_deg), at_counter);
         if (
             IndexOfNode(curve_info->curve_nodes, curve_info->curve_nodes_len, current_node) != -1 &&
             IndexOfNode(curve_info->curve_nodes, curve_info->curve_nodes_len, next_node) != -1
         ) {
-            // lcd_printf("Curve");
+            printf("Curve");
 
             CurveTowards(current_node, next_node);
         }
@@ -113,17 +126,28 @@ void MoveBotToNode(Node *target_node) {
 
             xDist = current_node->x - next_node->x;
             yDist = current_node->y - next_node->y;
-            // lcd_printf("Rot: %d", (int) ((next_node->enter_deg - bot_info->cur_position->cur_deg)));
-            // _delay_ms(500);
-            // pos_encoder_rotate_bot((next_node->enter_deg - bot_info->cur_position->cur_deg));
-            // pos_encoder_forward_mm(10 * sqrt(xDist * xDist + yDist * yDist));
+
+
+            if (IndexOfNode(curve_info->curve_nodes, curve_info->curve_nodes_len, next_node) != -1) {
+                // MoveBotForward(230, 230, (int) (10 * sqrt(xDist * xDist + yDist * yDist)) - curve_offset);
+            }
+            else {
+            // To the left of the pizza counter, we'll have to turn the other way and move backwards
+                if (at_counter && next_node->x < PIZZA_COUNTER_NODE->x) {
+                    // MoveBotBackward(240, 240, (int) (10 * sqrt(xDist * xDist + yDist * yDist)));
+                }
+                else {
+                    // MoveBotForward(240, 240, (int) (10 * sqrt(xDist * xDist + yDist * yDist)));
+                }
+            }
         }
         bot_info->cur_position->cur_deg = next_node->enter_deg;
 
         bot_info->cur_position->cur_node = current_node;
         current_node = next_node;
+        // _delay_ms(1000);
     }
     bot_info->cur_position->cur_node = target_node;
-    printf("Reached %s node.\n", target_node->name);
     DijkstraFree(final_path);
+//    printf("Reached %s node.\n", target_node->name);
 }
