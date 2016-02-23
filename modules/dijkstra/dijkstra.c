@@ -153,17 +153,17 @@ PathStack* Dijkstra(Node *source_node, Node *target_node, float cur_deg, Graph *
                 // If we're considering the cost of going through a curve (i.e. we're at A and considering B
                 // as the counter_node), we should not be considering any rot_cost, since no rotation is 
                 // required before movement
-                if (
-                    IndexOfNode(curve_info->curve_nodes, curve_info->curve_nodes_len, current_node) != -1 &&
-                    IndexOfNode(curve_info->curve_nodes, curve_info->curve_nodes_len, counter_node) != -1
-                ) {
-                    rotation_cost = 0;
-                    // rot_deg is used to set enter_deg for the counter_node, which will be +90 deg of the current
-                    // one if we move anticlockwise, i.e. with the right motor faster
-                    rot_deg = current_node->enter_deg + curve_deg_change * GetCurveDirection(current_node, counter_node);
-                    // printf("%s to %s: %f, %f\n", current_node->name, counter_node->name, current_node->enter_deg, rot_deg);
-                    // printf("Curve: %d\n", GetCurveDirection(current_node, counter_node));
-                }
+                // if (
+                //     IndexOfNode(curve_info->curve_nodes, curve_info->curve_nodes_len, current_node) != -1 &&
+                //     IndexOfNode(curve_info->curve_nodes, curve_info->curve_nodes_len, counter_node) != -1
+                // ) {
+                //     rotation_cost = 0;
+                //     // rot_deg is used to set enter_deg for the counter_node, which will be +90 deg of the current
+                //     // one if we move anticlockwise, i.e. with the right motor faster
+                //     rot_deg = current_node->enter_deg + curve_deg_change * GetCurveDirection(current_node, counter_node);
+                //     // printf("%s to %s: %f, %f\n", current_node->name, counter_node->name, current_node->enter_deg, rot_deg);
+                //     // printf("Curve: %d\n", GetCurveDirection(current_node, counter_node));
+                // }
 
 
                 temp_cost = accum_cost + rotation_cost + current_node->connected[i]->cost;

@@ -100,6 +100,7 @@ void MoveBotToNode(Node *target_node) {
         next_node = final_path->path[i];
         // If both the current and next nodes are part of our "curve_nodes", use
         // our curve function
+        printf("Rot: %d, %d\n", (int) bot_info->cur_position->cur_deg, (int) next_node->enter_deg);
         if (
             IndexOfNode(curve_info->curve_nodes, curve_info->curve_nodes_len, current_node) != -1 &&
             IndexOfNode(curve_info->curve_nodes, curve_info->curve_nodes_len, next_node) != -1

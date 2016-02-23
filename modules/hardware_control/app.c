@@ -17,7 +17,8 @@ int main() {
     // LcdInit();
     // MoveBotInitDevices();
 
-    MoveBotToNode(GetNodeByName("r3"));
+    MoveBotToNode(GetNodeByName("r12"));
+    MoveBotToNode(GetNodeByName("r13"));
 
     return 0;
 }
