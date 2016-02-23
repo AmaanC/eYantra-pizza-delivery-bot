@@ -18,7 +18,7 @@
 #define FALSE 0
 
 // For curves, we need to stop a little before
-const int curve_offset = 60;
+const int curve_offset = 15;
 
 void CurveTowards(Node *source_node, Node *target_node) {
     // We can use the center of the circle and a curve node to find the radius
@@ -67,8 +67,8 @@ void CurveTowards(Node *source_node, Node *target_node) {
     // PosEncoderLinearDistanceMm(513);
     // TODO: CALCULATE ARC LENGTH
     MoveBotForward(left_motor, right_motor, 513);
-    PosEncoderVelocity(left_motor, right_motor);
-    PosEncoderForwardMm(curve_offset);
+    // PosEncoderVelocity(left_motor, right_motor);
+    // PosEncoderForwardMm(curve_offset);
 }
 
 void MoveBotToNode(Node *target_node) {
@@ -111,6 +111,8 @@ void MoveBotToNode(Node *target_node) {
         // If both the current and next nodes are part of our "curve_nodes", use
         // our curve function
         at_counter = next_node->name[0] == 'c';
+        LcdPrintf("Rot: %d, %d", (int) bot_info->cur_position->cur_deg, (int) next_node->enter_deg);
+        _delay_ms(1000);
         RotateBot((int) GetShortestDeg(next_node->enter_deg - bot_info->cur_position->cur_deg), at_counter);
         if (
             IndexOfNode(curve_info->curve_nodes, curve_info->curve_nodes_len, current_node) != -1 &&
@@ -126,18 +128,18 @@ void MoveBotToNode(Node *target_node) {
             yDist = current_node->y - next_node->y;
 
 
-            // if (IndexOfNode(curve_info->curve_nodes, curve_info->curve_nodes_len, next_node) != -1) {
-            //     MoveBotForward(230, 230, (int) (10 * sqrt(xDist * xDist + yDist * yDist)) - curve_offset);
-            // }
-            // else {
-            // To the left of the pizza counter, we'll have to turn the other way and move backwards
-            if (at_counter && next_node->x < PIZZA_COUNTER_NODE->x) {
-                MoveBotBackward(255, 255, (int) (10 * sqrt(xDist * xDist + yDist * yDist)));
+            if (IndexOfNode(curve_info->curve_nodes, curve_info->curve_nodes_len, next_node) != -1) {
+                MoveBotForward(230, 230, (int) (10 * sqrt(xDist * xDist + yDist * yDist)) - curve_offset);
             }
             else {
-                MoveBotForward(255, 255, (int) (10 * sqrt(xDist * xDist + yDist * yDist)));
+            // To the left of the pizza counter, we'll have to turn the other way and move backwards
+                if (at_counter && next_node->x < PIZZA_COUNTER_NODE->x) {
+                    MoveBotBackward(240, 240, (int) (10 * sqrt(xDist * xDist + yDist * yDist)));
+                }
+                else {
+                    MoveBotForward(240, 240, (int) (10 * sqrt(xDist * xDist + yDist * yDist)));
+                }
             }
-            // }
         }
         bot_info->cur_position->cur_deg = next_node->enter_deg;
 

@@ -25,9 +25,9 @@ int main() {
     // LcdPrintf("Before %s", GetNodeByName("r3")->name);
 
     MoveBotToNode(GetNodeByName("H5"));
-    MoveBotToNode(GetNodeByName("H8"));
-    MoveBotToNode(GetNodeByName("P7"));
-    MoveBotToNode(GetNodeByName("P2"));
+    MoveBotToNode(GetNodeByName("r12"));
+    MoveBotToNode(GetNodeByName("r13"));
+    MoveBotToNode(GetNodeByName("r12"));
     // RotateBot(90);
     // CurveTowards(GetNodeByName("r6"), GetNodeByName("r7"));
 
