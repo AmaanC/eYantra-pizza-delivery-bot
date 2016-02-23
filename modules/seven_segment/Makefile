@@ -2,7 +2,7 @@ CC=avr-gcc
 
 OBJCOPY=avr-objcopy
 
-CFLAGS=-g -DF_CPU=14745600 -mmcu=atmega2560
+CFLAGS=-g -Wall -DF_CPU=14745600 -mmcu=atmega2560
 
 # Modify these 2 for each project as needed
 FILENAME=seven_segment
@@ -20,7 +20,7 @@ rom.hex : app.out
 	$(OBJCOPY) -j .text -j .data -O ihex app.out rom.hex
 
 app.out : $(FILENAME).o app.o
-	$(CC) $(CFLAGS) -o app.out $(FILENAME).o $(DEPS)
+	$(CC) $(CFLAGS) -o app.out $(FILENAME).o $(DEPS) -lm
 
 %.o : %.c
 	$(CC) $(CFLAGS) -Os -c $<

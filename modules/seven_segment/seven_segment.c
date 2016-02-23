@@ -1,6 +1,7 @@
 #include <avr/io.h>
 #include <avr/interrupt.h>
 #include <util/delay.h>
+#include <math.h>
 #include "seven_segment.h"
 
 void SevenSegmentPinConfig() {
@@ -44,24 +45,13 @@ int SevenConvertToHex(int num) {
     return ret;
 }
 
-void SevenDisplayNum(int num) {
+void SevenDisplayNum(int num, int ca_num) {
     int digit;
-    int MIN_SELECT_VALUE = 0x10;
-    int MAX_SELECT_VALUE = 0x10;
+    int select_value = 0x10 * pow(2, ca_num);
 
-    int select_value = MIN_SELECT_VALUE; // Initially 0x10. Refer to pins.txt for other values (they just double)
     PORTD = PORTD & 0x0F; // Reset upper nibble to 0
     PORTD = PORTD | select_value;
 
-    while (select_value <= MAX_SELECT_VALUE) {
-        digit = num % 10;
-        PORTJ = SevenConvertToHex(digit);
-        _delay_ms(5);
-        select_value *= 2;
-        if (select_value <= MAX_SELECT_VALUE) {
-            PORTD = PORTD & 0x0F; // Reset upper nibble to 0
-            PORTD = PORTD | select_value; // Set upper nibble value to select apt CA
-        }
-        num /= 10;
-    }
+    digit = ((int)(num / pow(10, ca_num - 1))) % 10;
+    PORTJ = SevenConvertToHex(digit);
 }
