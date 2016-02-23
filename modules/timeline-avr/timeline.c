@@ -7,6 +7,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <math.h>
 #include "timeline.h"
 #include "../map/map.h"
@@ -15,6 +16,8 @@
 #include "../timer/timer.h"
 #include "../custom_delay/custom_delay.h"
 #include "../hardware_control/hardware_control.h"
+#include "../arm_control/arm_control.h"
+#include "../move_bot/move_bot.h"
 
 #define TRUE 1
 #define FALSE 0
@@ -1087,10 +1090,41 @@ void FreeTimeDecision() {
 // ////    printf("Free time over");
 }
 
+
+Node *GetDepForHouse(Node *house) {
+    Node *dep_a, *dep_b;
+    
+    if (house->name[0] != 'H') {
+        // It's not a house, so it has no deposition zone
+        return NULL;
+    }
+
+    dep_a = GetNodeByName(strcat(house->name, "DA"));
+    dep_b = GetNodeByName(strcat(house->name, "DB"));
+
+    if (IsPizzaAt(dep_a, TRUE)) {
+        if (IsPizzaAt(dep_b, TRUE)) {
+            printf("Too much pizza is bad for you");
+            return NULL;
+        }
+        else {
+            return dep_b;
+        }
+    }
+    else {
+        return dep_a;
+    }
+}
+
 void DeliverPizzas(DeliverySequence *cur_sequence) {
     Pizza *delivered_pizza;
     Order *current_order;
-    Node *cur_node;
+    Node *cur_node, *deposition_zone;
+    BotInfo *bot_info;
+    float deg_to_dep = 0;
+    float current_arm_deg = 0;
+    Arm *correct_arm;
+    bot_info = GetBotInfo();
 
     printf("Delivering");
 
@@ -1106,9 +1140,9 @@ void DeliverPizzas(DeliverySequence *cur_sequence) {
         MoveBotToNode(cur_node);
         delivered_pizza->state = 'd';
         // delivered_pizza->location = NULL;
-        // TODO!!!!!! SET THE DEPOSITION ZONE LOCATION HERE
-        delivered_pizza->dep_loc = NULL;
-        // printf("P-loc null: %c %c", delivered_pizza->colour, delivered_pizza->size);
+        if (bot_info->arm1->carrying != NULL) {
+            RotateBot(180);
+        }
         if (cur_sequence->order_combo[pick1]->pickup_time > GetCurrentTime()) {
             // TODO: Consider this as free time if possible?
             
@@ -1116,7 +1150,7 @@ void DeliverPizzas(DeliverySequence *cur_sequence) {
             CustomDelay((cur_sequence->order_combo[pick1]->pickup_time - GetCurrentTime()) * 1000);
             // sleep((cur_sequence->order_combo[pick1]->pickup_time - GetCurrentTime()));
         }
-        // PickPizza();
+        PickPizzaUp(delivered_pizza);
     }
 
     cur_node = NULL;
@@ -1128,10 +1162,11 @@ void DeliverPizzas(DeliverySequence *cur_sequence) {
         printf("Picking 2");
         MoveBotToNode(cur_node);
         delivered_pizza->state = 'd';
-        // delivered_pizza->location = NULL;
-        // TODO!!!!!! SET THE DEPOSITION ZONE LOCATION HERE
         delivered_pizza->dep_loc = NULL;
-        // printf("P-loc null: %c %c", delivered_pizza->colour, delivered_pizza->size);
+
+        if (bot_info->arm1->carrying != NULL) {
+            RotateBot(180);
+        }
         if (cur_sequence->order_combo[pick2]->pickup_time > GetCurrentTime()) {
             // TODO: Consider this as free time if possible?
             
@@ -1139,13 +1174,26 @@ void DeliverPizzas(DeliverySequence *cur_sequence) {
             CustomDelay((cur_sequence->order_combo[pick2]->pickup_time - GetCurrentTime()) * 1000);
             // sleep((cur_sequence->order_combo[pick2]->pickup_time - GetCurrentTime()));
         }
-        // PickPizza();
+        PickPizzaUp(delivered_pizza);
     }
 
     current_order = cur_sequence->order_combo[deliver1];
     cur_node = current_order->delivery_house;
     if (cur_node != NULL) {
         MoveBotToNode(cur_node);
+        deposition_zone = GetDepForHouse(current_order->delivery_house);
+        deg_to_dep = RadToDeg(atan2(deposition_zone->y - cur_node->y, deposition_zone->x - cur_node->x));
+        if(bot_info->arm1->carrying == delivered_pizza) {
+            correct_arm = bot_info->arm1;
+        }
+        else {
+            correct_arm = bot_info->arm2;
+        }
+        // The current arm angle in absolute terms
+        current_arm_deg = bot_info->cur_position->cur_deg + correct_arm->angle;
+
+        RotateBot((int) GetShortestDeg(deg_to_dep - current_arm_deg));
+
         if (GetCurrentTime() < current_order->delivery_period->start) {
             printf("Early dwait %d", (int) (current_order->delivery_period->start - GetCurrentTime()));
             CustomDelay((current_order->delivery_period->start - GetCurrentTime()) * 1000);
@@ -1153,8 +1201,9 @@ void DeliverPizzas(DeliverySequence *cur_sequence) {
         }
         // printf(" by %d", GetCurrentTime());
         orders_completed++;
+        delivered_pizza->dep_loc = deposition_zone;
         current_order->state = 'd';
-        // DropPizza();
+        DepositPizza(delivered_pizza);
     }
 
     cur_node = NULL;
@@ -1164,6 +1213,18 @@ void DeliverPizzas(DeliverySequence *cur_sequence) {
     }
     if (cur_node != NULL) {
         MoveBotToNode(cur_node);
+        deposition_zone = GetDepForHouse(current_order->delivery_house);
+        deg_to_dep = RadToDeg(atan2(deposition_zone->y - cur_node->y, deposition_zone->x - cur_node->x));
+        if(bot_info->arm1->carrying == delivered_pizza) {
+            correct_arm = bot_info->arm1;
+        }
+        else {
+            correct_arm = bot_info->arm2;
+        }
+        // The current arm angle in absolute terms
+        current_arm_deg = bot_info->cur_position->cur_deg + correct_arm->angle;
+
+        RotateBot((int) GetShortestDeg(deg_to_dep - current_arm_deg));
         if (GetCurrentTime() < current_order->delivery_period->start) {
             printf("early dwait %d", (int) (current_order->delivery_period->start - GetCurrentTime()));
             CustomDelay((current_order->delivery_period->start - GetCurrentTime()) * 1000);
@@ -1171,8 +1232,9 @@ void DeliverPizzas(DeliverySequence *cur_sequence) {
         }
         // printf(" by %d", GetCurrentTime());
         orders_completed++;
+        delivered_pizza->dep_loc = deposition_zone;
         current_order->state = 'd';
-        // DropPizza();
+        DepositPizza(delivered_pizza);
     }
     printf("*** Delivered pizzas! ");
     if (cur_sequence->order_combo[deliver1] != NULL) {
