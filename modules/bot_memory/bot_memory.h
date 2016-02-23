@@ -17,8 +17,12 @@ typedef struct _Arm {
     // The following servo numbers are used to make functions like LowerArm(Arm *arm) and so on
     // Gripper servo number
     int gripper_servo;
+    int grip_open;
+    int grip_close;
     // Lever servo number
     int lever_servo;
+    int lever_up;
+    int lever_down;
 
     // The order it is carrying (can be NULL)
     Pizza *carrying;
