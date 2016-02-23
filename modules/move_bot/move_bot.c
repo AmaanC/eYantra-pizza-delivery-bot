@@ -22,7 +22,7 @@ unsigned char center_black_line = 0;
 unsigned char right_black_line = 0;
 
 unsigned char correction_val_forward = 120;
-unsigned char correction_val_backward = 60;
+unsigned char correction_val_backward = 120;
 unsigned int degrees; //to accept angle in degrees for turning
 
 int last_left = 0;
@@ -30,8 +30,8 @@ int last_center = 0;
 int last_right = 0;
 
 const int rotation_threshold = 30; // in degrees
-const int dist_threshold = 30;
-const int distance_to_fix = 80;
+const int dist_threshold = 20;
+const int distance_to_fix = 60;
 
 void MoveBotInitDevices() {
     BlSensorInitDevices();
@@ -65,7 +65,7 @@ int AngleRotate(unsigned int degrees, char (*sensor_check)()) {
     reqd_shaft_counter_int = (unsigned int) reqd_shaft_counter;
     char reached_black = FALSE;
   
-    min_shaft_count = (float) (degrees - 0.5 * rotation_threshold) / 4.090;
+    min_shaft_count = (float) (degrees - rotation_threshold) / 4.090;
     min_shaft_count_int = (unsigned int) min_shaft_count;
     ResetLeftShaft(); 
     ResetRightShaft(); 
@@ -100,10 +100,12 @@ void RotateBot(int degrees, char at_counter) {
     if (at_counter) {
         sensor_check = CenterBlack;
     }
+    PosEncoderVelocity(240, 240);
     if(degrees > 0){
         PosEncoderLeft();
         reached_black = AngleRotate(abs(degrees), sensor_check);
         while (reached_black != TRUE) {
+            PosEncoderVelocity(240, 240);
             PosEncoderRotateBot(-degrees - rotation_threshold);
             MoveBotForward(0xFF, 0xFF, distance_to_fix);
             PosEncoderLeft();
@@ -114,6 +116,7 @@ void RotateBot(int degrees, char at_counter) {
         PosEncoderRight();
         reached_black = AngleRotate(abs(degrees), sensor_check);
         while (reached_black != TRUE) {
+            PosEncoderVelocity(240, 240);
             PosEncoderRotateBot(degrees + rotation_threshold);
             MoveBotForward(0xFF, 0xFF, distance_to_fix);
             PosEncoderRight();

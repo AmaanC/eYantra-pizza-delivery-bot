@@ -18,7 +18,7 @@
 #define FALSE 0
 
 // For curves, we need to stop a little before
-const int curve_offset = 15;
+const int curve_offset = 25;
 
 void CurveTowards(Node *source_node, Node *target_node) {
     // We can use the center of the circle and a curve node to find the radius
@@ -66,7 +66,7 @@ void CurveTowards(Node *source_node, Node *target_node) {
     // PosEncoderForward();
     // PosEncoderLinearDistanceMm(513);
     // TODO: CALCULATE ARC LENGTH
-    MoveBotForward(left_motor, right_motor, 513);
+    MoveBotForward(left_motor, right_motor, 510);
     // PosEncoderVelocity(left_motor, right_motor);
     // PosEncoderForwardMm(curve_offset);
 }
