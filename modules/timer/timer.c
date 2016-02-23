@@ -79,6 +79,7 @@ char RegisterCallback(void (*fn)(), short int delay) {
     else {
         callback = fn;
         callback_delay = delay;
+        return 1;
     }
 }
 
