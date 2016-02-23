@@ -56,7 +56,7 @@ int AngleRotate(unsigned int degrees) {
     reqd_shaft_counter_int = (unsigned int) reqd_shaft_counter;
     char reached_black = FALSE;
   
-    min_shaft_count = (float) (degrees - rotation_threshold) / 4.090;
+    min_shaft_count = (float) (degrees - 0.5 * rotation_threshold) / 4.090;
     min_shaft_count_int = (unsigned int) min_shaft_count;
     ResetLeftShaft(); 
     ResetRightShaft(); 
