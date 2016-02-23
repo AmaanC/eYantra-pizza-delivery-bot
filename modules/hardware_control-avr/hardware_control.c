@@ -15,7 +15,7 @@
 #include "../hardware_control/hardware_control.h"
 
 // For curves, we need to stop a little before
-const curve_offset = 60;
+const int curve_offset = 60;
 
 void CurveTowards(Node *source_node, Node *target_node) {
     // We can use the center of the circle and a curve node to find the radius
