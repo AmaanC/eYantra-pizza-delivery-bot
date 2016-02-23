@@ -18,6 +18,8 @@
 #include "../hardware_control/hardware_control.h"
 #include "../arm_control/arm_control.h"
 #include "../move_bot/move_bot.h"
+#include "../buzzer/buzzer.h"
+#include "../rgb_led/rgb_led.h"
 
 #define TRUE 1
 #define FALSE 0
@@ -249,6 +251,16 @@ PizzaList *GetPizzas() {
 void MissingOrderBeep() {
     // Beep the buzzer indicating a missing pizza
     printf("Order missing!");
+    BuzzerOn();
+    if (RegisterCallback(BuzzerOff, 1) == 0) {
+        _delay_ms(1000);
+        BuzzerOff();
+    };
+    BuzzerOn();
+    if (RegisterCallback(BuzzerOff, 1) == 0) {
+        _delay_ms(1000);
+        BuzzerOff();
+    };
 }
 
 // Gets the number of orders that will be delayed if we start at source_node
@@ -1180,6 +1192,7 @@ void DeliverPizzas(DeliverySequence *cur_sequence) {
     current_order = cur_sequence->order_combo[deliver1];
     cur_node = current_order->delivery_house;
     if (cur_node != NULL) {
+        RgbLedGlow(current_order->colour);
         MoveBotToNode(cur_node);
         deposition_zone = GetDepForHouse(current_order->delivery_house);
         deg_to_dep = RadToDeg(atan2(deposition_zone->y - cur_node->y, deposition_zone->x - cur_node->x));
@@ -1204,6 +1217,13 @@ void DeliverPizzas(DeliverySequence *cur_sequence) {
         delivered_pizza->dep_loc = deposition_zone;
         current_order->state = 'd';
         DepositPizza(delivered_pizza);
+        RgbLedOff();
+        BuzzerOn();
+        FreezeDisplay();
+        if (RegisterCallback(BuzzerOff, 1) == 0) {
+            _delay_ms(1000);
+            BuzzerOff();
+        };
     }
 
     cur_node = NULL;
@@ -1212,6 +1232,7 @@ void DeliverPizzas(DeliverySequence *cur_sequence) {
         cur_node = current_order->delivery_house;
     }
     if (cur_node != NULL) {
+        RgbLedGlow(current_order->colour);
         MoveBotToNode(cur_node);
         deposition_zone = GetDepForHouse(current_order->delivery_house);
         deg_to_dep = RadToDeg(atan2(deposition_zone->y - cur_node->y, deposition_zone->x - cur_node->x));
@@ -1235,6 +1256,13 @@ void DeliverPizzas(DeliverySequence *cur_sequence) {
         delivered_pizza->dep_loc = deposition_zone;
         current_order->state = 'd';
         DepositPizza(delivered_pizza);
+        RgbLedOff();
+        BuzzerOn();
+        FreezeDisplay();
+        if (RegisterCallback(BuzzerOff, 1) == 0) {
+            _delay_ms(1000);
+            BuzzerOff();
+        };
     }
     printf("*** Delivered pizzas! ");
     if (cur_sequence->order_combo[deliver1] != NULL) {
@@ -1377,6 +1405,8 @@ void TimelineControl() {
         printf("time: %d, o: %d, p: %d", GetCurrentTime(), orders_completed, total_pizzas);
         if (orders_completed == total_orders) {
             printf("All done!");
+            VictoryTime();
+            BuzzerBeep(5000);
             return;
         }
         if (GetState() == 'f') {

@@ -6,7 +6,7 @@ CFLAGS=-g -Wall -DF_CPU=14745600 -mmcu=atmega2560
 
 # Modify these 2 for each project as needed
 FILENAME=timeline
-DEPS=app.o helpers.o ../map/map.o ../hardware_control-avr/hardware_control.o ../dijkstra/dijkstra.o ../bot_memory/bot_memory.o ../timer/timer.o ../custom_delay/custom_delay.o ../lcd/lcd.o ../move_bot/move_bot.o ../pos_encoder/pos_encoder.o ../bl_sensor/bl_sensor.o ../fake_gcc_fns/fake_gcc_fns.o ../buzzer/buzzer.o ../seven_segment/seven_segment.o ../arm_control/arm_control.o ../servo/servo.o
+DEPS=app.o helpers.o ../map/map.o ../hardware_control-avr/hardware_control.o ../dijkstra/dijkstra.o ../bot_memory/bot_memory.o ../timer/timer.o ../custom_delay/custom_delay.o ../lcd/lcd.o ../move_bot/move_bot.o ../pos_encoder/pos_encoder.o ../bl_sensor/bl_sensor.o ../fake_gcc_fns/fake_gcc_fns.o ../buzzer/buzzer.o ../seven_segment/seven_segment.o ../arm_control/arm_control.o ../servo/servo.o ../rgb_led/rgb_led.o
 # FILENAME=../map/map
 # DEPS = ../map/app.o ../dijkstra/dijkstra.o ../bot_memory/bot_memory.o ../fake_gcc_fns/fake_gcc_fns.o ../lcd/lcd.o
 
