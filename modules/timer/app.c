@@ -7,9 +7,12 @@
 //Main Function
 int main(void) {
     InitTimer();
+    SevenInitDevices();
     BuzzerOn();
     RegisterCallback(BuzzerOff, 2);
     _delay_ms(4000);
+    FreezeDisplay();
+    _delay_ms(10000);
     FreezeDisplay();
     while(1);
 }
