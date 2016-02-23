@@ -13,6 +13,6 @@ void LiftPizza(Arm *arm);
 void DropPizza(Arm *arm);
 void PickPizzaUp(Pizza *pizza);
 Node *GetDepForHouse(Node *house);
-void DepositPizza(Pizza *pizza, Order *order);
+void DepositPizza(Pizza *pizza);
 
 #endif
