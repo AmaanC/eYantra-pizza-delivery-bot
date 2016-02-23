@@ -193,7 +193,7 @@ void MoveBotForward(unsigned char left_velocity, unsigned char right_velocity, i
     MoveBot(left_velocity, right_velocity, distance);
 }
 
-void MoveBotReverse(unsigned char left_velocity, unsigned char right_velocity, int distance) {
+void MoveBotBackward(unsigned char left_velocity, unsigned char right_velocity, int distance) {
     PosEncoderBack();
     MoveBot(left_velocity, right_velocity, distance);
 }

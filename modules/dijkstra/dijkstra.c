@@ -138,6 +138,12 @@ PathStack* Dijkstra(Node *source_node, Node *target_node, float cur_deg, Graph *
                 // the angle between the current node & the counter node
                 // atan2 always returns in the range of -pi to pi, so we convert it to degrees
                 rot_deg = RadToDeg(atan2(counter_node->y - current_node->y, counter_node->x - current_node->x));
+
+                // At the counter
+                if (counter_node->name[0] == 'c') {
+                    rot_deg = 0;
+                }
+                
                 // printf("Temp deg %d", (int) temp_deg);
                 // printf("Rot deg %d", (int) rot_deg);
                 rotation_cost = GetRotationCost((float) (temp_deg - rot_deg));
@@ -157,11 +163,6 @@ PathStack* Dijkstra(Node *source_node, Node *target_node, float cur_deg, Graph *
                     // printf("Curve: %d\n", GetCurveDirection(current_node, counter_node));
                 }
 
-                // At the counter
-                if (counter_node->name[0] == 'c') {
-                    rot_deg = 0;
-                    rotation_cost = 0;
-                }
 
                 temp_cost = accum_cost + rotation_cost + current_node->connected[i]->cost;
                 // printf("Pos: %f,%f\ntemp_deg: %f\n%s: %f\n\n\n", counter_node->x, counter_node->y, temp_deg, counter_node->name, MakePositiveDeg(rot_deg));

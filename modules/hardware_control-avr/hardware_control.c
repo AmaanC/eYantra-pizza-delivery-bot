@@ -61,6 +61,8 @@ void CurveTowards(Node *source_node, Node *target_node) {
     // PosEncoderForward();
     // PosEncoderLinearDistanceMm(513);
     MoveBotForward(left_motor, right_motor, 513);
+    PosEncoderVelocity(left_motor, right_motor);
+    PosEncoderForwardMm(60);
 }
 
 void MoveBotToNode(Node *target_node) {
@@ -112,30 +114,21 @@ void MoveBotToNode(Node *target_node) {
 
             xDist = current_node->x - next_node->x;
             yDist = current_node->y - next_node->y;
-            //// LcdPrintf("Rot: %d", (int) ((next_node->enter_deg - bot_info->cur_position->cur_deg)));
-            // _delay_ms(1000);
 
-            //// LcdPrintf("Stupid: %d %d", (int)next_node->enter_deg, (int)bot_info->cur_position->cur_deg);
-            // _delay_ms(500);
-            // pos_encoder_rotate_bot((next_node->enter_deg - bot_info->cur_position->cur_deg));
-//            LcdPrintf("Rotating: %d", (int) (next_node->enter_deg - bot_info->cur_position->cur_deg));
 
-            if (
-                IndexOfNode(curve_info->curve_nodes, curve_info->curve_nodes_len, current_node) != -1 &&
-                IndexOfNode(curve_info->curve_nodes, curve_info->curve_nodes_len, next_node) == -1
-            ) {
-                LcdPrintf("Fixing");
-                PosEncoderForwardMm(60);
-                _delay_ms(1000);
-            }
             RotateBot((int) GetShortestDeg(next_node->enter_deg - bot_info->cur_position->cur_deg));
-            // pos_encoder_forward_mm(10 * sqrt(xDist * xDist + yDist * yDist));
-//            LcdPrintf("Forward %d", (int) (10 * sqrt(xDist * xDist + yDist * yDist)));
+
             if (IndexOfNode(curve_info->curve_nodes, curve_info->curve_nodes_len, next_node) != -1) {
                 MoveBotForward(230, 230, (int) (10 * sqrt(xDist * xDist + yDist * yDist)) - 60);
             }
             else {
-                MoveBotForward(230, 230, (int) (10 * sqrt(xDist * xDist + yDist * yDist)));
+                // To the left of the pizza counter, we'll have to turn the other way and move backwards
+                if (next_node->name[0] == 'c' && next_node->x < PIZZA_COUNTER_NODE->x) {
+                    MoveBotBackward(230, 230, (int) (10 * sqrt(xDist * xDist + yDist * yDist)));
+                }
+                else {
+                    MoveBotForward(230, 230, (int) (10 * sqrt(xDist * xDist + yDist * yDist)));
+                }
             }
         }
         bot_info->cur_position->cur_deg = next_node->enter_deg;
