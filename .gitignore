@@ -1,5 +1,6 @@
 # Object files
 *.ko
+*.o
 
 # Precompiled Headers
 *.gch
@@ -18,6 +19,8 @@
 *.dylib
 
 # Executables
+*.hex
+*.out
 *.exe
 *.app
 *.i*86
