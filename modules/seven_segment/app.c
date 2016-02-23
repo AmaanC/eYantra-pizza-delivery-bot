@@ -1,7 +1,7 @@
 #include <avr/io.h>
 #include <avr/interrupt.h>
 #include <util/delay.h>
-#include "SevenSegment.h"
+#include "seven_segment.h"
 
 int main(void) {
     SevenInitDevices();

@@ -5,14 +5,14 @@ OBJCOPY=avr-objcopy
 CFLAGS=-g -DF_CPU=14745600 -mmcu=atmega2560
 
 # Modify these 2 for each project as needed
-FILENAME=SevenSegment
+FILENAME=seven_segment
 DEPS=app.o
 
 #Info til AVRDUDE
 PROGRAMMER = avrdude
 BOARD = stk500v2
 MCU = m2560
-PORT = /dev/tty.usbmodem1411
+PORT = /dev/ttyACM0
 
 PFLAGS = -p $(MCU) -c $(BOARD) -P $(PORT)
 
