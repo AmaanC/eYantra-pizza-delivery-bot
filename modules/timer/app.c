@@ -10,7 +10,7 @@ int main(void) {
     InitTimer();
     // SevenInitDevices();
     LcdInit();
-    // BuzzerOn();
+    BuzzerOn();
     RegisterCallback(BuzzerOff, 1000);
     // _delay_ms(4000);
     // BuzzerBeep(1000);
@@ -18,9 +18,11 @@ int main(void) {
     // _delay_ms(10000);
     // FreezeDisplay();
     LcdPrintf("Hello");
-    _delay_ms(1000);
+    _delay_ms(2000);
+    BuzzerOn();
+    RegisterCallback(BuzzerOff, 1000);
     while(1) {
-        LcdPrintf("Time: %d", GetCurrentTime());
+        LcdPrintf("Time: %d %d", GetCurrentTime(), GetCallbackTime());
     };
     return 0;
 }

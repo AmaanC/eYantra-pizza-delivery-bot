@@ -10,4 +10,5 @@ short int GetCurrentTime();
 void ResetTime();
 void InitTimer();
 
+int GetCallbackTime();
 #endif

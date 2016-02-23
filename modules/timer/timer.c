@@ -78,13 +78,17 @@ ISR(TIMER5_OVF_vect) {
     TCNT5L = 0xFB;
 
     if (callback_delay > 0) {
-        callback_delay--;
+        callback_delay -= 500;
     }
     else if (callback != NULL) {
         callback();
         callback = NULL;
     }
     UpdateDisplay();
+}
+
+int GetCallbackTime() {
+    return callback_delay;
 }
 
 void VictoryTime() {
