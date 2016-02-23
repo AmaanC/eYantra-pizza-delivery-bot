@@ -3,11 +3,13 @@
 
 void MoveBotInitDevices();
 float PidControl(float curve_value, float required_value);
-void RotateBot(int degrees);
+void RotateBot(int degrees, char at_counter);
 float ReadSensors();
-int IsBlack(int sensor_num);
-int AngleRotate(unsigned int degrees);
-void MoveBot(unsigned char left_velocity, unsigned char right_velocity, int distance_in_mm);
+char IsBlack(int sensor_num);
+char AnyBlack();
+char CenterBlack();
+int AngleRotate(unsigned int degrees, char (*sensor_check)());
+void MoveBot(unsigned char left_velocity, unsigned char right_velocity, int distance_in_mm, unsigned char correction_val);
 void MoveBotForward(unsigned char left_velocity, unsigned char right_velocity, int distance);
 void MoveBotBackward(unsigned char left_velocity, unsigned char right_velocity, int distance);
 

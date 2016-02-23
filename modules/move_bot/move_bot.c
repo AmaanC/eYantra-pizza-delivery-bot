@@ -21,7 +21,8 @@ unsigned char left_black_line = 0;
 unsigned char center_black_line = 0;
 unsigned char right_black_line = 0;
 
-unsigned char correction_val = 120;
+unsigned char correction_val_forward = 120;
+unsigned char correction_val_backward = 60;
 unsigned int degrees; //to accept angle in degrees for turning
 
 int last_left = 0;
@@ -38,16 +39,24 @@ void MoveBotInitDevices() {
     PosEncoderTimer5Init();
 }
 
-int IsBlack(int sensor_num) {
+char IsBlack(int sensor_num) {
     if (BlSensorAdcConversion(sensor_num) > 0x28) {
         return TRUE;
     }
     else {
         return FALSE;
     }
- }
+}
 
-int AngleRotate(unsigned int degrees) {
+char AnyBlack() {
+    return IsBlack(LEFT) || IsBlack(CENTER) || IsBlack(RIGHT);
+}
+
+char CenterBlack() {
+    return IsBlack(CENTER);
+}
+
+int AngleRotate(unsigned int degrees, char (*sensor_check)()) {
     float reqd_shaft_counter = 0;
     unsigned long int reqd_shaft_counter_int = 0;
     float min_shaft_count = 0;
@@ -67,7 +76,7 @@ int AngleRotate(unsigned int degrees) {
     // In the second, we want to move the bot a little ahead, and try the same thing
     while (1) {
         if (
-            (IsBlack(LEFT) || IsBlack(CENTER) || IsBlack(RIGHT)) &&
+            (sensor_check()) &&
             ((GetShaftCountLeft() > min_shaft_count_int) | (GetShaftCountRight() > min_shaft_count_int))
         ) {
             reached_black = TRUE;
@@ -84,32 +93,37 @@ int AngleRotate(unsigned int degrees) {
     return reached_black;
 }
 
-void RotateBot(int degrees) {
+void RotateBot(int degrees, char at_counter) {
     int reached_black = FALSE;
+    char (*sensor_check)();
+    sensor_check = AnyBlack;
+    if (at_counter) {
+        sensor_check = CenterBlack;
+    }
     if(degrees > 0){
         PosEncoderLeft();
-        reached_black = AngleRotate(abs(degrees));
+        reached_black = AngleRotate(abs(degrees), sensor_check);
         while (reached_black != TRUE) {
             PosEncoderRotateBot(-degrees - rotation_threshold);
             MoveBotForward(0xFF, 0xFF, distance_to_fix);
             PosEncoderLeft();
-            reached_black = AngleRotate(abs(degrees));
+            reached_black = AngleRotate(abs(degrees), sensor_check);
         }
     }
     else if (degrees < 0){
         PosEncoderRight();
-        reached_black = AngleRotate(abs(degrees));
+        reached_black = AngleRotate(abs(degrees), sensor_check);
         while (reached_black != TRUE) {
             PosEncoderRotateBot(degrees + rotation_threshold);
             MoveBotForward(0xFF, 0xFF, distance_to_fix);
             PosEncoderRight();
-            reached_black = AngleRotate(abs(degrees));
+            reached_black = AngleRotate(abs(degrees), sensor_check);
         }
     }
     PosEncoderStop();
 }
 
-void MoveBot(unsigned char left_velocity, unsigned char right_velocity, int distance_in_mm) {
+void MoveBot(unsigned char left_velocity, unsigned char right_velocity, int distance_in_mm, unsigned char correction_val) {
     float reqd_shaft_counter = 0;
     float min_shaft_counter = 0;
     unsigned long int reqd_shaft_counter_int = 0;
@@ -190,10 +204,10 @@ void MoveBot(unsigned char left_velocity, unsigned char right_velocity, int dist
 
 void MoveBotForward(unsigned char left_velocity, unsigned char right_velocity, int distance) {
     PosEncoderForward();
-    MoveBot(left_velocity, right_velocity, distance);
+    MoveBot(left_velocity, right_velocity, distance, correction_val_forward);
 }
 
 void MoveBotBackward(unsigned char left_velocity, unsigned char right_velocity, int distance) {
     PosEncoderBack();
-    MoveBot(left_velocity, right_velocity, distance);
+    MoveBot(left_velocity, right_velocity, distance, correction_val_backward);
 }
