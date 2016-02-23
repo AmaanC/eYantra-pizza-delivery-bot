@@ -6,7 +6,7 @@ CFLAGS=-g -Wall -DF_CPU=14745600 -mmcu=atmega2560
 
 # Modify these 2 for each project as needed
 FILENAME=arm_control
-DEPS=app.o ../map/map.o ../bot_memory/bot_memory.o ../servo/servo.o ../move_bot/move_bot.o ../pos_encoder/pos_encoder.o ../bl_sensor/bl_sensor.o ../timeline-avr/timeline.o ../timer/timer.o ../custom_delay/custom_delay.o ../hardware_control-avr/hardware_control.o ../dijkstra/dijkstra.o ../lcd/lcd.o ../timeline-avr/helpers.o
+DEPS=app.o ../map/map.o ../bot_memory/bot_memory.o ../servo/servo.o ../move_bot/move_bot.o ../pos_encoder/pos_encoder.o ../bl_sensor/bl_sensor.o ../timeline-avr/timeline.o ../timer/timer.o ../custom_delay/custom_delay.o ../hardware_control-avr/hardware_control.o ../dijkstra/dijkstra.o ../lcd/lcd.o ../timeline-avr/helpers.o ../seven_segment/seven_segment.o
 
 #Info til AVRDUDE
 PROGRAMMER = avrdude

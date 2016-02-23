@@ -6,6 +6,8 @@
 #include "../timer/timer.h"
 #include "../lcd/lcd.h"
 #include "../move_bot/move_bot.h"
+#include "../buzzer/buzzer.h"
+#include "../servo/servo.h"
 #include "../seven_segment/seven_segment.h"
 
 int main() {
@@ -16,6 +18,9 @@ int main() {
     InitGraph();
     InitTimeline();
     LcdInit();
+    InitArms();
+    BuzzerInitDevices();
+    SevenInitDevices();
     MoveBotInitDevices();
     PizzaList *our_pizzas = GetPizzas();
     for (i = 0; i < our_pizzas->len; i++) {

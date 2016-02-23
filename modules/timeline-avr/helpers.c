@@ -13,6 +13,27 @@
 #define TRUE 1
 #define FALSE 0
 
+// real_pizza: whether we're checking if there's a real pizza there or if we're checking if
+// a location has been allocated
+char IsPizzaAt(Node *test_node, char real_pizza) {
+    unsigned char i = 0;
+    char found = FALSE;
+    Pizza *current_pizza;
+    PizzaList *our_pizzas;
+    our_pizzas = GetPizzas();
+    for (i = 0; i < our_pizzas->len; i++) {
+        current_pizza = our_pizzas->pizzas[i];
+        if (
+            (current_pizza->location == test_node || current_pizza->dep_loc == test_node) &&
+            current_pizza->found == real_pizza
+        ) {
+            found = TRUE;
+            // printf("  Pizza at %s", test_node->name);
+        }
+    }
+    return found;
+}
+
 // Returns a node which is to the right (where x co-ordinate is higher) of the source_node
 // It only looks through the source_nodes connections, not through all the nodes on the map
 Node *GetNodeToRight(Node *source_node) {

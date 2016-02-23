@@ -13,7 +13,6 @@
 #include "../pos_encoder/pos_encoder.h"
 #include "../bl_sensor/bl_sensor.h"
 #include "../map/map.h"
-#include "../timer-gcc/timer.h"
 
 #define TRUE 1
 #define FALSE 0
@@ -21,9 +20,10 @@
 BotInfo *bot_info;
 Graph *our_graph;
 
-void InitialiseBotInfo() {
+void InitArms() {
     bot_info = GetBotInfo();
     our_graph = GetGraph();
+    ServoInitDevices();
 }
 
 void ArmDown(Arm *arm) {
@@ -79,8 +79,8 @@ Node *GetDepForHouse(Node *house) {
         return NULL;
     }
 
-    dep_a = GetNodeByName(strcat(house->name, "DA");
-    dep_b = GetNodeByName(strcat(house->name, "DB");
+    dep_a = GetNodeByName(strcat(house->name, "DA"));
+    dep_b = GetNodeByName(strcat(house->name, "DB"));
 
     if (IsPizzaAt(dep_a, TRUE)) {
         if (IsPizzaAt(dep_b, TRUE)) {

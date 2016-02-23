@@ -900,25 +900,6 @@ void DetectPizza() {
     }
 }
 
-// real_pizza: whether we're checking if there's a real pizza there or if we're checking if
-// a location has been allocated
-char IsPizzaAt(Node *test_node, char real_pizza) {
-    unsigned char i = 0;
-    char found = FALSE;
-    Pizza *current_pizza;
-    for (i = 0; i < our_pizzas->len; i++) {
-        current_pizza = our_pizzas->pizzas[i];
-        if (
-            (current_pizza->location == test_node || current_pizza->dep_loc == test_node) &&
-            current_pizza->found == real_pizza
-        ) {
-            found = TRUE;
-            // printf("  Pizza at %s", test_node->name);
-        }
-    }
-    return found;
-}
-
 // Consider looking for more pizzas
 // This function will consider the cost of finding pizzas
 // If the cost doesn't delay us for our regular order, it'll actually go search for pizzas

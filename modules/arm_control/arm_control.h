@@ -4,7 +4,7 @@
 #include "../timeline/timeline.h"
 #include "../bot_memory/bot_memory.h"
 
-void InitialiseBotInfo();
+void InitArms();
 void ArmDown(Arm *arm);
 void ArmUp(Arm *arm);
 void OpenGripper(Arm *arm);

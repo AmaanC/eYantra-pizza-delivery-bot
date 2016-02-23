@@ -13,8 +13,9 @@
 #include "../map/map.h"
 
 int main() {
-	ServoInitDevices();
     InitBotInfo();
+    InitGraph();
+    InitArms();
     Pizza *pizza1, *pizza2;
     Order *order1;
     pizza1 = malloc(sizeof(Pizza));
