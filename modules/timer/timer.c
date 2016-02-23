@@ -35,12 +35,12 @@ void Timer3Init() {
     TCCR3B = 0x04; // start Timer
 }
 
-void UpdateDisplay() {
+void UpdateDisplay(int ca_num) {
     if (time_count - frozen_time < FREEZE_TIME) {
-        SevenDisplayNum(frozen_time);
+        SevenDisplayNum(frozen_time, ca_num);
     }
     else {
-        SevenDisplayNum(time_count);
+        SevenDisplayNum(time_count, ca_num);
     }
 }
 
@@ -58,14 +58,14 @@ ISR(TIMER3_OVF_vect) {
 // (0xFFFF - (one_sec / 10)).toString(16)
 void Timer5Init() {
     TCCR5B = 0x00; // stop
-    TCNT5H = 0x9A; // Counter higher 8 bit value
-    TCNT5L = 0x0F; // Counter lower 8 bit value
-    OCR5AH = 0x00; // Output Compair Register (OCR)- Not used
-    OCR5AL = 0x00; // Output Compair Register (OCR)- Not used
-    OCR5BH = 0x00; // Output Compair Register (OCR)- Not used
-    OCR5BL = 0x00; // Output Compair Register (OCR)- Not used
-    OCR5CH = 0x00; // Output Compair Register (OCR)- Not used
-    OCR5CL = 0x00; // Output Compair Register (OCR)- Not used
+    TCNT5H = 0x00; // Counter higher 8 bit value
+    TCNT5L = 0x00; // Counter lower 8 bit value
+    OCR5AH = 0x66; // Output Compair Register (OCR)- Not used
+    OCR5AL = 0x66; // Output Compair Register (OCR)- Not used
+    OCR5BH = 0x66; // Output Compair Register (OCR)- Not used
+    OCR5BL = 0x65; // Output Compair Register (OCR)- Not used
+    OCR5CH = 0x66; // Output Compair Register (OCR)- Not used
+    OCR5CL = 0x64; // Output Compair Register (OCR)- Not used
     ICR5H  = 0x00; // Input Capture Register (ICR)- Not used
     ICR5L  = 0x00; // Input Capture Register (ICR)- Not used
     TCCR5A = 0x00; 
@@ -73,18 +73,19 @@ void Timer5Init() {
     TCCR5B = 0x04; // start Timer
 }
 
-ISR(TIMER5_OVF_vect) {
-    TCNT5H = 0x9A;
-    TCNT5L = 0x0F;
+ISR(TIMER5_COMPA_vect) {
+    TCNT5H = 0x00;
+    TCNT5L = 0x00;
 
-    if (callback_delay > 0) {
-        callback_delay -= 25;
-    }
-    else if (callback != NULL) {
-        callback();
-        callback = NULL;
-    }
-    UpdateDisplay();
+    UpdateDisplay(1);
+}
+
+ISR(TIMER5_COMPB_vect) {
+    UpdateDisplay(2);
+}
+
+ISR(TIMER5_COMPC_vect) {
+    UpdateDisplay(3);
 }
 
 int GetCallbackTime() {
@@ -126,6 +127,6 @@ void InitTimer() {
     Timer3Init();
     Timer5Init();
     TIMSK3 = 0x01; // timer4 overflow interrupt enable
-    TIMSK5 = 0x01;
+    TIMSK5 = 0x0E;
     sei();   // Enables the global interrupts
 }
