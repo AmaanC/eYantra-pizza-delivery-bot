@@ -18,24 +18,8 @@
 #define TRUE 1
 #define FALSE 0
 
-const int LEVER_1_UP = 20;
-const int LEVER_2_UP = 160;
-const int LEVER_1_DOWN = 130;
-const int LEVER_2_DOWN = 50;
-
-const int GRIPPER_2_OPEN = 60;
-const int GRIPPER_1_OPEN = 125;
-const int GRIPPER_2_CLOSE = 120;
-const int GRIPPER_1_CLOSE = 95;
-
-int arm_position[2];
-int gripper_position[2];
-
 BotInfo *bot_info;
-PizzaList *our_pizzas;
 Graph *our_graph;
-Node *found_node; 
-char *current_search_name; 
 
 void InitialiseBotInfo() {
     bot_info = GetBotInfo();
@@ -43,49 +27,23 @@ void InitialiseBotInfo() {
 }
 
 void ArmDown(Arm *arm) {
-    if(arm == bot_info->arm1) {
-        ServoControl(bot_info->arm1->lever_servo, LEVER_1_DOWN); // Lever down
-        _delay_ms(1000);
-    }
-
-    else {
-        ServoControl(bot_info->arm2->lever_servo, LEVER_2_DOWN); // Lever down
-        _delay_ms(1000);
-    }
+    ServoControl(arm->lever_servo, arm->lever_down); // Lever down
+    _delay_ms(100);
 }
 
 void ArmUp(Arm *arm) {
-    if(arm == bot_info->arm1) {
-        ServoControl(bot_info->arm1->lever_servo, LEVER_1_UP); // Lever up
-        _delay_ms(1000);
-    }
-
-    else {
-        ServoControl(bot_info->arm2->lever_servo, LEVER_2_UP); // Lever up
-        _delay_ms(1000);
-    }
+    ServoControl(arm->lever_servo, arm->lever_up); // Lever up
+    _delay_ms(100);
 }
 
 void OpenGripper(Arm *arm) {
-    if(arm == bot_info->arm1) {
-        ServoControl(bot_info->arm1->gripper_servo, GRIPPER_1_OPEN); // Gripper open
-        _delay_ms(1000);
-    }
-    else {
-        ServoControl(bot_info->arm2->gripper_servo, GRIPPER_2_OPEN); // Gripper open
-        _delay_ms(1000);
-    }
+    ServoControl(arm->gripper_servo, arm->grip_open); // Gripper open
+    _delay_ms(100);
 }
 
 void CloseGripper(Arm *arm) {
-    if(arm == bot_info->arm1) {
-        ServoControl(bot_info->arm1->gripper_servo, GRIPPER_1_CLOSE); // Gripper close
-        _delay_ms(3000);
-    }
-    else {
-        ServoControl(bot_info->arm2->gripper_servo, GRIPPER_2_CLOSE); // Gripper close
-        _delay_ms(3000);
-    }
+    ServoControl(arm->gripper_servo, arm->grip_close); // Gripper close
+    _delay_ms(100);
 }
 
 void LiftPizza(Arm *arm) {
@@ -100,7 +58,6 @@ void DropPizza(Arm *arm) {
     ArmUp(arm);
 }
 
-//TODO: if pizza is already at H2DA, turn around and deposite it at H2DB
 void PickPizzaUp(Pizza *pizza) {
     if(bot_info->arm1->carrying != NULL) {
         RotateBot(180);
@@ -115,22 +72,27 @@ void PickPizzaUp(Pizza *pizza) {
 }
 
 Node *GetDepForHouse(Node *house) {
-    if(house->name[0] == 'H') {
-        if(IsPizzaAt(GetNodeByName(strcat(house->name,"DA")), TRUE)) {
-            if(IsPizzaAt(GetNodeByName(strcat(house->name,"DB")), TRUE)) {
-                printf("Too much pizza is bad for you");
-                return NULL;
-            }
-            else {
-                return GetNodeByName(strcat(house->name,"DB"));
-            }
+    Node *dep_a, *dep_b;
+    
+    if (house->name[0] != 'H') {
+        // It's not a house, so it has no deposition zone
+        return NULL;
+    }
+
+    dep_a = GetNodeByName(strcat(house->name, "DA");
+    dep_b = GetNodeByName(strcat(house->name, "DB");
+
+    if (IsPizzaAt(dep_a, TRUE)) {
+        if (IsPizzaAt(dep_b, TRUE)) {
+            printf("Too much pizza is bad for you");
+            return NULL;
         }
         else {
-            return GetNodeByName(strcat(house->name,"DA"));
+            return dep_b;
         }
     }
     else {
-        return NULL;
+        return dep_a;
     }
 }
 
