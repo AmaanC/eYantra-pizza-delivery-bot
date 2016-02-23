@@ -6,8 +6,6 @@
 
 //Main Function
 int main(void) {
-	LcdInitDevices();
-	LcdSet4Bit();
 	LcdInit();
 	_delay_ms(1000);
 	while(1)
