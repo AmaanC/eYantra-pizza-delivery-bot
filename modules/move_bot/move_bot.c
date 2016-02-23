@@ -21,7 +21,7 @@ unsigned char left_black_line = 0;
 unsigned char center_black_line = 0;
 unsigned char right_black_line = 0;
 
-unsigned char correction_val = 80;
+unsigned char correction_val = 120;
 unsigned int degrees; //to accept angle in degrees for turning
 
 int last_left = 0;
