@@ -8,6 +8,7 @@
 #include "../pos_encoder/pos_encoder.h"
 #include "../bl_sensor/bl_sensor.h"
 #include "../lcd/lcd.h"
+#include "../bot_memory/bot_memory.h"
 
 #define LEFT 3
 #define CENTER 2
@@ -124,6 +125,7 @@ void RotateBot(int degrees, char at_counter) {
         }
     }
     PosEncoderStop();
+    GetBotInfo()->cur_position->cur_deg += degrees;
 }
 
 void MoveBot(unsigned char left_velocity, unsigned char right_velocity, int distance_in_mm, unsigned char correction_val) {

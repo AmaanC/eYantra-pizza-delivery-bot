@@ -2,6 +2,7 @@
 #include <avr/interrupt.h>
 #include <util/delay.h>
 #include "timer.h"
+#include "../seven_segment/seven_segment.h"
 #include "../buzzer/buzzer.h"
 #include "../lcd/lcd.h"
 

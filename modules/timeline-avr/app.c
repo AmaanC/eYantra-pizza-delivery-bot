@@ -27,10 +27,10 @@ int main() {
     BuzzerInitDevices();
     SevenInitDevices();
     MoveBotInitDevices();
-    PizzaList *our_pizzas = GetPizzas();
-    for (i = 0; i < our_pizzas->len; i++) {
-        printf("C: %c, S: %c", our_pizzas->pizzas[i]->colour, our_pizzas->pizzas[i]->size);
-    }
+    // PizzaList *our_pizzas = GetPizzas();
+    // for (i = 0; i < our_pizzas->len; i++) {
+    //     printf("C: %c, S: %c", our_pizzas->pizzas[i]->colour, our_pizzas->pizzas[i]->size);
+    // }
 
     // timeline = GetTimeline();
     // printf("Num orders: %d\n", timeline->len);

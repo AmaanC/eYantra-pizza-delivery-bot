@@ -12,7 +12,7 @@ DEPS=app.o ../buzzer/buzzer.o ../seven_segment/seven_segment.o ../custom_delay/c
 PROGRAMMER = avrdude
 BOARD = stk500v2
 MCU = m2560
-PORT = /dev/tty.usbmodem1411
+PORT = /dev/tty.usbmodem1421
 
 PFLAGS = -p $(MCU) -c $(BOARD) -P $(PORT)
 

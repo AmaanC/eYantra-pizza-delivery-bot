@@ -111,7 +111,7 @@ void MoveBotToNode(Node *target_node) {
         // If both the current and next nodes are part of our "curve_nodes", use
         // our curve function
         at_counter = next_node->name[0] == 'c';
-        LcdPrintf("Rot: %d, %d", (int) bot_info->cur_position->cur_deg, (int) next_node->enter_deg);
+        // LcdPrintf("Rot: %d, %d", (int) bot_info->cur_position->cur_deg, (int) next_node->enter_deg);
         _delay_ms(1000);
         RotateBot((int) GetShortestDeg(next_node->enter_deg - bot_info->cur_position->cur_deg), at_counter);
         if (
@@ -133,11 +133,11 @@ void MoveBotToNode(Node *target_node) {
             }
             else {
             // To the left of the pizza counter, we'll have to turn the other way and move backwards
-                if (at_counter && next_node->x < PIZZA_COUNTER_NODE->x) {
-                    MoveBotBackward(240, 240, (int) (10 * sqrt(xDist * xDist + yDist * yDist)) - 30);
-                }
-                else if(at_counter) {
-                    MoveBotForward(240, 240, (int) (10 * sqrt(xDist * xDist + yDist * yDist)) - 30);
+                // if (at_counter && next_node->x < PIZZA_COUNTER_NODE->x) {
+                //     MoveBotBackward(240, 240, (int) (10 * sqrt(xDist * xDist + yDist * yDist)) - 30);
+                // }
+                if(at_counter) {
+                    MoveBotForward(240, 240, (int) (10 * sqrt(xDist * xDist + yDist * yDist)) - 10);
                 }
                 else {
                     MoveBotForward(240, 240, (int) (10 * sqrt(xDist * xDist + yDist * yDist)));

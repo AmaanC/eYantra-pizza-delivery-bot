@@ -47,7 +47,7 @@ int SevenConvertToHex(int num) {
 void SevenDisplayNum(int num) {
     int digit;
     int MIN_SELECT_VALUE = 0x10;
-    int MAX_SELECT_VALUE = 0x40;
+    int MAX_SELECT_VALUE = 0x10;
 
     int select_value = MIN_SELECT_VALUE; // Initially 0x10. Refer to pins.txt for other values (they just double)
     PORTD = PORTD & 0x0F; // Reset upper nibble to 0

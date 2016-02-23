@@ -58,7 +58,7 @@ ISR(TIMER3_OVF_vect) {
 // (0xFFFF - (one_sec / 10)).toString(16)
 void Timer5Init() {
     TCCR5B = 0x00; // stop
-    TCNT5H = 0xFA; // Counter higher 8 bit value
+    TCNT5H = 0x9A; // Counter higher 8 bit value
     TCNT5L = 0x0F; // Counter lower 8 bit value
     OCR5AH = 0x00; // Output Compair Register (OCR)- Not used
     OCR5AL = 0x00; // Output Compair Register (OCR)- Not used
@@ -74,7 +74,7 @@ void Timer5Init() {
 }
 
 ISR(TIMER5_OVF_vect) {
-    TCNT5H = 0xFA;
+    TCNT5H = 0x9A;
     TCNT5L = 0x0F;
 
     if (callback_delay > 0) {
