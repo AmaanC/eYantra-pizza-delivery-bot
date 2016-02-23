@@ -837,6 +837,9 @@ void DetectPizza() {
 //     }
     block_size = SharpGetBlockType();
     colour = GetPizzaColor();
+    if (block_size == 'n') {
+        block_size = SharpGetBlockType();
+    }
     
     // Check the bot's current position
     // If we already have a pizza detected at this location, we're detecting nothing new
