@@ -18,20 +18,20 @@ void InitBotInfo() {
     our_bot->arm1->carrying = NULL;
     our_bot->arm1->angle = -90;
     our_bot->arm1->gripper_servo = 2;
-    our_bot->arm1->grip_open = 125;
-    our_bot->arm1->grip_close = 95;
+    our_bot->arm1->grip_open = 60;
+    our_bot->arm1->grip_close = 135;
     our_bot->arm1->lever_servo = 1;
-    our_bot->arm1->lever_up = 20;
-    our_bot->arm1->lever_down = 130;
+    our_bot->arm1->lever_up = 40;
+    our_bot->arm1->lever_down = 155;
 
     our_bot->arm2->carrying = NULL;
     our_bot->arm2->angle = 90;
     our_bot->arm2->gripper_servo = 3;
-    our_bot->arm1->grip_open = 60;
-    our_bot->arm1->grip_close = 120;
+    our_bot->arm2->grip_open = 130;
+    our_bot->arm2->grip_close = 95;
     our_bot->arm2->lever_servo = 4;
-    our_bot->arm1->lever_up = 160;
-    our_bot->arm1->lever_down = 50;
+    our_bot->arm2->lever_up = 160;
+    our_bot->arm2->lever_down = 20;
 }
 
 BotInfo *GetBotInfo() {

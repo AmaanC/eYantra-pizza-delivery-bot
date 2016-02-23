@@ -6,13 +6,13 @@ CFLAGS=-g -DF_CPU=14745600 -mmcu=atmega2560
 
 # Modify these 2 for each project as needed
 FILENAME=sense_pizza
-DEPS=app.o ../color_sensor/color_sensor.o  ../sharp_sensor/SharpSensor.o ../lcd/lcd.o
+DEPS=app.o ../color_sensor/color_sensor.o  ../sharp_sensor/sharp_sensor.o ../lcd/lcd.o
 
 #Info til AVRDUDE
 PROGRAMMER = avrdude
 BOARD = stk500v2
 MCU = m2560
-PORT = /dev/tty.usbmodem1421
+PORT = /dev/tty.usbmodem1411
 
 PFLAGS = -p $(MCU) -c $(BOARD) -P $(PORT)
 

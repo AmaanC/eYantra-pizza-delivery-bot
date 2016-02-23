@@ -30,7 +30,8 @@ int main() {
 
     PickPizzaUp(pizza1);
     PickPizzaUp(pizza2);
-    DepositPizza(pizza1, order1);
+    DepositPizza(pizza1);
+    DepositPizza(pizza2);
     free(pizza1);
     free(pizza2);
     return 0;

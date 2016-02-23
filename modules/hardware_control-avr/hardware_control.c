@@ -18,7 +18,7 @@
 #define FALSE 0
 
 // For curves, we need to stop a little before
-const int curve_offset = 25;
+const int curve_offset = 20;
 
 void CurveTowards(Node *source_node, Node *target_node) {
     // We can use the center of the circle and a curve node to find the radius
@@ -134,7 +134,10 @@ void MoveBotToNode(Node *target_node) {
             else {
             // To the left of the pizza counter, we'll have to turn the other way and move backwards
                 if (at_counter && next_node->x < PIZZA_COUNTER_NODE->x) {
-                    MoveBotBackward(240, 240, (int) (10 * sqrt(xDist * xDist + yDist * yDist)));
+                    MoveBotBackward(240, 240, (int) (10 * sqrt(xDist * xDist + yDist * yDist)) - 30);
+                }
+                else if(at_counter) {
+                    MoveBotForward(240, 240, (int) (10 * sqrt(xDist * xDist + yDist * yDist)) - 30);
                 }
                 else {
                     MoveBotForward(240, 240, (int) (10 * sqrt(xDist * xDist + yDist * yDist)));
