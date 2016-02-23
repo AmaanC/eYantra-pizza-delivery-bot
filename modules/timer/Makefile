@@ -6,7 +6,7 @@ CFLAGS=-g -DF_CPU=14745600 -mmcu=atmega2560
 
 # Modify these 2 for each project as needed
 FILENAME=timer
-DEPS=app.o ../buzzer/buzzer.o
+DEPS=app.o ../buzzer/buzzer.o ../seven_segment/seven_segment.o ../custom_delay/custom_delay.o
 
 #Info til AVRDUDE
 PROGRAMMER = avrdude

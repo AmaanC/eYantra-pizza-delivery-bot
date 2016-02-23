@@ -6,6 +6,10 @@
 
 //Main Function
 int main(void) {
-    TimerInitDevices();
+    InitTimer();
+    BuzzerOn();
+    RegisterCallback(BuzzerOff, 2);
+    _delay_ms(4000);
+    FreezeDisplay();
     while(1);
 }
