@@ -6,6 +6,7 @@
 #include "../timer/timer.h"
 #include "../lcd/lcd.h"
 #include "../move_bot/move_bot.h"
+#include "../seven_segment/seven_segment.h"
 
 int main() {
     int i = 0;
