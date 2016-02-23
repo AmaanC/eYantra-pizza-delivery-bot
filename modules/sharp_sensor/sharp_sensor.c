@@ -117,7 +117,6 @@ char SharpGetBlockType() {
         if(block_size == 12)
             ++large;
         i++;
-        _delay_ms(50);
     }
     size_count = MAX(no_pizza, small, medium, large);
     if(size_count == small)
