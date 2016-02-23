@@ -78,7 +78,7 @@ char GetPizzaColor() {
     red_count = green_count = blue_count = 0;
     int final_count = 0;
     int i = 0;
-    while (i < 3) {
+    while (i < 10) {
         red = ColorGetRed();
         green = ColorGetGreen();
         blue = ColorGetBlue();
