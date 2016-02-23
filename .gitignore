@@ -28,6 +28,7 @@
 
 # Debug files
 *.dSYM/
+*.map
 
 # Class files
 *.class
