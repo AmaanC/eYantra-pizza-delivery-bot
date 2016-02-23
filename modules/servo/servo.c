@@ -69,7 +69,7 @@ Which is why the Servos probably reset to 0 degrees every cycle.
 
 Our WGM=111, so the TOP value for the timer is 0x03FF(according to table 17-2, p148, entry 7) */
 
-//TIMER1 initialization in 10 bit fast PWM mode  
+//TIMER1 & 4 initialization in 10 bit fast PWM mode  
 //prescale:256
 // WGM: 7) PWM 10bit fast, TOP=0x03FF
 // actual value: 52.25Hz 
