@@ -9,7 +9,7 @@
 
 
 volatile unsigned long int color_pulse = 0;
-const int color_data_time = 100;
+const int color_data_time = 40;
 
 
 void ColorPinConfig() {
@@ -71,8 +71,6 @@ char GetPizzaColor() {
     // r for red
     // g for green
     // b for blue
-
-    // It'll ideally take 300ms for this function to run, since we collect 100ms of data for each filter
     
     char ret = 'u';
     int red, green, blue;
@@ -80,7 +78,7 @@ char GetPizzaColor() {
     red_count = green_count = blue_count = 0;
     int final_count = 0;
     int i = 0;
-    while(i<10) {
+    while (i < 3) {
         red = ColorGetRed();
         green = ColorGetGreen();
         blue = ColorGetBlue();
@@ -94,7 +92,6 @@ char GetPizzaColor() {
             ++blue_count;
         }
         ++i;
-        _delay_ms(50);
     }
     final_count = MAX(red_count, green_count, blue_count);
     if(final_count == red_count)

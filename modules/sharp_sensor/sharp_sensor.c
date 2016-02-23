@@ -5,7 +5,7 @@
 #include <avr/interrupt.h>
 #include <util/delay.h>
 #include "../lcd/lcd.h"
-#include "SharpSensor.h"
+#include "sharp_sensor.h"
 #define MAX(a,b,c,d) (a>b && a>c && a>d ) ? a: ((b>c && b>d) ? b : ((c>d)?c : d))
 
 //ADC pin configuration
@@ -102,14 +102,14 @@ int SharpGetBlockSize(int distance, int default_dist) {
 char SharpGetBlockType() {
     int i = 0;
     int size_count;
-    int small, medium, large, null;
-    small = medium = large = null = 0;
+    int small, medium, large, no_pizza;
+    small = medium = large = no_pizza = 0;
     while(i<10) {
         int sharp = SharpAdcConversion(11);
         int value = SharpGp2d12Estimation(sharp);
         int block_size = SharpGetBlockSize(value, block_size); // Get block size from sharp sensor distance (in mm)
         if(block_size == 0)
-            ++null;
+            ++no_pizza;
         if(block_size == 6)
             ++small;
         if(block_size == 9)
@@ -119,7 +119,7 @@ char SharpGetBlockType() {
         i++;
         _delay_ms(50);
     }
-    size_count = MAX(null, small, medium, large);
+    size_count = MAX(no_pizza, small, medium, large);
     if(size_count == small)
         return 's';
     if(size_count == medium)

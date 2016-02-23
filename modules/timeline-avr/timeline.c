@@ -20,6 +20,8 @@
 #include "../move_bot/move_bot.h"
 #include "../buzzer/buzzer.h"
 #include "../rgb_led/rgb_led.h"
+#include "../color_sensor/color_sensor.h"
+#include "../sharp_sensor/sharp_sensor.h"
 
 #define TRUE 1
 #define FALSE 0
@@ -800,10 +802,10 @@ PizzaList *GetAvailablePizzas() {
 }
 
 //                              -------                           ---------
-char fake_colours[]     = {'g', 'b', 'g', 'r', 'b', 'n', 'r', 'r', 'n', 'g'};
-char fake_block_sizes[] = {'m', 'm', 's', 'm', 's', 'n', 'l', 's', 'n', 'l'};
-unsigned char fake_i = 0;
-unsigned char fake_len = 10;
+// char fake_colours[]     = {'g', 'b', 'g', 'r', 'b', 'n', 'r', 'r', 'n', 'g'};
+// char fake_block_sizes[] = {'m', 'm', 's', 'm', 's', 'n', 'l', 's', 'n', 'l'};
+// unsigned char fake_i = 0;
+// unsigned char fake_len = 10;
 
 // Our orders are:
 // CreateOrder(our_timeline, 'r', 'l', 30, 'r', "H12");
@@ -826,12 +828,17 @@ void DetectPizza() {
     // char colour = 'r'; // ColourGet();
     char block_size;
     char colour;
-    block_size = fake_block_sizes[fake_i];
-    colour = fake_colours[fake_i];
-// //////    printf("%d", fake_i);
-    fake_i++;
-    if (fake_i >= fake_len) {
-        fake_i--;
+//     block_size = fake_block_sizes[fake_i];
+//     colour = fake_colours[fake_i];
+// // //////    printf("%d", fake_i);
+//     fake_i++;
+//     if (fake_i >= fake_len) {
+//         fake_i--;
+//     }
+    block_size = SharpGetBlockType();
+    colour = GetPizzaColor();
+    if (block_size == 'n') {
+        block_size = SharpGetBlockType();
     }
     
     // Check the bot's current position

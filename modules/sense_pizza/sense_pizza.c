@@ -10,8 +10,6 @@
 void InitSenses() {
     SharpInitDevices();
     ColorInitDevices();
-    LcdInitDevices();
-    LcdSet4Bit();
-    LcdInit();
+    // LcdInit();
 }
 

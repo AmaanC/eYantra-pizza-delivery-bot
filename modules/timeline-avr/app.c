@@ -9,16 +9,20 @@
 #include "../buzzer/buzzer.h"
 #include "../servo/servo.h"
 #include "../seven_segment/seven_segment.h"
+#include "../color_sensor/color_sensor.h"
+#include "../sharp_sensor/sharp_sensor.h"
 
 int main() {
     int i = 0;
-    // sharp_init_devices();
+
     InitTimer();
     InitBotInfo();
     InitGraph();
     InitTimeline();
     LcdInit();
     InitArms();
+    SharpInitDevices();
+    ColorInitDevices();
     BuzzerInitDevices();
     SevenInitDevices();
     MoveBotInitDevices();
