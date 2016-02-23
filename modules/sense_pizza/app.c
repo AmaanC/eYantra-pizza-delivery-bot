@@ -9,6 +9,7 @@
 
 int main() {
     InitSenses();
+    LcdInit();
     char pizza_color, pizza_size;
     while(1) {
         LcdPrintf("Place Pizza!");
