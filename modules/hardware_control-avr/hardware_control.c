@@ -14,7 +14,6 @@
 #include "../move_bot/move_bot.h"
 #include "../hardware_control/hardware_control.h"
 
-
 void CurveTowards(Node *source_node, Node *target_node) {
     // We can use the center of the circle and a curve node to find the radius
     // Using the radius, we can calculate the angular velocities required by
@@ -67,7 +66,7 @@ void CurveTowards(Node *source_node, Node *target_node) {
 
 void MoveBotToNode(Node *target_node) {
     PathStack *final_path;
-    Node *current_node, *next_node;
+    Node *current_node, *next_node, *PIZZA_COUNTER_NODE;
     int i;
     float xDist, yDist;
     BotInfo *bot_info;
@@ -77,6 +76,7 @@ void MoveBotToNode(Node *target_node) {
     curve_info = GetCurveInfo();
     our_graph = GetGraph();
     final_path = Dijkstra(GetCurrentNode(), target_node, bot_info->cur_position->cur_deg, our_graph);
+    PIZZA_COUNTER_NODE = GetNodeByName("r1");
     // for (i = final_path->top - 1; i >= 0; i--) {
         //// lcd_printf("%s", final_path->path[i]->name);
         // _delay_ms(500);
