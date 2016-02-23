@@ -8,6 +8,8 @@
 #define TRUE 1
 #define FALSE 0
 
+const int curve_deg_change = 45;
+
 // The things you need to do to initialize all the nodes for Dijkstra's algorithm
 // Namely, set the path_cost to infinite
 // And set the done flag to FALSE
@@ -158,7 +160,7 @@ PathStack* Dijkstra(Node *source_node, Node *target_node, float cur_deg, Graph *
                     rotation_cost = 0;
                     // rot_deg is used to set enter_deg for the counter_node, which will be +90 deg of the current
                     // one if we move anticlockwise, i.e. with the right motor faster
-                    rot_deg = current_node->enter_deg + 30 * GetCurveDirection(current_node, counter_node);
+                    rot_deg = current_node->enter_deg + curve_deg_change * GetCurveDirection(current_node, counter_node);
                     // printf("%s to %s: %f, %f\n", current_node->name, counter_node->name, current_node->enter_deg, rot_deg);
                     // printf("Curve: %d\n", GetCurveDirection(current_node, counter_node));
                 }
