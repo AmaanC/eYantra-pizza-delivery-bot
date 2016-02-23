@@ -58,6 +58,18 @@ void DropPizza(Arm *arm) {
     ArmUp(arm);
 }
 
+Arm *GetFreeArm() {
+    if (bot_info->arm1->carrying == NULL) {
+        return bot_info->arm1;
+    }
+    else if (bot_info->arm2->carrying == NULL) {
+        return bot_info->arm2;
+    }
+    else {
+        return NULL;
+    }
+}
+
 void PickPizzaUp(Pizza *pizza) {
     if (bot_info->arm1->carrying != NULL) {
         LiftPizza(bot_info->arm2);

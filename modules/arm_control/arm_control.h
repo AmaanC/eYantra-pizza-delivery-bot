@@ -14,5 +14,6 @@ void DropPizza(Arm *arm);
 void PickPizzaUp(Pizza *pizza);
 Node *GetDepForHouse(Node *house);
 void DepositPizza(Pizza *pizza);
+Arm *GetFreeArm();
 
 #endif

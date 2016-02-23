@@ -822,12 +822,14 @@ void DetectPizza() {
     unsigned char i = 0;
     Pizza *current_pizza;
     Pizza *conflicting_pizza;
+    float deg_to_pizza = -90;
     BotInfo *bot_info;
     char found = FALSE;
     // char block_size = 's'; // SharpGetBlockSize();
     // char colour = 'r'; // ColourGet();
     char block_size;
     char colour;
+    bot_info = GetBotInfo();
 //     block_size = fake_block_sizes[fake_i];
 //     colour = fake_colours[fake_i];
 // // //////    printf("%d", fake_i);
@@ -835,6 +837,7 @@ void DetectPizza() {
 //     if (fake_i >= fake_len) {
 //         fake_i--;
 //     }
+    RotateBot((int) GetShortestDeg(deg_to_pizza - (bot_info->cur_position->cur_deg + bot_info->sensor_angle)), FALSE);
     block_size = SharpGetBlockType();
     colour = GetPizzaColor();
     if (block_size == 'n') {
@@ -852,7 +855,6 @@ void DetectPizza() {
     // TODO: Consider bad readings and rechecking?
     // sleep(1);
     printf("Detected: %c, %c", colour, block_size);
-    bot_info = GetBotInfo();
     total_pizzas++;
     // There is no pizza block at this location
     if (block_size == 'n') {
@@ -1141,6 +1143,7 @@ void DeliverPizzas(DeliverySequence *cur_sequence) {
     Node *cur_node, *deposition_zone;
     BotInfo *bot_info;
     float deg_to_dep = 0;
+    float deg_to_pizza = -90;
     float current_arm_deg = 0;
     Arm *correct_arm;
     bot_info = GetBotInfo();
@@ -1159,9 +1162,12 @@ void DeliverPizzas(DeliverySequence *cur_sequence) {
         MoveBotToNode(cur_node);
         delivered_pizza->state = 'd';
         // delivered_pizza->location = NULL;
-        if (bot_info->arm1->carrying != NULL) {
-            RotateBot(180);
-        }
+        
+        correct_arm = GetFreeArm();
+        current_arm_deg = bot_info->cur_position->cur_deg + correct_arm->angle;
+        deg_to_pizza = -90;
+        RotateBot((int) GetShortestDeg(deg_to_pizza - current_arm_deg), FALSE);
+
         if (cur_sequence->order_combo[pick1]->pickup_time > GetCurrentTime()) {
             // TODO: Consider this as free time if possible?
             
@@ -1183,9 +1189,12 @@ void DeliverPizzas(DeliverySequence *cur_sequence) {
         delivered_pizza->state = 'd';
         delivered_pizza->dep_loc = NULL;
 
-        if (bot_info->arm1->carrying != NULL) {
-            RotateBot(180);
-        }
+        
+        correct_arm = GetFreeArm();
+        current_arm_deg = bot_info->cur_position->cur_deg + correct_arm->angle;
+        deg_to_pizza = -90;
+        RotateBot((int) GetShortestDeg(deg_to_pizza - current_arm_deg), FALSE);
+
         if (cur_sequence->order_combo[pick2]->pickup_time > GetCurrentTime()) {
             // TODO: Consider this as free time if possible?
             
@@ -1212,7 +1221,7 @@ void DeliverPizzas(DeliverySequence *cur_sequence) {
         // The current arm angle in absolute terms
         current_arm_deg = bot_info->cur_position->cur_deg + correct_arm->angle;
 
-        RotateBot((int) GetShortestDeg(deg_to_dep - current_arm_deg));
+        RotateBot((int) GetShortestDeg(deg_to_dep - current_arm_deg), FALSE);
 
         if (GetCurrentTime() < current_order->delivery_period->start) {
             printf("Early dwait %d", (int) (current_order->delivery_period->start - GetCurrentTime()));
@@ -1252,7 +1261,7 @@ void DeliverPizzas(DeliverySequence *cur_sequence) {
         // The current arm angle in absolute terms
         current_arm_deg = bot_info->cur_position->cur_deg + correct_arm->angle;
 
-        RotateBot((int) GetShortestDeg(deg_to_dep - current_arm_deg));
+        RotateBot((int) GetShortestDeg(deg_to_dep - current_arm_deg), FALSE);
         if (GetCurrentTime() < current_order->delivery_period->start) {
             printf("early dwait %d", (int) (current_order->delivery_period->start - GetCurrentTime()));
             CustomDelay((current_order->delivery_period->start - GetCurrentTime()) * 1000);

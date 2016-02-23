@@ -11,6 +11,7 @@
 #include "../seven_segment/seven_segment.h"
 #include "../color_sensor/color_sensor.h"
 #include "../sharp_sensor/sharp_sensor.h"
+#include "../arm_control/arm_control.h"
 
 int main() {
     int i = 0;

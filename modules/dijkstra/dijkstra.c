@@ -142,9 +142,9 @@ PathStack* Dijkstra(Node *source_node, Node *target_node, float cur_deg, Graph *
                 rot_deg = RadToDeg(atan2(counter_node->y - current_node->y, counter_node->x - current_node->x));
 
                 // At the counter
-                if (counter_node->name[0] == 'c') {
-                    rot_deg = 0;
-                }
+                // if (counter_node->name[0] == 'c') {
+                //     rot_deg = 0;
+                // }
                 
                 // printf("Temp deg %d", (int) temp_deg);
                 // printf("Rot deg %d", (int) rot_deg);
