@@ -1417,6 +1417,7 @@ void TimelineControl() {
             printf("Normal operation!");
             NormalOperation(); // this will set the state to free when the delivery is done
         }
+        UpdateDisplay();
     }
 }
 

@@ -9,6 +9,7 @@
 #include <stdio.h>
 
 extern int printf(const char *fmt, ...) {
+    return 0;
     va_list argp;
     const int LCDLEN = 16;
     char str[LCDLEN];
@@ -20,7 +21,7 @@ extern int printf(const char *fmt, ...) {
 
     LcdString(str);
     _delay_ms(1000);
-    return 0;
+    // return 0;
 }
 
 void sleep(int ms) {

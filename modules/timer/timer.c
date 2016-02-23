@@ -59,7 +59,7 @@ ISR(TIMER4_OVF_vect) {
     else if (callback != NULL) {
         callback();
     }
-    UpdateDisplay();
+    // UpdateDisplay();
 }
 
 void VictoryTime() {
