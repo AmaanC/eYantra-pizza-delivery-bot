@@ -8,7 +8,7 @@
 #define TRUE 1
 #define FALSE 0
 
-const int curve_deg_change = 45;
+const int curve_deg_change = 30;
 
 // The things you need to do to initialize all the nodes for Dijkstra's algorithm
 // Namely, set the path_cost to infinite
