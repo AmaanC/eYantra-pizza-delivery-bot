@@ -1,0 +1,784 @@
+desc: (none)
+cmd: ./app.out
+time_unit: i
+#-----------
+snapshot=0
+#-----------
+time=0
+mem_heap_B=0
+mem_heap_extra_B=0
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=1
+#-----------
+time=136304
+mem_heap_B=32
+mem_heap_extra_B=8
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=2
+#-----------
+time=311639
+mem_heap_B=9216
+mem_heap_extra_B=3360
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=3
+#-----------
+time=463273
+mem_heap_B=9216
+mem_heap_extra_B=3360
+mem_stacks_B=0
+heap_tree=detailed
+n9: 9216 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 3752 0x40224B: CreateNode (map.c:37)
+  n0: 3752 in 67 places, all below massif's threshold (01.00%)
+ n1: 1856 0x4022AB: CreateNode (map.c:51)
+  n0: 1856 in 51 places, all below massif's threshold (01.00%)
+ n3: 1072 0x403570: Dijkstra (dijkstra.c:98)
+  n1: 536 0x400F4F: GetNumDelayed (timeline.c:336)
+   n1: 536 0x401899: FindPizzas (timeline.c:980)
+    n1: 536 0x4020B4: NormalOperation (timeline.c:1278)
+     n1: 536 0x4021F0: TimelineControl (timeline.c:1354)
+      n0: 536 0x400822: main (app.c:70)
+  n1: 536 0x400F9E: GetNumDelayed (timeline.c:343)
+   n1: 536 0x401899: FindPizzas (timeline.c:980)
+    n1: 536 0x4020B4: NormalOperation (timeline.c:1278)
+     n1: 536 0x4021F0: TimelineControl (timeline.c:1354)
+      n0: 536 0x400822: main (app.c:70)
+  n0: 0 in 2 places, all below massif's threshold (01.00%)
+ n1: 928 0x402286: CreateNode (map.c:49)
+  n0: 928 in 67 places, all below massif's threshold (01.00%)
+ n1: 480 0x400CE2: InitTimeline (timeline.c:202)
+  n0: 480 0x40081B: main (app.c:17)
+ n0: 416 in 14 places, all below massif's threshold (01.00%)
+ n1: 320 0x400CBD: InitTimeline (timeline.c:193)
+  n0: 320 0x40081B: main (app.c:17)
+ n1: 224 0x400C1A: CreateOrder (timeline.c:165)
+  n0: 224 in 7 places, all below massif's threshold (01.00%)
+ n1: 168 0x400B9F: CreatePizza (timeline.c:136)
+  n1: 168 0x400C10: CreateOrder (timeline.c:164)
+   n0: 168 in 7 places, all below massif's threshold (01.00%)
+#-----------
+snapshot=4
+#-----------
+time=724585
+mem_heap_B=8032
+mem_heap_extra_B=3304
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=5
+#-----------
+time=904725
+mem_heap_B=9752
+mem_heap_extra_B=3376
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=6
+#-----------
+time=1054107
+mem_heap_B=8664
+mem_heap_extra_B=3336
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=7
+#-----------
+time=1202450
+mem_heap_B=8664
+mem_heap_extra_B=3336
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=8
+#-----------
+time=1446298
+mem_heap_B=9752
+mem_heap_extra_B=3376
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=9
+#-----------
+time=1598509
+mem_heap_B=8664
+mem_heap_extra_B=3336
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=10
+#-----------
+time=1830899
+mem_heap_B=8664
+mem_heap_extra_B=3336
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=11
+#-----------
+time=1958720
+mem_heap_B=9216
+mem_heap_extra_B=3360
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=12
+#-----------
+time=2136704
+mem_heap_B=9216
+mem_heap_extra_B=3360
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=13
+#-----------
+time=2288660
+mem_heap_B=9216
+mem_heap_extra_B=3360
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=14
+#-----------
+time=2403303
+mem_heap_B=9776
+mem_heap_extra_B=3392
+mem_stacks_B=0
+heap_tree=detailed
+n10: 9776 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 3752 0x40224B: CreateNode (map.c:37)
+  n0: 3752 in 67 places, all below massif's threshold (01.00%)
+ n1: 1856 0x4022AB: CreateNode (map.c:51)
+  n0: 1856 in 51 places, all below massif's threshold (01.00%)
+ n3: 1072 0x403570: Dijkstra (dijkstra.c:98)
+  n2: 536 0x400F4F: GetNumDelayed (timeline.c:336)
+   n1: 536 0x401899: FindPizzas (timeline.c:980)
+    n1: 536 0x4020B4: NormalOperation (timeline.c:1278)
+     n1: 536 0x4021F0: TimelineControl (timeline.c:1354)
+      n0: 536 0x400822: main (app.c:70)
+   n0: 0 in 1 place, below massif's threshold (01.00%)
+  n2: 536 0x400F9E: GetNumDelayed (timeline.c:343)
+   n1: 536 0x401899: FindPizzas (timeline.c:980)
+    n1: 536 0x4020B4: NormalOperation (timeline.c:1278)
+     n1: 536 0x4021F0: TimelineControl (timeline.c:1354)
+      n0: 536 0x400822: main (app.c:70)
+   n0: 0 in 1 place, below massif's threshold (01.00%)
+  n0: 0 in 3 places, all below massif's threshold (01.00%)
+ n1: 928 0x402286: CreateNode (map.c:49)
+  n0: 928 in 67 places, all below massif's threshold (01.00%)
+ n2: 536 0x4035B6: Dijkstra (dijkstra.c:109)
+  n2: 536 0x400F9E: GetNumDelayed (timeline.c:343)
+   n1: 536 0x401899: FindPizzas (timeline.c:980)
+    n1: 536 0x4020B4: NormalOperation (timeline.c:1278)
+     n1: 536 0x4021F0: TimelineControl (timeline.c:1354)
+      n0: 536 0x400822: main (app.c:70)
+   n0: 0 in 1 place, below massif's threshold (01.00%)
+  n0: 0 in 4 places, all below massif's threshold (01.00%)
+ n1: 480 0x400CE2: InitTimeline (timeline.c:202)
+  n0: 480 0x40081B: main (app.c:17)
+ n0: 416 in 13 places, all below massif's threshold (01.00%)
+ n1: 320 0x400CBD: InitTimeline (timeline.c:193)
+  n0: 320 0x40081B: main (app.c:17)
+ n1: 224 0x400C1A: CreateOrder (timeline.c:165)
+  n0: 224 in 7 places, all below massif's threshold (01.00%)
+ n2: 192 0x400B9F: CreatePizza (timeline.c:136)
+  n1: 168 0x400C10: CreateOrder (timeline.c:164)
+   n0: 168 in 7 places, all below massif's threshold (01.00%)
+  n0: 24 in 1 place, below massif's threshold (01.00%)
+#-----------
+snapshot=15
+#-----------
+time=2580643
+mem_heap_B=9240
+mem_heap_extra_B=3376
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=16
+#-----------
+time=2762315
+mem_heap_B=9240
+mem_heap_extra_B=3376
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=17
+#-----------
+time=2881886
+mem_heap_B=9240
+mem_heap_extra_B=3376
+mem_stacks_B=0
+heap_tree=detailed
+n9: 9240 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 3752 0x40224B: CreateNode (map.c:37)
+  n0: 3752 in 67 places, all below massif's threshold (01.00%)
+ n1: 1856 0x4022AB: CreateNode (map.c:51)
+  n0: 1856 in 51 places, all below massif's threshold (01.00%)
+ n3: 1072 0x403570: Dijkstra (dijkstra.c:98)
+  n2: 536 0x400F4F: GetNumDelayed (timeline.c:336)
+   n1: 536 0x4018BB: FindPizzas (timeline.c:981)
+    n1: 536 0x4020B4: NormalOperation (timeline.c:1278)
+     n1: 536 0x4021F0: TimelineControl (timeline.c:1354)
+      n0: 536 0x400822: main (app.c:70)
+   n0: 0 in 1 place, below massif's threshold (01.00%)
+  n2: 536 0x400F9E: GetNumDelayed (timeline.c:343)
+   n1: 536 0x4018BB: FindPizzas (timeline.c:981)
+    n1: 536 0x4020B4: NormalOperation (timeline.c:1278)
+     n1: 536 0x4021F0: TimelineControl (timeline.c:1354)
+      n0: 536 0x400822: main (app.c:70)
+   n0: 0 in 1 place, below massif's threshold (01.00%)
+  n0: 0 in 3 places, all below massif's threshold (01.00%)
+ n1: 928 0x402286: CreateNode (map.c:49)
+  n0: 928 in 67 places, all below massif's threshold (01.00%)
+ n1: 480 0x400CE2: InitTimeline (timeline.c:202)
+  n0: 480 0x40081B: main (app.c:17)
+ n0: 416 in 14 places, all below massif's threshold (01.00%)
+ n1: 320 0x400CBD: InitTimeline (timeline.c:193)
+  n0: 320 0x40081B: main (app.c:17)
+ n1: 224 0x400C1A: CreateOrder (timeline.c:165)
+  n0: 224 in 7 places, all below massif's threshold (01.00%)
+ n2: 192 0x400B9F: CreatePizza (timeline.c:136)
+  n1: 168 0x400C10: CreateOrder (timeline.c:164)
+   n0: 168 in 7 places, all below massif's threshold (01.00%)
+  n0: 24 in 1 place, below massif's threshold (01.00%)
+#-----------
+snapshot=18
+#-----------
+time=3052411
+mem_heap_B=9240
+mem_heap_extra_B=3376
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=19
+#-----------
+time=3218323
+mem_heap_B=8688
+mem_heap_extra_B=3352
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=20
+#-----------
+time=3434177
+mem_heap_B=9240
+mem_heap_extra_B=3376
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=21
+#-----------
+time=3604624
+mem_heap_B=9264
+mem_heap_extra_B=3392
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=22
+#-----------
+time=3766432
+mem_heap_B=8712
+mem_heap_extra_B=3368
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=23
+#-----------
+time=4022454
+mem_heap_B=8176
+mem_heap_extra_B=3352
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=24
+#-----------
+time=4138784
+mem_heap_B=10968
+mem_heap_extra_B=3480
+mem_stacks_B=0
+heap_tree=peak
+n10: 10968 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 3752 0x40224B: CreateNode (map.c:37)
+  n0: 3752 in 67 places, all below massif's threshold (01.00%)
+ n5: 2144 0x403570: Dijkstra (dijkstra.c:98)
+  n1: 536 0x401326: ConsiderCancel (timeline.c:526)
+   n1: 536 0x401F3A: FreeTimeDecision (timeline.c:1071)
+    n1: 536 0x4021DD: TimelineControl (timeline.c:1350)
+     n0: 536 0x400822: main (app.c:70)
+  n1: 536 0x401394: ConsiderCancel (timeline.c:536)
+   n1: 536 0x401F3A: FreeTimeDecision (timeline.c:1071)
+    n1: 536 0x4021DD: TimelineControl (timeline.c:1350)
+     n0: 536 0x400822: main (app.c:70)
+  n1: 536 0x401412: ConsiderCancel (timeline.c:544)
+   n1: 536 0x401F3A: FreeTimeDecision (timeline.c:1071)
+    n1: 536 0x4021DD: TimelineControl (timeline.c:1350)
+     n0: 536 0x400822: main (app.c:70)
+  n1: 536 0x4014A4: ConsiderCancel (timeline.c:557)
+   n1: 536 0x401F3A: FreeTimeDecision (timeline.c:1071)
+    n1: 536 0x4021DD: TimelineControl (timeline.c:1350)
+     n0: 536 0x400822: main (app.c:70)
+  n0: 0 in 6 places, all below massif's threshold (01.00%)
+ n1: 1856 0x4022AB: CreateNode (map.c:51)
+  n0: 1856 in 51 places, all below massif's threshold (01.00%)
+ n1: 928 0x402286: CreateNode (map.c:49)
+  n0: 928 in 67 places, all below massif's threshold (01.00%)
+ n2: 536 0x4035B6: Dijkstra (dijkstra.c:109)
+  n1: 536 0x4014A4: ConsiderCancel (timeline.c:557)
+   n1: 536 0x401F3A: FreeTimeDecision (timeline.c:1071)
+    n1: 536 0x4021DD: TimelineControl (timeline.c:1350)
+     n0: 536 0x400822: main (app.c:70)
+  n0: 0 in 8 places, all below massif's threshold (01.00%)
+ n0: 512 in 18 places, all below massif's threshold (01.00%)
+ n1: 480 0x400CE2: InitTimeline (timeline.c:202)
+  n0: 480 0x40081B: main (app.c:17)
+ n1: 320 0x400CBD: InitTimeline (timeline.c:193)
+  n0: 320 0x40081B: main (app.c:17)
+ n1: 224 0x400C1A: CreateOrder (timeline.c:165)
+  n0: 224 in 7 places, all below massif's threshold (01.00%)
+ n2: 216 0x400B9F: CreatePizza (timeline.c:136)
+  n1: 168 0x400C10: CreateOrder (timeline.c:164)
+   n0: 168 in 7 places, all below massif's threshold (01.00%)
+  n0: 48 in 2 places, all below massif's threshold (01.00%)
+#-----------
+snapshot=25
+#-----------
+time=4317282
+mem_heap_B=8872
+mem_heap_extra_B=3408
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=26
+#-----------
+time=4535814
+mem_heap_B=9424
+mem_heap_extra_B=3432
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=27
+#-----------
+time=4722554
+mem_heap_B=9424
+mem_heap_extra_B=3432
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=28
+#-----------
+time=4859174
+mem_heap_B=9848
+mem_heap_extra_B=3448
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=29
+#-----------
+time=5002849
+mem_heap_B=8840
+mem_heap_extra_B=3416
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=30
+#-----------
+time=5221381
+mem_heap_B=9392
+mem_heap_extra_B=3440
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=31
+#-----------
+time=5474895
+mem_heap_B=8208
+mem_heap_extra_B=3384
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=32
+#-----------
+time=5634785
+mem_heap_B=8776
+mem_heap_extra_B=3392
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=33
+#-----------
+time=5767716
+mem_heap_B=9944
+mem_heap_extra_B=3464
+mem_stacks_B=0
+heap_tree=detailed
+n9: 9944 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 3752 0x40224B: CreateNode (map.c:37)
+  n0: 3752 in 67 places, all below massif's threshold (01.00%)
+ n1: 1856 0x4022AB: CreateNode (map.c:51)
+  n0: 1856 in 51 places, all below massif's threshold (01.00%)
+ n4: 1608 0x403570: Dijkstra (dijkstra.c:98)
+  n2: 536 0x401326: ConsiderCancel (timeline.c:526)
+   n1: 536 0x401F3A: FreeTimeDecision (timeline.c:1071)
+    n1: 536 0x4021DD: TimelineControl (timeline.c:1350)
+     n0: 536 0x400822: main (app.c:70)
+   n0: 0 in 1 place, below massif's threshold (01.00%)
+  n2: 536 0x401394: ConsiderCancel (timeline.c:536)
+   n1: 536 0x401F3A: FreeTimeDecision (timeline.c:1071)
+    n1: 536 0x4021DD: TimelineControl (timeline.c:1350)
+     n0: 536 0x400822: main (app.c:70)
+   n0: 0 in 1 place, below massif's threshold (01.00%)
+  n2: 536 0x401412: ConsiderCancel (timeline.c:544)
+   n1: 536 0x401F3A: FreeTimeDecision (timeline.c:1071)
+    n1: 536 0x4021DD: TimelineControl (timeline.c:1350)
+     n0: 536 0x400822: main (app.c:70)
+   n0: 0 in 1 place, below massif's threshold (01.00%)
+  n0: 0 in 7 places, all below massif's threshold (01.00%)
+ n1: 928 0x402286: CreateNode (map.c:49)
+  n0: 928 in 67 places, all below massif's threshold (01.00%)
+ n0: 560 in 19 places, all below massif's threshold (01.00%)
+ n1: 480 0x400CE2: InitTimeline (timeline.c:202)
+  n0: 480 0x40081B: main (app.c:17)
+ n1: 320 0x400CBD: InitTimeline (timeline.c:193)
+  n0: 320 0x40081B: main (app.c:17)
+ n1: 224 0x400C1A: CreateOrder (timeline.c:165)
+  n0: 224 in 7 places, all below massif's threshold (01.00%)
+ n2: 216 0x400B9F: CreatePizza (timeline.c:136)
+  n1: 168 0x400C10: CreateOrder (timeline.c:164)
+   n0: 168 in 7 places, all below massif's threshold (01.00%)
+  n0: 48 in 2 places, all below massif's threshold (01.00%)
+#-----------
+snapshot=34
+#-----------
+time=5900919
+mem_heap_B=10496
+mem_heap_extra_B=3488
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=35
+#-----------
+time=6056343
+mem_heap_B=9944
+mem_heap_extra_B=3464
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=36
+#-----------
+time=6263700
+mem_heap_B=9488
+mem_heap_extra_B=3456
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=37
+#-----------
+time=6405827
+mem_heap_B=9488
+mem_heap_extra_B=3456
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=38
+#-----------
+time=6631043
+mem_heap_B=9944
+mem_heap_extra_B=3464
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=39
+#-----------
+time=6821638
+mem_heap_B=10496
+mem_heap_extra_B=3488
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=40
+#-----------
+time=6962492
+mem_heap_B=9488
+mem_heap_extra_B=3456
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=41
+#-----------
+time=7103908
+mem_heap_B=9472
+mem_heap_extra_B=3448
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=42
+#-----------
+time=7269277
+mem_heap_B=9328
+mem_heap_extra_B=3416
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=43
+#-----------
+time=7394676
+mem_heap_B=9864
+mem_heap_extra_B=3432
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=44
+#-----------
+time=7604607
+mem_heap_B=9328
+mem_heap_extra_B=3416
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=45
+#-----------
+time=7741201
+mem_heap_B=9312
+mem_heap_extra_B=3408
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=46
+#-----------
+time=7975195
+mem_heap_B=10496
+mem_heap_extra_B=3488
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=47
+#-----------
+time=8103929
+mem_heap_B=9488
+mem_heap_extra_B=3456
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=48
+#-----------
+time=8255586
+mem_heap_B=9488
+mem_heap_extra_B=3456
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=49
+#-----------
+time=8457780
+mem_heap_B=10464
+mem_heap_extra_B=3496
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=50
+#-----------
+time=8590575
+mem_heap_B=10464
+mem_heap_extra_B=3496
+mem_stacks_B=0
+heap_tree=detailed
+n9: 10464 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 3752 0x40224B: CreateNode (map.c:37)
+  n0: 3752 in 67 places, all below massif's threshold (01.00%)
+ n5: 2144 0x403570: Dijkstra (dijkstra.c:98)
+  n2: 536 0x401326: ConsiderCancel (timeline.c:526)
+   n1: 536 0x4020FD: NormalOperation (timeline.c:1301)
+    n1: 536 0x4021F0: TimelineControl (timeline.c:1354)
+     n0: 536 0x400822: main (app.c:70)
+   n0: 0 in 1 place, below massif's threshold (01.00%)
+  n2: 536 0x401394: ConsiderCancel (timeline.c:536)
+   n1: 536 0x4020FD: NormalOperation (timeline.c:1301)
+    n1: 536 0x4021F0: TimelineControl (timeline.c:1354)
+     n0: 536 0x400822: main (app.c:70)
+   n0: 0 in 1 place, below massif's threshold (01.00%)
+  n2: 536 0x401412: ConsiderCancel (timeline.c:544)
+   n1: 536 0x4020FD: NormalOperation (timeline.c:1301)
+    n1: 536 0x4021F0: TimelineControl (timeline.c:1354)
+     n0: 536 0x400822: main (app.c:70)
+   n0: 0 in 1 place, below massif's threshold (01.00%)
+  n2: 536 0x4014A4: ConsiderCancel (timeline.c:557)
+   n1: 536 0x4020FD: NormalOperation (timeline.c:1301)
+    n1: 536 0x4021F0: TimelineControl (timeline.c:1354)
+     n0: 536 0x400822: main (app.c:70)
+   n0: 0 in 1 place, below massif's threshold (01.00%)
+  n0: 0 in 6 places, all below massif's threshold (01.00%)
+ n1: 1856 0x4022AB: CreateNode (map.c:51)
+  n0: 1856 in 51 places, all below massif's threshold (01.00%)
+ n1: 928 0x402286: CreateNode (map.c:49)
+  n0: 928 in 67 places, all below massif's threshold (01.00%)
+ n0: 544 in 19 places, all below massif's threshold (01.00%)
+ n1: 480 0x400CE2: InitTimeline (timeline.c:202)
+  n0: 480 0x40081B: main (app.c:17)
+ n1: 320 0x400CBD: InitTimeline (timeline.c:193)
+  n0: 320 0x40081B: main (app.c:17)
+ n1: 224 0x400C1A: CreateOrder (timeline.c:165)
+  n0: 224 in 7 places, all below massif's threshold (01.00%)
+ n2: 216 0x400B9F: CreatePizza (timeline.c:136)
+  n1: 168 0x400C10: CreateOrder (timeline.c:164)
+   n0: 168 in 7 places, all below massif's threshold (01.00%)
+  n0: 48 in 2 places, all below massif's threshold (01.00%)
+#-----------
+snapshot=51
+#-----------
+time=8719309
+mem_heap_B=9456
+mem_heap_extra_B=3464
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=52
+#-----------
+time=8839533
+mem_heap_B=9456
+mem_heap_extra_B=3464
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=53
+#-----------
+time=8991190
+mem_heap_B=9456
+mem_heap_extra_B=3464
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=54
+#-----------
+time=9108462
+mem_heap_B=8240
+mem_heap_extra_B=3392
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=55
+#-----------
+time=9236264
+mem_heap_B=9392
+mem_heap_extra_B=3440
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=56
+#-----------
+time=9353370
+mem_heap_B=9928
+mem_heap_extra_B=3456
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=57
+#-----------
+time=9471484
+mem_heap_B=8744
+mem_heap_extra_B=3400
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=58
+#-----------
+time=9618410
+mem_heap_B=9416
+mem_heap_extra_B=3456
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=59
+#-----------
+time=9738229
+mem_heap_B=9416
+mem_heap_extra_B=3456
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=60
+#-----------
+time=9870782
+mem_heap_B=10056
+mem_heap_extra_B=3520
+mem_stacks_B=0
+heap_tree=detailed
+n9: 10056 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 3752 0x40224B: CreateNode (map.c:37)
+  n0: 3752 in 67 places, all below massif's threshold (01.00%)
+ n1: 1856 0x4022AB: CreateNode (map.c:51)
+  n0: 1856 in 51 places, all below massif's threshold (01.00%)
+ n4: 1608 0x403570: Dijkstra (dijkstra.c:98)
+  n2: 536 0x401326: ConsiderCancel (timeline.c:526)
+   n1: 536 0x401F3A: FreeTimeDecision (timeline.c:1071)
+    n1: 536 0x4021DD: TimelineControl (timeline.c:1350)
+     n0: 536 0x400822: main (app.c:70)
+   n0: 0 in 1 place, below massif's threshold (01.00%)
+  n2: 536 0x401394: ConsiderCancel (timeline.c:536)
+   n1: 536 0x401F3A: FreeTimeDecision (timeline.c:1071)
+    n1: 536 0x4021DD: TimelineControl (timeline.c:1350)
+     n0: 536 0x400822: main (app.c:70)
+   n0: 0 in 1 place, below massif's threshold (01.00%)
+  n2: 536 0x401412: ConsiderCancel (timeline.c:544)
+   n1: 536 0x401F3A: FreeTimeDecision (timeline.c:1071)
+    n1: 536 0x4021DD: TimelineControl (timeline.c:1350)
+     n0: 536 0x400822: main (app.c:70)
+   n0: 0 in 1 place, below massif's threshold (01.00%)
+  n0: 0 in 7 places, all below massif's threshold (01.00%)
+ n1: 928 0x402286: CreateNode (map.c:49)
+  n0: 928 in 67 places, all below massif's threshold (01.00%)
+ n0: 624 in 19 places, all below massif's threshold (01.00%)
+ n1: 480 0x400CE2: InitTimeline (timeline.c:202)
+  n0: 480 0x40081B: main (app.c:17)
+ n1: 320 0x400CBD: InitTimeline (timeline.c:193)
+  n0: 320 0x40081B: main (app.c:17)
+ n2: 264 0x400B9F: CreatePizza (timeline.c:136)
+  n1: 168 0x400C10: CreateOrder (timeline.c:164)
+   n0: 168 in 7 places, all below massif's threshold (01.00%)
+  n0: 96 in 2 places, all below massif's threshold (01.00%)
+ n1: 224 0x400C1A: CreateOrder (timeline.c:165)
+  n0: 224 in 7 places, all below massif's threshold (01.00%)
+#-----------
+snapshot=61
+#-----------
+time=9987756
+mem_heap_B=8952
+mem_heap_extra_B=3472
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=62
+#-----------
+time=10106471
+mem_heap_B=9048
+mem_heap_extra_B=3488
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=63
+#-----------
+time=10225961
+mem_heap_B=8920
+mem_heap_extra_B=3480
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=64
+#-----------
+time=10376653
+mem_heap_B=10024
+mem_heap_extra_B=3528
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=65
+#-----------
+time=10491606
+mem_heap_B=9568
+mem_heap_extra_B=3520
+mem_stacks_B=0
+heap_tree=empty

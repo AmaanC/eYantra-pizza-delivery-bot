@@ -1,0 +1,416 @@
+==29535== Memcheck, a memory error detector
+==29535== Copyright (C) 2002-2013, and GNU GPL'd, by Julian Seward et al.
+==29535== Using Valgrind-3.10.1 and LibVEX; rerun with -h for copyright info
+==29535== Command: ./app.out
+==29535== Parent PID: 23796
+==29535== 
+==29535== Conditional jump or move depends on uninitialised value(s)
+==29535==    at 0x401A68: IsPizzaAt (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x4009E0: GetFirstPToRight (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x400BF9: CreatePizza (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x400C51: CreateOrder (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x400D5E: InitTimeline (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x40085C: main (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535== 
+==29535== Use of uninitialised value of size 8
+==29535==    at 0x400BC6: InsertPizza (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x400C1C: CreatePizza (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x400C51: CreateOrder (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x400D5E: InitTimeline (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x40085C: main (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535== 
+==29535== Use of uninitialised value of size 8
+==29535==    at 0x400BC6: InsertPizza (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x400C1C: CreatePizza (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x400C51: CreateOrder (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x400D85: InitTimeline (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x40085C: main (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535== 
+==29535== Use of uninitialised value of size 8
+==29535==    at 0x400BC6: InsertPizza (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x400C1C: CreatePizza (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x400C51: CreateOrder (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x400DAC: InitTimeline (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x40085C: main (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535== 
+==29535== Use of uninitialised value of size 8
+==29535==    at 0x400BC6: InsertPizza (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x400C1C: CreatePizza (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x400C51: CreateOrder (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x400DD3: InitTimeline (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x40085C: main (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535== 
+==29535== Use of uninitialised value of size 8
+==29535==    at 0x400BC6: InsertPizza (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x400C1C: CreatePizza (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x400C51: CreateOrder (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x400DFA: InitTimeline (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x40085C: main (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535== 
+==29535== Conditional jump or move depends on uninitialised value(s)
+==29535==    at 0x401A68: IsPizzaAt (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x400A18: GetFirstPToLeft (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x400C09: CreatePizza (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x400C51: CreateOrder (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x400E21: InitTimeline (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x40085C: main (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535== 
+==29535== Use of uninitialised value of size 8
+==29535==    at 0x400BC6: InsertPizza (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x400C1C: CreatePizza (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x400C51: CreateOrder (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x400E21: InitTimeline (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x40085C: main (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535== 
+==29535== Use of uninitialised value of size 8
+==29535==    at 0x400BC6: InsertPizza (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x400C1C: CreatePizza (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x400C51: CreateOrder (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x40085C: main (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535== 
+==29535== Conditional jump or move depends on uninitialised value(s)
+==29535==    at 0x400EB0: GetPizzaForOrder (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x40205C: FreeTimeDecision (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x40236C: TimelineControl (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x400863: main (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535== 
+==29535== Conditional jump or move depends on uninitialised value(s)
+==29535==    at 0x400EB0: GetPizzaForOrder (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x402207: NormalOperation (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x40237F: TimelineControl (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x400863: main (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535== 
+==29535== Conditional jump or move depends on uninitialised value(s)
+==29535==    at 0x401A68: IsPizzaAt (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x4009E0: GetFirstPToRight (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x401ABF: FindPizzas (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x402244: NormalOperation (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x40237F: TimelineControl (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x400863: main (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535== 
+==29535== Conditional jump or move depends on uninitialised value(s)
+==29535==    at 0x401A68: IsPizzaAt (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x400A18: GetFirstPToLeft (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x401AE6: FindPizzas (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x402244: NormalOperation (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x40237F: TimelineControl (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x400863: main (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535== 
+==29535== Conditional jump or move depends on uninitialised value(s)
+==29535==    at 0x400EB0: GetPizzaForOrder (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x400F38: GetNumDelayed (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x401B7D: FindPizzas (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x402244: NormalOperation (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x40237F: TimelineControl (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x400863: main (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535== 
+==29535== Conditional jump or move depends on uninitialised value(s)
+==29535==    at 0x400EB0: GetPizzaForOrder (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x4010C6: GetNumDelayed (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x401B7D: FindPizzas (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x402244: NormalOperation (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x40237F: TimelineControl (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x400863: main (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535== 
+==29535== Invalid write of size 8
+==29535==    at 0x400BC6: InsertPizza (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x400F59: GetNumDelayed (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x401B7D: FindPizzas (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x402244: NormalOperation (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x40237F: TimelineControl (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x400863: main (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==  Address 0x5509498 is 0 bytes after a block of size 8 alloc'd
+==29535==    at 0x4C2AB80: malloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==29535==    by 0x400F16: GetNumDelayed (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x401B7D: FindPizzas (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x402244: NormalOperation (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x40237F: TimelineControl (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x400863: main (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535== 
+==29535== Invalid read of size 8
+==29535==    at 0x4010F9: GetNumDelayed (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x401B7D: FindPizzas (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x402244: NormalOperation (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x40237F: TimelineControl (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x400863: main (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==  Address 0x5509498 is 0 bytes after a block of size 8 alloc'd
+==29535==    at 0x4C2AB80: malloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==29535==    by 0x400F16: GetNumDelayed (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x401B7D: FindPizzas (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x402244: NormalOperation (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x40237F: TimelineControl (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x400863: main (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535== 
+==29535== Invalid read of size 8
+==29535==    at 0x40111C: GetNumDelayed (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x401B7D: FindPizzas (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x402244: NormalOperation (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x40237F: TimelineControl (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x400863: main (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==  Address 0x5509498 is 0 bytes after a block of size 8 alloc'd
+==29535==    at 0x4C2AB80: malloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==29535==    by 0x400F16: GetNumDelayed (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x401B7D: FindPizzas (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x402244: NormalOperation (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x40237F: TimelineControl (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x400863: main (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535== 
+==29535== Invalid read of size 8
+==29535==    at 0x40112E: GetNumDelayed (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x401B7D: FindPizzas (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x402244: NormalOperation (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x40237F: TimelineControl (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x400863: main (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==  Address 0x5509498 is 0 bytes after a block of size 8 alloc'd
+==29535==    at 0x4C2AB80: malloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==29535==    by 0x400F16: GetNumDelayed (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x401B7D: FindPizzas (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x402244: NormalOperation (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x40237F: TimelineControl (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x400863: main (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535== 
+==29535== Conditional jump or move depends on uninitialised value(s)
+==29535==    at 0x400EB0: GetPizzaForOrder (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x400F38: GetNumDelayed (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x401B9F: FindPizzas (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x402244: NormalOperation (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x40237F: TimelineControl (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x400863: main (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535== 
+==29535== Conditional jump or move depends on uninitialised value(s)
+==29535==    at 0x400EB0: GetPizzaForOrder (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x4010C6: GetNumDelayed (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x401B9F: FindPizzas (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x402244: NormalOperation (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x40237F: TimelineControl (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x400863: main (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535== 
+==29535== Invalid write of size 8
+==29535==    at 0x400BC6: InsertPizza (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x400F59: GetNumDelayed (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x401B9F: FindPizzas (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x402244: NormalOperation (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x40237F: TimelineControl (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x400863: main (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==  Address 0x550dc18 is 0 bytes after a block of size 8 alloc'd
+==29535==    at 0x4C2AB80: malloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==29535==    by 0x400F16: GetNumDelayed (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x401B9F: FindPizzas (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x402244: NormalOperation (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x40237F: TimelineControl (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x400863: main (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535== 
+==29535== Invalid read of size 8
+==29535==    at 0x4010F9: GetNumDelayed (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x401B9F: FindPizzas (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x402244: NormalOperation (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x40237F: TimelineControl (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x400863: main (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==  Address 0x550dc18 is 0 bytes after a block of size 8 alloc'd
+==29535==    at 0x4C2AB80: malloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==29535==    by 0x400F16: GetNumDelayed (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x401B9F: FindPizzas (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x402244: NormalOperation (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x40237F: TimelineControl (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x400863: main (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535== 
+==29535== Invalid read of size 8
+==29535==    at 0x40111C: GetNumDelayed (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x401B9F: FindPizzas (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x402244: NormalOperation (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x40237F: TimelineControl (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x400863: main (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==  Address 0x550dc18 is 0 bytes after a block of size 8 alloc'd
+==29535==    at 0x4C2AB80: malloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==29535==    by 0x400F16: GetNumDelayed (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x401B9F: FindPizzas (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x402244: NormalOperation (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x40237F: TimelineControl (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x400863: main (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535== 
+==29535== Invalid read of size 8
+==29535==    at 0x40112E: GetNumDelayed (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x401B9F: FindPizzas (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x402244: NormalOperation (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x40237F: TimelineControl (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x400863: main (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==  Address 0x550dc18 is 0 bytes after a block of size 8 alloc'd
+==29535==    at 0x4C2AB80: malloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==29535==    by 0x400F16: GetNumDelayed (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x401B9F: FindPizzas (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x402244: NormalOperation (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x40237F: TimelineControl (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x400863: main (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535== 
+==29535== Conditional jump or move depends on uninitialised value(s)
+==29535==    at 0x4019EA: DetectPizza (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x401BC8: FindPizzas (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x402244: NormalOperation (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x40237F: TimelineControl (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x400863: main (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535== 
+==29535== Conditional jump or move depends on uninitialised value(s)
+==29535==    at 0x4017AD: GetPizzaAtNode (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x401A2D: DetectPizza (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x401BC8: FindPizzas (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x402244: NormalOperation (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x40237F: TimelineControl (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x400863: main (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535== 
+==29535== Conditional jump or move depends on uninitialised value(s)
+==29535==    at 0x401A68: IsPizzaAt (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x4009E0: GetFirstPToRight (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x400BF9: CreatePizza (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x401A1B: DetectPizza (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x401BC8: FindPizzas (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x402244: NormalOperation (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x40237F: TimelineControl (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x400863: main (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535== 
+==29535== Use of uninitialised value of size 8
+==29535==    at 0x400BC6: InsertPizza (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x400C1C: CreatePizza (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x401A1B: DetectPizza (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x401BC8: FindPizzas (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x402244: NormalOperation (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x40237F: TimelineControl (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x400863: main (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535== 
+==29535== 
+==29535== HEAP SUMMARY:
+==29535==     in use at exit: 11,040 bytes in 313 blocks
+==29535==   total heap usage: 768 allocs, 455 frees, 176,920 bytes allocated
+==29535== 
+==29535== 56 bytes in 1 blocks are definitely lost in loss record 199 of 224
+==29535==    at 0x4C2AB80: malloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==29535==    by 0x4023DA: CreateNode (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x402A87: InitGraph (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x400855: main (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535== 
+==29535== 56 bytes in 1 blocks are definitely lost in loss record 200 of 224
+==29535==    at 0x4C2AB80: malloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==29535==    by 0x4023DA: CreateNode (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x402AA3: InitGraph (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x400855: main (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535== 
+==29535== 56 bytes in 1 blocks are definitely lost in loss record 201 of 224
+==29535==    at 0x4C2AB80: malloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==29535==    by 0x4023DA: CreateNode (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x402ABF: InitGraph (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x400855: main (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535== 
+==29535== 56 bytes in 1 blocks are definitely lost in loss record 202 of 224
+==29535==    at 0x4C2AB80: malloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==29535==    by 0x4023DA: CreateNode (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x402ADB: InitGraph (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x400855: main (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535== 
+==29535== 56 bytes in 1 blocks are definitely lost in loss record 203 of 224
+==29535==    at 0x4C2AB80: malloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==29535==    by 0x4023DA: CreateNode (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x402AF7: InitGraph (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x400855: main (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535== 
+==29535== 56 bytes in 1 blocks are definitely lost in loss record 204 of 224
+==29535==    at 0x4C2AB80: malloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==29535==    by 0x4023DA: CreateNode (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x402B13: InitGraph (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x400855: main (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535== 
+==29535== 56 bytes in 1 blocks are definitely lost in loss record 205 of 224
+==29535==    at 0x4C2AB80: malloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==29535==    by 0x4023DA: CreateNode (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x402B2F: InitGraph (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x400855: main (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535== 
+==29535== 56 bytes in 1 blocks are definitely lost in loss record 206 of 224
+==29535==    at 0x4C2AB80: malloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==29535==    by 0x4023DA: CreateNode (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x402B4B: InitGraph (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x400855: main (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535== 
+==29535== 56 bytes in 1 blocks are definitely lost in loss record 207 of 224
+==29535==    at 0x4C2AB80: malloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==29535==    by 0x4023DA: CreateNode (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x402B67: InitGraph (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x400855: main (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535== 
+==29535== 56 bytes in 1 blocks are definitely lost in loss record 208 of 224
+==29535==    at 0x4C2AB80: malloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==29535==    by 0x4023DA: CreateNode (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x402B83: InitGraph (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x400855: main (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535== 
+==29535== 56 bytes in 1 blocks are definitely lost in loss record 209 of 224
+==29535==    at 0x4C2AB80: malloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==29535==    by 0x4023DA: CreateNode (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x402B9F: InitGraph (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x400855: main (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535== 
+==29535== 56 bytes in 1 blocks are definitely lost in loss record 210 of 224
+==29535==    at 0x4C2AB80: malloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==29535==    by 0x4023DA: CreateNode (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x402BBB: InitGraph (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x400855: main (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535== 
+==29535== 56 bytes in 1 blocks are definitely lost in loss record 211 of 224
+==29535==    at 0x4C2AB80: malloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==29535==    by 0x4023DA: CreateNode (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x402BD7: InitGraph (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x400855: main (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535== 
+==29535== 56 bytes in 1 blocks are definitely lost in loss record 212 of 224
+==29535==    at 0x4C2AB80: malloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==29535==    by 0x4023DA: CreateNode (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x402BF3: InitGraph (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x400855: main (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535== 
+==29535== 56 bytes in 1 blocks are definitely lost in loss record 213 of 224
+==29535==    at 0x4C2AB80: malloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==29535==    by 0x4023DA: CreateNode (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x402C0F: InitGraph (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x400855: main (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535== 
+==29535== 56 bytes in 1 blocks are definitely lost in loss record 214 of 224
+==29535==    at 0x4C2AB80: malloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==29535==    by 0x4023DA: CreateNode (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x402C2B: InitGraph (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x400855: main (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535== 
+==29535== 120 (80 direct, 40 indirect) bytes in 5 blocks are definitely lost in loss record 219 of 224
+==29535==    at 0x4C2AB80: malloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==29535==    by 0x400F09: GetNumDelayed (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x401B7D: FindPizzas (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x402244: NormalOperation (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x40237F: TimelineControl (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x400863: main (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535== 
+==29535== 120 (80 direct, 40 indirect) bytes in 5 blocks are definitely lost in loss record 220 of 224
+==29535==    at 0x4C2AB80: malloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==29535==    by 0x400F09: GetNumDelayed (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x401B9F: FindPizzas (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x402244: NormalOperation (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x40237F: TimelineControl (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x400863: main (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535== 
+==29535== 2,760 (80 direct, 2,680 indirect) bytes in 5 blocks are definitely lost in loss record 224 of 224
+==29535==    at 0x4C2AB80: malloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==29535==    by 0x4036EE: Dijkstra (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x403AE6: MoveBotToNode (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x401BC1: FindPizzas (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x402244: NormalOperation (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x40237F: TimelineControl (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535==    by 0x400863: main (in /media/common/Users/Amaan/Desktop/eYantra/repo/modules/timeline/app.out)
+==29535== 
+==29535== LEAK SUMMARY:
+==29535==    definitely lost: 1,136 bytes in 31 blocks
+==29535==    indirectly lost: 2,760 bytes in 31 blocks
+==29535==      possibly lost: 0 bytes in 0 blocks
+==29535==    still reachable: 7,144 bytes in 251 blocks
+==29535==         suppressed: 0 bytes in 0 blocks
+==29535== Reachable blocks (those to which a pointer was found) are not shown.
+==29535== To see them, rerun with: --leak-check=full --show-leak-kinds=all
+==29535== 
+==29535== For counts of detected and suppressed errors, rerun with: -v
+==29535== Use --track-origins=yes to see where uninitialised values come from
+==29535== ERROR SUMMARY: 941 errors from 48 contexts (suppressed: 0 from 0)
