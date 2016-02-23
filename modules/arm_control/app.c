@@ -1,16 +1,16 @@
 #include <avr/io.h>
 #include <avr/interrupt.h>
 #include <util/delay.h>
+#include <string.h>
+#include <math.h>
+#include <stdlib.h>
+#include "arm_control.h"
 #include "../servo/servo.h"
 //#include "../buzzer/buzzer.h"
-#include "arm_control.h"
 #include "../bot_memory/bot_memory.h"
 #include "../move_bot/move_bot.h"
 #include "../timeline/timeline.h"
-#include <string.h>
 #include "../map/map.h"
-#include <math.h>
-#include <stdlib.h>
 
 int main() {
 	ServoInitDevices();
