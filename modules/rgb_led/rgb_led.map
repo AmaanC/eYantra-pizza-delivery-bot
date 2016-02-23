@@ -117,7 +117,7 @@ END GROUP
 .rela.plt
  *(.rela.plt)
 
-.text           0x00000000      0x1c2
+.text           0x00000000      0x19e
  *(.vectors)
  .vectors       0x00000000       0xe4 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/../../../../avr/lib/avr6/crtm2560.o
                 0x00000000                __vectors
@@ -227,34 +227,34 @@ END GROUP
                 0x000000fc                __vector_18
                 0x000000fc                __vector_20
                 0x000000fc                __vector_38
- .text          0x00000100       0x40 rgb_led.o
+ .text          0x00000100       0x52 rgb_led.o
                 0x00000100                RgbLedInit
                 0x0000010c                RgbLedOff
                 0x00000118                RgbLedGlow
- .text          0x00000140        0x0 app.o
- .text          0x00000140        0x0 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr6/libgcc.a(_exit.o)
-                0x00000140                . = ALIGN (0x2)
+ .text          0x00000152        0x0 app.o
+ .text          0x00000152        0x0 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr6/libgcc.a(_exit.o)
+                0x00000152                . = ALIGN (0x2)
  *(.text.*)
- .text.startup  0x00000140       0x7e app.o
-                0x00000140                main
+ .text.startup  0x00000152       0x48 app.o
+                0x00000152                main
  .text.libgcc.mul
-                0x000001be        0x0 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr6/libgcc.a(_exit.o)
+                0x0000019a        0x0 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr6/libgcc.a(_exit.o)
  .text.libgcc.div
-                0x000001be        0x0 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr6/libgcc.a(_exit.o)
- .text.libgcc   0x000001be        0x0 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr6/libgcc.a(_exit.o)
+                0x0000019a        0x0 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr6/libgcc.a(_exit.o)
+ .text.libgcc   0x0000019a        0x0 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr6/libgcc.a(_exit.o)
  .text.libgcc.prologue
-                0x000001be        0x0 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr6/libgcc.a(_exit.o)
+                0x0000019a        0x0 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr6/libgcc.a(_exit.o)
  .text.libgcc.builtins
-                0x000001be        0x0 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr6/libgcc.a(_exit.o)
+                0x0000019a        0x0 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr6/libgcc.a(_exit.o)
  .text.libgcc.fmul
-                0x000001be        0x0 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr6/libgcc.a(_exit.o)
+                0x0000019a        0x0 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr6/libgcc.a(_exit.o)
  .text.libgcc.fixed
-                0x000001be        0x0 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr6/libgcc.a(_exit.o)
-                0x000001be                . = ALIGN (0x2)
+                0x0000019a        0x0 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr6/libgcc.a(_exit.o)
+                0x0000019a                . = ALIGN (0x2)
  *(.fini9)
- .fini9         0x000001be        0x0 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr6/libgcc.a(_exit.o)
-                0x000001be                exit
-                0x000001be                _exit
+ .fini9         0x0000019a        0x0 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr6/libgcc.a(_exit.o)
+                0x0000019a                exit
+                0x0000019a                _exit
  *(.fini9)
  *(.fini8)
  *(.fini8)
@@ -273,11 +273,11 @@ END GROUP
  *(.fini1)
  *(.fini1)
  *(.fini0)
- .fini0         0x000001be        0x4 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr6/libgcc.a(_exit.o)
+ .fini0         0x0000019a        0x4 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr6/libgcc.a(_exit.o)
  *(.fini0)
-                0x000001c2                _etext = .
+                0x0000019e                _etext = .
 
-.data           0x00800200        0x0 load address 0x000001c2
+.data           0x00800200        0x0 load address 0x0000019e
                 0x00800200                PROVIDE (__data_start, .)
  *(.data)
  .data          0x00800200        0x0 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/../../../../avr/lib/avr6/crtm2560.o
@@ -302,8 +302,8 @@ END GROUP
  *(.bss*)
  *(COMMON)
                 0x00800200                PROVIDE (__bss_end, .)
-                0x000001c2                __data_load_start = LOADADDR (.data)
-                0x000001c2                __data_load_end = (__data_load_start + SIZEOF (.data))
+                0x0000019e                __data_load_start = LOADADDR (.data)
+                0x0000019e                __data_load_end = (__data_load_start + SIZEOF (.data))
 
 .noinit         0x00800200        0x0
                 0x00800200                PROVIDE (__noinit_start, .)
@@ -379,24 +379,24 @@ END GROUP
 .debug_pubnames
  *(.debug_pubnames)
 
-.debug_info     0x00000000      0x453
+.debug_info     0x00000000      0x424
  *(.debug_info)
- .debug_info    0x00000000       0xd3 rgb_led.o
- .debug_info    0x000000d3      0x2c2 app.o
- .debug_info    0x00000395       0xbe /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr6/libgcc.a(_exit.o)
+ .debug_info    0x00000000      0x155 rgb_led.o
+ .debug_info    0x00000155      0x211 app.o
+ .debug_info    0x00000366       0xbe /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr6/libgcc.a(_exit.o)
  *(.gnu.linkonce.wi.*)
 
-.debug_abbrev   0x00000000      0x1c0
+.debug_abbrev   0x00000000      0x22f
  *(.debug_abbrev)
- .debug_abbrev  0x00000000       0x85 rgb_led.o
- .debug_abbrev  0x00000085      0x127 app.o
- .debug_abbrev  0x000001ac       0x14 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr6/libgcc.a(_exit.o)
+ .debug_abbrev  0x00000000       0xf4 rgb_led.o
+ .debug_abbrev  0x000000f4      0x127 app.o
+ .debug_abbrev  0x0000021b       0x14 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr6/libgcc.a(_exit.o)
 
-.debug_line     0x00000000      0x1fb
+.debug_line     0x00000000      0x212
  *(.debug_line)
- .debug_line    0x00000000       0x7a rgb_led.o
- .debug_line    0x0000007a      0x129 app.o
- .debug_line    0x000001a3       0x58 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr6/libgcc.a(_exit.o)
+ .debug_line    0x00000000       0xbe rgb_led.o
+ .debug_line    0x000000be       0xfc app.o
+ .debug_line    0x000001ba       0x58 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr6/libgcc.a(_exit.o)
 
 .debug_frame    0x00000000       0x68
  *(.debug_frame)
@@ -405,9 +405,9 @@ END GROUP
 
 .debug_str      0x00000000      0x110
  *(.debug_str)
- .debug_str     0x00000000       0xba rgb_led.o
-                                 0xf3 (size before relaxing)
- .debug_str     0x000000ba       0x56 app.o
+ .debug_str     0x00000000      0x105 rgb_led.o
+                                0x13e (size before relaxing)
+ .debug_str     0x00000105        0xb app.o
                                 0x131 (size before relaxing)
 
 .debug_loc      0x00000000       0x82
