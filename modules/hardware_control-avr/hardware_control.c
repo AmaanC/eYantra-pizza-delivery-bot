@@ -14,6 +14,9 @@
 #include "../move_bot/move_bot.h"
 #include "../hardware_control/hardware_control.h"
 
+// For curves, we need to stop a little before
+const curve_offset = 60;
+
 void CurveTowards(Node *source_node, Node *target_node) {
     // We can use the center of the circle and a curve node to find the radius
     // Using the radius, we can calculate the angular velocities required by
@@ -59,9 +62,10 @@ void CurveTowards(Node *source_node, Node *target_node) {
     // Let them keep going until one of the motors has spun enough
     // PosEncoderForward();
     // PosEncoderLinearDistanceMm(513);
+    // TODO: CALCULATE ARC LENGTH
     MoveBotForward(left_motor, right_motor, 513);
     PosEncoderVelocity(left_motor, right_motor);
-    PosEncoderForwardMm(60);
+    PosEncoderForwardMm(curve_offset);
 }
 
 void MoveBotToNode(Node *target_node) {
@@ -119,7 +123,7 @@ void MoveBotToNode(Node *target_node) {
             RotateBot((int) GetShortestDeg(next_node->enter_deg - bot_info->cur_position->cur_deg));
 
             if (IndexOfNode(curve_info->curve_nodes, curve_info->curve_nodes_len, next_node) != -1) {
-                MoveBotForward(230, 230, (int) (10 * sqrt(xDist * xDist + yDist * yDist)) - 60);
+                MoveBotForward(230, 230, (int) (10 * sqrt(xDist * xDist + yDist * yDist)) - curve_offset);
             }
             else {
                 // To the left of the pizza counter, we'll have to turn the other way and move backwards
