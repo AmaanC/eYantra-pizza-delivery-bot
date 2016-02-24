@@ -12,6 +12,7 @@ long int time_count = 0;
 long int freq = 14745600;
 int prescaler = 256;
 int refresh_rate = 50;
+int subtract_count;
 int compa_val;
 unsigned char compa_h;
 unsigned char compa_l;
@@ -65,6 +66,13 @@ ISR(TIMER3_COMPA_vect) {
     if (all_delivered == 0) {
         time_count++;
     }
+    if (callback_delay > 0) {
+        callback_delay -= subtract_count;
+    }
+    else if (callback != NULL) {
+        callback();
+        callback = NULL;
+    }
 }
 
 ISR(TIMER3_COMPB_vect) {
@@ -84,10 +92,16 @@ void VictoryTime() {
 }
 
 void FreezeDisplay() {
-    frozen_time = time_count;
+    frozen_time = time_count / refresh_rate;
 }
 
 // Call the registered function after a delay
+// Delay needs to be in ms
+// It works like this:
+// callback_delay is set to (for example) 1000ms
+// Our COMPA_Vect runs at 50Hz
+// Therefore, 1000/50 is subtracted from callback_delay everytime
+// our ISR is called
 char RegisterCallback(void (*fn)(), short int delay) {
     if (callback != NULL) {
         // Can't register callback
@@ -110,6 +124,7 @@ void ResetTime() {
 }
 
 void InitTimer() {
+    subtract_count = 1000 / refresh_rate;
     compa_val = (freq / prescaler) / refresh_rate;
     compa_h = compa_val >> 8;
     compa_l = compa_val & 0x00FF;
