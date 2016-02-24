@@ -7,82 +7,57 @@
 #include "../seven_segment/seven_segment.h"
 #include "../lcd/lcd.h"
 
-int time_count = 0;
+long int time_count = 0;
+int refresh_rate = 50;
 void (*callback)();
 int callback_delay = 0;
 const int FREEZE_TIME = 5;
 int frozen_time = -5;
 char all_delivered = 0;
 
-// TIMER3 initialize - prescale:256
-// WGM: 0) Normal, TOP=0xFFFF
-// desired value: 1Hz
-// actual value:  1.000Hz (0.0%)
+void UpdateDisplay(int ca_num) {
+    int actual_time = time_count / refresh_rate;
+    if (actual_time - frozen_time < FREEZE_TIME) {
+        SevenDisplayNum(frozen_time, ca_num);
+    }
+    else {
+        SevenDisplayNum(actual_time, ca_num);
+    }
+}
+
+// ((freq / 256) / 50).toString(16) = 0x0480
+// 50Hz for COMPA
+// COMPB and COMPC are called at intermediate values
 void Timer3Init() {
     TCCR3B = 0x00; // stop
-    TCNT3H = 0x1F; // Counter higher 8 bit value
-    TCNT3L = 0x01; // Counter lower 8 bit value
-    OCR3AH = 0x00; // Output Compair Register (OCR)- Not used
-    OCR3AL = 0x00; // Output Compair Register (OCR)- Not used
-    OCR3BH = 0x00; // Output Compair Register (OCR)- Not used
+    TCNT3H = 0x00; // Counter higher 8 bit value
+    TCNT3L = 0x00; // Counter lower 8 bit value
+    OCR3AH = 0x04; // Output Compair Register (OCR)- Not used
+    OCR3AL = 0x80; // Output Compair Register (OCR)- Not used
+    OCR3BH = 0x03; // Output Compair Register (OCR)- Not used
     OCR3BL = 0x00; // Output Compair Register (OCR)- Not used
-    OCR3CH = 0x00; // Output Compair Register (OCR)- Not used
-    OCR3CL = 0x00; // Output Compair Register (OCR)- Not used
+    OCR3CH = 0x01; // Output Compair Register (OCR)- Not used
+    OCR3CL = 0x80; // Output Compair Register (OCR)- Not used
     ICR3H  = 0x00; // Input Capture Register (ICR)- Not used
     ICR3L  = 0x00; // Input Capture Register (ICR)- Not used
     TCCR3A = 0x00; 
     TCCR3C = 0x00;
-    TCCR3B = 0x04; // start Timer
+    TCCR3B = 0x0C; // start Timer
 }
 
-void UpdateDisplay(int ca_num) {
-    if (time_count - frozen_time < FREEZE_TIME) {
-        SevenDisplayNum(frozen_time, ca_num);
-    }
-    else {
-        SevenDisplayNum(time_count, ca_num);
-    }
-}
+ISR(TIMER3_COMPA_vect) {
+    UpdateDisplay(1);
 
-// This ISR can be used to schedule events like refreshing ADC data, LCD data
-ISR(TIMER3_OVF_vect) {
-    // TIMER3 has overflowed
-    TCNT3H = 0x1F; // reload counter high value
-    TCNT3L = 0x01; // reload counter low value
-    
     if (all_delivered == 0) {
         time_count++;
     }
 }
 
-// ((freq / 256) / 200).toString(16) = 0x0120
-// 200Hz
-void Timer5Init() {
-    TCCR5B = 0x00; // stop
-    TCNT5H = 0x00; // Counter higher 8 bit value
-    TCNT5L = 0x00; // Counter lower 8 bit value
-    OCR5AH = 0x03; // Output Compair Register (OCR)- Not used
-    OCR5AL = 0x60; // Output Compair Register (OCR)- Not used
-    OCR5BH = 0x02; // Output Compair Register (OCR)- Not used
-    OCR5BL = 0x40; // Output Compair Register (OCR)- Not used
-    OCR5CH = 0x01; // Output Compair Register (OCR)- Not used
-    OCR5CL = 0x20; // Output Compair Register (OCR)- Not used
-    ICR5H  = 0x00; // Input Capture Register (ICR)- Not used
-    ICR5L  = 0x00; // Input Capture Register (ICR)- Not used
-    TCCR5A = 0x00; 
-    TCCR5C = 0x00;
-    TCCR5B = 0x0C; // start Timer
-}
-
-ISR(TIMER5_COMPA_vect) {
-    UpdateDisplay(1);
-}
-
-ISR(TIMER5_COMPB_vect) {
+ISR(TIMER3_COMPB_vect) {
     UpdateDisplay(2);
 }
 
-ISR(TIMER5_COMPC_vect) {
+ISR(TIMER3_COMPC_vect) {
     UpdateDisplay(3);
 }
 
@@ -113,7 +88,7 @@ char RegisterCallback(void (*fn)(), short int delay) {
 }
 
 short int GetCurrentTime() {
-    return time_count;
+    return time_count / refresh_rate;
 }
 
 void ResetTime() {
@@ -121,10 +96,11 @@ void ResetTime() {
 }
 
 void InitTimer() {
+    SevenInitDevices();
     cli(); // Clears the global interrupts
+    // Timer3Init();
     Timer3Init();
-    Timer5Init();
-    TIMSK3 = 0x01; // timer4 overflow interrupt enable
-    TIMSK5 = 0x0E;
+    // TIMSK3 = 0x01; // timer4 overflow interrupt enable
+    TIMSK3 = 0x0E;
     sei();   // Enables the global interrupts
 }

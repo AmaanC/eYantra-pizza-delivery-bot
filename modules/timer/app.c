@@ -9,7 +9,6 @@
 //Main Function
 int main(void) {
     InitTimer();
-    SevenInitDevices();
     LcdInit();
     // BuzzerOn();
     // RegisterCallback(BuzzerOff, 1000);
