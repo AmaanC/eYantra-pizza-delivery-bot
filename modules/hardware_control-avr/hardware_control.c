@@ -149,7 +149,7 @@ void MoveBotToNode(Node *target_node) {
 
         bot_info->cur_position->cur_node = current_node;
         current_node = next_node;
-        _delay_ms(1000);
+        // _delay_ms(1000);
     }
     bot_info->cur_position->cur_node = target_node;
     DijkstraFree(final_path);
