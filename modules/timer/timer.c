@@ -8,7 +8,21 @@
 #include "../lcd/lcd.h"
 
 long int time_count = 0;
+
+long int freq = 14745600;
+int prescaler = 256;
 int refresh_rate = 50;
+int compa_val;
+unsigned char compa_h;
+unsigned char compa_l;
+int compb_val;
+unsigned char compb_h;
+unsigned char compb_l;
+int compc_val;
+unsigned char compc_h;
+unsigned char compc_l;
+
+
 void (*callback)();
 int callback_delay = 0;
 const int FREEZE_TIME = 5;
@@ -25,19 +39,19 @@ void UpdateDisplay(int ca_num) {
     }
 }
 
-// ((freq / 256) / 50).toString(16) = 0x0480
-// 50Hz for COMPA
+// ((freq / 256) / 25).toString(16) = 0x0480
+// 25Hz for COMPA
 // COMPB and COMPC are called at intermediate values
 void Timer3Init() {
     TCCR3B = 0x00; // stop
     TCNT3H = 0x00; // Counter higher 8 bit value
     TCNT3L = 0x00; // Counter lower 8 bit value
-    OCR3AH = 0x04; // Output Compair Register (OCR)- Not used
-    OCR3AL = 0x80; // Output Compair Register (OCR)- Not used
-    OCR3BH = 0x03; // Output Compair Register (OCR)- Not used
-    OCR3BL = 0x00; // Output Compair Register (OCR)- Not used
-    OCR3CH = 0x01; // Output Compair Register (OCR)- Not used
-    OCR3CL = 0x80; // Output Compair Register (OCR)- Not used
+    OCR3AH = compa_h; // Output Compair Register (OCR)- Not used
+    OCR3AL = compa_l; // Output Compair Register (OCR)- Not used
+    OCR3BH = compb_h; // Output Compair Register (OCR)- Not used
+    OCR3BL = compb_l; // Output Compair Register (OCR)- Not used
+    OCR3CH = compc_h; // Output Compair Register (OCR)- Not used
+    OCR3CL = compc_l; // Output Compair Register (OCR)- Not used
     ICR3H  = 0x00; // Input Capture Register (ICR)- Not used
     ICR3L  = 0x00; // Input Capture Register (ICR)- Not used
     TCCR3A = 0x00; 
@@ -96,6 +110,15 @@ void ResetTime() {
 }
 
 void InitTimer() {
+    compa_val = (freq / prescaler) / refresh_rate;
+    compa_h = compa_val >> 8;
+    compa_l = compa_val & 0x00FF;
+    compb_val = 2.0/3 * compa_val;
+    compb_h = (compb_val) >> 8;
+    compb_l = compb_val & 0x00FF;
+    compc_val = 1.0/3 * compa_val;
+    compc_h = (compc_val) >> 8;
+    compc_l = compc_val & 0x00FF;
     SevenInitDevices();
     cli(); // Clears the global interrupts
     // Timer3Init();
