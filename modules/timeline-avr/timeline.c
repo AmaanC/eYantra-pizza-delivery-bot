@@ -1208,6 +1208,7 @@ void DeliverPizzas(DeliverySequence *cur_sequence) {
     }
 
     current_order = cur_sequence->order_combo[deliver1];
+    delivered_pizza = cur_sequence->pizza_combo[deliver1];
     cur_node = current_order->delivery_house;
     if (cur_node != NULL) {
         RgbLedGlow(current_order->colour);
@@ -1246,6 +1247,7 @@ void DeliverPizzas(DeliverySequence *cur_sequence) {
 
     cur_node = NULL;
     current_order = cur_sequence->order_combo[deliver2];
+    delivered_pizza = cur_sequence->pizza_combo[deliver2];
     if (current_order) {
         cur_node = current_order->delivery_house;
     }
