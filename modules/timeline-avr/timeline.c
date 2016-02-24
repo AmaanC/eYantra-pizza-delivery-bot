@@ -837,7 +837,7 @@ void DetectPizza() {
 //     if (fake_i >= fake_len) {
 //         fake_i--;
 //     }
-    RotateBot((int) GetShortestDeg(deg_to_pizza - (bot_info->cur_position->cur_deg + bot_info->sensor_angle)), FALSE);
+    PosEncoderRotateBot((int) GetShortestDeg(deg_to_pizza - (bot_info->cur_position->cur_deg + bot_info->sensor_angle)), FALSE);
     block_size = SharpGetBlockType();
     colour = GetPizzaColor();
     if (block_size == 'n') {
