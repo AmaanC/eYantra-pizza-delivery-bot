@@ -22,6 +22,7 @@
 #include "../rgb_led/rgb_led.h"
 #include "../color_sensor/color_sensor.h"
 #include "../sharp_sensor/sharp_sensor.h"
+#include "../pos_encoder/pos_encoder.h"
 
 #define TRUE 1
 #define FALSE 0
@@ -837,7 +838,7 @@ void DetectPizza() {
 //     if (fake_i >= fake_len) {
 //         fake_i--;
 //     }
-    PosEncoderRotateBot((int) GetShortestDeg(deg_to_pizza - (bot_info->cur_position->cur_deg + bot_info->sensor_angle)), FALSE);
+    PosEncoderRotateBot((int) GetShortestDeg(deg_to_pizza - (bot_info->cur_position->cur_deg + bot_info->sensor_angle)));
     block_size = SharpGetBlockType();
     colour = GetPizzaColor();
     if (block_size == 'n') {
