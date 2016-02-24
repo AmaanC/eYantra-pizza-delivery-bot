@@ -24,10 +24,14 @@ void InitArms() {
     bot_info = GetBotInfo();
     our_graph = GetGraph();
     ServoInitDevices();
-    ArmUp(bot_info->arm1);
-    ArmUp(bot_info->arm2);
-    OpenGripper(bot_info->arm1);
-    OpenGripper(bot_info->arm2);
+    Servo1To(40);
+    Servo2To(60);
+    Servo3To(130);
+    Servo4To(160);
+    // ArmUp(bot_info->arm1);
+    // ArmUp(bot_info->arm2);
+    // OpenGripper(bot_info->arm1);
+    // OpenGripper(bot_info->arm2);
 }
 
 void ArmDown(Arm *arm) {
