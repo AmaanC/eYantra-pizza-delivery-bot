@@ -103,6 +103,7 @@ void MoveBotToNode(Node *target_node) {
     // Rotate towards next_dest (skip if rotation diff < threshold like 5 degs)
     // Move forward dist using pos encoders
     // Repeat for next pair of nodes
+    printf("Going to: %s", target_node->name);
     i = final_path->top - 1;
     current_node = bot_info->cur_position->cur_node;
     while (current_node != target_node) {

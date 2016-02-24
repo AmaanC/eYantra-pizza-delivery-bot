@@ -14,7 +14,7 @@ DEPS=app.o helpers.o ../map/map.o ../hardware_control-avr/hardware_control.o ../
 PROGRAMMER = avrdude
 BOARD = stk500v2
 MCU = m2560
-PORT = /dev/tty.usbmodem1421
+PORT = /dev/ttyACM0
 
 PFLAGS = -p $(MCU) -c $(BOARD) -P $(PORT)
 
