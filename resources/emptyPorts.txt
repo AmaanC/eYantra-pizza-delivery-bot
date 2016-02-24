@@ -54,4 +54,4 @@ PJ (all except PJ0)
 Timers:
 Timer 1 and 4 for servos
 Timer 3 for timekeeping
-Timer 5 for seven segment and callbacks
+Timer 5 for pos encoder

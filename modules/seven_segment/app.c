@@ -10,10 +10,10 @@ int main(void) {
 
     while(1) {
         SevenDisplayNum(12, 1);
-        _delay_ms(5);
+        _delay_ms(7);
         SevenDisplayNum(12, 2);
-        _delay_ms(5);
+        _delay_ms(7);
         SevenDisplayNum(12, 3);
-        _delay_ms(5);
+        _delay_ms(7);
     }
 }
