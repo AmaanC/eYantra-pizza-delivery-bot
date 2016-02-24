@@ -15,8 +15,8 @@ int main(void) {
     _delay_ms(4000);
     // BuzzerBeep(1000);
     FreezeDisplay();
-    // _delay_ms(10000);
-    // FreezeDisplay();
+    _delay_ms(1000);
+    FreezeDisplay();
     // // LcdPrintf("Hello");
     // // _delay_ms(2000);
     // BuzzerOn();
