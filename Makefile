@@ -12,7 +12,7 @@ DEPS=app.o
 PROGRAMMER = avrdude
 BOARD = stk500v2
 MCU = m2560
-PORT = /dev/ttyACM0
+PORT = /dev/tty.usbmodem1411
 
 PFLAGS = -p $(MCU) -c $(BOARD) -P $(PORT)
 
@@ -31,4 +31,4 @@ clean:
 
 program:
 	$(PROGRAMMER) $(PFLAGS) -e
-	$(PROGRAMMER) $(PFLAGS) -U flash:w:rom.hex
+	$(PROGRAMMER) $(PFLAGS) -U flash:w:.hex
