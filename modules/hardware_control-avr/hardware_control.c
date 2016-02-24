@@ -137,7 +137,7 @@ void MoveBotToNode(Node *target_node) {
                 // if (at_counter && next_node->x < PIZZA_COUNTER_NODE->x) {
                 //     MoveBotBackward(240, 240, (int) (10 * sqrt(xDist * xDist + yDist * yDist)) - 30);
                 // }
-                if(at_counter) {
+                if (at_counter) {
                     MoveBotForward(240, 240, (int) (10 * sqrt(xDist * xDist + yDist * yDist)) - 10);
                 }
                 else {

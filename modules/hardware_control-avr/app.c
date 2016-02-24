@@ -26,10 +26,10 @@ int main() {
     _delay_ms(1000);
     // LcdPrintf("Before %s", GetNodeByName("r3")->name);
 
-    MoveBotToNode(GetNodeByName("H5"));
-    MoveBotToNode(GetNodeByName("c7"));
-    MoveBotToNode(GetNodeByName("c4"));
-    MoveBotToNode(GetNodeByName("S"));
+    MoveBotToNode(GetNodeByName("c10"));
+    MoveBotToNode(GetNodeByName("c1"));
+    MoveBotToNode(GetNodeByName("H1"));
+    MoveBotToNode(GetNodeByName("H8"));
     // RotateBot(90);
     // CurveTowards(GetNodeByName("r6"), GetNodeByName("r7"));
 

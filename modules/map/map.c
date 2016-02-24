@@ -331,7 +331,7 @@ Graph *GetGraph() {
 float GetRotationCost(float deg) {
     // TODO: Use actual measured value
     // printf("Cost of %d", (int) (0.1 * fabs(deg)));
-    return 0.01 * fabs(deg);
+    return 0 * fabs(deg);
 }
 
 int GetShortestDeg(int deg) {

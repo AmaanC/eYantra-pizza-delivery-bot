@@ -102,6 +102,10 @@ void RotateBot(int degrees, char at_counter) {
         sensor_check = CenterBlack;
     }
     PosEncoderVelocity(240, 240);
+    // If you're moving close to 180 degrees, move a little further ahead first
+    if (abs(180 - degrees) < 5) {
+        PosEncoderForwardMm(10);
+    }
     if(degrees > 0){
         PosEncoderLeft();
         reached_black = AngleRotate(abs(degrees), sensor_check);
