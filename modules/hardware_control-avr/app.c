@@ -26,8 +26,10 @@ int main() {
     _delay_ms(1000);
     // LcdPrintf("Before %s", GetNodeByName("r3")->name);
 
-    MoveBotToNode(GetNodeByName("c10"));
+    MoveBotToNode(GetNodeByName("c5"));
+    PosEncoderRotateBot((int) GetShortestDeg(-90 - (GetBotInfo()->cur_position->cur_deg + GetBotInfo()->sensor_angle)));
     MoveBotToNode(GetNodeByName("c1"));
+    PosEncoderRotateBot((int) GetShortestDeg(-90 - (GetBotInfo()->cur_position->cur_deg + GetBotInfo()->sensor_angle)));
     MoveBotToNode(GetNodeByName("H1"));
     MoveBotToNode(GetNodeByName("H8"));
     // RotateBot(90);

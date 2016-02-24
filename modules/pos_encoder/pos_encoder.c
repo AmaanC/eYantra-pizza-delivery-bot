@@ -6,6 +6,7 @@
 #include <util/delay.h>
 #include "pos_encoder.h"
 #include "../lcd/lcd.h"
+#include "../bot_memory/bot_memory.h"
 
 volatile unsigned long int ShaftCountLeft = 0; //to keep track of left position encoder 
 volatile unsigned long int ShaftCountRight = 0; //to keep track of right position encoder
@@ -250,9 +251,9 @@ void PosEncoderInitDevices() {
 
 
 void PosEncoderRotateBot(int Degrees) {
-    if (abs(180 - Degrees) < 5) {
-        PosEncoderForwardMm(5);
-    }
+    // if (abs(180 - Degrees) < 5) {
+    //     PosEncoderForwardMm(5);
+    // }
     if(Degrees > 0)
     {
       PosEncoderLeftDegrees(abs(Degrees));
@@ -264,6 +265,7 @@ void PosEncoderRotateBot(int Degrees) {
       PosEncoderStop();     
       // _delay_ms(500); 
     }
+    GetBotInfo()->cur_position->cur_deg += Degrees;
 }
 
 void ResetRightShaft() {
