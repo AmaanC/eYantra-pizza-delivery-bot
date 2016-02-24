@@ -334,7 +334,7 @@ char GetNumDelayed(Node *source_node, short int start_time, char order_num) {
     PizzaList *used_pizzas;
     unsigned char i = 0;
     used_pizzas = malloc(sizeof(*used_pizzas));
-    used_pizzas->pizzas = malloc(MAX_ORDERS * sizeof(Pizza *));
+    used_pizzas->pizzas = malloc(2 * MAX_ORDERS * sizeof(Pizza *));
     used_pizzas->len = 0;
     path_to_pick = path_to_deliver = NULL;
 
@@ -975,7 +975,7 @@ char FindPizzas() {
     }
 
     cost_to_find = path_to_pizza->total_cost;
-    // printf("Targ p: %s %d", target_pizza_node->name, 1);//GetPizzaAtNode(target_pizza_node)->found);
+    printf("Targ p: %s %d", target_pizza_node->name, 1);//GetPizzaAtNode(target_pizza_node)->found);
 
     DijkstraFree(path_to_right_pizza);
     DijkstraFree(path_to_left_pizza);
@@ -1088,7 +1088,7 @@ void FreeTimeDecision() {
             best_seq->should_cancel == FALSE
         ) {
             next_extra_order = current_order;
-            // printf("Extra: %s at %d, found %d", next_extra_order->delivery_house->name, next_extra_order->order_time, current_pizza->found);
+            printf("Extra: %s at %d, found %d", next_extra_order->delivery_house->name, next_extra_order->order_time, current_pizza->found);
             break;
         }
         free(best_seq->order_combo);
@@ -1338,7 +1338,7 @@ void NormalOperation() {
     // Display(next_extra_order);
     next_reg_pizza = GetPizzaForOrder(next_reg_order);
     if (next_reg_pizza == NULL) {
-        // printf("NEXT_REG IS NULL!");
+        printf("NEXT_REG_P IS NULL!");
     }
     // TODO: Special case for canceled orders
     if (next_reg_pizza->found == FALSE) {
