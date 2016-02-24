@@ -254,12 +254,12 @@ void MissingOrderBeep() {
     // Beep the buzzer indicating a missing pizza
     // printf("Order missing!");
     BuzzerOn();
-    if (RegisterCallback(BuzzerOff, 1) == 0) {
+    if (RegisterCallback(BuzzerOff, 1000) == 0) {
         _delay_ms(1000);
         BuzzerOff();
     };
     BuzzerOn();
-    if (RegisterCallback(BuzzerOff, 1) == 0) {
+    if (RegisterCallback(BuzzerOff, 1000) == 0) {
         _delay_ms(1000);
         BuzzerOff();
     };
@@ -837,7 +837,7 @@ void DetectPizza() {
 //     if (fake_i >= fake_len) {
 //         fake_i--;
 //     }
-    RotateBot((int) GetShortestDeg(deg_to_pizza - (bot_info->cur_position->cur_deg + bot_info->sensor_angle)), FALSE);
+    PosEncoderRotateBot((int) GetShortestDeg(deg_to_pizza - (bot_info->cur_position->cur_deg + bot_info->sensor_angle)), FALSE);
     block_size = SharpGetBlockType();
     colour = GetPizzaColor();
     if (block_size == 'n') {
@@ -1236,7 +1236,7 @@ void DeliverPizzas(DeliverySequence *cur_sequence) {
         RgbLedOff();
         BuzzerOn();
         FreezeDisplay();
-        if (RegisterCallback(BuzzerOff, 1) == 0) {
+        if (RegisterCallback(BuzzerOff, 1000) == 0) {
             _delay_ms(1000);
             BuzzerOff();
         };
@@ -1275,7 +1275,7 @@ void DeliverPizzas(DeliverySequence *cur_sequence) {
         RgbLedOff();
         BuzzerOn();
         FreezeDisplay();
-        if (RegisterCallback(BuzzerOff, 1) == 0) {
+        if (RegisterCallback(BuzzerOff, 1000) == 0) {
             _delay_ms(1000);
             BuzzerOff();
         };

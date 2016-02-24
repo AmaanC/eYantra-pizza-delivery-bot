@@ -250,6 +250,9 @@ void PosEncoderInitDevices() {
 
 
 void PosEncoderRotateBot(int Degrees) {
+    if (abs(180 - Degrees) < 5) {
+        PosEncoderForwardMm(10);
+    }
     if(Degrees > 0)
     {
       PosEncoderLeftDegrees(abs(Degrees));
