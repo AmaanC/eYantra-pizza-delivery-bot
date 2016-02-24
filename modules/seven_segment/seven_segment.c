@@ -1,8 +1,10 @@
 #include <avr/io.h>
 #include <avr/interrupt.h>
 #include <util/delay.h>
+#include <stdio.h>
 #include <math.h>
 #include "seven_segment.h"
+#include "../lcd/lcd.h"
 
 void SevenSegmentPinConfig() {
     // Port D upper nibble for CA connections
@@ -47,10 +49,10 @@ int SevenConvertToHex(int num) {
 
 void SevenDisplayNum(int num, int ca_num) {
     int digit;
-    int select_value = 0x10 * pow(2, ca_num);
+    int select_value = 0x10 * (1 << (ca_num - 1));
 
     PORTD = PORTD & 0x0F; // Reset upper nibble to 0
-    PORTD = PORTD | select_value;
+    PORTD = PORTD | (unsigned char)select_value;
 
     digit = ((int)(num / pow(10, ca_num - 1))) % 10;
     PORTJ = SevenConvertToHex(digit);

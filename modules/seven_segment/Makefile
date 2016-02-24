@@ -6,13 +6,13 @@ CFLAGS=-g -Wall -DF_CPU=14745600 -mmcu=atmega2560
 
 # Modify these 2 for each project as needed
 FILENAME=seven_segment
-DEPS=app.o
+DEPS=app.o ../lcd/lcd.o
 
 #Info til AVRDUDE
 PROGRAMMER = avrdude
 BOARD = stk500v2
 MCU = m2560
-PORT = /dev/tty.usbmodem1411
+PORT = /dev/ttyACM0
 
 PFLAGS = -p $(MCU) -c $(BOARD) -P $(PORT)
 
@@ -23,7 +23,7 @@ app.out : $(FILENAME).o app.o
 	$(CC) $(CFLAGS) -o app.out $(FILENAME).o $(DEPS) -lm
 
 %.o : %.c
-	$(CC) $(CFLAGS) -Os -c $<
+	$(CC) $(CFLAGS) -Os -c $< -lm
 
 .PHONY: clean program
 clean:
