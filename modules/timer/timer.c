@@ -55,28 +55,26 @@ ISR(TIMER3_OVF_vect) {
     }
 }
 
-// (0xFFFF - (one_sec / 10)).toString(16)
+// ((freq / 256) / 200).toString(16) = 0x0120
+// 200Hz
 void Timer5Init() {
     TCCR5B = 0x00; // stop
     TCNT5H = 0x00; // Counter higher 8 bit value
     TCNT5L = 0x00; // Counter lower 8 bit value
-    OCR5AH = 0x66; // Output Compair Register (OCR)- Not used
-    OCR5AL = 0x66; // Output Compair Register (OCR)- Not used
-    OCR5BH = 0x66; // Output Compair Register (OCR)- Not used
-    OCR5BL = 0x65; // Output Compair Register (OCR)- Not used
-    OCR5CH = 0x66; // Output Compair Register (OCR)- Not used
-    OCR5CL = 0x64; // Output Compair Register (OCR)- Not used
+    OCR5AH = 0x03; // Output Compair Register (OCR)- Not used
+    OCR5AL = 0x60; // Output Compair Register (OCR)- Not used
+    OCR5BH = 0x02; // Output Compair Register (OCR)- Not used
+    OCR5BL = 0x40; // Output Compair Register (OCR)- Not used
+    OCR5CH = 0x01; // Output Compair Register (OCR)- Not used
+    OCR5CL = 0x20; // Output Compair Register (OCR)- Not used
     ICR5H  = 0x00; // Input Capture Register (ICR)- Not used
     ICR5L  = 0x00; // Input Capture Register (ICR)- Not used
     TCCR5A = 0x00; 
     TCCR5C = 0x00;
-    TCCR5B = 0x04; // start Timer
+    TCCR5B = 0x0C; // start Timer
 }
 
 ISR(TIMER5_COMPA_vect) {
-    TCNT5H = 0x00;
-    TCNT5L = 0x00;
-
     UpdateDisplay(1);
 }
 
