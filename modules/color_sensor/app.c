@@ -13,7 +13,7 @@ int main() {
         // Alerts us that it's reading the colour now
         BuzzerBeep(100);
 
-        color = color_get();
+        color = GetPizzaColor();
         switch(color) {
             // 2 short
             case 'r':
