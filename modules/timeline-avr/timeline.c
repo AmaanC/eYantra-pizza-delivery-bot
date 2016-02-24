@@ -254,12 +254,12 @@ void MissingOrderBeep() {
     // Beep the buzzer indicating a missing pizza
     // printf("Order missing!");
     BuzzerOn();
-    if (RegisterCallback(BuzzerOff, 1) == 0) {
+    if (RegisterCallback(BuzzerOff, 1000) == 0) {
         _delay_ms(1000);
         BuzzerOff();
     };
     BuzzerOn();
-    if (RegisterCallback(BuzzerOff, 1) == 0) {
+    if (RegisterCallback(BuzzerOff, 1000) == 0) {
         _delay_ms(1000);
         BuzzerOff();
     };
@@ -1236,7 +1236,7 @@ void DeliverPizzas(DeliverySequence *cur_sequence) {
         RgbLedOff();
         BuzzerOn();
         FreezeDisplay();
-        if (RegisterCallback(BuzzerOff, 1) == 0) {
+        if (RegisterCallback(BuzzerOff, 1000) == 0) {
             _delay_ms(1000);
             BuzzerOff();
         };
@@ -1275,7 +1275,7 @@ void DeliverPizzas(DeliverySequence *cur_sequence) {
         RgbLedOff();
         BuzzerOn();
         FreezeDisplay();
-        if (RegisterCallback(BuzzerOff, 1) == 0) {
+        if (RegisterCallback(BuzzerOff, 1000) == 0) {
             _delay_ms(1000);
             BuzzerOff();
         };
