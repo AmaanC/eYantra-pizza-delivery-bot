@@ -24,10 +24,14 @@ void InitArms() {
     bot_info = GetBotInfo();
     our_graph = GetGraph();
     ServoInitDevices();
-    ArmUp(bot_info->arm1);
-    ArmUp(bot_info->arm2);
-    OpenGripper(bot_info->arm1);
-    OpenGripper(bot_info->arm2);
+    Servo1To(40);
+    Servo2To(60);
+    Servo3To(130);
+    Servo4To(160);
+    // ArmUp(bot_info->arm1);
+    // ArmUp(bot_info->arm2);
+    // OpenGripper(bot_info->arm1);
+    // OpenGripper(bot_info->arm2);
 }
 
 void ArmDown(Arm *arm) {
@@ -62,8 +66,24 @@ void DropPizza(Arm *arm) {
     ArmUp(arm);
 }
 
-Arm *GetFreeArm() {
+Arm *GetFreeArm(int deg) {
+    int arm1_deg;
+    int arm2_deg;
+    int bot_deg;
     if (bot_info->arm1->carrying == NULL) {
+        if (bot_info->arm2->carrying == NULL) {
+            // If both arms are free, we'll return the closer one
+            bot_deg = GetBotInfo()->cur_position->cur_deg;
+            arm1_deg = bot_deg + bot_info->arm1->angle;
+            arm2_deg = bot_deg + bot_info->arm2->angle;
+
+            if (GetShortestDeg(deg - arm1_deg) < GetShortestDeg(deg - arm2_deg)) {
+                return bot_info->arm1;
+            }
+            else {
+                return bot_info->arm2;
+            }
+        }
         return bot_info->arm1;
     }
     else if (bot_info->arm2->carrying == NULL) {

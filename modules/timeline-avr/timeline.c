@@ -22,6 +22,7 @@
 #include "../rgb_led/rgb_led.h"
 #include "../color_sensor/color_sensor.h"
 #include "../sharp_sensor/sharp_sensor.h"
+#include "../pos_encoder/pos_encoder.h"
 
 #define TRUE 1
 #define FALSE 0
@@ -254,12 +255,12 @@ void MissingOrderBeep() {
     // Beep the buzzer indicating a missing pizza
     // printf("Order missing!");
     BuzzerOn();
-    if (RegisterCallback(BuzzerOff, 1) == 0) {
+    if (RegisterCallback(BuzzerOff, 1000) == 0) {
         _delay_ms(1000);
         BuzzerOff();
     };
     BuzzerOn();
-    if (RegisterCallback(BuzzerOff, 1) == 0) {
+    if (RegisterCallback(BuzzerOff, 1000) == 0) {
         _delay_ms(1000);
         BuzzerOff();
     };
@@ -279,7 +280,7 @@ char GetNumDelayed(Node *source_node, short int start_time, char order_num) {
     PizzaList *used_pizzas;
     unsigned char i = 0;
     used_pizzas = malloc(sizeof(*used_pizzas));
-    used_pizzas->pizzas = malloc(MAX_ORDERS * sizeof(Pizza *));
+    used_pizzas->pizzas = malloc(2 * MAX_ORDERS * sizeof(Pizza *));
     used_pizzas->len = 0;
     path_to_pick = path_to_deliver = NULL;
 
@@ -782,7 +783,9 @@ void DetectPizza() {
 //     if (fake_i >= fake_len) {
 //         fake_i--;
 //     }
-    RotateBot((int) GetShortestDeg(deg_to_pizza - (bot_info->cur_position->cur_deg + bot_info->sensor_angle)), FALSE);
+
+    PosEncoderVelocity(240, 240);
+    PosEncoderRotateBot((int) GetShortestDeg(deg_to_pizza - (bot_info->cur_position->cur_deg + bot_info->sensor_angle)));
     block_size = SharpGetBlockType();
     colour = GetPizzaColor();
     if (block_size == 'n') {
@@ -920,7 +923,7 @@ char FindPizzas() {
     }
 
     cost_to_find = path_to_pizza->total_cost;
-    // printf("Targ p: %s %d", target_pizza_node->name, 1);//GetPizzaAtNode(target_pizza_node)->found);
+    printf("Targ p: %s %d", target_pizza_node->name, 1);//GetPizzaAtNode(target_pizza_node)->found);
 
     DijkstraFree(path_to_right_pizza);
     DijkstraFree(path_to_left_pizza);
@@ -1033,7 +1036,7 @@ void FreeTimeDecision() {
             best_seq->should_cancel == FALSE
         ) {
             next_extra_order = current_order;
-            // printf("Extra: %s at %d, found %d", next_extra_order->delivery_house->name, next_extra_order->order_time, current_pizza->found);
+            printf("Extra: %s at %d, found %d", next_extra_order->delivery_house->name, next_extra_order->order_time, current_pizza->found);
             break;
         }
         free(best_seq->order_combo);
@@ -1151,6 +1154,7 @@ void DeliverPizzas(DeliverySequence *cur_sequence) {
     }
 
     current_order = cur_sequence->order_combo[deliver1];
+    delivered_pizza = cur_sequence->pizza_combo[deliver1];
     cur_node = current_order->delivery_house;
     if (cur_node != NULL) {
         RgbLedGlow(current_order->colour);
@@ -1181,7 +1185,7 @@ void DeliverPizzas(DeliverySequence *cur_sequence) {
         RgbLedOff();
         BuzzerOn();
         FreezeDisplay();
-        if (RegisterCallback(BuzzerOff, 1) == 0) {
+        if (RegisterCallback(BuzzerOff, 1000) == 0) {
             _delay_ms(1000);
             BuzzerOff();
         };
@@ -1189,6 +1193,7 @@ void DeliverPizzas(DeliverySequence *cur_sequence) {
 
     cur_node = NULL;
     current_order = cur_sequence->order_combo[deliver2];
+    delivered_pizza = cur_sequence->pizza_combo[deliver2];
     if (current_order) {
         cur_node = current_order->delivery_house;
     }
@@ -1220,7 +1225,7 @@ void DeliverPizzas(DeliverySequence *cur_sequence) {
         RgbLedOff();
         BuzzerOn();
         FreezeDisplay();
-        if (RegisterCallback(BuzzerOff, 1) == 0) {
+        if (RegisterCallback(BuzzerOff, 1000) == 0) {
             _delay_ms(1000);
             BuzzerOff();
         };
@@ -1283,7 +1288,7 @@ void NormalOperation() {
     // Display(next_extra_order);
     next_reg_pizza = GetPizzaForOrder(next_reg_order);
     if (next_reg_pizza == NULL) {
-        // printf("NEXT_REG IS NULL!");
+        printf("NEXT_REG_P IS NULL!");
     }
     // TODO: Special case for canceled orders
     if (next_reg_pizza->found == FALSE) {

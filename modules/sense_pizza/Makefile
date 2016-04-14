@@ -12,7 +12,7 @@ DEPS=app.o ../color_sensor/color_sensor.o  ../sharp_sensor/sharp_sensor.o ../lcd
 PROGRAMMER = avrdude
 BOARD = stk500v2
 MCU = m2560
-PORT = /dev/tty.usbmodem1411
+PORT = /dev/tty.usbmodem1421
 
 PFLAGS = -p $(MCU) -c $(BOARD) -P $(PORT)
 
