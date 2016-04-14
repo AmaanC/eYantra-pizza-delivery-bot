@@ -41,6 +41,7 @@ video demos of that.
 
 - I had a very peculiar bug this one time where if I `free`d a certain variable, the program would crash. If I just skipped `free`ing it, it would work fine. The reason this was happening was because the code looked roughly like this:
 
+```
     SomeArray *array_of_things = malloc(sizeof(*array_of_things));
     array_of_things->arr = malloc(sizeof(*(array_of_things->arr))); // Here lies the fatal flaw!
 
@@ -49,6 +50,7 @@ video demos of that.
     // Some code that used array_of_things->arr and xyz
 
     free(xyz); // This would cause the program to crash
+```
 
 The problem was that what I used as an array was actually just `malloc`d space enough for *1* element. So I was overwriting memory from `xyz` and whatever came after. `free`ing `xyz` was problematic because I still needed the values from that `arr`.
 
